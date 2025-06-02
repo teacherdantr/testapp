@@ -7,35 +7,80 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Uses the DATABASE_URL from your .env file
+  url      = env("DATABASE_URL")
 }
 
-// Example Test model - you'll expand this
+enum QuestionType {
+  MCQ
+  ShortAnswer
+  TrueFalse
+  MultipleChoiceMultipleAnswer // MCMA
+  MultipleTrueFalse // MTF
+  MatrixChoice
+  Hotspot
+  MatchingSelect
+}
+
+enum HotspotShapeType {
+  rect
+  circle
+  poly
+}
+
 model Test {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String?
-  password    String?  // For password-protected tests
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  password    String? // For password-protected tests
+  questions   Question[]
+  userScores  UserScore[] // Relation to user scores
 
-  // Relation to Questions (example)
-  // questions   Question[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// Example Question model - you'll expand this
-// model Question {
-//   id        String  @id @default(cuid())
-//   testId    String
-//   test      Test    @relation(fields: [testId], references: [id])
-//   text      String
-//   type      String  // e.g., "MCQ", "TrueFalse"
-//   points    Int
-//   // Add fields for options, correctAnswers etc. (likely as JSON or related tables)
-//   // For example, if options are stored as JSON:
-//   // optionsJson String? @db.JsonB
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+// Using a flexible JSONB field for question-type specific data.
+// This simplifies the schema for now, given the variety of question structures.
+// The 'questionData' field will store:
+// - 'options': Option[] (for MCQ, MCMA)
+// - 'statements': TrueFalseStatement[] (for MTF, MatrixChoice)
+// - 'categories': Category[] (for MatrixChoice)
+// - 'hotspots': HotspotArea[] (for Hotspot)
+// - 'multipleSelection': boolean (for Hotspot)
+// - 'prompts': MatchingItem[] (for MatchingSelect)
+// - 'choices': MatchingItem[] (for MatchingSelect)
+// - 'correctAnswer': String | String[] | Array<{ promptId: String, choiceId: String }> (structure depends on QuestionType)
+model Question {
+  id           String       @id @default(cuid())
+  testId       String
+  test         Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
+  text         String // The question prompt or main text
+  type         QuestionType
+  imageUrl     String? // Optional image for any question type
+  points       Int          @default(1)
+  questionData Json // Stores type-specific fields like options, statements, correctAnswer, etc.
 
-// Add other models like UserScores, etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([testId])
+}
+
+model UserScore {
+  id        String   @id @default(cuid())
+  userId    String // Identifier for the user (e.g., nickname, email, or a generated ID)
+  testId    String
+  test      Test     @relation(fields: [testId], references: [id], onDelete: Cascade) // Relation to the Test model
+  testTitle String // Snapshot of the test title at the time of submission
+
+  score                  Int
+  totalPoints            Int
+  questionResultsDetails Json // Store the detailed array of { questionId, userAnswer, correctAnswer, isCorrect, pointsEarned, pointsPossible, questionText, etc. }
+  timeTakenSeconds       Int?
+  testMode               String? // e.g., "training", "testing", "race"
+
+  submittedAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([testId])
+}
