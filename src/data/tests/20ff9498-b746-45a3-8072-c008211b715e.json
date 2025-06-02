@@ -1,0 +1,36 @@
+{
+  "id": "20ff9498-b746-45a3-8072-c008211b715e",
+  "title": "test1",
+  "description": "C1",
+  "questions": [
+    {
+      "text": "q1",
+      "type": "MCQ",
+      "options": [
+        {
+          "text": "a",
+          "id": "c0c40c74-4643-42dd-a771-338f739d6cce"
+        },
+        {
+          "text": "b",
+          "id": "f2bf1b91-b9a4-4895-a462-ddef90587b89"
+        },
+        {
+          "text": "c",
+          "id": "db51b684-8e45-4a91-95f6-23ccc510d656"
+        },
+        {
+          "text": "d",
+          "id": "12aa6d77-a451-43d6-8fe0-c0057da387dc"
+        }
+      ],
+      "imageUrl": "",
+      "multipleSelection": false,
+      "correctAnswer": "a",
+      "points": 1,
+      "id": "26b5a83c-a5d3-4b76-be3e-59310bc57a1f"
+    }
+  ],
+  "createdAt": "2025-06-02T07:15:07.588Z",
+  "updatedAt": "2025-06-02T07:15:07.588Z"
+}

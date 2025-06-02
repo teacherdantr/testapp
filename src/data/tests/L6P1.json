@@ -1,0 +1,1362 @@
+
+{
+  "id": "L6P1",
+  "title": "LV01 Tổng Hợp-Phần 1",
+  "description": "Kiểm tra kiến thức tổng hợp về trình duyệt web, thiết bị máy tính và chức năng của chúng, cùng các biện pháp bảo mật cơ bản. Bao gồm câu hỏi về thiết bị nhập/xuất dạng lưới, hotspot, và câu hỏi ghép nối.",
+  "password": "OT602",
+  "questions": [
+    {
+      "id": "lv01_q1",
+      "text": "Bạn cần lưu danh sách các trang web để có thể dễ dàng quay trở lại vào lần sau. Bạn nên sử dụng tính năng nào của trình duyệt web?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q1_opt1",
+          "text": "Duyệt đa trang một lúc"
+        },
+        {
+          "id": "lv01_q1_opt2",
+          "text": "Lịch sử hoặc đồng thời gian"
+        },
+        {
+          "id": "lv01_q1_opt3",
+          "text": "Mục yêu thích hoặc đánh dấu trang"
+        },
+        {
+          "id": "lv01_q1_opt4",
+          "text": "Hộp địa chỉ"
+        }
+      ],
+      "correctAnswer": "Mục yêu thích hoặc đánh dấu trang",
+      "points": 10
+    },
+    {
+      "id": "lv01_q2",
+      "text": "Lịch sử duyệt web và các trang web được đánh dấu trang cung cấp cho hacker một bản đồ của tất cả các trang web mà người dùng truy cập. Cùng với các trang web thường xuyên truy cập, hacker có thể sử dụng gì để truy cập vào tài khoản nếu mật khẩu được lưu vào thiết bị bị tấn công?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q2_opt1",
+          "text": "Settings"
+        },
+        {
+          "id": "lv01_q2_opt2",
+          "text": "Cookies"
+        },
+        {
+          "id": "lv01_q2_opt3",
+          "text": "History"
+        },
+        {
+          "id": "lv01_q2_opt4",
+          "text": "Cutouts"
+        }
+      ],
+      "correctAnswer": "Cookies",
+      "points": 10
+    },
+    {
+      "id": "lv01_q3",
+      "text": "Một trong những giáo viên của bạn nói rằng bạn nên thay đổi cài đặt trình duyệt của mình để duyệt web ở chế độ riêng tư. Vậy lợi ích của việc duyệt web ở chế độ riêng tư là gì?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q3_opt1",
+          "text": "Đăng nhập máy tính và mật khẩu của bạn bị vô hiệu hóa"
+        },
+        {
+          "id": "lv01_q3_opt2",
+          "text": "Tên của bạn được giữ kín"
+        },
+        {
+          "id": "lv01_q3_opt3",
+          "text": "Không thể nhìn thấy các gói được gửi/nhận qua mạng trường học của bạn"
+        },
+        {
+          "id": "lv01_q3_opt4",
+          "text": "Không có lịch sử, cookie, mật khẩu tạm thời nào được ghi lại trên máy tính"
+        }
+      ],
+      "correctAnswer": "Không có lịch sử, cookie, mật khẩu tạm thời nào được ghi lại trên máy tính",
+      "points": 10
+    },
+    {
+      "id": "lv01_q4",
+      "text": "Bạn hãy cho biết, duyệt web riêng tư đảm bảo điều gì sau đây?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q4_opt1",
+          "text": "Lịch sử của người dùng không được lưu trữ"
+        },
+        {
+          "id": "lv01_q4_opt2",
+          "text": "Mật khẩu không cần thay đổi"
+        },
+        {
+          "id": "lv01_q4_opt3",
+          "text": "Có nhiều dung lượng lưu trữ hơn trên máy tính"
+        },
+        {
+          "id": "lv01_q4_opt4",
+          "text": "Thông tin tài khoản được lưu"
+        }
+      ],
+      "correctAnswer": "Lịch sử của người dùng không được lưu trữ",
+      "points": 10
+    },
+    {
+      "id": "lv01_q5_matrix",
+      "text": "Xác định đúng chức năng của các thiết bị sau (chọn một chức năng cho mỗi thiết bị):",
+      "type": "MatrixChoice",
+      "statements": [
+        {
+          "id": "lv01_q5_stmt1",
+          "text": "Keyboard - Bàn Phím"
+        },
+        {
+          "id": "lv01_q5_stmt2",
+          "text": "Scanner - Máy Quét"
+        },
+        {
+          "id": "lv01_q5_stmt3",
+          "text": "WebCam"
+        },
+        {
+          "id": "lv01_q5_stmt4",
+          "text": "MicroPhone"
+        },
+        {
+          "id": "lv01_q5_stmt5",
+          "text": "Printer - Máy In"
+        }
+      ],
+      "categories": [
+        {
+          "id": "lv01_q5_cat1",
+          "text": "Nhập"
+        },
+        {
+          "id": "lv01_q5_cat2",
+          "text": "Xuất"
+        }
+      ],
+      "correctAnswer": [
+        "Nhập",
+        "Nhập",
+        "Nhập",
+        "Nhập",
+        "Xuất"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q6_mcq",
+      "text": "Người dùng có thể tắt tính năng lưu trữ mật khẩu trực tuyến ở đâu?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q6_opt1",
+          "text": "Trong cài đặt trình duyệt của họ"
+        },
+        {
+          "id": "lv01_q6_opt2",
+          "text": "Trong lịch sử của họ"
+        },
+        {
+          "id": "lv01_q6_opt3",
+          "text": "Trong cài đặt máy tính của họ"
+        },
+        {
+          "id": "lv01_q6_opt4",
+          "text": "Trong hộp thư đến"
+        }
+      ],
+      "correctAnswer": "Trong cài đặt trình duyệt của họ",
+      "points": 10,
+      "imageUrl": ""
+    },
+    {
+      "id": "lv01_q7_mcma",
+      "text": "Khi nào người dùng nên cần nhắc việc thay đổi mật khẩu của họ? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q7_opt1",
+          "text": "Phần mềm độc hại đang chạy trên máy tính của họ"
+        },
+        {
+          "id": "lv01_q7_opt2",
+          "text": "Họ đã được thông báo rằng có quyền truy cập trái phép vào tài khoản của họ"
+        },
+        {
+          "id": "lv01_q7_opt3",
+          "text": "Khi họ muốn đóng tài khoản của mình"
+        },
+        {
+          "id": "lv01_q7_opt4",
+          "text": "Họ đã cập nhật mật khẩu của họ gần đây"
+        },
+        {
+          "id": "lv01_q7_opt5",
+          "text": "Họ đã không thay đổi mật khẩu của họ trong một thời gian dài"
+        }
+      ],
+      "correctAnswer": [
+        "Phần mềm độc hại đang chạy trên máy tính của họ",
+        "Họ đã được thông báo rằng có quyền truy cập trái phép vào tài khoản của họ",
+        "Họ đã không thay đổi mật khẩu của họ trong một thời gian dài"
+      ],
+      "points": 10,
+      "imageUrl": ""
+    },
+    {
+      "id": "lv01_q8_hotspot",
+      "text": "Chọn ba (3) thiết bị nhập khi được kết nối với máy tính không có màn hình cảm ứng?",
+      "type": "Hotspot",
+      "imageUrl": "/images/lv01_p1_q8.png",
+      "hotspots": [
+        {
+          "id": "hs_headset_lv01q8",
+          "shape": "rect",
+          "coords": "0.05,0.05,0.25,0.4",
+          "label": "Tai nghe (Headset)"
+        },
+        {
+          "id": "hs_monitor_lv01q8",
+          "shape": "rect",
+          "coords": "0.35,0.1,0.3,0.5",
+          "label": "Màn hình (Monitor)"
+        },
+        {
+          "id": "hs_tower_lv01q8",
+          "shape": "rect",
+          "coords": "0.7,0.05,0.25,0.55",
+          "label": "Thân máy (Desktop Tower)"
+        },
+        {
+          "id": "hs_printer_lv01q8",
+          "shape": "rect",
+          "coords": "0.05,0.55,0.3,0.3",
+          "label": "Máy in (Printer)"
+        },
+        {
+          "id": "hs_keyboard_lv01q8",
+          "shape": "rect",
+          "coords": "0.32,0.68,0.48,0.22",
+          "label": "Bàn phím (Keyboard)"
+        },
+        {
+          "id": "hs_mouse_lv01q8",
+          "shape": "rect",
+          "coords": "0.75,0.7,0.15,0.2",
+          "label": "Chuột (Mouse)"
+        }
+      ],
+      "correctAnswer": [
+        "hs_headset_lv01q8",
+        "hs_keyboard_lv01q8",
+        "hs_mouse_lv01q8"
+      ],
+      "multipleSelection": true,
+      "points": 10
+    },
+    {
+      "id": "lv01_q9_mcma",
+      "text": "Đâu là hai hành động bạn có thể thực hiện để giúp duy trì quyền riêng tư kỹ thuật số của bản thân? (Chọn 2)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q9_opt1",
+          "text": "Chỉ sử dụng email trường học của bạn để gửi thông tin cá nhân"
+        },
+        {
+          "id": "lv01_q9_opt2",
+          "text": "Tắt GPS trên thiết bị của bạn khi không sử dụng thường xuyên"
+        },
+        {
+          "id": "lv01_q9_opt3",
+          "text": "Lưu trữ tài liệu cá nhân của bạn trên vị trí lưu trữ đám mây"
+        },
+        {
+          "id": "lv01_q9_opt4",
+          "text": "Định cấu hình cài đặt trình duyệt web của bạn để chặn cookie"
+        }
+      ],
+      "correctAnswer": [
+        "Tắt GPS trên thiết bị của bạn khi không sử dụng thường xuyên",
+        "Định cấu hình cài đặt trình duyệt web của bạn để chặn cookie"
+      ],
+      "points": 10,
+      "imageUrl": ""
+    },
+    {
+      "id": "lv01_q10_mcma",
+      "text": "Bạn cần đảm bảo an toàn cho mật khẩu của mình. Đâu là ba nguyên tắc bạn cần tuân thủ? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q10_opt1",
+          "text": "Sử dụng mật khẩu dựa trên thông tin riêng tư cá nhân"
+        },
+        {
+          "id": "lv01_q10_opt2",
+          "text": "Sử dụng mật khẩu khác nhau cho mỗi tài khoản"
+        },
+        {
+          "id": "lv01_q10_opt3",
+          "text": "Sử dụng mật khẩu phức tạp và ghi vào một cuốn sổ mà bạn luôn mang theo bên mình"
+        },
+        {
+          "id": "lv01_q10_opt4",
+          "text": "Sử dụng mật khẩu dài nhất hoặc mật khẩu được hệ thống mật khẩu cho phép"
+        },
+        {
+          "id": "lv01_q10_opt5",
+          "text": "Sử dụng xác thực đa yếu tố, nếu có"
+        },
+        {
+          "id": "lv01_q10_opt6",
+          "text": "Sử dụng các từ có thể tìm thấy trong từ điển của một ngôn ngữ khác với ngôn ngữ chính của bạn"
+        }
+      ],
+      "correctAnswer": [
+        "Sử dụng mật khẩu khác nhau cho mỗi tài khoản",
+        "Sử dụng mật khẩu dài nhất hoặc mật khẩu được hệ thống mật khẩu cho phép",
+        "Sử dụng xác thực đa yếu tố, nếu có"
+      ],
+      "points": 10,
+      "imageUrl": ""
+    },
+    {
+      "id": "lv01_q11_mcq",
+      "text": "Đâu là lợi ích của việc duyệt web \"ở chế độ riêng tư\" hoặc \"ẩn danh\"?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q11_opt1",
+          "text": "Cookie sẽ không báo cáo thông tin về bạn cho bên thứ ba"
+        },
+        {
+          "id": "lv01_q11_opt2",
+          "text": "Những người khác sẽ không biết được các hoạt động duyệt web của bạn dù sử dụng cùng một thiết bị"
+        },
+        {
+          "id": "lv01_q11_opt3",
+          "text": "Trình duyệt web của bạn chặn quảng cáo"
+        },
+        {
+          "id": "lv01_q11_opt4",
+          "text": "Không thể sử dụng vân tay kỹ thuật số để theo dõi các hoạt động trên trình duyệt của bạn"
+        }
+      ],
+      "correctAnswer": "Những người khác sẽ không biết được các hoạt động duyệt web của bạn dù sử dụng cùng một thiết bị",
+      "points": 10,
+      "imageUrl": ""
+    },
+    {
+      "id": "lv01_q12_matching",
+      "text": "Hãy ghép mỗi mục ở cột trái với lựa chọn phù hợp nhất ở cột phải.",
+      "type": "MatchingSelect",
+      "imageUrl": "/images/L6P1C12.png",
+      "prompts": [
+        {
+          "id": "p1_lv01q12",
+          "text": "Lựa chọn 1"
+        },
+        {
+          "id": "p2_lv01q12",
+          "text": "Lựa chọn 2"
+        },
+        {
+          "id": "p3_lv01q12",
+          "text": "Lựa chọn 3"
+        },
+        {
+          "id": "p4_lv01q12",
+          "text": "Lựa chọn 4"
+        }
+      ],
+      "choices": [
+        {
+          "id": "c1_lv01q12",
+          "text": "Bo mạch chủ"
+        },
+        {
+          "id": "c2_lv01q12",
+          "text": "Ổ đĩa cứng"
+        },
+        {
+          "id": "c3_lv01q12",
+          "text": "Bộ xử lý trung tâm (CPU)"
+        },
+        {
+          "id": "c4_lv01q12",
+          "text": "Ổ cứng thể rắn"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "promptId": "p1_lv01q12",
+          "choiceId": "c1_lv01q12"
+        },
+        {
+          "promptId": "p2_lv01q12",
+          "choiceId": "c2_lv01q12"
+        },
+        {
+          "promptId": "p3_lv01q12",
+          "choiceId": "c3_lv01q12"
+        },
+        {
+          "promptId": "p4_lv01q12",
+          "choiceId": "c4_lv01q12"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q13_mtf",
+      "text": "Bạn cần xác định tính năng tiêu chuẩn của thanh tác vụ trong HĐH Windows. Chọn Có nếu có thể thực hiện hành động từ thanh tác vụ , Không nếu không thể.",
+      "type": "MTF",
+      "statements": [
+        {
+          "id": "lv01_q13_stmt1",
+          "text": "Khởi động trình quản lý tác vụ"
+        },
+        {
+          "id": "lv01_q13_stmt2",
+          "text": "Điều chỉnh âm lượng đầu ra âm thanh"
+        },
+        {
+          "id": "lv01_q13_stmt3",
+          "text": "Hiển thị cài đặt kết nối mạng"
+        },
+        {
+          "id": "lv01_q13_stmt4",
+          "text": "Thu nhỏ tất cả chương trình đang mở để hiển thị"
+        }
+      ],
+      "correctAnswer": [
+        "true",
+        "true",
+        "true",
+        "true"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q14_matching",
+      "text": "Ghép từng loại cáp với tên gọi tương ứng:",
+      "type": "MatchingSelect",
+      "imageUrl": "/images/L6P1C14.png",
+      "prompts": [
+        {
+          "id": "p1_lv01q14",
+          "text": "Cáp hình 1 (Góc trên bên trái)"
+        },
+        {
+          "id": "p2_lv01q14",
+          "text": "Cáp hình 2 (Góc trên bên phải)"
+        },
+        {
+          "id": "p3_lv01q14",
+          "text": "Cáp hình 3 (Góc dưới bên trái)"
+        },
+        {
+          "id": "p4_lv01q14",
+          "text": "Cáp hình 4 (Góc dưới bên phải)"
+        }
+      ],
+      "choices": [
+        {
+          "id": "c1_lv01q14",
+          "text": "Lightning"
+        },
+        {
+          "id": "c2_lv01q14",
+          "text": "Micro USB"
+        },
+        {
+          "id": "c3_lv01q14",
+          "text": "USB-C"
+        },
+        {
+          "id": "c4_lv01q14",
+          "text": "USB"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "promptId": "p1_lv01q14",
+          "choiceId": "c1_lv01q14"
+        },
+        {
+          "promptId": "p2_lv01q14",
+          "choiceId": "c2_lv01q14"
+        },
+        {
+          "promptId": "p3_lv01q14",
+          "choiceId": "c3_lv01q14"
+        },
+        {
+          "promptId": "p4_lv01q14",
+          "choiceId": "c4_lv01q14"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q15_mcma",
+      "text": "Bạn cần tạo một mật khẩu mạnh. Đâu là ba nguyên tắc bạn cần tuân thủ? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q15_opt1",
+          "text": "Sử dụng tám ký tự trở lên"
+        },
+        {
+          "id": "lv01_q15_opt2",
+          "text": "Bao gồm các chữ cái, chữ số và ký hiệu"
+        },
+        {
+          "id": "lv01_q15_opt3",
+          "text": "Bao gồm chữ viết hoa và chữ viết thường"
+        },
+        {
+          "id": "lv01_q15_opt4",
+          "text": "Bao gồm họ hoặc tên của bạn"
+        },
+        {
+          "id": "lv01_q15_opt5",
+          "text": "Bao gồm các số dễ nhớ như ngày sinh và số điện thoại"
+        },
+        {
+          "id": "lv01_q15_opt6",
+          "text": "Bao gồm thông tin cá nhân như tên người trong gia đình hoặc tên vật nuôi"
+        }
+      ],
+      "correctAnswer": [
+        "Sử dụng tám ký tự trở lên",
+        "Bao gồm các chữ cái, chữ số và ký hiệu",
+        "Bao gồm chữ viết hoa và chữ viết thường"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q16_matrix",
+      "text": "Bạn cần xác định các chức năng do HĐH quản lý. Với mỗi tác vụ dưới đây, hãy chọn ĐÚNG nếu đó là tác vụ do HĐH quản lý và chọn SAI nếu không phải",
+      "type": "MatrixChoice",
+      "statements": [
+        {
+          "id": "lv01_q16_stmt1",
+          "text": "Chỉnh sửa tập tin văn bản"
+        },
+        {
+          "id": "lv01_q16_stmt2",
+          "text": "Tìm kiếm trên Internet"
+        },
+        {
+          "id": "lv01_q16_stmt3",
+          "text": "Cấp phát tài nguyên phần cứng"
+        },
+        {
+          "id": "lv01_q16_stmt4",
+          "text": "Giao tiếp với các thiết bị ngoại vi"
+        }
+      ],
+      "categories": [
+        {
+          "id": "lv01_q16_cat1",
+          "text": "Đúng"
+        },
+        {
+          "id": "lv01_q16_cat2",
+          "text": "Sai"
+        }
+      ],
+      "correctAnswer": [
+        "Sai",
+        "Sai",
+        "Đúng",
+        "Đúng"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q17_matching",
+      "text": "Bạn cần xác định mục đích của các công cụ trình duyệt web phổ biến. Để trả lời, hãy di chuyển từng công cụ từ danh sách ở bên phải sang hành động tương ứng:",
+      "type": "MatchingSelect",
+      "prompts": [
+        {
+          "id": "p1_lv01q17",
+          "text": "Tải lại trang web hiện tại"
+        },
+        {
+          "id": "p2_lv01q17",
+          "text": "Liệt kê các trang web bạn đã truy cập gần đây"
+        },
+        {
+          "id": "p3_lv01q17",
+          "text": "Hiển thị URL của trang web hiện tại"
+        },
+        {
+          "id": "p4_lv01q17",
+          "text": "Hiển thị lại một trang web đã \"truy cập trước đó\""
+        }
+      ],
+      "choices": [
+        {
+          "id": "c1_lv01q17",
+          "text": "History"
+        },
+        {
+          "id": "c2_lv01q17",
+          "text": "Refresh button"
+        },
+        {
+          "id": "c3_lv01q17",
+          "text": "Address box"
+        },
+        {
+          "id": "c4_lv01q17",
+          "text": "Back button"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "promptId": "p1_lv01q17",
+          "choiceId": "c2_lv01q17"
+        },
+        {
+          "promptId": "p2_lv01q17",
+          "choiceId": "c1_lv01q17"
+        },
+        {
+          "promptId": "p3_lv01q17",
+          "choiceId": "c3_lv01q17"
+        },
+        {
+          "promptId": "p4_lv01q17",
+          "choiceId": "c4_lv01q17"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q18_mcma",
+      "text": "Làm cách nào để người dùng có thể bảo vệ mật khẩu của mình một cách tốt nhất? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q18_opt1",
+          "text": "Giữ bí mật mật khẩu"
+        },
+        {
+          "id": "lv01_q18_opt2",
+          "text": "Sử dụng số thứ tự trong mật khẩu"
+        },
+        {
+          "id": "lv01_q18_opt3",
+          "text": "Thay đổi mật khẩu thường xuyên"
+        },
+        {
+          "id": "lv01_q18_opt4",
+          "text": "Sử dụng cùng một mật khẩu cho tất cả các tài khoản"
+        },
+        {
+          "id": "lv01_q18_opt5",
+          "text": "Tạo mật khẩu mới cho mọi tài khoản"
+        }
+      ],
+      "correctAnswer": [
+        "Giữ bí mật mật khẩu",
+        "Thay đổi mật khẩu thường xuyên",
+        "Tạo mật khẩu mới cho mọi tài khoản"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q19_matching_image",
+      "text": "Quan sát hình ảnh sau để xác định các loại cổng kết nối. Ghép với tên loại cổng kết nối tương ứng:",
+      "type": "MatchingSelect",
+      "imageUrl": "/images/L6P1C19.png",
+      "prompts": [
+        {
+          "id": "p1_lv01q19",
+          "text": "Hình A"
+        },
+        {
+          "id": "p2_lv01q19",
+          "text": "Hình B"
+        },
+        {
+          "id": "p3_lv01q19",
+          "text": "Hình C"
+        },
+        {
+          "id": "p4_lv01q19",
+          "text": "Hình D"
+        },
+        {
+          "id": "p5_lv01q19",
+          "text": "Hình E"
+        }
+      ],
+      "choices": [
+        {
+          "id": "c1_lv01q19",
+          "text": "HDMI Port"
+        },
+        {
+          "id": "c2_lv01q19",
+          "text": "Ethernet Port"
+        },
+        {
+          "id": "c3_lv01q19",
+          "text": "Audio Port"
+        },
+        {
+          "id": "c4_lv01q19",
+          "text": "Display Port"
+        },
+        {
+          "id": "c5_lv01q19",
+          "text": "USB Port"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "promptId": "p1_lv01q19",
+          "choiceId": "c1_lv01q19"
+        },
+        {
+          "promptId": "p2_lv01q19",
+          "choiceId": "c2_lv01q19"
+        },
+        {
+          "promptId": "p3_lv01q19",
+          "choiceId": "c3_lv01q19"
+        },
+        {
+          "promptId": "p4_lv01q19",
+          "choiceId": "c4_lv01q19"
+        },
+        {
+          "promptId": "p5_lv01q19",
+          "choiceId": "c5_lv01q19"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q20_mcq",
+      "text": "Máy tính để bàn sử dụng phần cứng nào để lưu trữ dữ liệu lâu dài?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q20_opt1",
+          "text": "Bộ xử lý trung tâm (CPU)"
+        },
+        {
+          "id": "lv01_q20_opt2",
+          "text": "Ổ đĩa flash USB"
+        },
+        {
+          "id": "lv01_q20_opt3",
+          "text": "Bộ mạch chủ"
+        },
+        {
+          "id": "lv01_q20_opt4",
+          "text": "Ổ đĩa cứng"
+        }
+      ],
+      "correctAnswer": "Ổ đĩa cứng",
+      "points": 10
+    },
+    {
+      "id": "lv01_q21_mcma",
+      "text": "Bạn dự định mua một thiết bị máy tính cầm tay. Thiết bị phải có khả năng chạy bằng pin và được trang bị bàn phím vật lý tích hợp. Đâu là 2 thiết bị đáp ứng được những yêu cầu trên? (Chọn 2)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q21_opt1",
+          "text": "Máy tính xách tay chạy Windows"
+        },
+        {
+          "id": "lv01_q21_opt2",
+          "text": "Máy tính để bàn Mac"
+        },
+        {
+          "id": "lv01_q21_opt3",
+          "text": "Máy tính di động chạy Windows"
+        },
+        {
+          "id": "lv01_q21_opt4",
+          "text": "Điện thoại thông minh chạy Android"
+        },
+        {
+          "id": "lv01_q21_opt5",
+          "text": "Máy tính bảng chạy Android"
+        },
+        {
+          "id": "lv01_q21_opt6",
+          "text": "Chromebook"
+        }
+      ],
+      "correctAnswer": [
+        "Máy tính xách tay chạy Windows",
+        "Chromebook"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q22_matrix",
+      "text": "Tương ứng mỗi HĐH, chọn CTY phát triển :",
+      "type": "MatrixChoice",
+      "statements": [
+        {
+          "id": "lv01_q22_stmt1",
+          "text": "Android"
+        },
+        {
+          "id": "lv01_q22_stmt2",
+          "text": "Chrome OS"
+        },
+        {
+          "id": "lv01_q22_stmt3",
+          "text": "Windows"
+        },
+        {
+          "id": "lv01_q22_stmt4",
+          "text": "iOS"
+        },
+        {
+          "id": "lv01_q22_stmt5",
+          "text": "Mac OS"
+        }
+      ],
+      "categories": [
+        {
+          "id": "lv01_q22_cat1",
+          "text": "Google"
+        },
+        {
+          "id": "lv01_q22_cat2",
+          "text": "MicroSoft"
+        },
+        {
+          "id": "lv01_q22_cat3",
+          "text": "Apple"
+        }
+      ],
+      "correctAnswer": [
+        "Google",
+        "Google",
+        "MicroSoft",
+        "Apple",
+        "Apple"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q23_mcma",
+      "text": "Điều nào đúng với hệ điều hành Linux? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q23_opt1",
+          "text": "Độc quyền"
+        },
+        {
+          "id": "lv01_q23_opt2",
+          "text": "Không thể được sử dụng trên bất cứ thiết bị di động"
+        },
+        {
+          "id": "lv01_q23_opt3",
+          "text": "Có thể chạy trên mọi phần cứng"
+        },
+        {
+          "id": "lv01_q23_opt4",
+          "text": "Người dùng có thể sửa đổi phần mềm thông qua mã nguồn của chương trình"
+        },
+        {
+          "id": "lv01_q23_opt5",
+          "text": "Có tính bảo mật cao"
+        }
+      ],
+      "correctAnswer": [
+        "Có thể chạy trên mọi phần cứng",
+        "Người dùng có thể sửa đổi phần mềm thông qua mã nguồn của chương trình",
+        "Có tính bảo mật cao"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q24_matrix",
+      "text": "Với mỗi loại phần mềm, hãy xác định xem đó là phần mềm Hệ Thống hay phần mềm ứng dụng",
+      "type": "MatrixChoice",
+      "statements": [
+        {
+          "id": "lv01_q24_stmt1",
+          "text": "Trình duyệt web"
+        },
+        {
+          "id": "lv01_q24_stmt2",
+          "text": "Bộ phát đa phương tiện"
+        },
+        {
+          "id": "lv01_q24_stmt3",
+          "text": "Trình điều khiển card đồ hoạ"
+        },
+        {
+          "id": "lv01_q24_stmt4",
+          "text": "Trình quản lý phân vùng ổ đĩa"
+        }
+      ],
+      "categories": [
+        {
+          "id": "lv01_q24_cat1",
+          "text": "PM ứng dụng"
+        },
+        {
+          "id": "lv01_q24_cat2",
+          "text": "PM hệ thống"
+        }
+      ],
+      "correctAnswer": [
+        "PM ứng dụng",
+        "PM ứng dụng",
+        "PM hệ thống",
+        "PM hệ thống"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q25_mtf",
+      "text": "Với mỗi câu phát biểu về khác biệt giữa mạng có dây và mạng không dây, hãy chọn Đúng hoặc Sai.",
+      "type": "MTF",
+      "statements": [
+        {
+          "id": "lv01_q25_stmt1",
+          "text": "Kết nối Wifi được mã hoá an toàn hơn sơ với kết nối Internet"
+        },
+        {
+          "id": "lv01_q25_stmt2",
+          "text": "Kết nối Wifi thường ít xảy ra độ trễ khi truyền dữ liệu so với kết nối ethernet"
+        },
+        {
+          "id": "lv01_q25_stmt3",
+          "text": "Kết nối ethernet thường cung cấp tốc độ kết nối mạng nhanh hơn kết nối wifi"
+        }
+      ],
+      "correctAnswer": [
+        "false",
+        "false",
+        "true"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q26_mcq",
+      "text": "Thiết bị nào có thể chuyển đổi dữ liệu từ kỹ thuật số (Digital) sang tương tự (Analog) và ngược lại để truyền tín hiệu qua mạng?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q26_opt1",
+          "text": "Router"
+        },
+        {
+          "id": "lv01_q26_opt2",
+          "text": "Ethernet Cable"
+        },
+        {
+          "id": "lv01_q26_opt3",
+          "text": "Network Adapter"
+        },
+        {
+          "id": "lv01_q26_opt4",
+          "text": "Modem"
+        }
+      ],
+      "correctAnswer": "Modem",
+      "points": 10
+    },
+    {
+      "id": "lv01_q27_mcq",
+      "text": "Loại cáp nào có thể truyền dữ liệu lên đến 480 megabit/giây?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q27_opt1",
+          "text": "USB"
+        },
+        {
+          "id": "lv01_q27_opt2",
+          "text": "USB-C"
+        },
+        {
+          "id": "lv01_q27_opt3",
+          "text": "Micro USB"
+        },
+        {
+          "id": "lv01_q27_opt4",
+          "text": "Lightning connector"
+        }
+      ],
+      "correctAnswer": "USB",
+      "points": 10
+    },
+    {
+      "id": "lv01_q28_mtf",
+      "text": "Với mỗi câu phát biểu về những lợi ích của cơ sở hạ tầng mạng chất lượng, hãy chọn \"Đúng\" hoặc \"Sai\":",
+      "type": "MTF",
+      "statements": [
+        {
+          "id": "lv01_q28_stmt1",
+          "text": "Đảm bảo rằng học sinh có thể kết nối thông suốt với mạng của nhà trường"
+        },
+        {
+          "id": "lv01_q28_stmt2",
+          "text": "Cho phép học sinh kết nối với phòng máy tính của nhà trường từ mọi nơi"
+        },
+        {
+          "id": "lv01_q28_stmt3",
+          "text": "Hỗ trợ mở rộng hệ thống mạng của nhà trường mà không cần thiết kế lại khi số lượng học sinh tăng lên"
+        }
+      ],
+      "correctAnswer": [
+        "true",
+        "false",
+        "true"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q29_mcma",
+      "text": "3 phát biểu đúng với phần mềm nguồn mở? ( Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q29_opt1",
+          "text": "Nó an toàn hơn phần mềm độc quyền"
+        },
+        {
+          "id": "lv01_q29_opt2",
+          "text": "Nó kém an toàn hơn phần mềm độc quyền"
+        },
+        {
+          "id": "lv01_q29_opt3",
+          "text": "Giấy phép của nó là trung lập về công nghệ"
+        },
+        {
+          "id": "lv01_q29_opt4",
+          "text": "Nó cho phép người dùng sửa đổi phần mềm để phù hợp với nhu cầu của họ"
+        },
+        {
+          "id": "lv01_q29_opt5",
+          "text": "Nó thân thiện với người dùng hơn phần mềm độc quyền"
+        }
+      ],
+      "correctAnswer": [
+        "Nó an toàn hơn phần mềm độc quyền",
+        "Giấy phép của nó là trung lập về công nghệ",
+        "Nó cho phép người dùng sửa đổi phần mềm để phù hợp với nhu cầu của họ"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q30_mtf",
+      "text": "Với mỗi câu phát biểu về sự khác biệt giữa internet và mạng nội bộ, hãy chọn \"Đúng\" hoặc \"Sai\":",
+      "type": "MTF",
+      "statements": [
+        {
+          "id": "lv01_q30_stmt1",
+          "text": "Internet thuộc quyền sở hữu riêng của các tổ hợp công ty liên doanh"
+        },
+        {
+          "id": "lv01_q30_stmt2",
+          "text": "Kết nối nội bộ an toàn hơn so với kết nối internet"
+        },
+        {
+          "id": "lv01_q30_stmt3",
+          "text": "Mạng nội bộ không giới hạn số lượng người dùng và bất kỳ ai cũng có thể truy cập được"
+        }
+      ],
+      "correctAnswer": [
+        "false",
+        "true",
+        "false"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q31_mcma",
+      "text": "Ba phát biểu nào dưới đây đúng với phần mềm độc quyền? (Chọn 3)",
+      "type": "MCMA",
+      "options": [
+        {
+          "id": "lv01_q31_opt1",
+          "text": "Nó kém an toàn hơn phần mềm nguồn mở"
+        },
+        {
+          "id": "lv01_q31_opt2",
+          "text": "Nó dễ bị phần mềm độc hại tấn công hơn phần mềm nguồn mở"
+        },
+        {
+          "id": "lv01_q31_opt3",
+          "text": "Giấy phép của nó là trùng lặp với công nghệ"
+        },
+        {
+          "id": "lv01_q31_opt4",
+          "text": "Nó cho phép người dùng sửa đổi phần mềm để phù hợp với nhu cầu của họ"
+        },
+        {
+          "id": "lv01_q31_opt5",
+          "text": "Nó thân thiện với người dùng hơn phần mềm nguồn mở"
+        }
+      ],
+      "correctAnswer": [
+        "Nó dễ bị phần mềm độc hại tấn công hơn phần mềm nguồn mở",
+        "Giấy phép của nó là trùng lặp với công nghệ",
+        "Nó thân thiện với người dùng hơn phần mềm nguồn mở"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q32_mcq",
+      "text": "Đâu là câu phát biểu đúng về các ứng dụng dựa trên môi trường web?",
+      "type": "MCQ",
+      "options": [
+        {
+          "id": "lv01_q32_opt1",
+          "text": "Trước khi có sử dụng ứng dụng web, bạn phải cài đặt ứng dụng đó trên máy tính của mình"
+        },
+        {
+          "id": "lv01_q32_opt2",
+          "text": "Bạn phải có kết nối internet để sử dụng ứng dụng web"
+        },
+        {
+          "id": "lv01_q32_opt3",
+          "text": "Phiên bản web của ứng dụng dành cho máy tính đã bán sẽ hữu tất cả các tính năng giống như phiên bản trên máy tính đã bán"
+        },
+        {
+          "id": "lv01_q32_opt4",
+          "text": "Các ứng dụng web xử lý cục bộ thông tin trên máy tính của bạn"
+        }
+      ],
+      "correctAnswer": "Bạn phải có kết nối internet để sử dụng ứng dụng web",
+      "points": 10
+    },
+    {
+      "id": "lv01_q33_mtf",
+      "text": "Với mỗi câu phát biểu về phần mềm mã nguồn mở, chọn ĐÚNG hoặc SAI",
+      "type": "MTF",
+      "statements": [
+        {
+          "id": "lv01_q33_stmt1",
+          "text": "Tất cả phần mềm miễn phí đều là phần mềm mã nguồn mở"
+        },
+        {
+          "id": "lv01_q33_stmt2",
+          "text": "Bất kỳ ai cũng có thể kiểm tra, sửa đổi và cải tiến mã nguồn của phần mềm mã nguồn mở"
+        },
+        {
+          "id": "lv01_q33_stmt3",
+          "text": "Bạn phải đồng ý với thỏa thuận cấp phép người dùng cuối trước khi sử dụng phần mềm mã nguồn mở"
+        }
+      ],
+      "correctAnswer": [
+        "false",
+        "true",
+        "false"
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q34_matching",
+      "text": "Ghép từng loại phần mềm với mục đích tương ứng:",
+      "type": "MatchingSelect",
+      "prompts": [
+        { "id": "lv01_q34_p1", "text": "Hệ thống quản lý cơ sở dữ liệu" },
+        { "id": "lv01_q34_p2", "text": "Phần mềm trình chiếu" },
+        { "id": "lv01_q34_p3", "text": "Ứng dụng bản tính" },
+        { "id": "lv01_q34_p4", "text": "Phần mềm xử lý văn bản" },
+        { "id": "lv01_q34_p5", "text": "Trình duyệt web" }
+      ],
+      "choices": [
+        { "id": "lv01_q34_c1", "text": "Lưu trữ sắp xếp điều khiển và điều chỉnh các tập hợp thông tin liên quan" },
+        { "id": "lv01_q34_c2", "text": "Hiển thị văn bản, hình ảnh và thông tin đa phương tiện dưới dạng trình chiếu điện tử" },
+        { "id": "lv01_q34_c3", "text": "Sắp xếp, phân tích cũng như lưu trữ dữ liệu số và văn bản, tính toán và hiển thị dữ liệu dưới dạng biểu đồ" },
+        { "id": "lv01_q34_c4", "text": "Nội dung, chỉnh sửa, định dạng và xuất văn bản ở định dạng tài liệu" },
+        { "id": "lv01_q34_c5", "text": "Truy cập thông tin trên Internet" }
+      ],
+      "correctAnswer": [
+        { "promptId": "lv01_q34_p1", "choiceId": "lv01_q34_c1" },
+        { "promptId": "lv01_q34_p2", "choiceId": "lv01_q34_c2" },
+        { "promptId": "lv01_q34_p3", "choiceId": "lv01_q34_c3" },
+        { "promptId": "lv01_q34_p4", "choiceId": "lv01_q34_c4" },
+        { "promptId": "lv01_q34_p5", "choiceId": "lv01_q34_c5" }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q35_mcq",
+      "text": "Loại USB nào có đầu nối có thể đảo ngược khi sử dụng?",
+      "type": "MCQ",
+      "options": [
+        { "id": "lv01_q35_opt1", "text": "Micro USB" },
+        { "id": "lv01_q35_opt2", "text": "USB-C" },
+        { "id": "lv01_q35_opt3", "text": "USB" },
+        { "id": "lv01_q35_opt4", "text": "Lightning connector" }
+      ],
+      "correctAnswer": "USB-C",
+      "points": 10
+    },
+    {
+      "id": "lv01_q36_mcq",
+      "text": "Bạn đang gặp khó khăn khi gửi và nhận thông tin. Làm cách nào bạn có thể xác định xem thiết bị của mình có được kết nối internet hay không?",
+      "type": "MCQ",
+      "options": [
+        { "id": "lv01_q36_opt1", "text": "Hãy thử gửi một tin nhắn" },
+        { "id": "lv01_q36_opt2", "text": "Mở trình duyệt" },
+        { "id": "lv01_q36_opt3", "text": "Tải xuống ứng dụng SpeedTest" },
+        { "id": "lv01_q36_opt4", "text": "Thử lưu một tập tin" }
+      ],
+      "correctAnswer": "Mở trình duyệt",
+      "points": 10
+    },
+    {
+      "id": "lv01_q37_matching",
+      "text": "Ghép từng thiết bị lưu trữ dữ liệu với định nghĩa tương ứng:",
+      "type": "MatchingSelect",
+      "prompts": [
+        { "id": "lv01_q37_p1", "text": "Ổ đĩa Flash USB" },
+        { "id": "lv01_q37_p2", "text": "Ổ cứng di động" },
+        { "id": "lv01_q37_p3", "text": "Ổ đĩa cứng" },
+        { "id": "lv01_q37_p4", "text": "Ổ cứng thể rắn" }
+      ],
+      "choices": [
+        { "id": "lv01_q37_c1", "text": "Thiết bị lưu trữ dữ liệu bên ngoài gọn nhẹ, sử dụng bộ nhớ flash" },
+        { "id": "lv01_q37_c2", "text": "Thiết bị lưu trữ dữ liệu bên ngoài hoạt động dựa trên kết nối USB với máy tính" },
+        { "id": "lv01_q37_c3", "text": "Thiết bị lưu trữ dữ liệu có tốc độ truy xuất dữ liệu nhanh hơn so với đĩa quay nhanh" },
+        { "id": "lv01_q37_c4", "text": "Thiết bị lưu trữ dữ liệu bên trong giúp lưu trữ và truy xuất dữ liệu bằng bộ nhớ flash" }
+      ],
+      "correctAnswer": [
+        { "promptId": "lv01_q37_p1", "choiceId": "lv01_q37_c1" },
+        { "promptId": "lv01_q37_p2", "choiceId": "lv01_q37_c2" },
+        { "promptId": "lv01_q37_p4", "choiceId": "lv01_q37_c4" }, 
+        { "promptId": "lv01_q37_p3", "choiceId": "lv01_q37_c3" }
+      ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q38_mtf",
+      "text": "Bạn cần xác định thông tin nhận dạng cá nhân (PII-Personally Identifiable Information) mà bạn không nên để lộ trên mạng. Với mỗi phát biểu, hãy chọn có nếu đó là thông tin nhận dạng cá nhân hoặc Không nếu không phải",
+      "type": "MTF",
+      "statements": [
+        { "id": "lv01_q38_s1", "text": "Màu mắt" },
+        { "id": "lv01_q38_s2", "text": "Ngày sinh" },
+        { "id": "lv01_q38_s3", "text": "Nơi sinh" }
+      ],
+      "correctAnswer": [ "false", "true", "true" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q39_mtf",
+      "text": "Với mỗi câu phát biểu, hãy chọn Đúng nếu đó là ví dụ và bắt nạt trên mạng hoặc Sai nếu không phải.",
+      "type": "MTF",
+      "statements": [
+        { "id": "lv01_q39_s1", "text": "A liên tục gửi những tin nhắn ác ý riêng cho B" },
+        { "id": "lv01_q39_s2", "text": "C đăng tải một kiến giải tranh cãi trên một diễn đàn trực tuyến công khai" },
+        { "id": "lv01_q39_s3", "text": "D đăng ảnh riêng tư của E lên mạng mà không có sự phép của cô" },
+        { "id": "lv01_q39_s4", "text": "F tạo một tài khoản Instagram để đăng tải những tin đồn về các học sinh trong trường" }
+      ],
+      "correctAnswer": [ "true", "false", "true", "true" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q40_mcq",
+      "text": "Cách an toàn để gửi thông tin nhận dạng cá nhân (PII - Personally Identifiable Information) qua email là:",
+      "type": "MCQ",
+      "options": [
+        { "id": "lv01_q40_opt1", "text": "Bằng cách chỉ gửi email PII cho người thân" },
+        { "id": "lv01_q40_opt2", "text": "Bằng cách mã hóa email" },
+        { "id": "lv01_q40_opt3", "text": "Không bao giờ gửi email" },
+        { "id": "lv01_q40_opt4", "text": "Bằng cách giải mã một email" }
+      ],
+      "correctAnswer": "Bằng cách mã hóa email",
+      "points": 10
+    },
+    {
+      "id": "lv01_q41_mtf",
+      "text": "Với mỗi câu phát biểu, hãy chọn Đúng hoặc Sai.",
+      "type": "MTF",
+      "statements": [
+        { "id": "lv01_q41_s1", "text": "Bạn sẽ bị quy tội đạo văn nếu không trích dẫn nguồn đầy đủ" },
+        { "id": "lv01_q41_s2", "text": "Trong tác phẩm viết, bạn phải sử dụng phần chú thích cuối trang để trích dẫn nguồn" },
+        { "id": "lv01_q41_s3", "text": "Bạn có thể nhận tác phẩm hoặc tưởng của người khác làm của riêng mình mà không cần trích dẫn nguồn" },
+        { "id": "lv01_q41_s4", "text": "Bạn chỉ phải trích dẫn nguồn khi sử dụng câu văn chính xác như trong tác phẩm gốc của người khác" }
+      ],
+      "correctAnswer": [ "true", "false", "false", "false" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q42_mcma",
+      "text": "Bốn điều nào được coi là thông tin nhận dạng cá nhân PII - Personally Identifiable Information? (4)",
+      "type": "MCMA",
+      "options": [
+        { "id": "lv01_q42_opt1", "text": "Địa chỉ IP" },
+        { "id": "lv01_q42_opt2", "text": "Kích thước quần áo" },
+        { "id": "lv01_q42_opt3", "text": "Địa chỉ gửi thư" },
+        { "id": "lv01_q42_opt4", "text": "Màu toc" },
+        { "id": "lv01_q42_opt5", "text": "Số an sinh xã hội" },
+        { "id": "lv01_q42_opt6", "text": "Lịch sử quét sinh trắc học" }
+      ],
+      "correctAnswer": [ "Địa chỉ IP", "Địa chỉ gửi thư", "Số an sinh xã hội", "Lịch sử quét sinh trắc học" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q43_mtf",
+      "text": "Là một người sử dụng máy tính có đạo đức, trách nhiệm của bạn là phải luôn tuân thủ các quy tắc hành xử đúng mực trên mạng. Bạn cần xác định những ví dụ về cách hành xử đúng mực trên môi trường làm việc văn phòng. Với mỗi câu phát biểu, hãy chọn Có nếu đó là vì dụ và cách hành xử đúng mực hoặc Không nếu không phải.",
+      "type": "MTF",
+      "statements": [
+        { "id": "lv01_q43_s1", "text": "Luôn Cc cho đồng nghiệp khi gửi email để giúp họ nắm được thông tin" },
+        { "id": "lv01_q43_s2", "text": "Chia sẻ các tập tin lưu trữ đám mây hoặc vị trí máy chủ thay vì đính kèm trong email" },
+        { "id": "lv01_q43_s3", "text": "Áp dụng các tiêu chuẩn và giá trị trong các tương tác trực tuyến tương tự như khi bên tương tác trực tiếp" }
+      ],
+      "correctAnswer": [ "false", "true", "true" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q44_mtf",
+      "text": "Với mỗi câu phát biểu về các phương pháp trích dẫn, hãy chọn Đúng hoặc Sai.",
+      "type": "MTF",
+      "statements": [
+        { "id": "lv01_q44_s1", "text": "Bạn phải trích dẫn nguồn nếu trích dẫn trực tiếp từ một bài phát biểu" },
+        { "id": "lv01_q44_s2", "text": "Bạn phải trích dẫn nguồn nếu tóm tắt lại bài viết của một người khác" },
+        { "id": "lv01_q44_s3", "text": "Bạn phải trích dẫn nguồn nếu dẫn lại lời bài viết của một người khác" },
+        { "id": "lv01_q44_s4", "text": "Bạn nên đặt dấu ngoặc kép xung quanh các cụm từ gồm ba từ trở lên được trích dẫn từ bài viết của một người khác" }
+      ],
+      "correctAnswer": [ "true", "true", "true", "false" ],
+      "points": 10
+    },
+    {
+      "id": "lv01_q45_mcma",
+      "text": "Đâu là ba yếu tố có trong trích dẫn về một cuốn sách đã xuất bản? Chọn 3",
+      "type": "MCMA",
+      "options": [
+        { "id": "lv01_q45_opt1", "text": "Tên tác giả" },
+        { "id": "lv01_q45_opt2", "text": "Tên sách" },
+        { "id": "lv01_q45_opt3", "text": "Ngày xuất bản" },
+        { "id": "lv01_q45_opt4", "text": "Ngày truy cập" },
+        { "id": "lv01_q45_opt5", "text": "Tình trạng bản quyền" },
+        { "id": "lv01_q45_opt6", "text": "Tình trạng thương hiệu" }
+      ],
+      "correctAnswer": [ "Tên tác giả", "Tên sách", "Ngày xuất bản" ],
+      "points": 10
+    }
+  ],
+  "createdAt": "2024-07-29T12:00:00.000Z",
+  "updatedAt": "2025-05-29T07:15:12.291Z"
+}
