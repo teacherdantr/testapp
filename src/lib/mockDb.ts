@@ -20,13 +20,18 @@ export const getTests = async (): Promise<Test[]> => {
       .filter(file => file.endsWith('.json'))
       .map(file => {
         const filePath = path.join(testsDir, file);
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        return JSON.parse(fileContent) as Test;
+        try {
+          const fileContent = fs.readFileSync(filePath, 'utf-8');
+          return JSON.parse(fileContent) as Test;
+        } catch (parseError: any) {
+          console.error(`Error parsing test file ${filePath}: ${parseError.message}`);
+          throw new Error(`Failed to parse ${filePath}: ${parseError.message}`);
+        }
       });
     return tests.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  } catch (error) {
-    console.error("Error reading tests directory:", error);
-    return [];
+  } catch (error: any) {
+    console.error(`Error reading tests directory (${testsDir}):`, error.message);
+    throw new Error(`Failed to read tests from directory ${testsDir}: ${error.message}`);
   }
 };
 
@@ -39,8 +44,11 @@ export const getTestById = async (id: string): Promise<Test | undefined> => {
       return JSON.parse(fileContent) as Test;
     }
     return undefined;
-  } catch (error) {
-    console.error(`Error reading test file ${id}.json:`, error);
+  } catch (error: any) {
+    console.error(`Error reading test file ${filePath}:`, error.message);
+    // Return undefined or throw, depending on how critical this is.
+    // For now, let's return undefined to match previous behavior more closely.
+    // throw new Error(`Failed to read test file ${filePath}: ${error.message}`);
     return undefined;
   }
 };
@@ -56,9 +64,9 @@ export const addTest = async (test: Test): Promise<Test> => {
   try {
     fs.writeFileSync(filePath, JSON.stringify(testWithTimestamps, null, 2));
     return testWithTimestamps;
-  } catch (error) {
-    console.error(`Error writing test file ${test.id}.json:`, error);
-    throw error; 
+  } catch (error: any) {
+    console.error(`Error writing test file ${test.id}.json: ${error.message}`);
+    throw new Error(`Failed to write test file ${test.id}.json: ${error.message}`);
   }
 };
 
@@ -67,6 +75,7 @@ export const updateTest = async (id: string, updatedTestPartialData: Partial<Tes
   const filePath = path.join(testsDir, `${id}.json`);
   try {
     if (!fs.existsSync(filePath)) {
+      console.warn(`Attempted to update non-existent test file: ${filePath}`);
       return undefined;
     }
     const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -105,9 +114,10 @@ export const updateTest = async (id: string, updatedTestPartialData: Partial<Tes
 
     fs.writeFileSync(filePath, JSON.stringify(fullyUpdatedTest, null, 2));
     return fullyUpdatedTest;
-  } catch (error) {
-    console.error(`Error updating test file ${id}.json:`, error);
-    return undefined; 
+  } catch (error: any) {
+    console.error(`Error updating test file ${filePath}: ${error.message}`);
+    // throw new Error(`Error updating test file ${filePath}: ${error.message}`);
+    return undefined;
   }
 };
 
@@ -120,8 +130,9 @@ export const deleteTest = async (id: string): Promise<boolean> => {
       return true;
     }
     return false;
-  } catch (error) {
-    console.error(`Error deleting test file ${id}.json:`, error);
+  } catch (error: any) {
+    console.error(`Error deleting test file ${filePath}: ${error.message}`);
+    // throw new Error(`Error deleting test file ${filePath}: ${error.message}`);
     return false;
   }
 };
@@ -148,7 +159,7 @@ let userTestResults: StoredTestResult[] = [
     questionResults: [],
     submittedAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     timeTaken: 600, // 10 min
-    testMode: 'testing',
+    testMode: 'race',
   },
   {
     userId: 'StudentC',
