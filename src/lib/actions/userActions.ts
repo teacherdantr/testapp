@@ -2,8 +2,9 @@
 'use server';
 
 import { z } from 'zod';
-import { getUserTestHistory, getAllUserTestResults } from '@/lib/mockDb';
-import type { StoredTestResult } from '@/lib/types';
+import { prisma } from '@/lib/prisma'; // Import Prisma client
+import type { StoredTestResult, TestResult } from '@/lib/types';
+import type { Prisma } from '@prisma/client';
 
 const userIdSchema = z.string().min(1, 'User identifier cannot be empty.');
 
@@ -15,20 +16,49 @@ export async function fetchUserScoreHistory(userId: string): Promise<StoredTestR
   }
 
   try {
-    const history = await getUserTestHistory(validatedUserId.data);
-    return history;
-  } catch (error) {
-    console.error('Error fetching user score history:', error);
-    return { error: 'Failed to fetch score history.' };
+    const userScoresFromDb = await prisma.userScore.findMany({
+      where: { userId: validatedUserId.data },
+      orderBy: { submittedAt: 'desc' },
+    });
+
+    // Map Prisma UserScore to StoredTestResult type
+    return userScoresFromDb.map(score => ({
+      userId: score.userId,
+      testId: score.testId,
+      testTitle: score.testTitleSnapshot, // Use the snapshot
+      score: score.score,
+      totalPoints: score.totalPoints,
+      questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches
+      submittedAt: score.submittedAt.toISOString(),
+      timeTaken: score.timeTakenSeconds ?? undefined,
+      testMode: score.testMode as StoredTestResult['testMode'] | undefined,
+    }));
+  } catch (e: any) {
+    console.error('Error fetching user score history with Prisma:', e);
+    return { error: `Failed to fetch score history. ${e.message}` };
   }
 }
 
 export async function fetchAllPublicTestSubmissions(): Promise<StoredTestResult[] | { error: string }> {
   try {
-    const submissions = await getAllUserTestResults();
-    return submissions;
-  } catch (error) {
-    console.error('Error fetching all public test submissions:', error);
-    return { error: 'Failed to fetch public test records.' };
+    const allScoresFromDb = await prisma.userScore.findMany({
+      orderBy: { submittedAt: 'desc' },
+    });
+
+    // Map Prisma UserScore to StoredTestResult type
+    return allScoresFromDb.map(score => ({
+      userId: score.userId,
+      testId: score.testId,
+      testTitle: score.testTitleSnapshot, // Use the snapshot
+      score: score.score,
+      totalPoints: score.totalPoints,
+      questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches
+      submittedAt: score.submittedAt.toISOString(),
+      timeTaken: score.timeTakenSeconds ?? undefined,
+      testMode: score.testMode as StoredTestResult['testMode'] | undefined,
+    }));
+  } catch (e: any) {
+    console.error('Error fetching all public test submissions with Prisma:', e);
+    return { error: `Failed to fetch public test records. ${e.message}` };
   }
 }
