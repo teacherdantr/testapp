@@ -4,16 +4,26 @@ import fs from 'fs';
 import path from 'path';
 
 const testsDir = path.join(process.cwd(), 'src/data/tests');
-// const userResultsDir = path.join(process.cwd(), 'src/data/userResults'); // For future use if desired
 
-const ensureTestsDirExists = () => {
+const ensureTestsDirExistsForWrite = () => {
   if (!fs.existsSync(testsDir)) {
-    fs.mkdirSync(testsDir, { recursive: true });
+    try {
+      fs.mkdirSync(testsDir, { recursive: true });
+      console.log(`[mockDb] Created tests directory: ${testsDir}`);
+    } catch (mkdirError: any) {
+      console.error(`[mockDb] Critical error: Failed to create tests directory ${testsDir}. CWD: ${process.cwd()}. Error:`, mkdirError.message, mkdirError.stack);
+      // Depending on how critical this is, you might want to throw here
+      // For now, we'll let subsequent operations fail if dir creation was truly necessary and failed.
+    }
   }
 };
 
 export const getTests = async (): Promise<Test[]> => {
-  ensureTestsDirExists();
+  // ensureTestsDirExists(); // Removed for read operation
+  if (!fs.existsSync(testsDir)) {
+    console.warn(`[mockDb] Tests directory ${testsDir} not found during getTests. CWD: ${process.cwd()}. Returning empty array.`);
+    return [];
+  }
   try {
     const files = fs.readdirSync(testsDir);
     const tests: Test[] = files
@@ -24,37 +34,45 @@ export const getTests = async (): Promise<Test[]> => {
           const fileContent = fs.readFileSync(filePath, 'utf-8');
           return JSON.parse(fileContent) as Test;
         } catch (parseError: any) {
-          console.error(`Error parsing test file ${filePath}: ${parseError.message}`);
+          console.error(`[mockDb] Error parsing test file ${filePath}. CWD: ${process.cwd()}. Error:`, parseError.message, parseError.stack);
+          // Optionally, skip this file or re-throw
+          // For now, re-throwing to indicate a problem with data integrity
           throw new Error(`Failed to parse ${filePath}: ${parseError.message}`);
         }
       });
     return tests.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   } catch (error: any) {
-    console.error(`Error reading tests directory (${testsDir}):`, error.message);
-    throw new Error(`Failed to read tests from directory ${testsDir}: ${error.message}`);
+    console.error(`[mockDb] Error reading tests directory (${testsDir}). CWD: ${process.cwd()}. Error:`, error.message, error.stack);
+    // Instead of re-throwing, which causes Server Component render error,
+    // return empty or handle as per application's desired behavior for missing data.
+    // For now, let's return empty to prevent outright crashing the page,
+    // but this hides the underlying issue from the user if logs aren't checked.
+     return []; // Return empty array if directory read fails, UI will show "no tests"
   }
 };
 
 export const getTestById = async (id: string): Promise<Test | undefined> => {
-  ensureTestsDirExists();
+  // ensureTestsDirExists(); // Removed for read operation
+  if (!fs.existsSync(testsDir)) {
+    console.warn(`[mockDb] Tests directory ${testsDir} not found during getTestById for ID ${id}. CWD: ${process.cwd()}.`);
+    return undefined;
+  }
   const filePath = path.join(testsDir, `${id}.json`);
   try {
     if (fs.existsSync(filePath)) {
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       return JSON.parse(fileContent) as Test;
     }
+    console.warn(`[mockDb] Test file ${filePath} not found for ID ${id}. CWD: ${process.cwd()}`);
     return undefined;
   } catch (error: any) {
-    console.error(`Error reading test file ${filePath}:`, error.message);
-    // Return undefined or throw, depending on how critical this is.
-    // For now, let's return undefined to match previous behavior more closely.
-    // throw new Error(`Failed to read test file ${filePath}: ${error.message}`);
-    return undefined;
+    console.error(`[mockDb] Error reading test file ${filePath}. CWD: ${process.cwd()}. Error:`, error.message, error.stack);
+    return undefined; // Return undefined if file read/parse fails
   }
 };
 
 export const addTest = async (test: Test): Promise<Test> => {
-  ensureTestsDirExists();
+  ensureTestsDirExistsForWrite(); // Use specific function for write ops
   const filePath = path.join(testsDir, `${test.id}.json`);
   const testWithTimestamps = {
     ...test,
@@ -65,17 +83,17 @@ export const addTest = async (test: Test): Promise<Test> => {
     fs.writeFileSync(filePath, JSON.stringify(testWithTimestamps, null, 2));
     return testWithTimestamps;
   } catch (error: any) {
-    console.error(`Error writing test file ${test.id}.json: ${error.message}`);
+    console.error(`[mockDb] Error writing test file ${test.id}.json. CWD: ${process.cwd()}. Error:`, error.message, error.stack);
     throw new Error(`Failed to write test file ${test.id}.json: ${error.message}`);
   }
 };
 
 export const updateTest = async (id: string, updatedTestPartialData: Partial<Test>): Promise<Test | undefined> => {
-  ensureTestsDirExists();
+  ensureTestsDirExistsForWrite(); // Use specific function for write ops
   const filePath = path.join(testsDir, `${id}.json`);
   try {
     if (!fs.existsSync(filePath)) {
-      console.warn(`Attempted to update non-existent test file: ${filePath}`);
+      console.warn(`[mockDb] Attempted to update non-existent test file: ${filePath}. CWD: ${process.cwd()}`);
       return undefined;
     }
     const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -115,25 +133,24 @@ export const updateTest = async (id: string, updatedTestPartialData: Partial<Tes
     fs.writeFileSync(filePath, JSON.stringify(fullyUpdatedTest, null, 2));
     return fullyUpdatedTest;
   } catch (error: any) {
-    console.error(`Error updating test file ${filePath}: ${error.message}`);
-    // throw new Error(`Error updating test file ${filePath}: ${error.message}`);
-    return undefined;
+    console.error(`[mockDb] Error updating test file ${filePath}. CWD: ${process.cwd()}. Error:`, error.message, error.stack);
+    return undefined; // Return undefined if update fails
   }
 };
 
 export const deleteTest = async (id: string): Promise<boolean> => {
-  ensureTestsDirExists();
+  ensureTestsDirExistsForWrite(); // Potentially relevant if dir was deleted, though unlikely for this op
   const filePath = path.join(testsDir, `${id}.json`);
   try {
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
       return true;
     }
+    console.warn(`[mockDb] Attempted to delete non-existent test file: ${filePath}. CWD: ${process.cwd()}`);
     return false;
   } catch (error: any) {
-    console.error(`Error deleting test file ${filePath}: ${error.message}`);
-    // throw new Error(`Error deleting test file ${filePath}: ${error.message}`);
-    return false;
+    console.error(`[mockDb] Error deleting test file ${filePath}. CWD: ${process.cwd()}. Error:`, error.message, error.stack);
+    return false; // Return false if delete fails
   }
 };
 
@@ -188,7 +205,7 @@ let userTestResults: StoredTestResult[] = [
 export const saveUserTestResult = async (result: StoredTestResult): Promise<StoredTestResult> => {
   const newResult = JSON.parse(JSON.stringify(result));
   userTestResults.push(newResult);
-  console.log('User test result saved (in-memory):', newResult.userId, newResult.testTitle, newResult.score, 'Time taken:', newResult.timeTaken, 'Mode:', newResult.testMode);
+  // console.log('[mockDb] User test result saved (in-memory):', newResult.userId, newResult.testTitle, newResult.score, 'Time taken:', newResult.timeTaken, 'Mode:', newResult.testMode);
   return newResult;
 };
 
@@ -202,3 +219,4 @@ export const getAllUserTestResults = async (): Promise<StoredTestResult[]> => {
   return JSON.parse(JSON.stringify(userTestResults.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())));
 };
 
+    
