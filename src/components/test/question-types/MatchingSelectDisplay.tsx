@@ -26,9 +26,11 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
   }, [userAnswer, question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
-    // console.log('[MatchingSelectDisplay] Received question.choices:', JSON.parse(JSON.stringify(question.choices || [])));
+    // Uncomment these logs in development if you're still facing issues to see the data flow.
+    // console.log('[MatchingSelectDisplay] question.choices received:', JSON.parse(JSON.stringify(question.choices || [])));
 
     const baseChoices = question.choices || [];
+    // Filter out choices with invalid/empty IDs or invalid text types FIRST
     const filteredChoices = baseChoices.filter(choice => {
       if (!choice) {
         // console.warn('[MatchingSelectDisplay] Filtering out null/undefined choice object.');
@@ -36,26 +38,26 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       }
       // Ensure ID is a string and not empty or just whitespace
       if (choice.id == null || typeof choice.id !== 'string' || choice.id.trim() === '') {
-        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, choice);
+        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, JSON.parse(JSON.stringify(choice)));
         return false;
       }
       // Ensure text is a string (can be empty)
       if (choice.text == null || typeof choice.text !== 'string') {
-        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid text type (text: ${JSON.stringify(choice.text)}, type: ${typeof choice.text}):`, choice);
+        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid text type (text: ${JSON.stringify(choice.text)}, type: ${typeof choice.text}):`, JSON.parse(JSON.stringify(choice)));
         return false;
       }
       return true;
     });
-    // console.log('[MatchingSelectDisplay] After initial filtering - filteredChoices:', JSON.parse(JSON.stringify(filteredChoices)));
+    // console.log('[MatchingSelectDisplay] Choices after filtering:', JSON.parse(JSON.stringify(filteredChoices)));
 
     if (testMode === 'testing' || testMode === 'race') {
-      const shuffledFilteredChoices = [...filteredChoices];
-      for (let i = shuffledFilteredChoices.length - 1; i > 0; i--) {
+      const shuffled = [...filteredChoices];
+      for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledFilteredChoices[i], shuffledFilteredChoices[j]] = [shuffledFilteredChoices[j], shuffledFilteredChoices[i]];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
-      // console.log('[MatchingSelectDisplay] After shuffling - shuffledFilteredChoices:', JSON.parse(JSON.stringify(shuffledFilteredChoices)));
-      return shuffledFilteredChoices;
+      // console.log('[MatchingSelectDisplay] Choices after shuffling (if applicable):', JSON.parse(JSON.stringify(shuffled)));
+      return shuffled;
     }
     
     // console.log('[MatchingSelectDisplay] Training mode - returning filteredChoices directly:', JSON.parse(JSON.stringify(filteredChoices)));
@@ -73,14 +75,13 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
   };
 
   if (!question.prompts || question.prompts.length === 0) {
-    // console.warn("[MatchingSelectDisplay] No prompts found for question:", question.id);
-    return <p className="text-destructive">Configuration error: No prompts for matching question.</p>;
+    return <p className="text-destructive">Configuration error: No prompts defined for this matching question.</p>;
   }
    if (!validShuffledChoices || validShuffledChoices.length === 0) {
      if (!question.choices || question.choices.length === 0) {
-        return <p className="text-destructive">Configuration error: No choices defined for matching question.</p>;
+        return <p className="text-destructive">Configuration error: No choices defined for this matching question.</p>;
      }
-    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question. Please check choice IDs and text in question data.</p>;
+    return <p className="text-destructive">Configuration error: No valid choices available after filtering for this matching question. Please check choice IDs and text in question data.</p>;
   }
 
 
@@ -106,29 +107,31 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
               
               {/* Dynamically rendered choice items */}
-              {validShuffledChoices.map((choice: MatchingItem) => {
-                // Ensure choice.id is treated as a string and trimmed for the value prop.
-                // Ensure choice.text is treated as a string and trimmed for display.
-                const choiceIdStr = String(choice.id == null ? '' : choice.id).trim();
-                const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+              {validShuffledChoices.map((choice: MatchingItem, index: number) => {
+                  // Defensive checks before rendering SelectItem
+                  if (!choice || choice.id == null) {
+                      console.error(
+                          `[MatchingSelectDisplay] CRITICAL: Encountered null/undefined choice object or choice.id at index ${index} in validShuffledChoices. Skipping item. Question ID: ${question.id}. Choice data:`, JSON.stringify(choice)
+                      );
+                      return null; // Skip this item entirely
+                  }
 
-                // CRITICAL: If choiceIdStr is empty after trimming, this SelectItem is invalid for Radix UI.
-                // The filter in useMemo should prevent this, but this is a final safeguard.
-                if (choiceIdStr === '') {
-                  console.error(
-                    `[MatchingSelectDisplay] CRITICAL: Attempting to render SelectItem with an empty 'value' (derived from choice.id). This item will be skipped. Original choice object:`,
-                    JSON.parse(JSON.stringify(choice)), // Log a copy
-                    `For Question ID: ${question.id}`
+                  const choiceIdStr = String(choice.id).trim();
+                  const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+
+                  // This is the most critical check to prevent the Radix UI error for non-placeholder items
+                  if (choiceIdStr === '') {
+                      console.error(
+                          `[MatchingSelectDisplay] CRITICAL: choice.id (original: "${choice.id}") resulted in an empty string for 'value' prop after String().trim(). Skipping item. Question ID: ${question.id}, Choice Text: "${choice.text}", Index: ${index}. Choice object:`, JSON.stringify(choice)
+                      );
+                      return null; // Skip rendering this invalid SelectItem
+                  }
+                  
+                  return (
+                    <SelectItem key={choiceIdStr || `choice-fallback-${index}`} value={choiceIdStr} className="text-base">
+                      {choiceTextStr || `(Choice ID: ${choiceIdStr})`}
+                    </SelectItem>
                   );
-                  return null; // Skip rendering this invalid item.
-                }
-                
-                // Use the sanitized choiceIdStr for both key and value to be safe.
-                return (
-                  <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
-                    {choiceTextStr || `(Choice ID: ${choiceIdStr})`}
-                  </SelectItem>
-                );
               })}
             </SelectContent>
           </Select>
@@ -137,3 +140,4 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     </div>
   );
 }
+
