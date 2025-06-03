@@ -1,5 +1,3 @@
-
-
 'use server';
 
 import { z } from 'zod';
@@ -271,14 +269,29 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
 }
 
 // Helper to ensure array items are valid objects with id and text
-const ensureValidItemsWithIdAndText = (items: any, itemType: 'Option' | 'Statement' | 'Category' | 'Prompt' | 'Choice'): any[] | undefined => {
-  if (!Array.isArray(items)) return undefined;
-  const validItems = items.filter(item => item && typeof item.id === 'string' && item.id.trim() !== '' && typeof item.text === 'string');
-  if (validItems.length !== items.length) {
-    console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemType} array for a question. Original count: ${items.length}, Valid count: ${validItems.length}`);
+const ensureValidItems = <T extends { id: string; text: string }>(
+  items: any, // input can be anything from JSONB
+  itemTypeForLogging: string
+): T[] | undefined => {
+  if (!Array.isArray(items)) {
+    // console.warn(`[mapPrismaQuestionToViewQuestion] ${itemTypeForLogging} data is not an array.`);
+    return undefined;
   }
-  return validItems.map(item => ({ id: item.id, text: item.text }));
+  const validItems = items.filter(item =>
+    item && // check if item is not null/undefined
+    typeof item.id === 'string' && item.id.trim() !== '' && // id is a non-empty string
+    typeof item.text === 'string' // text is a string
+  );
+
+  if (validItems.length !== items.length) {
+    console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemTypeForLogging} array. Original count: ${items.length}, Valid count: ${validItems.length}. Review source data for question.`);
+  }
+  return validItems.map(item => ({
+    id: item.id as string,
+    text: item.text as string,
+  })) as T[]; // Cast to the specific type T[]
 };
+
 
 // Helper to ensure hotspot items are valid
 const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
@@ -309,8 +322,9 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
 
   if (!Object.values(QuestionType).includes(typeValue as QuestionType)) {
     console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: '${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
-    typeValue = QuestionType.MCQ;
+    typeValue = QuestionType.MCQ; // Default to MCQ if type is unrecognized
   }
+
 
   return {
     id: prismaQuestion.id,
@@ -318,14 +332,14 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
     type: typeValue as QuestionType,
     imageUrl: prismaQuestion.imageUrl || undefined,
     points: prismaQuestion.points,
-    options: ensureValidItemsWithIdAndText(qData.options, 'Option') as OptionType[] | undefined,
-    statements: ensureValidItemsWithIdAndText(qData.statements, 'Statement') as TrueFalseStatement[] | undefined,
-    categories: ensureValidItemsWithIdAndText(qData.categories, 'Category') as Category[] | undefined,
+    options: ensureValidItems<OptionType>(qData.options, 'Option'),
+    statements: ensureValidItems<TrueFalseStatement>(qData.statements, 'Statement'),
+    categories: ensureValidItems<Category>(qData.categories, 'Category'),
     hotspots: ensureValidHotspotItems(qData.hotspots),
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
-    prompts: ensureValidItemsWithIdAndText(qData.prompts, 'Prompt') as MatchingItem[] | undefined,
-    choices: ensureValidItemsWithIdAndText(qData.choices, 'Choice') as MatchingItem[] | undefined,
-    correctAnswer: qData.correctAnswer as any,
+    prompts: ensureValidItems<MatchingItem>(qData.prompts, 'Prompt'),
+    choices: ensureValidItems<MatchingItem>(qData.choices, 'Choice'),
+    correctAnswer: qData.correctAnswer as any, // Correct answer structure varies, handled by consuming components/logic
   };
 }
 
@@ -349,7 +363,7 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
          choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices))
           ? [...q.choices].sort(() => Math.random() - 0.5)
           : q.choices,
-        correctAnswer: '' as any,
+        correctAnswer: '' as any, // Correct answer is stripped for student view
       };
     });
 
@@ -377,7 +391,7 @@ export async function fetchAdminTestById(testId: string): Promise<Test | null> {
 
     return {
       ...test,
-      questions: test.questions.map(mapPrismaQuestionToViewQuestion),
+      questions: test.questions.map(mapPrismaQuestionToViewQuestion), // Returns questions with correct answers
       createdAt: test.createdAt.toISOString(),
       updatedAt: test.updatedAt.toISOString(),
     };
@@ -395,6 +409,7 @@ export async function verifyTestPassword(testId: string, passwordAttempt: string
       return { authorized: false, error: 'Test not found.' };
     }
     if (!test.password) {
+      // No password set for the test, so it's authorized
       return { authorized: true };
     }
     if (test.password === passwordAttempt) {
@@ -431,8 +446,7 @@ export async function submitTest(
     let totalPoints = 0;
 
     const questionResultsPromises = testWithQuestions.questions.map(async (originalQuestionFromDb) => {
-      // Use the mapped question to get the correct enum type for the switch statement
-      const originalQuestion = mapPrismaQuestionToViewQuestion(originalQuestionFromDb);
+      const originalQuestion = mapPrismaQuestionToViewQuestion(originalQuestionFromDb); // Contains correct types and cleaned sub-arrays
       const prismaQuestionData = originalQuestionFromDb.questionData as Prisma.JsonObject; // Still needed for raw correctAnswer if complex
       const originalCorrectAnswer = prismaQuestionData.correctAnswer as Question['correctAnswer'];
 
@@ -445,7 +459,7 @@ export async function submitTest(
       totalPoints += originalQuestion.points;
 
       try {
-        switch (originalQuestion.type) { // Now originalQuestion.type is the corrected enum value
+        switch (originalQuestion.type) {
           case QuestionType.MCQ:
             isCorrect = rawUserAnswer === originalCorrectAnswer;
             break;
@@ -469,7 +483,7 @@ export async function submitTest(
             {
               const userSelectedAnswers: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctAnswers = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
-              const statements = prismaQuestionData.statements as TrueFalseStatement[] || [];
+              const statements = originalQuestion.statements || []; // Use cleaned statements
               if (userSelectedAnswers.length === correctAnswers.length && statements.length === correctAnswers.length) {
                   isCorrect = userSelectedAnswers.every((val, index) => val.toLowerCase() === correctAnswers[index]?.toLowerCase());
               } else { isCorrect = false; }
@@ -479,7 +493,7 @@ export async function submitTest(
             {
               const userSelectedCategories: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctCategories = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
-              const statements = prismaQuestionData.statements as TrueFalseStatement[] || [];
+              const statements = originalQuestion.statements || []; // Use cleaned statements
               if (userSelectedCategories.length === correctCategories.length && statements.length === correctCategories.length) {
                   isCorrect = userSelectedCategories.every((val, index) => val === correctCategories[index]);
               } else { isCorrect = false; }
@@ -488,7 +502,7 @@ export async function submitTest(
           case QuestionType.Hotspot:
             {
               const userSelectedHotspotIds: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
-              const multipleSelection = prismaQuestionData.multipleSelection as boolean;
+              const multipleSelection = originalQuestion.multipleSelection; // Use cleaned multipleSelection
               if (multipleSelection) {
                   const correctAnswers = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
                   const sortedUserSelected = [...userSelectedHotspotIds].sort();
@@ -505,19 +519,18 @@ export async function submitTest(
             {
               const userMatches: Array<{ promptId: string, choiceId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ promptId: string, choiceId: string }>;
-              const prompts = prismaQuestionData.prompts as MatchingItem[] || [];
+              const prompts = originalQuestion.prompts || []; // Use cleaned prompts
               if (userMatches.length === prompts.length && correctMatches.length === prompts.length ) {
                    isCorrect = correctMatches.every(correctMatch => {
                       const userMatch = userMatches.find(um => um.promptId === correctMatch.promptId);
                       return userMatch && userMatch.choiceId !== null && userMatch.choiceId === correctMatch.choiceId;
                   });
               } else if (userMatches.length === 0 && correctMatches.length === 0 && prompts.length === 0) {
-                  isCorrect = true;
+                  isCorrect = true; // Correct if there are no prompts and no answers given
               } else { isCorrect = false; }
             }
             break;
           default:
-            // This case should ideally not be reached if mapPrismaQuestionToViewQuestion defaults unknown types
             console.warn(`Grading encountered an unexpected question type: ${originalQuestion.type} for question ID ${originalQuestion.id}`);
             isCorrect = false;
         }
@@ -533,15 +546,15 @@ export async function submitTest(
       return {
         questionId: originalQuestion.id,
         questionText: originalQuestion.text,
-        questionType: originalQuestion.type, // Use the mapped type
-        imageUrl: originalQuestion.imageUrl || undefined,
-        options: Array.isArray(prismaQuestionData.options) ? prismaQuestionData.options as OptionType[] : undefined,
-        statements: Array.isArray(prismaQuestionData.statements) ? prismaQuestionData.statements as TrueFalseStatement[] : undefined,
-        categories: Array.isArray(prismaQuestionData.categories) ? prismaQuestionData.categories as Category[] : undefined,
-        hotspots: Array.isArray(prismaQuestionData.hotspots) ? prismaQuestionData.hotspots as HotspotArea[] : undefined,
-        multipleSelection: prismaQuestionData.multipleSelection as boolean | undefined,
-        prompts: Array.isArray(prismaQuestionData.prompts) ? prismaQuestionData.prompts as MatchingItem[] : undefined,
-        choices: Array.isArray(prismaQuestionData.choices) ? prismaQuestionData.choices as MatchingItem[] : undefined,
+        questionType: originalQuestion.type,
+        imageUrl: originalQuestion.imageUrl, // Use cleaned imageUrl
+        options: originalQuestion.options, // Use cleaned options
+        statements: originalQuestion.statements, // Use cleaned statements
+        categories: originalQuestion.categories, // Use cleaned categories
+        hotspots: originalQuestion.hotspots, // Use cleaned hotspots
+        multipleSelection: originalQuestion.multipleSelection, // Use cleaned multipleSelection
+        prompts: originalQuestion.prompts, // Use cleaned prompts
+        choices: originalQuestion.choices, // Use cleaned choices
         userAnswer: rawUserAnswer,
         correctAnswer: originalCorrectAnswer,
         isCorrect,
@@ -561,6 +574,7 @@ export async function submitTest(
       testTitle: testWithQuestions.title,
     };
 
+    // Save to database
     await prisma.userScore.create({
       data: {
         userId: userId,
@@ -568,9 +582,9 @@ export async function submitTest(
         testTitle: testWithQuestions.title,
         score: score,
         totalPoints: totalPoints,
-        questionResultsDetails: resultForClient.questionResults as Prisma.JsonArray,
+        questionResultsDetails: resultForClient.questionResults as Prisma.JsonArray, // Cast to JsonArray as expected by Prisma
         timeTakenSeconds: timeTaken,
-        testMode: testMode ?? undefined,
+        testMode: testMode ?? undefined, // Store null if not provided, or use specific value
       }
     });
 
@@ -613,12 +627,22 @@ export async function getAllTests(): Promise<Test[]> {
 
 export async function deleteTestById(testId: string): Promise<{ success: boolean; error?: string }> {
   try {
+    // Need to delete related UserScore records first if there's a relation
+    // that would cause a conflict. Assuming UserScore.testId is just a string
+    // and not a foreign key with cascading deletes disabled.
+    // If UserScore.testId IS a foreign key, Prisma handles this, or you might need:
+    // await prisma.userScore.deleteMany({ where: { testId: testId } });
     await prisma.test.delete({ where: { id: testId } });
     return { success: true };
-  } catch (e: any) {
+  } catch (e: any)
+   {
     console.error("Prisma deleteTestById error:", e);
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
       return { success: false, error: 'Test not found.' };
+    }
+    // Check for foreign key constraint violation if UserScore deletion is needed and not automatic
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2003') {
+         return { success: false, error: `Failed to delete test. Associated user scores might exist. (${e.message})` };
     }
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
