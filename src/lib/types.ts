@@ -36,8 +36,8 @@ export enum QuestionType {
   MCQ = 'MCQ',
   ShortAnswer = 'ShortAnswer',
   TrueFalse = 'TrueFalse',
-  MultipleChoiceMultipleAnswer = 'MCMA',
-  MultipleTrueFalse = 'MTF',
+  MultipleChoiceMultipleAnswer = 'MultipleChoiceMultipleAnswer', // Corrected value
+  MultipleTrueFalse = 'MultipleTrueFalse',                     // Corrected value
   MatrixChoice = 'MatrixChoice',
   Hotspot = 'Hotspot',
   MatchingSelect = 'MatchingSelect',
@@ -105,4 +105,3 @@ export interface StoredTestResult extends TestResult {
   timeTaken?: number;
   testMode?: 'training' | 'testing'; // Added testMode
 }
-

@@ -274,7 +274,7 @@ const ensureValidItemsWithIdAndText = (items: any, itemType: 'Option' | 'Stateme
   if (!Array.isArray(items)) return undefined;
   const validItems = items.filter(item => item && typeof item.id === 'string' && typeof item.text === 'string');
   if (validItems.length !== items.length) {
-    console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemType} array. Original count: ${items.length}, Valid count: ${validItems.length}`);
+    console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemType} array for a question. Original count: ${items.length}, Valid count: ${validItems.length}`);
   }
   return validItems.map(item => ({ id: item.id, text: item.text }));
 };
@@ -290,7 +290,7 @@ const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
         (item.label === undefined || typeof item.label === 'string')
     );
     if (validItems.length !== items.length) {
-        console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from Hotspot array. Original count: ${items.length}, Valid count: ${validItems.length}`);
+        console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from Hotspot array for a question. Original count: ${items.length}, Valid count: ${validItems.length}`);
     }
     return validItems.map(item => ({
         id: item.id,
@@ -305,12 +305,10 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
   const qData = prismaQuestion.questionData as Prisma.JsonObject || {};
   
   let typeValue = prismaQuestion.type;
-  if (typeof typeValue === 'string') {
-    typeValue = typeValue.toUpperCase();
-  }
+  // Removed typeValue = typeValue.toUpperCase();
 
   if (!Object.values(QuestionType).includes(typeValue as QuestionType)) {
-    console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: Original='${prismaQuestion.type}', Uppercased='${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
+    console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: '${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
     typeValue = QuestionType.MCQ;
   }
   
@@ -432,9 +430,12 @@ export async function submitTest(
     let score = 0;
     let totalPoints = 0;
 
-    const questionResultsPromises = testWithQuestions.questions.map(async (originalQuestion) => {
-      const prismaQuestionData = originalQuestion.questionData as Prisma.JsonObject;
+    const questionResultsPromises = testWithQuestions.questions.map(async (originalQuestionFromDb) => {
+      // Use the mapped question to get the correct enum type for the switch statement
+      const originalQuestion = mapPrismaQuestionToViewQuestion(originalQuestionFromDb);
+      const prismaQuestionData = originalQuestionFromDb.questionData as Prisma.JsonObject; // Still needed for raw correctAnswer if complex
       const originalCorrectAnswer = prismaQuestionData.correctAnswer as Question['correctAnswer'];
+
 
       const userAnswerObj = userAnswers.find(ua => ua.questionId === originalQuestion.id);
       const rawUserAnswer = userAnswerObj ? userAnswerObj.answer : '';
@@ -444,7 +445,7 @@ export async function submitTest(
       totalPoints += originalQuestion.points;
 
       try {
-        switch (originalQuestion.type as QuestionType) {
+        switch (originalQuestion.type) { // Now originalQuestion.type is the corrected enum value
           case QuestionType.MCQ:
             isCorrect = rawUserAnswer === originalCorrectAnswer;
             break;
@@ -516,6 +517,8 @@ export async function submitTest(
             }
             break;
           default:
+            // This case should ideally not be reached if mapPrismaQuestionToViewQuestion defaults unknown types
+            console.warn(`Grading encountered an unexpected question type: ${originalQuestion.type} for question ID ${originalQuestion.id}`);
             isCorrect = false;
         }
       } catch (e) {
@@ -530,7 +533,7 @@ export async function submitTest(
       return {
         questionId: originalQuestion.id,
         questionText: originalQuestion.text,
-        questionType: originalQuestion.type as QuestionType,
+        questionType: originalQuestion.type, // Use the mapped type
         imageUrl: originalQuestion.imageUrl || undefined,
         options: Array.isArray(prismaQuestionData.options) ? prismaQuestionData.options as OptionType[] : undefined,
         statements: Array.isArray(prismaQuestionData.statements) ? prismaQuestionData.statements as TrueFalseStatement[] : undefined,
@@ -620,4 +623,3 @@ export async function deleteTestById(testId: string): Promise<{ success: boolean
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
 }
-    
