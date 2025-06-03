@@ -211,11 +211,11 @@ export default function EditTestPage() {
             passwordEnabled: !!testData.password,
             password: testData.password || '',
             questions: testData.questions.map(q => {
-              let correctAnswerValue: any;
-              const defaultStatements = q.statements || [];
-              const defaultPrompts = q.prompts || [];
-
               try {
+                let correctAnswerValue: any;
+                const defaultStatements = q.statements || [];
+                const defaultPrompts = q.prompts || [];
+
                 switch (q.type) {
                   case QuestionType.MCQ:
                   case QuestionType.TrueFalse:
@@ -251,30 +251,33 @@ export default function EditTestPage() {
                   default:
                     correctAnswerValue = '';
                 }
+                // Ensure all nested array items have an ID for useFieldArray
+                const ensureIds = <T extends { id?: string, text?: string }>(items: T[] = []): T[] => 
+                    items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
 
                 return {
-                  id: q.id,
+                  id: q.id, // Existing question ID
                   text: q.text || '',
                   type: q.type,
                   imageUrl: q.imageUrl || '',
-                  options: q.options?.map(opt => ({ ...opt, id: opt.id || crypto.randomUUID() })) || [],
-                  statements: defaultStatements.map(stmt => ({ ...stmt, id: stmt.id || crypto.randomUUID() })),
-                  categories: q.categories?.map(cat => ({ ...cat, id: cat.id || crypto.randomUUID() })) || [],
-                  hotspots: q.hotspots?.map(hs => ({ ...hs, id: hs.id || crypto.randomUUID() })) || [],
+                  options: ensureIds(q.options),
+                  statements: ensureIds(q.statements),
+                  categories: ensureIds(q.categories),
+                  hotspots: (q.hotspots || []).map(hs => ({ ...hs, id: hs.id || crypto.randomUUID() })),
                   multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
-                  prompts: defaultPrompts.map(p => ({ ...p, id: p.id || crypto.randomUUID() })),
-                  choices: q.choices?.map(c => ({ ...c, id: c.id || crypto.randomUUID() })) || [],
+                  prompts: ensureIds(q.prompts),
+                  choices: ensureIds(q.choices),
                   correctAnswer: correctAnswerValue,
                   points: q.points || 1,
                 };
-              } catch (mapError) {
-                console.error(`Error mapping question ID ${q.id} ("${q.text.substring(0,30)}...") for form:`, mapError);
-                toast({ title: "Data Error", description: `Could not load question "${q.text.substring(0,20)}...". It may have invalid data.`, variant: "destructive"});
-                return { // Return a placeholder to avoid breaking the whole form
+              } catch (mapError: any) {
+                console.error(`Error mapping question ID ${q.id || 'new'} ("${(q.text || '').substring(0,30)}...") for form:`, mapError.message, q);
+                toast({ title: "Data Loading Error", description: `Could not fully load question "${(q.text || 'Unnamed Question').substring(0,20)}...". It may have invalid data or structure. Please review and save to fix.`, variant: "destructive", duration: 7000 });
+                return { 
                     id: q.id || crypto.randomUUID(),
-                    text: `Error: Could not load question text for ID ${q.id}`,
-                    type: QuestionType.MCQ, // Default to a simple type
-                    imageUrl: '',
+                    text: `Error: Could not load question text for ID ${q.id}. Original text: ${(q.text || '').substring(0,50)}...`,
+                    type: q.type || QuestionType.MCQ, 
+                    imageUrl: q.imageUrl || '',
                     options: [{id: crypto.randomUUID(), text: 'Error Option 1'}, {id: crypto.randomUUID(), text: 'Error Option 2'}],
                     statements: [], categories: [], hotspots: [], multipleSelection: false, prompts: [], choices: [],
                     correctAnswer: '',
@@ -312,45 +315,56 @@ export default function EditTestPage() {
     }
 
     const processedQuestions = data.questions.map(q => {
-      let processedQuestion: any = { ...q };
-      
-      processedQuestion.options = q.options?.map(opt => ({ ...opt, id: opt.id || crypto.randomUUID() }));
-      processedQuestion.statements = q.statements?.map(stmt => ({ ...stmt, id: stmt.id || crypto.randomUUID() }));
-      processedQuestion.categories = q.categories?.map(cat => ({ ...cat, id: cat.id || crypto.randomUUID() }));
-      processedQuestion.hotspots = q.hotspots?.map(hs => ({ ...hs, id: hs.id || crypto.randomUUID() }));
-      processedQuestion.prompts = q.prompts?.map(p => ({ ...p, id: p.id || crypto.randomUUID() }));
-      processedQuestion.choices = q.choices?.map(c => ({ ...c, id: c.id || crypto.randomUUID() }));
+      // Ensure sub-items have IDs (primarily for newly added ones via QuestionBuilder)
+      const ensureClientIds = <T extends { id?: string }>(items: T[] = []): T[] => 
+        items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
 
+      const questionToProcess: any = { 
+        ...q,
+        id: q.id, // Preserve original question ID if it exists
+        options: ensureClientIds(q.options),
+        statements: ensureClientIds(q.statements),
+        categories: ensureClientIds(q.categories),
+        hotspots: (q.hotspots || []).map(hs => ({ ...hs, id: hs.id || crypto.randomUUID()})),
+        prompts: ensureClientIds(q.prompts),
+        choices: ensureClientIds(q.choices),
+      };
+      
+      // Ensure correctAnswer for MatchingSelect has string choiceIds (even if empty)
+      if (questionToProcess.type === QuestionType.MatchingSelect && Array.isArray(questionToProcess.correctAnswer)) {
+        questionToProcess.correctAnswer = questionToProcess.correctAnswer.map((match: any) => ({
+            promptId: match.promptId,
+            choiceId: typeof match.choiceId === 'string' ? match.choiceId : '', // Ensure choiceId is a string
+        }));
+      }
+      
+      // Remove fields not relevant to the question type to keep questionData clean
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
-        processedQuestion.options = undefined;
+        delete questionToProcess.options;
       }
       if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) {
-        processedQuestion.statements = undefined;
+        delete questionToProcess.statements;
       }
       if (q.type !== QuestionType.MatrixChoice) {
-        processedQuestion.categories = undefined;
+        delete questionToProcess.categories;
       }
       if (q.type !== QuestionType.Hotspot) {
-        processedQuestion.hotspots = undefined;
-        processedQuestion.multipleSelection = undefined;
-      }
-      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
-         processedQuestion.imageUrl = undefined;
-      }
-      if (q.type !== QuestionType.MatchingSelect) {
-        processedQuestion.prompts = undefined;
-        processedQuestion.choices = undefined;
-      } else {
-        // For MatchingSelect, ensure correctAnswer choiceIds are passed as is (e.g. '' if unmatched)
-        // The server-side Zod schema will validate if '' is acceptable or if a match is required.
-        if (Array.isArray(processedQuestion.correctAnswer)) {
-            processedQuestion.correctAnswer = processedQuestion.correctAnswer.map((match: any) => ({
-                promptId: match.promptId,
-                choiceId: match.choiceId // Pass as is, server Zod validates if '' is okay
-            }));
+        delete questionToProcess.hotspots;
+        // multipleSelection is only for hotspot, but can remain as it's optional unless explicitly removed
+        if (questionToProcess.multipleSelection === undefined) { // Ensure it's explicitly set if not hotspot
+           delete questionToProcess.multipleSelection;
         }
       }
-      return processedQuestion;
+       // Only keep imageUrl for relevant types
+      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
+         delete questionToProcess.imageUrl;
+      }
+      if (q.type !== QuestionType.MatchingSelect) {
+        delete questionToProcess.prompts;
+        delete questionToProcess.choices;
+      }
+      
+      return questionToProcess;
     });
 
     formData.append('questions', JSON.stringify(processedQuestions));
@@ -362,6 +376,7 @@ export default function EditTestPage() {
         title: 'Error Updating Test',
         description: result.error + (result.issues ? ` Issues: ${JSON.stringify(result.issues)}` : ''),
         variant: 'destructive',
+        duration: 7000,
       });
     } else if (result.testId) {
       toast({
