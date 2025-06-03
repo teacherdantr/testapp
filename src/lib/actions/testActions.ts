@@ -243,7 +243,7 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
           password: password || null,
           questions: {
             create: formQuestions.map(q => ({
-              id: q.id, // Use client-provided ID for existing, or rely on Prisma for new (though we delete all first)
+              id: q.id, 
               text: q.text,
               type: q.type,
               points: q.points,
@@ -269,18 +269,49 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
   }
 }
 
+// Helper to ensure array items are valid objects with id and text
+const ensureValidItemsWithIdAndText = (items: any, itemType: 'Option' | 'Statement' | 'Category' | 'Prompt' | 'Choice'): any[] | undefined => {
+  if (!Array.isArray(items)) return undefined;
+  const validItems = items.filter(item => item && typeof item.id === 'string' && typeof item.text === 'string');
+  if (validItems.length !== items.length) {
+    console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemType} array. Original count: ${items.length}, Valid count: ${validItems.length}`);
+  }
+  return validItems.map(item => ({ id: item.id, text: item.text }));
+};
+
+// Helper to ensure hotspot items are valid
+const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
+    if (!Array.isArray(items)) return undefined;
+    const validItems = items.filter(item =>
+        item &&
+        typeof item.id === 'string' &&
+        Object.values(HotspotShapeType).includes(item.shape as HotspotShapeType) &&
+        typeof item.coords === 'string' && item.coords.trim() !== '' &&
+        (item.label === undefined || typeof item.label === 'string')
+    );
+    if (validItems.length !== items.length) {
+        console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from Hotspot array. Original count: ${items.length}, Valid count: ${validItems.length}`);
+    }
+    return validItems.map(item => ({
+        id: item.id,
+        shape: item.shape as HotspotShapeType,
+        coords: item.coords,
+        label: item.label,
+    }));
+};
+
+
 function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPayload<{}>): Question {
   const qData = prismaQuestion.questionData as Prisma.JsonObject || {};
   
   let typeValue = prismaQuestion.type;
   if (typeof typeValue === 'string') {
-    typeValue = typeValue.toUpperCase(); // Ensure it's uppercase to match enum
+    typeValue = typeValue.toUpperCase();
   }
 
-  // Validate if the (now uppercased) typeValue is a valid QuestionType
   if (!Object.values(QuestionType).includes(typeValue as QuestionType)) {
     console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: Original='${prismaQuestion.type}', Uppercased='${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
-    typeValue = QuestionType.MCQ; // Fallback to a default type
+    typeValue = QuestionType.MCQ;
   }
   
   return {
@@ -289,14 +320,14 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
     type: typeValue as QuestionType,
     imageUrl: prismaQuestion.imageUrl || undefined,
     points: prismaQuestion.points,
-    options: Array.isArray(qData.options) ? qData.options as OptionType[] : undefined,
-    statements: Array.isArray(qData.statements) ? qData.statements as TrueFalseStatement[] : undefined,
-    categories: Array.isArray(qData.categories) ? qData.categories as Category[] : undefined,
-    hotspots: Array.isArray(qData.hotspots) ? qData.hotspots as HotspotArea[] : undefined,
+    options: ensureValidItemsWithIdAndText(qData.options, 'Option') as OptionType[] | undefined,
+    statements: ensureValidItemsWithIdAndText(qData.statements, 'Statement') as TrueFalseStatement[] | undefined,
+    categories: ensureValidItemsWithIdAndText(qData.categories, 'Category') as Category[] | undefined,
+    hotspots: ensureValidHotspotItems(qData.hotspots),
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
-    prompts: Array.isArray(qData.prompts) ? qData.prompts as MatchingItem[] : undefined,
-    choices: Array.isArray(qData.choices) ? qData.choices as MatchingItem[] : undefined,
-    correctAnswer: qData.correctAnswer as any, // This includes the correct answer for admin/grading
+    prompts: ensureValidItemsWithIdAndText(qData.prompts, 'Prompt') as MatchingItem[] | undefined,
+    choices: ensureValidItemsWithIdAndText(qData.choices, 'Choice') as MatchingItem[] | undefined,
+    correctAnswer: qData.correctAnswer as any, 
   };
 }
 
@@ -310,7 +341,6 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
 
     if (!test) return null;
 
-    // Use the robust mapping function, then strip correct answers for student view
     const processedQuestionsWithAnswers = test.questions.map(mapPrismaQuestionToViewQuestion);
 
     const studentViewQuestions = processedQuestionsWithAnswers.map(q => {
@@ -318,10 +348,10 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
       const { correctAnswer, ...studentQuestionFields } = q;
       return {
         ...studentQuestionFields,
-         choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices)) // Shuffle choices only for MatchingSelect on student view
+         choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices)) 
           ? [...q.choices].sort(() => Math.random() - 0.5)
           : q.choices,
-        correctAnswer: '' as any, // Ensure student does not get the correct answer
+        correctAnswer: '' as any, 
       };
     });
 
@@ -590,6 +620,4 @@ export async function deleteTestById(testId: string): Promise<{ success: boolean
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
 }
-    
-
     
