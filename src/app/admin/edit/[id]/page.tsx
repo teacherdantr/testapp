@@ -104,7 +104,8 @@ const questionSchema = z.object({
            data.correctAnswer.length === data.prompts.length &&
            (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match =>
              data.prompts?.some(p => p.id === match.promptId) &&
-             data.choices?.some(c => c.id === match.choiceId)
+             data.choices?.some(c => c.id === match.choiceId) &&
+             match.choiceId.trim() !== '' // This is the key check for matching select
            );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
@@ -214,58 +215,72 @@ export default function EditTestPage() {
               const defaultStatements = q.statements || [];
               const defaultPrompts = q.prompts || [];
 
-              switch (q.type) {
-                case QuestionType.MCQ:
-                case QuestionType.TrueFalse:
-                case QuestionType.ShortAnswer:
-                  correctAnswerValue = q.correctAnswer || '';
-                  break;
-                case QuestionType.MultipleChoiceMultipleAnswer:
-                  correctAnswerValue = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
-                  break;
-                case QuestionType.MultipleTrueFalse:
-                case QuestionType.MatrixChoice:
-                  correctAnswerValue = (Array.isArray(q.correctAnswer) && q.correctAnswer.length === defaultStatements.length)
-                    ? q.correctAnswer
-                    : defaultStatements.map(() => (q.type === QuestionType.MultipleTrueFalse ? 'false' : ''));
-                  break;
-                case QuestionType.Hotspot:
-                  if (q.multipleSelection) {
+              try {
+                switch (q.type) {
+                  case QuestionType.MCQ:
+                  case QuestionType.TrueFalse:
+                  case QuestionType.ShortAnswer:
+                    correctAnswerValue = q.correctAnswer || '';
+                    break;
+                  case QuestionType.MultipleChoiceMultipleAnswer:
                     correctAnswerValue = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
-                  } else {
-                    correctAnswerValue = typeof q.correctAnswer === 'string' ? q.correctAnswer : '';
-                  }
-                  break;
-                case QuestionType.MatchingSelect:
-                  let matches = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
-                  // Ensure structure and length match prompts
-                  if (matches.length !== defaultPrompts.length || !matches.every(m => typeof m === 'object' && m !== null && 'promptId' in m && 'choiceId' in m)) {
-                    matches = defaultPrompts.map(p => ({ promptId: p.id, choiceId: '' }));
-                  }
-                  correctAnswerValue = matches.map(match => ({
-                    promptId: (match as any).promptId,
-                    choiceId: (match as any).choiceId === null || (match as any).choiceId === undefined ? '' : String((match as any).choiceId),
-                  }));
-                  break;
-                default:
-                  correctAnswerValue = '';
-              }
+                    break;
+                  case QuestionType.MultipleTrueFalse:
+                  case QuestionType.MatrixChoice:
+                    correctAnswerValue = (Array.isArray(q.correctAnswer) && q.correctAnswer.length === defaultStatements.length)
+                      ? q.correctAnswer
+                      : defaultStatements.map(() => (q.type === QuestionType.MultipleTrueFalse ? 'false' : ''));
+                    break;
+                  case QuestionType.Hotspot:
+                    if (q.multipleSelection) {
+                      correctAnswerValue = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
+                    } else {
+                      correctAnswerValue = typeof q.correctAnswer === 'string' ? q.correctAnswer : '';
+                    }
+                    break;
+                  case QuestionType.MatchingSelect:
+                    let matches = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
+                    if (matches.length !== defaultPrompts.length || !matches.every(m => typeof m === 'object' && m !== null && 'promptId' in m && 'choiceId' in m)) {
+                      matches = defaultPrompts.map(p => ({ promptId: p.id, choiceId: '' }));
+                    }
+                    correctAnswerValue = matches.map(match => ({
+                      promptId: (match as any).promptId,
+                      choiceId: (match as any).choiceId === null || (match as any).choiceId === undefined ? '' : String((match as any).choiceId),
+                    }));
+                    break;
+                  default:
+                    correctAnswerValue = '';
+                }
 
-              return {
-                id: q.id,
-                text: q.text || '',
-                type: q.type,
-                imageUrl: q.imageUrl || '',
-                options: q.options?.map(opt => ({ ...opt, id: opt.id || crypto.randomUUID() })) || [],
-                statements: defaultStatements.map(stmt => ({ ...stmt, id: stmt.id || crypto.randomUUID() })),
-                categories: q.categories?.map(cat => ({ ...cat, id: cat.id || crypto.randomUUID() })) || [],
-                hotspots: q.hotspots?.map(hs => ({ ...hs, id: hs.id || crypto.randomUUID() })) || [],
-                multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
-                prompts: defaultPrompts.map(p => ({ ...p, id: p.id || crypto.randomUUID() })),
-                choices: q.choices?.map(c => ({ ...c, id: c.id || crypto.randomUUID() })) || [],
-                correctAnswer: correctAnswerValue,
-                points: q.points || 1,
-              };
+                return {
+                  id: q.id,
+                  text: q.text || '',
+                  type: q.type,
+                  imageUrl: q.imageUrl || '',
+                  options: q.options?.map(opt => ({ ...opt, id: opt.id || crypto.randomUUID() })) || [],
+                  statements: defaultStatements.map(stmt => ({ ...stmt, id: stmt.id || crypto.randomUUID() })),
+                  categories: q.categories?.map(cat => ({ ...cat, id: cat.id || crypto.randomUUID() })) || [],
+                  hotspots: q.hotspots?.map(hs => ({ ...hs, id: hs.id || crypto.randomUUID() })) || [],
+                  multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
+                  prompts: defaultPrompts.map(p => ({ ...p, id: p.id || crypto.randomUUID() })),
+                  choices: q.choices?.map(c => ({ ...c, id: c.id || crypto.randomUUID() })) || [],
+                  correctAnswer: correctAnswerValue,
+                  points: q.points || 1,
+                };
+              } catch (mapError) {
+                console.error(`Error mapping question ID ${q.id} ("${q.text.substring(0,30)}...") for form:`, mapError);
+                toast({ title: "Data Error", description: `Could not load question "${q.text.substring(0,20)}...". It may have invalid data.`, variant: "destructive"});
+                return { // Return a placeholder to avoid breaking the whole form
+                    id: q.id || crypto.randomUUID(),
+                    text: `Error: Could not load question text for ID ${q.id}`,
+                    type: QuestionType.MCQ, // Default to a simple type
+                    imageUrl: '',
+                    options: [{id: crypto.randomUUID(), text: 'Error Option 1'}, {id: crypto.randomUUID(), text: 'Error Option 2'}],
+                    statements: [], categories: [], hotspots: [], multipleSelection: false, prompts: [], choices: [],
+                    correctAnswer: '',
+                    points: 1,
+                };
+              }
             }),
           });
         } else {
@@ -293,13 +308,12 @@ export default function EditTestPage() {
     if (data.passwordEnabled && data.password) {
         formData.append('password', data.password);
     } else {
-        formData.append('password', ''); // Send empty string to signify password removal
+        formData.append('password', ''); 
     }
 
     const processedQuestions = data.questions.map(q => {
       let processedQuestion: any = { ...q };
       
-      // Ensure IDs for array items for Prisma update/create
       processedQuestion.options = q.options?.map(opt => ({ ...opt, id: opt.id || crypto.randomUUID() }));
       processedQuestion.statements = q.statements?.map(stmt => ({ ...stmt, id: stmt.id || crypto.randomUUID() }));
       processedQuestion.categories = q.categories?.map(cat => ({ ...cat, id: cat.id || crypto.randomUUID() }));
@@ -307,8 +321,6 @@ export default function EditTestPage() {
       processedQuestion.prompts = q.prompts?.map(p => ({ ...p, id: p.id || crypto.randomUUID() }));
       processedQuestion.choices = q.choices?.map(c => ({ ...c, id: c.id || crypto.randomUUID() }));
 
-
-      // Clear fields not relevant to the question type
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
         processedQuestion.options = undefined;
       }
@@ -320,21 +332,21 @@ export default function EditTestPage() {
       }
       if (q.type !== QuestionType.Hotspot) {
         processedQuestion.hotspots = undefined;
-        // multipleSelection is only for hotspot, but can remain as it's optional unless explicitly undefined
         processedQuestion.multipleSelection = undefined;
       }
-      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer && q.type !== QuestionType.Hotspot && q.type !== QuestionType.MatchingSelect) {
+      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
          processedQuestion.imageUrl = undefined;
       }
       if (q.type !== QuestionType.MatchingSelect) {
         processedQuestion.prompts = undefined;
         processedQuestion.choices = undefined;
       } else {
-         // For MatchingSelect, ensure correctAnswer choiceIds are not empty strings if they are meant to be null/unanswered
+        // For MatchingSelect, ensure correctAnswer choiceIds are passed as is (e.g. '' if unmatched)
+        // The server-side Zod schema will validate if '' is acceptable or if a match is required.
         if (Array.isArray(processedQuestion.correctAnswer)) {
             processedQuestion.correctAnswer = processedQuestion.correctAnswer.map((match: any) => ({
-                ...match,
-                choiceId: match.choiceId === '' ? null : match.choiceId
+                promptId: match.promptId,
+                choiceId: match.choiceId // Pass as is, server Zod validates if '' is okay
             }));
         }
       }
@@ -454,6 +466,6 @@ export default function EditTestPage() {
     </div>
   );
 }
-
+    
 
     
