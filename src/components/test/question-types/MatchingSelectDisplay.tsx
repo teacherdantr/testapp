@@ -20,7 +20,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       });
       setMatchingAnswers(currentMatches);
     } catch (e) {
-      console.error("[MatchingSelectDisplay] Error parsing userAnswer for initial state:", e, "User Answer:", userAnswer);
+      // console.error("[MatchingSelectDisplay] Error parsing userAnswer for initial state:", e, "User Answer:", userAnswer);
       setMatchingAnswers((question.prompts || []).map(p => ({ promptId: p.id, choiceId: null })));
     }
   }, [userAnswer, question.prompts]);
@@ -37,6 +37,11 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       // Ensure choice.id is a string and not empty after trimming
       if (typeof choice.id !== 'string' || choice.id.trim() === '') {
         // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, choice);
+        return false;
+      }
+      // Ensure choice.text is also a string (though SelectItem usually handles non-string children, good to be safe)
+      if (typeof choice.text !== 'string') {
+        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid text type (text: ${JSON.stringify(choice.text)}, type: ${typeof choice.text}):`, choice);
         return false;
       }
       return true;
@@ -68,7 +73,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     onAnswerChange(question.id, JSON.stringify(newAnswers));
   };
 
-  if (!question.prompts) {
+  if (!question.prompts || question.prompts.length === 0) {
     // console.warn("[MatchingSelectDisplay] No prompts found for question:", question.id);
     return <p className="text-destructive">Configuration error: No prompts for matching question.</p>;
   }
@@ -101,14 +106,21 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
             <SelectContent>
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
               {validShuffledChoices.map((choice: MatchingItem) => {
-                // This check should ideally be redundant due to filtering, but as a last resort:
-                if (typeof choice.id !== 'string' || choice.id.trim() === '') {
-                  console.error("CRITICAL: Rendering SelectItem with invalid ID despite filters:", choice);
-                  return null; // Avoid rendering if ID is still invalid
+                // Final defensive check at render time
+                const choiceIdStr = String(choice.id || '').trim();
+                const choiceTextStr = String(choice.text || ''); // Text can be empty, but ID cannot for value
+
+                if (choiceIdStr === '') {
+                  console.error(
+                    `[MatchingSelectDisplay] CRITICAL: Skipping SelectItem due to effectively empty id ('${choiceIdStr}') after all filters. Original choice:`,
+                    JSON.stringify(choice)
+                  );
+                  return null; // Do not render this SelectItem if its ID is effectively empty
                 }
+
                 return (
-                  <SelectItem key={choice.id} value={choice.id} className="text-base">
-                    {choice.text}
+                  <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
+                    {choiceTextStr} {/* Display original text, even if it was just spaces */}
                   </SelectItem>
                 );
               })}
