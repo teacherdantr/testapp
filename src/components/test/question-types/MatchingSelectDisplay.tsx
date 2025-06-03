@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -21,21 +20,45 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       });
       setMatchingAnswers(currentMatches);
     } catch (e) {
+      console.error("[MatchingSelectDisplay] Error parsing userAnswer for initial state:", e, "User Answer:", userAnswer);
       setMatchingAnswers((question.prompts || []).map(p => ({ promptId: p.id, choiceId: null })));
     }
   }, [userAnswer, question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
-    if (!question.choices) return [];
-    let choicesCopy = [...question.choices].filter(choice => choice.id && choice.id.trim() !== ''); // Ensure choices have valid IDs
-    if (testMode === 'testing' || testMode === 'race') {
-      for (let i = choicesCopy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [choicesCopy[i], choicesCopy[j]] = [choicesCopy[j], choicesCopy[i]];
+    // console.log('[MatchingSelectDisplay] Received question.choices:', JSON.parse(JSON.stringify(question.choices || [])));
+
+    // 1. Filter first, always.
+    const filteredChoices = (question.choices || []).filter(choice => {
+      if (!choice) {
+        // console.warn('[MatchingSelectDisplay] Filtering out null/undefined choice object.');
+        return false;
       }
+      // Ensure choice.id is a string and not empty after trimming
+      if (typeof choice.id !== 'string' || choice.id.trim() === '') {
+        // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, choice);
+        return false;
+      }
+      return true;
+    });
+    // console.log('[MatchingSelectDisplay] After initial filtering - filteredChoices:', JSON.parse(JSON.stringify(filteredChoices)));
+
+    // 2. Then shuffle if necessary.
+    if (testMode === 'testing' || testMode === 'race') {
+      const shuffledFilteredChoices = [...filteredChoices];
+      for (let i = shuffledFilteredChoices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledFilteredChoices[i], shuffledFilteredChoices[j]] = [shuffledFilteredChoices[j], shuffledFilteredChoices[i]];
+      }
+      // console.log('[MatchingSelectDisplay] After shuffling - shuffledFilteredChoices:', JSON.parse(JSON.stringify(shuffledFilteredChoices)));
+      return shuffledFilteredChoices;
     }
-    return choicesCopy;
+    
+    // console.log('[MatchingSelectDisplay] Training mode - returning filteredChoices directly:', JSON.parse(JSON.stringify(filteredChoices)));
+    return filteredChoices;
+
   }, [question.choices, testMode]);
+
 
   const handleMatchingSelectChange = (promptId: string, choiceId: string) => {
     const newAnswers = matchingAnswers.map(match =>
@@ -45,7 +68,18 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     onAnswerChange(question.id, JSON.stringify(newAnswers));
   };
 
-  if (!question.prompts || !validShuffledChoices) return null;
+  if (!question.prompts) {
+    // console.warn("[MatchingSelectDisplay] No prompts found for question:", question.id);
+    return <p className="text-destructive">Configuration error: No prompts for matching question.</p>;
+  }
+   if (!validShuffledChoices || validShuffledChoices.length === 0) {
+    // console.warn("[MatchingSelectDisplay] No valid choices found for question:", question.id, "Original choices:", question.choices);
+     if (!question.choices || question.choices.length === 0) {
+        return <p className="text-destructive">Configuration error: No choices defined for matching question.</p>;
+     }
+    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question.</p>;
+  }
+
 
   return (
     <div className="space-y-4">
@@ -66,11 +100,18 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
-              {validShuffledChoices.map((choice: MatchingItem) => ( // Explicitly type choice
-                <SelectItem key={choice.id} value={choice.id} className="text-base">
-                  {choice.text}
-                </SelectItem>
-              ))}
+              {validShuffledChoices.map((choice: MatchingItem) => {
+                // This check should ideally be redundant due to filtering, but as a last resort:
+                if (typeof choice.id !== 'string' || choice.id.trim() === '') {
+                  console.error("CRITICAL: Rendering SelectItem with invalid ID despite filters:", choice);
+                  return null; // Avoid rendering if ID is still invalid
+                }
+                return (
+                  <SelectItem key={choice.id} value={choice.id} className="text-base">
+                    {choice.text}
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
         </div>
