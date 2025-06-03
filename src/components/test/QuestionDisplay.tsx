@@ -25,6 +25,8 @@ interface QuestionDisplayProps {
   userAnswer: string | undefined;
   onAnswerChange: (questionId: string, answer: string) => void;
   testMode: 'training' | 'testing' | 'race' | null;
+  // Add onImageClick prop
+  onImageClick?: (imageUrl: string) => void;
 }
 
 export function QuestionDisplay({
@@ -34,6 +36,7 @@ export function QuestionDisplay({
   userAnswer,
   onAnswerChange,
   testMode,
+  onImageClick,
 }: QuestionDisplayProps) {
 
   const [selectedMcmaOptions, setSelectedMcmaOptions] = useState<string[]>([]);
@@ -44,13 +47,23 @@ export function QuestionDisplay({
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
-
-  const openImageModal = (url: string) => {
-    setModalImageUrl(url);
-    setIsImageModalOpen(true);
-  };
+  // Consolidate options preparation
+  const optionsToDisplay = useMemo(() => {
+    if (!question.options) {
+      return [];
+    }
+    // Shuffle only for MCQ/MCMA in testing or race mode
+    if ((testMode === 'testing' || testMode === 'race') && 
+        (question.type === QuestionType.MCQ || question.type === QuestionType.MultipleChoiceMultipleAnswer)) {
+      const optionsCopy = [...question.options];
+      for (let i = optionsCopy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
+      }
+      return optionsCopy;
+    }
+    return question.options; // Return original options if not shuffling
+  }, [question.options, question.type, testMode]);
 
 
   useEffect(() => {
@@ -100,31 +113,6 @@ export function QuestionDisplay({
       }
     }
   }, [userAnswer, question.id, question.type, question.statements, question.categories, question.hotspots, question.prompts]);
-
-  const shuffledMcqOptions = useMemo(() => {
-    if (question.options && question.type === QuestionType.MCQ && (testMode === 'testing' || testMode === 'race')) {
-      const optionsCopy = [...question.options];
-      for (let i = optionsCopy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
-      }
-      return optionsCopy;
-    }
-    return question.options || [];
-  }, [question.options, question.type, testMode]);
-
-  const shuffledMcmaOptions = useMemo(() => {
-    if (question.options && question.type === QuestionType.MultipleChoiceMultipleAnswer && (testMode === 'testing' || testMode === 'race')) {
-      const optionsCopy = [...question.options];
-      for (let i = optionsCopy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
-      }
-      return optionsCopy;
-    }
-    return question.options || [];
-  }, [question.options, question.type, testMode]);
-
 
   const shuffledMatchingChoices = useMemo(() => {
     if (question.type === QuestionType.MatchingSelect && question.choices) {
@@ -271,32 +259,18 @@ export function QuestionDisplay({
     }
 
     return (
-      <Dialog open={isImageModalOpen && modalImageUrl === imageUrl} onOpenChange={(isOpen) => { if (!isOpen) setModalImageUrl(null); setIsImageModalOpen(isOpen); }}>
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            onClick={() => openImageModal(imageUrl)}
-            className="mb-4 relative w-full max-w-md mx-auto border rounded-md overflow-hidden group block cursor-pointer hover:ring-2 hover:ring-primary focus:outline-none focus:ring-2 focus:ring-primary"
-            aria-label={`Enlarge image for ${altText}`}
-            data-ai-hint="question illustration"
-          >
-            {imageComponent}
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200">
-              <Maximize2 className="h-10 w-10 text-white" />
-            </div>
-          </button>
-        </DialogTrigger>
-        <DialogContent className="max-w-3xl p-2">
-          <NextImage
-            src={imageUrl}
-            alt={altText + " - Enlarged"}
-            width={1200}
-            height={800}
-            className="w-full h-auto object-contain rounded-md"
-          />
-          <DialogClose className="absolute right-2 top-2" />
-        </DialogContent>
-      </Dialog>
+      <button
+        type="button"
+        onClick={() => onImageClick && onImageClick(imageUrl)}
+        className="mb-4 relative w-full max-w-md mx-auto border rounded-md overflow-hidden group block cursor-pointer hover:ring-2 hover:ring-primary focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label={`Enlarge image for ${altText}`}
+        data-ai-hint="question illustration"
+      >
+        {imageComponent}
+        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200">
+          <Maximize2 className="h-10 w-10 text-white" />
+        </div>
+      </button>
     );
   };
 
@@ -321,7 +295,7 @@ export function QuestionDisplay({
         <div className="space-y-4">
           {question.type === QuestionType.MCQ && (
             <RadioGroup value={userAnswer} onValueChange={handleRadioChange} className="space-y-2">
-              {shuffledMcqOptions.map((option: Option) => (
+              {optionsToDisplay.map((option: Option) => (
                 <div key={option.id} className="flex items-center space-x-3 p-3 rounded-md border border-input hover:bg-accent/10 transition-colors has-[[data-state=checked]]:bg-accent has-[[data-state=checked]]:text-accent-foreground has-[[data-state=checked]]:border-accent">
                   <RadioGroupItem value={option.text} id={`${question.id}-${option.id}`} />
                   <Label htmlFor={`${question.id}-${option.id}`} className="text-base font-normal cursor-pointer flex-grow">
@@ -334,7 +308,7 @@ export function QuestionDisplay({
 
           {question.type === QuestionType.MultipleChoiceMultipleAnswer && (
             <div className="space-y-2">
-              {shuffledMcmaOptions.map((option: Option) => (
+              {optionsToDisplay.map((option: Option) => (
                 <div key={option.id} className="flex items-center space-x-3 p-3 rounded-md border border-input hover:bg-accent/10 transition-colors has-[[data-state=checked]]:bg-accent has-[[data-state=checked]]:text-accent-foreground has-[[data-state=checked]]:border-accent">
                   <Checkbox
                     id={`${question.id}-${option.id}`}
@@ -574,3 +548,4 @@ export function QuestionDisplay({
     </Card>
   );
 }
+
