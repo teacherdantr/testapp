@@ -53,7 +53,7 @@ export function QuestionDisplay({
       return [];
     }
     // Shuffle only for MCQ/MCMA in testing or race mode
-    if ((testMode === 'testing' || testMode === 'race') && 
+    if ((testMode === 'testing' || testMode === 'race') &&
         (question.type === QuestionType.MCQ || question.type === QuestionType.MultipleChoiceMultipleAnswer)) {
       const optionsCopy = [...question.options];
       for (let i = optionsCopy.length - 1; i > 0; i--) {
@@ -308,7 +308,7 @@ export function QuestionDisplay({
 
           {question.type === QuestionType.MultipleChoiceMultipleAnswer && (
             <div className="space-y-2">
-              {optionsToDisplay.map((option: Option) => (
+              {(testMode === 'training' ? (question.options || []) : optionsToDisplay).map((option: Option) => (
                 <div key={option.id} className="flex items-center space-x-3 p-3 rounded-md border border-input hover:bg-accent/10 transition-colors has-[[data-state=checked]]:bg-accent has-[[data-state=checked]]:text-accent-foreground has-[[data-state=checked]]:border-accent">
                   <Checkbox
                     id={`${question.id}-${option.id}`}
@@ -548,4 +548,3 @@ export function QuestionDisplay({
     </Card>
   );
 }
-
