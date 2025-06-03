@@ -520,7 +520,7 @@ export async function submitTest(
       data: {
         userId: userId,
         testId: testIdString,
-        testTitleSnapshot: testWithQuestions.title,
+        testTitle: testWithQuestions.title, // Changed from testTitleSnapshot
         score: score,
         totalPoints: totalPoints,
         questionResultsDetails: resultForClient.questionResults as Prisma.JsonArray, // Cast to Prisma.JsonArray

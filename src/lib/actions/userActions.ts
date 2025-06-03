@@ -25,7 +25,7 @@ export async function fetchUserScoreHistory(userId: string): Promise<StoredTestR
     return userScoresFromDb.map(score => ({
       userId: score.userId,
       testId: score.testId,
-      testTitle: score.testTitleSnapshot, // Use the snapshot
+      testTitle: score.testTitle, // Changed from testTitleSnapshot
       score: score.score,
       totalPoints: score.totalPoints,
       questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches
@@ -49,7 +49,7 @@ export async function fetchAllPublicTestSubmissions(): Promise<StoredTestResult[
     return allScoresFromDb.map(score => ({
       userId: score.userId,
       testId: score.testId,
-      testTitle: score.testTitleSnapshot, // Use the snapshot
+      testTitle: score.testTitle, // Changed from testTitleSnapshot
       score: score.score,
       totalPoints: score.totalPoints,
       questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches

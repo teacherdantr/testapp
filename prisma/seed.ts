@@ -1,5 +1,5 @@
 
-import { PrismaClient, QuestionType, HotspotShapeType } from '@prisma/client';
+import { PrismaClient, QuestionType, HotspotShapeType } from '@prisma/client';;
 // Adjust the path based on your project structure.
 // If seed.ts is in prisma/ and L6P1.json is in src/data/tests/
 import L6P1Data from '../src/data/tests/L6P1.json';
@@ -26,18 +26,14 @@ function mapQuestionType(jsonType: string): QuestionType {
 }
 
 // Helper function to map JSON hotspot shape string to Prisma Enum
-function mapHotspotShapeType(jsonShape: string | undefined): HotspotShapeType {
-  if (!HotspotShapeType) {
-    throw new Error("Prisma enum 'HotspotShapeType' is not available. Did you run 'npx prisma generate'?");
-  }
-  if (!jsonShape) return HotspotShapeType.Rectangle; // Default if undefined
-  switch (jsonShape.toLowerCase()) {
-    case 'rect': return HotspotShapeType.Rectangle;
+function mapHotspotShapeType(shapeType: string): HotspotShapeType {
+  switch (shapeType) {
+    case 'Rectangle':
+      return "Rectangle" as HotspotShapeType;
     case 'circle': return HotspotShapeType.Circle;
-    case 'poly': return HotspotShapeType.Polygon;
+    case 'Polygon': return HotspotShapeType.Polygon;
     default:
-      console.warn(`Unknown hotspot shape type from JSON: ${jsonShape}, defaulting to Rectangle`);
-      return HotspotShapeType.Rectangle;
+      throw new Error(`Unknown hotspot shape type: ${shapeType}`);
   }
 }
 

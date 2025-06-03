@@ -228,37 +228,37 @@
       "hotspots": [
         {
           "id": "hs_headset_lv01q8",
-          "shape": "rect",
-          "coords": "0.05,0.05,0.25,0.4",
+          "shape": "Rectangle", 
+          "coords": "0.05,0.05,0.25,0.40",
           "label": "Tai nghe (Headset)"
         },
         {
           "id": "hs_monitor_lv01q8",
-          "shape": "rect",
-          "coords": "0.35,0.1,0.3,0.5",
+          "shape": "Rectangle", 
+          "coords": "0.35,0.10,0.30,0.50",
           "label": "Màn hình (Monitor)"
         },
         {
           "id": "hs_tower_lv01q8",
-          "shape": "rect",
-          "coords": "0.7,0.05,0.25,0.55",
+          "shape": "Rectangle", 
+          "coords": "0.70,0.05,0.25,0.55",
           "label": "Thân máy (Desktop Tower)"
         },
         {
           "id": "hs_printer_lv01q8",
-          "shape": "rect",
-          "coords": "0.05,0.55,0.3,0.3",
+          "shape": "Rectangle", 
+          "coords": "0.05,0.55,0.30,0.30",
           "label": "Máy in (Printer)"
         },
         {
           "id": "hs_keyboard_lv01q8",
-          "shape": "rect",
+          "shape": "Rectangle",
           "coords": "0.32,0.68,0.48,0.22",
           "label": "Bàn phím (Keyboard)"
         },
         {
           "id": "hs_mouse_lv01q8",
-          "shape": "rect",
+          "shape": "Rectangle",
           "coords": "0.75,0.7,0.15,0.2",
           "label": "Chuột (Mouse)"
         }
