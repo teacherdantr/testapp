@@ -8,6 +8,9 @@ const prisma = new PrismaClient();
 
 // Helper function to map JSON question type string to Prisma Enum
 function mapQuestionType(jsonType: string): QuestionType {
+  if (!QuestionType) {
+    throw new Error("Prisma enum 'QuestionType' is not available. Did you run 'npx prisma generate'?");
+  }
   switch (jsonType.toUpperCase()) {
     case 'MCQ': return QuestionType.MCQ;
     case 'MCMA': return QuestionType.MultipleChoiceMultipleAnswer; // Matches your L6P1.json
@@ -24,6 +27,9 @@ function mapQuestionType(jsonType: string): QuestionType {
 
 // Helper function to map JSON hotspot shape string to Prisma Enum
 function mapHotspotShapeType(jsonShape: string | undefined): HotspotShapeType {
+  if (!HotspotShapeType) {
+    throw new Error("Prisma enum 'HotspotShapeType' is not available. Did you run 'npx prisma generate'?");
+  }
   if (!jsonShape) return HotspotShapeType.Rectangle; // Default if undefined
   switch (jsonShape.toLowerCase()) {
     case 'rect': return HotspotShapeType.Rectangle;
@@ -42,7 +48,7 @@ async function main() {
   try {
     // Prisma requires deleting related records (questions) before deleting the parent (test)
     // if there's a required relation.
-    await prisma.question.deleteMany({ where: { test_id: L6P1Data.id } });
+    await prisma.question.deleteMany({ where: { testId: L6P1Data.id } }); // Corrected: test_id to testId
     await prisma.test.delete({ where: { id: L6P1Data.id } });
     console.log(`Deleted existing test with ID: ${L6P1Data.id} and its questions.`);
   } catch (error: any) {
@@ -122,3 +128,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
