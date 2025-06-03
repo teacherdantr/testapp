@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import { z } from 'zod';
@@ -243,7 +244,7 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
           password: password || null,
           questions: {
             create: formQuestions.map(q => ({
-              id: q.id, 
+              id: q.id,
               text: q.text,
               type: q.type,
               points: q.points,
@@ -272,7 +273,7 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
 // Helper to ensure array items are valid objects with id and text
 const ensureValidItemsWithIdAndText = (items: any, itemType: 'Option' | 'Statement' | 'Category' | 'Prompt' | 'Choice'): any[] | undefined => {
   if (!Array.isArray(items)) return undefined;
-  const validItems = items.filter(item => item && typeof item.id === 'string' && typeof item.text === 'string');
+  const validItems = items.filter(item => item && typeof item.id === 'string' && item.id.trim() !== '' && typeof item.text === 'string');
   if (validItems.length !== items.length) {
     console.warn(`[mapPrismaQuestionToViewQuestion] Filtered out invalid items from ${itemType} array for a question. Original count: ${items.length}, Valid count: ${validItems.length}`);
   }
@@ -284,7 +285,7 @@ const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
     if (!Array.isArray(items)) return undefined;
     const validItems = items.filter(item =>
         item &&
-        typeof item.id === 'string' &&
+        typeof item.id === 'string' && item.id.trim() !== '' &&
         Object.values(HotspotShapeType).includes(item.shape as HotspotShapeType) &&
         typeof item.coords === 'string' && item.coords.trim() !== '' &&
         (item.label === undefined || typeof item.label === 'string')
@@ -303,15 +304,14 @@ const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
 
 function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPayload<{}>): Question {
   const qData = prismaQuestion.questionData as Prisma.JsonObject || {};
-  
+
   let typeValue = prismaQuestion.type;
-  // Removed typeValue = typeValue.toUpperCase();
 
   if (!Object.values(QuestionType).includes(typeValue as QuestionType)) {
     console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: '${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
     typeValue = QuestionType.MCQ;
   }
-  
+
   return {
     id: prismaQuestion.id,
     text: prismaQuestion.text,
@@ -325,7 +325,7 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
     prompts: ensureValidItemsWithIdAndText(qData.prompts, 'Prompt') as MatchingItem[] | undefined,
     choices: ensureValidItemsWithIdAndText(qData.choices, 'Choice') as MatchingItem[] | undefined,
-    correctAnswer: qData.correctAnswer as any, 
+    correctAnswer: qData.correctAnswer as any,
   };
 }
 
@@ -346,10 +346,10 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
       const { correctAnswer, ...studentQuestionFields } = q;
       return {
         ...studentQuestionFields,
-         choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices)) 
+         choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices))
           ? [...q.choices].sort(() => Math.random() - 0.5)
           : q.choices,
-        correctAnswer: '' as any, 
+        correctAnswer: '' as any,
       };
     });
 

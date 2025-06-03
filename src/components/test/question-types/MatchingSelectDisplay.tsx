@@ -1,10 +1,12 @@
 
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { MatchingItem } from '@/lib/types';
 
 export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
   const [matchingAnswers, setMatchingAnswers] = useState<Array<{ promptId: string, choiceId: string | null }>>([]);
@@ -23,9 +25,9 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     }
   }, [userAnswer, question.prompts]);
 
-  const shuffledMatchingChoices = useMemo(() => {
+  const validShuffledChoices = useMemo(() => {
     if (!question.choices) return [];
-    const choicesCopy = [...question.choices];
+    let choicesCopy = [...question.choices].filter(choice => choice.id && choice.id.trim() !== ''); // Ensure choices have valid IDs
     if (testMode === 'testing' || testMode === 'race') {
       for (let i = choicesCopy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -43,7 +45,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     onAnswerChange(question.id, JSON.stringify(newAnswers));
   };
 
-  if (!question.prompts || !shuffledMatchingChoices) return null;
+  if (!question.prompts || !validShuffledChoices) return null;
 
   return (
     <div className="space-y-4">
@@ -64,8 +66,8 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
-              {shuffledMatchingChoices.map((choice) => (
-                <SelectItem key={choice.id} value={choice.id || ''} className="text-base">
+              {validShuffledChoices.map((choice: MatchingItem) => ( // Explicitly type choice
+                <SelectItem key={choice.id} value={choice.id} className="text-base">
                   {choice.text}
                 </SelectItem>
               ))}
