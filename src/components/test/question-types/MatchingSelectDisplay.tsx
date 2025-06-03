@@ -45,9 +45,9 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with EMPTY/WHITESPACE ID at index ${idx}. Original ID: "${choice.id}", Text: "${choice.text}"`);
         return false;
       }
-      // Text can be empty, but should be a string if it exists.
-      if (choice.text == null || typeof choice.text !== 'string') {
-        // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NULL/UNDEFINED/NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
+      // Text should be a string. It can be empty, but not null/undefined or a non-string type.
+      if (typeof choice.text !== 'string') {
+        // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
         return false;
       }
       return true;
@@ -109,25 +109,27 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
               
               {validShuffledChoices.map((choice: MatchingItem, index: number) => {
-                // Defensive checks for each choice before rendering SelectItem
-                if (!choice || choice.id == null) { 
+                // CRITICAL CHECK: Ensure choice.id is a non-null, non-empty string.
+                if (!choice || choice.id == null) { // Check if choice object or choice.id is null/undefined
                   console.error(
                       `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Encountered null/undefined choice object or choice.id within map for Q_ID ${question.id} at index ${index}. ` +
                       `Skipping this SelectItem. Choice object:`, JSON.stringify(choice)
                   );
-                  return null; 
+                  return null; // Skip rendering this item
                 }
 
-                const choiceIdStr = String(choice.id).trim();
-                const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+                const choiceIdStr = String(choice.id).trim(); // Convert to string and trim
+                // Ensure choice.text is a string, defaulting to an empty string if null/undefined.
+                // Text for display can be empty, but Radix value cannot.
+                const choiceTextStr = String(choice.text == null ? '' : choice.text); 
 
                 if (choiceIdStr === '') {
                   console.error(
                       `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Skipping SelectItem due to EMPTY STRING ID after trim for Q_ID ${question.id}. ` +
-                      `Original ID: "${choice.id}", Original Text: "${choice.text}". ` +
+                      `Original ID: "${choice.id}", Original Text: "${choiceTextStr}". ` +
                       `Problematic Choice Object from validShuffledChoices: ${JSON.stringify(choice)}. Index in validShuffledChoices: ${index}`
                   );
-                  return null; 
+                  return null; // Skip rendering this item if ID is empty string after trim
                 }
                 
                 // This console.log can be enabled for deep debugging of rendered items
@@ -135,7 +137,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
 
                 return (
                   <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
-                    {choiceTextStr || `(ID: ${choiceIdStr})`}
+                    {choiceTextStr || `(ID: ${choiceIdStr})`} {/* Display ID if text is empty */}
                   </SelectItem>
                 );
               })}
@@ -146,3 +148,4 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     </div>
   );
 }
+    
