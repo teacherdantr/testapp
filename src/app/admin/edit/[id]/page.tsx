@@ -177,7 +177,7 @@ export default function EditTestPage() {
   const [isLoadingTest, setIsLoadingTest] = useState(true);
   const [testNotFound, setTestNotFound] = useState(false);
 
-  const { control, register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue, getValues, reset } = useForm<TestEditFormValues>({
+  const { control, register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid }, watch, setValue, getValues, reset } = useForm<TestEditFormValues>({
     resolver: zodResolver(testEditSchema),
     defaultValues: {
       title: '',
@@ -186,6 +186,7 @@ export default function EditTestPage() {
       password: '',
       questions: [],
     },
+    mode: 'onChange', // Enable onChange mode for isValid to update
   });
 
   useEffect(() => {
@@ -397,7 +398,7 @@ export default function EditTestPage() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full md:w-auto text-lg py-3 px-6" size="lg" disabled={isSubmitting}>
+            <Button type="submit" className="w-full md:w-auto text-lg py-3 px-6" size="lg" disabled={!isDirty || !isValid || isSubmitting}>
               {isSubmitting ? 'Saving Changes...' : 'Save Changes'}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.push('/admin')} className="ml-4">
