@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { fetchTestById, verifyTestPassword, submitTest } from '@/lib/actions/testActions';
+import { fetchTestById, verifyTestPassword, submitTest, fetchAdminTestById } from '@/lib/actions/testActions';
 import type { Test, UserAnswer, TestResult, Question, Option as OptionType, TrueFalseStatement, Category, HotspotArea, MatchingItem } from '@/lib/types';
 import { PasswordPrompt } from '@/components/test/PasswordPrompt';
 import { UserIdPrompt } from '@/components/test/UserIdPrompt';
@@ -53,7 +53,8 @@ export default function TestPage() {
   const testId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const [pageState, setPageState] = useState<TestPageState>(TestPageState.Loading);
-  const [testData, setTestData] = useState<Test | null>(null); // This will store the full test data with answers for race mode.
+  const [testData, setTestData] = useState<Test | null>(null); // This will store the full test data with answers.
+  const [studentViewData, setStudentViewData] = useState<Test | null>(null); // Data for student view (password check etc.)
   const [activeQuestions, setActiveQuestions] = useState<Question[]>([]); // Questions for display, answers stripped
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
@@ -91,33 +92,27 @@ export default function TestPage() {
     }
     try {
       setPageState(TestPageState.Loading);
-      const dataForStudentView = await fetchTestById(testId as string); 
-      
-      let fullTestDataJson;
-      try {
-        fullTestDataJson = await import(`@/data/tests/${testId}.json`);
-      } catch (e) {
-        console.error(`Failed to import test data for ${testId}.json`, e);
-        setErrorMessage('Test data file not found or invalid.');
+      // Fetch data for student view (password check, questions without answers)
+      const dataForStudentView = await fetchTestById(testId as string);
+      // Fetch full test data (including answers for internal logic like race mode)
+      const fullTestDataFromDb = await fetchAdminTestById(testId as string);
+
+      if (!dataForStudentView || !fullTestDataFromDb) {
+        setErrorMessage('Test not found.');
         setPageState(TestPageState.Error);
         return;
       }
-      const fullTestData = fullTestDataJson.default || fullTestDataJson;
+      
+      setStudentViewData(dataForStudentView);
+      setTestData(fullTestDataFromDb); // This now comes from the database
 
-
-      if (dataForStudentView && fullTestData) {
-        setTestData(fullTestData); 
-        if (dataForStudentView.password === 'protected') {
-          setPageState(TestPageState.PasswordPrompt);
-        } else {
-          setPageState(TestPageState.UserIdPrompt);
-        }
+      if (dataForStudentView.password === 'protected') {
+        setPageState(TestPageState.PasswordPrompt);
       } else {
-        setErrorMessage('Test not found.');
-        setPageState(TestPageState.Error);
+        setPageState(TestPageState.UserIdPrompt);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error loading test:", error);
       setErrorMessage('Failed to load the test. Please try again later.');
       setPageState(TestPageState.Error);
     }
@@ -206,28 +201,30 @@ export default function TestPage() {
 
   const handleModeSelect = (mode: 'training' | 'testing' | 'race') => {
     setTestMode(mode);
-    if (!testData) {
+    if (!testData) { // testData should now be populated from fetchAdminTestById
       setErrorMessage('Test data is not available for mode selection.');
       setPageState(TestPageState.Error);
       return;
     }
 
-    let questionsToUse = [...testData.questions];
+    let questionsToUse = [...testData.questions]; // These questions include correct answers
 
     if (mode === 'testing' || mode === 'race') {
+      // Shuffle questions
       for (let i = questionsToUse.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [questionsToUse[i], questionsToUse[j]] = [questionsToUse[j], questionsToUse[i]];
       }
     }
     
+    // Prepare questions for display (strip answers, shuffle choices if needed)
     const studentViewQuestions = questionsToUse.map(q => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { correctAnswer, ...rest } = q; 
         return {
             ...rest,
             choices: q.type === QuestionType.MatchingSelect && q.choices ? [...q.choices].sort(() => Math.random() - 0.5) : q.choices,
-        } as Question;
+        } as Question; // Cast as Question (which doesn't have correctAnswer for student)
     });
     setActiveQuestions(studentViewQuestions);
 
@@ -296,7 +293,7 @@ export default function TestPage() {
   };
 
   const checkCurrentAnswerIsCorrect = (currentQDisplay: Question, currentAnswerString: string | undefined): boolean => {
-    if (!testData) return false; 
+    if (!testData) return false; // testData has full questions with answers
 
     const originalQuestion = testData.questions.find(q => q.id === currentQDisplay.id);
     if (!originalQuestion || currentAnswerString === undefined) return false;
@@ -493,14 +490,15 @@ export default function TestPage() {
     setFeedbackType(null);
     setShowFeedback(false);
 
-    if (testData?.password === 'protected') {
+    // If studentViewData exists and indicates password protection, go to password prompt
+    if (studentViewData?.password === 'protected') {
       setPageState(TestPageState.PasswordPrompt);
-    } else if (testData) { 
+    } else if (studentViewData) { // Otherwise, if studentViewData exists, go to User ID prompt
       setPageState(TestPageState.UserIdPrompt);
-    } else { 
+    } else { // Fallback to reloading test data if studentViewData is not available
       loadTest();
     }
-  }, [testData, loadTest]);
+  }, [studentViewData, loadTest]);
 
 
   if (pageState === TestPageState.Loading) {
@@ -523,7 +521,7 @@ export default function TestPage() {
     );
   }
 
-  if (pageState === TestPageState.PasswordPrompt && testData) {
+  if (pageState === TestPageState.PasswordPrompt && studentViewData) { // Use studentViewData for password check
     return <PasswordPrompt open={true} onVerify={handlePasswordVerify} error={passwordError} onOpenChange={() => { if (pageStateRef.current === TestPageState.PasswordPrompt) router.push('/'); }}/>;
   }
 
@@ -629,7 +627,6 @@ export default function TestPage() {
             <span className="font-semibold">Training Mode!</span> Questions and options are in order. Answers checked at the end.
           </div>
         )}
-        {/* Test description removed from here */}
 
         {testMode === 'race' && activeQuestions.length > 0 && (
           <div className="my-6 p-4 bg-card border rounded-lg shadow-sm">
@@ -789,7 +786,7 @@ export default function TestPage() {
     return <ResultsDisplay results={testResult} testId={testId as string} onRetry={handleRetryTest} />;
   }
 
-  if (testData && testData.questions.length === 0) {
+  if (studentViewData && studentViewData.questions.length === 0) { // Check studentViewData for initial question check
      return (
       <Alert variant="default" className="max-w-lg mx-auto">
         <AlertTriangle className="h-5 w-5" />
