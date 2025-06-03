@@ -28,19 +28,16 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
   const validShuffledChoices = useMemo(() => {
     // console.log('[MatchingSelectDisplay] Received question.choices:', JSON.parse(JSON.stringify(question.choices || [])));
 
-    // 1. Filter first, always.
     const filteredChoices = (question.choices || []).filter(choice => {
       if (!choice) {
         // console.warn('[MatchingSelectDisplay] Filtering out null/undefined choice object.');
         return false;
       }
-      // Ensure choice.id is a string and not empty after trimming
       if (typeof choice.id !== 'string' || choice.id.trim() === '') {
         // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, choice);
         return false;
       }
-      // Ensure choice.text is also a string (though SelectItem usually handles non-string children, good to be safe)
-      if (typeof choice.text !== 'string') {
+      if (typeof choice.text !== 'string') { // Text can be empty string, but must be string type
         // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid text type (text: ${JSON.stringify(choice.text)}, type: ${typeof choice.text}):`, choice);
         return false;
       }
@@ -48,7 +45,6 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     });
     // console.log('[MatchingSelectDisplay] After initial filtering - filteredChoices:', JSON.parse(JSON.stringify(filteredChoices)));
 
-    // 2. Then shuffle if necessary.
     if (testMode === 'testing' || testMode === 'race') {
       const shuffledFilteredChoices = [...filteredChoices];
       for (let i = shuffledFilteredChoices.length - 1; i > 0; i--) {
@@ -78,11 +74,10 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     return <p className="text-destructive">Configuration error: No prompts for matching question.</p>;
   }
    if (!validShuffledChoices || validShuffledChoices.length === 0) {
-    // console.warn("[MatchingSelectDisplay] No valid choices found for question:", question.id, "Original choices:", question.choices);
      if (!question.choices || question.choices.length === 0) {
         return <p className="text-destructive">Configuration error: No choices defined for matching question.</p>;
      }
-    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question.</p>;
+    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question. Please check choice IDs and text.</p>;
   }
 
 
@@ -104,23 +99,18 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               <SelectValue placeholder="Select match..." />
             </SelectTrigger>
             <SelectContent>
+              {/* Placeholder item */}
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
+              
+              {/* Dynamically rendered choice items */}
               {validShuffledChoices.map((choice: MatchingItem) => {
-                // Final defensive check at render time
-                const choiceIdStr = String(choice.id || '').trim();
-                const choiceTextStr = String(choice.text || ''); // Text can be empty, but ID cannot for value
-
-                if (choiceIdStr === '') {
-                  console.error(
-                    `[MatchingSelectDisplay] CRITICAL: Skipping SelectItem due to effectively empty id ('${choiceIdStr}') after all filters. Original choice:`,
-                    JSON.stringify(choice)
-                  );
-                  return null; // Do not render this SelectItem if its ID is effectively empty
-                }
+                // By this point, choice.id is guaranteed to be a non-empty string
+                // and choice.text is guaranteed to be a string (can be empty).
+                const displayTest = choice.text.trim() || `(Choice ID: ${choice.id})`;
 
                 return (
-                  <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
-                    {choiceTextStr} {/* Display original text, even if it was just spaces */}
+                  <SelectItem key={choice.id} value={choice.id} className="text-base">
+                    {displayTest}
                   </SelectItem>
                 );
               })}
