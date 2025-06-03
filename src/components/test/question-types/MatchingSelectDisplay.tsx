@@ -28,16 +28,19 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
   const validShuffledChoices = useMemo(() => {
     // console.log('[MatchingSelectDisplay] Received question.choices:', JSON.parse(JSON.stringify(question.choices || [])));
 
-    const filteredChoices = (question.choices || []).filter(choice => {
+    const baseChoices = question.choices || [];
+    const filteredChoices = baseChoices.filter(choice => {
       if (!choice) {
         // console.warn('[MatchingSelectDisplay] Filtering out null/undefined choice object.');
         return false;
       }
-      if (typeof choice.id !== 'string' || choice.id.trim() === '') {
+      // Ensure ID is a string and not empty or just whitespace
+      if (choice.id == null || typeof choice.id !== 'string' || choice.id.trim() === '') {
         // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid/empty ID (id: ${JSON.stringify(choice.id)}, type: ${typeof choice.id}):`, choice);
         return false;
       }
-      if (typeof choice.text !== 'string') { // Text can be empty string, but must be string type
+      // Ensure text is a string (can be empty)
+      if (choice.text == null || typeof choice.text !== 'string') {
         // console.warn(`[MatchingSelectDisplay] Filtering out choice with invalid text type (text: ${JSON.stringify(choice.text)}, type: ${typeof choice.text}):`, choice);
         return false;
       }
@@ -77,7 +80,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
      if (!question.choices || question.choices.length === 0) {
         return <p className="text-destructive">Configuration error: No choices defined for matching question.</p>;
      }
-    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question. Please check choice IDs and text.</p>;
+    return <p className="text-destructive">Configuration error: No valid choices available after filtering for matching question. Please check choice IDs and text in question data.</p>;
   }
 
 
@@ -104,13 +107,26 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               
               {/* Dynamically rendered choice items */}
               {validShuffledChoices.map((choice: MatchingItem) => {
-                // By this point, choice.id is guaranteed to be a non-empty string
-                // and choice.text is guaranteed to be a string (can be empty).
-                const displayTest = choice.text.trim() || `(Choice ID: ${choice.id})`;
+                // Ensure choice.id is treated as a string and trimmed for the value prop.
+                // Ensure choice.text is treated as a string and trimmed for display.
+                const choiceIdStr = String(choice.id == null ? '' : choice.id).trim();
+                const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
 
+                // CRITICAL: If choiceIdStr is empty after trimming, this SelectItem is invalid for Radix UI.
+                // The filter in useMemo should prevent this, but this is a final safeguard.
+                if (choiceIdStr === '') {
+                  console.error(
+                    `[MatchingSelectDisplay] CRITICAL: Attempting to render SelectItem with an empty 'value' (derived from choice.id). This item will be skipped. Original choice object:`,
+                    JSON.parse(JSON.stringify(choice)), // Log a copy
+                    `For Question ID: ${question.id}`
+                  );
+                  return null; // Skip rendering this invalid item.
+                }
+                
+                // Use the sanitized choiceIdStr for both key and value to be safe.
                 return (
-                  <SelectItem key={choice.id} value={choice.id} className="text-base">
-                    {displayTest}
+                  <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
+                    {choiceTextStr || `(Choice ID: ${choiceIdStr})`}
                   </SelectItem>
                 );
               })}
