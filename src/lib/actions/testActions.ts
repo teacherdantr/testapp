@@ -69,7 +69,7 @@ const formQuestionSchema = z.object({
   }
   return true;
 }, { message: 'MCQ and MCMA questions must have at least two options.', path: ['options'] })
-.refine(data => { 
+.refine(data => {
   if (data.type === QuestionType.MultipleChoiceMultipleAnswer || (data.type === QuestionType.Hotspot && data.multipleSelection)) {
     if (!(Array.isArray(data.correctAnswer) && data.correctAnswer.length > 0 && typeof data.correctAnswer[0] === 'string')) return false;
     if (data.type === QuestionType.Hotspot && data.hotspots) { // Check if correct hotspot IDs exist in hotspots array
@@ -96,9 +96,9 @@ const formQuestionSchema = z.object({
   }
   if (data.type === QuestionType.MatchingSelect) {
     return Array.isArray(data.correctAnswer) && data.prompts && data.prompts.length > 0 && data.choices && data.choices.length > 0 && data.correctAnswer.length === data.prompts.length &&
-           (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => 
-             data.prompts?.some(p => p.id === match.promptId) && 
-             data.choices?.some(c => c.id === match.choiceId) && 
+           (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match =>
+             data.prompts?.some(p => p.id === match.promptId) &&
+             data.choices?.some(c => c.id === match.choiceId) &&
              match.choiceId.trim() !== '' // Ensures choiceId is not empty and references an actual choice
            );
   }
@@ -153,7 +153,7 @@ const testFormSchema = z.object({
 function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuestionSchema>): Prisma.JsonObject {
   const questionData: any = {
     // correctAnswer is already in the correct structure from the client/Zod validation
-    correctAnswer: q.correctAnswer, 
+    correctAnswer: q.correctAnswer,
   };
 
   // Add type-specific fields. Client ensures IDs are present for sub-items.
@@ -164,7 +164,7 @@ function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuestionSchem
   if (q.multipleSelection !== undefined) questionData.multipleSelection = q.multipleSelection;
   if (q.prompts) questionData.prompts = q.prompts;
   if (q.choices) questionData.choices = q.choices;
-  
+
   return questionData as Prisma.JsonObject;
 }
 
@@ -201,7 +201,7 @@ export async function createTest(formData: FormData) {
             text: q.text,
             type: q.type,
             points: q.points,
-            imageUrl: q.imageUrl, 
+            imageUrl: q.imageUrl,
             questionData: mapFormQuestionToPrismaQuestionData(q),
           })),
         },
@@ -218,7 +218,7 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
   const rawData = {
     title: formData.get('title'),
     description: formData.get('description'),
-    password: formData.get('password') || undefined, 
+    password: formData.get('password') || undefined,
     questions: JSON.parse(formData.get('questions') as string || '[]'),
   };
 
@@ -237,18 +237,15 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
   try {
     await prisma.$transaction(async (tx) => {
       await tx.question.deleteMany({ where: { testId: testId } });
-      
+
       await tx.test.update({
         where: { id: testId },
         data: {
           title,
           description,
-          password: password || null, 
+          password: password || null,
           questions: {
             create: formQuestions.map(q => ({
-              // q.id here is the *original* question ID if it existed,
-              // but since we delete and recreate, Prisma will assign new IDs.
-              // The client-side form should primarily use these q.id for keying in React.
               text: q.text,
               type: q.type,
               points: q.points,
@@ -279,16 +276,16 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
   return {
     id: prismaQuestion.id,
     text: prismaQuestion.text,
-    type: prismaQuestion.type as QuestionType, 
+    type: prismaQuestion.type as QuestionType,
     imageUrl: prismaQuestion.imageUrl || undefined,
     points: prismaQuestion.points,
-    options: qData.options ? qData.options as OptionType[] : undefined,
-    statements: qData.statements ? qData.statements as TrueFalseStatement[] : undefined,
-    categories: qData.categories ? qData.categories as Category[] : undefined,
-    hotspots: qData.hotspots ? qData.hotspots as HotspotArea[] : undefined,
+    options: Array.isArray(qData.options) ? qData.options as OptionType[] : undefined,
+    statements: Array.isArray(qData.statements) ? qData.statements as TrueFalseStatement[] : undefined,
+    categories: Array.isArray(qData.categories) ? qData.categories as Category[] : undefined,
+    hotspots: Array.isArray(qData.hotspots) ? qData.hotspots as HotspotArea[] : undefined,
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
-    prompts: qData.prompts ? qData.prompts as MatchingItem[] : undefined,
-    choices: qData.choices ? qData.choices as MatchingItem[] : undefined,
+    prompts: Array.isArray(qData.prompts) ? qData.prompts as MatchingItem[] : undefined,
+    choices: Array.isArray(qData.choices) ? qData.choices as MatchingItem[] : undefined,
     correctAnswer: qData.correctAnswer as any, // This includes the correct answer
   };
 }
@@ -304,9 +301,12 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
     if (!test) return null;
 
     const processedQuestionsForStudent = test.questions.map(q => {
-      const viewQuestion = mapPrismaQuestionToViewQuestion(q);
-      const qDataForStudent = { ... (q.questionData as Prisma.JsonObject) };
-      delete qDataForStudent.correctAnswer; 
+      // Intentionally NOT using mapPrismaQuestionToViewQuestion here to control student data precisely
+      const qDataFromDb = q.questionData as Prisma.JsonObject || {};
+
+      // Strip correct answer for student view
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { correctAnswer, ...studentQDataFields } = qDataFromDb;
 
       const studentQuestion: Question = {
         id: q.id,
@@ -314,15 +314,15 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
         type: q.type as QuestionType,
         imageUrl: q.imageUrl || undefined,
         points: q.points,
-        options: qDataForStudent.options as OptionType[] | undefined,
-        statements: qDataForStudent.statements as TrueFalseStatement[] | undefined,
-        categories: qDataForStudent.categories as Category[] | undefined,
-        hotspots: qDataForStudent.hotspots as HotspotArea[] | undefined,
-        multipleSelection: qDataForStudent.multipleSelection as boolean | undefined,
-        prompts: qDataForStudent.prompts as MatchingItem[] | undefined,
-        choices: (q.type === QuestionType.MatchingSelect && qDataForStudent.choices)
-          ? [...(qDataForStudent.choices as MatchingItem[])].sort(() => Math.random() - 0.5)
-          : qDataForStudent.choices as MatchingItem[] | undefined,
+        options: Array.isArray(studentQDataFields.options) ? studentQDataFields.options as OptionType[] : undefined,
+        statements: Array.isArray(studentQDataFields.statements) ? studentQDataFields.statements as TrueFalseStatement[] : undefined,
+        categories: Array.isArray(studentQDataFields.categories) ? studentQDataFields.categories as Category[] : undefined,
+        hotspots: Array.isArray(studentQDataFields.hotspots) ? studentQDataFields.hotspots as HotspotArea[] : undefined,
+        multipleSelection: studentQDataFields.multipleSelection !== undefined ? studentQDataFields.multipleSelection as boolean : undefined,
+        prompts: Array.isArray(studentQDataFields.prompts) ? studentQDataFields.prompts as MatchingItem[] : undefined,
+        choices: (q.type === QuestionType.MatchingSelect && Array.isArray(studentQDataFields.choices))
+          ? [...(studentQDataFields.choices as MatchingItem[])].sort(() => Math.random() - 0.5)
+          : Array.isArray(studentQDataFields.choices) ? studentQDataFields.choices as MatchingItem[] : undefined,
         correctAnswer: '' // Student does not get the correct answer
       };
       return studentQuestion;
@@ -352,7 +352,7 @@ export async function fetchAdminTestById(testId: string): Promise<Test | null> {
 
     return {
       ...test,
-      questions: test.questions.map(mapPrismaQuestionToViewQuestion),
+      questions: test.questions.map(mapPrismaQuestionToViewQuestion), // Uses the more defensive mapping
       createdAt: test.createdAt.toISOString(),
       updatedAt: test.updatedAt.toISOString(),
     };
@@ -370,7 +370,7 @@ export async function verifyTestPassword(testId: string, passwordAttempt: string
       return { authorized: false, error: 'Test not found.' };
     }
     if (!test.password) {
-      return { authorized: true }; 
+      return { authorized: true };
     }
     if (test.password === passwordAttempt) {
       return { authorized: true };
@@ -505,13 +505,13 @@ export async function submitTest(
         questionText: originalQuestion.text,
         questionType: originalQuestion.type as QuestionType,
         imageUrl: originalQuestion.imageUrl || undefined,
-        options: prismaQuestionData.options as OptionType[] | undefined,
-        statements: prismaQuestionData.statements as TrueFalseStatement[] | undefined,
-        categories: prismaQuestionData.categories as Category[] | undefined,
-        hotspots: prismaQuestionData.hotspots as HotspotArea[] | undefined,
+        options: Array.isArray(prismaQuestionData.options) ? prismaQuestionData.options as OptionType[] : undefined,
+        statements: Array.isArray(prismaQuestionData.statements) ? prismaQuestionData.statements as TrueFalseStatement[] : undefined,
+        categories: Array.isArray(prismaQuestionData.categories) ? prismaQuestionData.categories as Category[] : undefined,
+        hotspots: Array.isArray(prismaQuestionData.hotspots) ? prismaQuestionData.hotspots as HotspotArea[] : undefined,
         multipleSelection: prismaQuestionData.multipleSelection as boolean | undefined,
-        prompts: prismaQuestionData.prompts as MatchingItem[] | undefined,
-        choices: prismaQuestionData.choices as MatchingItem[] | undefined,
+        prompts: Array.isArray(prismaQuestionData.prompts) ? prismaQuestionData.prompts as MatchingItem[] : undefined,
+        choices: Array.isArray(prismaQuestionData.choices) ? prismaQuestionData.choices as MatchingItem[] : undefined,
         userAnswer: rawUserAnswer,
         correctAnswer: originalCorrectAnswer,
         isCorrect,
@@ -571,7 +571,7 @@ export async function getAllTests(): Promise<Test[]> {
 
     return testsFromDb.map(test => ({
       ...test,
-      questions: test.questions.map(mapPrismaQuestionToViewQuestion),
+      questions: test.questions.map(mapPrismaQuestionToViewQuestion), // Uses the more defensive mapping
       createdAt: test.createdAt.toISOString(),
       updatedAt: test.updatedAt.toISOString(),
     }));
@@ -593,5 +593,4 @@ export async function deleteTestById(testId: string): Promise<{ success: boolean
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
 }
-
     
