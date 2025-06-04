@@ -15,6 +15,8 @@ import { QuestionType, HotspotShapeType } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Switch } from "@/components/ui/switch";
+import { Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
 
 const optionSchema = z.object({
   text: z.string().min(1, 'Option text cannot be empty'),
@@ -127,7 +129,12 @@ const questionSchema = z.object({
   message: 'MatrixChoice questions must have at least one category with text.',
   path: ['categories'],
 }).refine(data => {
-  // imageUrl validation is now part of the main object schema
+  if (data.type === QuestionType.Hotspot) {
+    return !!(data.imageUrl && data.imageUrl.trim() !== '' && (data.imageUrl.startsWith('https://') || data.imageUrl.startsWith('/images/')));
+  }
+  return true;
+}, { message: 'A valid HTTPS or local (/images/...) Image URL is required for Hotspot questions.', path: ['imageUrl']})
+.refine(data => {
   if (data.type === QuestionType.Hotspot) {
     return data.hotspots && data.hotspots.length > 0 && data.hotspots.every(hs => hs.coords.trim() !== '');
   }
@@ -143,7 +150,7 @@ const questionSchema = z.object({
   return true;
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
-  path: ['prompts'], // Could also be path: ['choices']
+  path: ['prompts'], 
 });
 
 
@@ -169,6 +176,8 @@ export type TestCreationFormValues = z.infer<typeof testCreationSchema>;
 export default function CreateTestPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
+
   const { control, register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue, getValues } = useForm<TestCreationFormValues>({
     resolver: zodResolver(testCreationSchema),
     defaultValues: {
@@ -180,7 +189,7 @@ export default function CreateTestPage() {
         {
           text: '',
           type: QuestionType.MCQ,
-          imageUrl: '', // Added default
+          imageUrl: '', 
           options: [{ text: '' }, { text: '' }],
           statements: [],
           categories: [],
@@ -197,6 +206,16 @@ export default function CreateTestPage() {
 
   const passwordEnabled = watch('passwordEnabled');
 
+  const generateRandomPassword = () => {
+    const length = 10;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    setValue('password', retVal, { shouldValidate: true, shouldDirty: true });
+  };
+
   const onSubmit = async (data: TestCreationFormValues) => {
     const formData = new FormData();
     formData.append('title', data.title);
@@ -207,7 +226,7 @@ export default function CreateTestPage() {
 
     const processedQuestions = data.questions.map(q => {
       let processedQuestion: any = { ...q };
-      // Clear fields not relevant to the question type
+      
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
         processedQuestion.options = undefined;
       }
@@ -218,22 +237,19 @@ export default function CreateTestPage() {
         processedQuestion.categories = undefined;
       }
       if (q.type !== QuestionType.Hotspot) {
-        // imageUrl is NOT cleared here as MCQ/MCMA can also have it
         processedQuestion.hotspots = undefined;
-        // multipleSelection is only for hotspot, but can remain as it's optional
       }
-      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer && q.type !== QuestionType.Hotspot) {
-         // Clear imageUrl if not MCQ, MCMA, or Hotspot
+       if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
          processedQuestion.imageUrl = undefined;
       }
       if (q.type !== QuestionType.MatchingSelect) {
         processedQuestion.prompts = undefined;
         processedQuestion.choices = undefined;
       }
-      // Ensure correctAnswer is in the correct format for specific types
+      
       if (q.type === QuestionType.MatchingSelect && Array.isArray(q.correctAnswer)) {
          processedQuestion.correctAnswer = q.correctAnswer.map(match => ({
-           promptId: (match as any).promptId, // Type assertion needed as Zod union is complex
+           promptId: (match as any).promptId, 
            choiceId: (match as any).choiceId,
          }));
       }
@@ -296,10 +312,37 @@ export default function CreateTestPage() {
                     <Label htmlFor="passwordEnabled" className="text-lg">Enable Password Protection</Label>
                 </div>
                 {passwordEnabled && (
-                    <div className="pl-8 space-y-2">
+                    <div className="pl-8 space-y-2 mt-2">
                         <Label htmlFor="password">Set Password</Label>
-                        <Input id="password" type="password" {...register('password')} placeholder="Enter a secure password" />
+                        <div className="relative flex items-center">
+                            <Input
+                                id="password"
+                                type={showPassword ? 'text' : 'password'}
+                                {...register('password')}
+                                placeholder="Enter a secure password"
+                                className="pr-10" 
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-1 h-7 w-7 text-muted-foreground hover:text-foreground"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </Button>
+                        </div>
                         {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={generateRandomPassword}
+                            className="mt-2"
+                        >
+                            <RefreshCw className="mr-2 h-4 w-4" /> Generate Password
+                        </Button>
                     </div>
                 )}
             </div>
@@ -327,3 +370,4 @@ export default function CreateTestPage() {
     </div>
   );
 }
+

@@ -15,7 +15,7 @@ import { QuestionType, type Test, type Category, type HotspotArea, HotspotShapeT
 import { useRouter, useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
-import { Loader2, AlertTriangle } from 'lucide-react';
+import { Loader2, AlertTriangle, Eye, EyeOff, RefreshCw } from 'lucide-react';
 import { Switch } from "@/components/ui/switch";
 
 const optionSchema = z.object({
@@ -46,10 +46,9 @@ const matchingItemSchema = z.object({
   text: z.string().min(1, "Item text cannot be empty"),
 });
 
-// Adjusted for edit page: choiceId can be an empty string (representing "not selected")
 const correctMatchSchema = z.object({
   promptId: z.string(),
-  choiceId: z.string(), // Allows empty string
+  choiceId: z.string(), // Allows empty string for edit page (unmatched state)
 });
 
 const questionSchema = z.object({
@@ -106,19 +105,15 @@ const questionSchema = z.object({
     }
   }
   if (data.type === QuestionType.MatchingSelect) {
-    // Prompts and choices must exist and have at least one item.
     if (!data.prompts || data.prompts.length === 0 || !data.choices || data.choices.length === 0) {
-      return false;
+      return false; 
     }
-    // CorrectAnswer must be an array and have one entry per prompt.
     if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.prompts.length) {
       return false;
     }
-    // Each match in correctAnswer must reference a valid promptId.
-    // Each choiceId in correctAnswer, if not empty, must reference a valid choiceId.
     return (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => {
       const promptExists = data.prompts!.some(p => p.id === match.promptId);
-      const choiceIsValid = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId); // Allows empty choiceId for "unselected"
+      const choiceIsValid = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
       return promptExists && choiceIsValid;
     });
   }
@@ -130,7 +125,7 @@ const questionSchema = z.object({
   }
   return true;
 }, {
-  message: 'Correct answer(s) must be provided, in the correct format, and reference existing items (options/hotspots/prompts/choices) for the question type. For MatchingSelect, ensure all prompts are covered and selected choices are valid.',
+  message: 'Correct answer(s) must be provided, in the correct format, and reference existing items (options/hotspots/prompts/choices) for the question type. For MatchingSelect, ensure all prompts are covered and selected choices are valid (or empty for "unselected").',
   path: ['correctAnswer'],
 }).refine(data => {
     if (data.type === QuestionType.MultipleTrueFalse || data.type === QuestionType.MatrixChoice) {
@@ -163,14 +158,14 @@ const questionSchema = z.object({
   message: 'Hotspot questions must have at least one hotspot defined with coordinates.',
   path: ['hotspots'],
 }).refine(data => {
-  if (data.type === QuestionType.MatchingSelect) { // This refine block can be simplified or removed if the main correctAnswer refine covers it
+  if (data.type === QuestionType.MatchingSelect) { 
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
   }
   return true;
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
-  path: ['prompts'], // Could also be path: ['choices']
+  path: ['prompts'], 
 });
 
 
@@ -199,6 +194,7 @@ export default function EditTestPage() {
   const { toast } = useToast();
   const [isLoadingTest, setIsLoadingTest] = useState(true);
   const [testNotFound, setTestNotFound] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { control, register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid }, watch, setValue, getValues, reset } = useForm<TestEditFormValues>({
     resolver: zodResolver(testEditSchema),
@@ -222,7 +218,6 @@ export default function EditTestPage() {
       try {
         const testData = await fetchAdminTestById(testId as string);
         if (testData) {
-          // console.log("Fetched testData for L6P1:", JSON.stringify(testData, null, 2));
           const mappedQuestions = testData.questions.map(q => {
               try {
                 let correctAnswerValue: any;
@@ -277,8 +272,8 @@ export default function EditTestPage() {
                   categories: ensureIds(q.categories, 'category'),
                   hotspots: (q.hotspots || []).map(hs => ({ ...hs, id: hs.id || crypto.randomUUID(), shape: hs.shape || HotspotShapeType.Rectangle, coords: hs.coords || '', label: hs.label || '' })),
                   multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
-                  prompts: ensureIds(q.prompts, 'prompt'), // These IDs are used by MatchingSelect correctAnswerValue
-                  choices: ensureIds(q.choices, 'choice'), // These IDs are used by MatchingSelect correctAnswerValue
+                  prompts: ensureIds(q.prompts, 'prompt'), 
+                  choices: ensureIds(q.choices, 'choice'), 
                   correctAnswer: correctAnswerValue,
                   points: q.points || 1,
                 };
@@ -297,8 +292,7 @@ export default function EditTestPage() {
                 };
               }
             });
-            // console.log("Mapped Questions for L6P1 (defaultValues):", JSON.stringify(mappedQuestions, null, 2));
-
+          
           reset({
             title: testData.title,
             description: testData.description || '',
@@ -322,10 +316,18 @@ export default function EditTestPage() {
 
   const passwordEnabled = watch('passwordEnabled');
 
+  const generateRandomPassword = () => {
+    const length = 10;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    setValue('password', retVal, { shouldValidate: true, shouldDirty: true });
+  };
+
   const onSubmit = async (data: TestEditFormValues) => {
     if (!testId) return;
-
-    // console.log("Submitting data for L6P1:", JSON.stringify(data, null, 2));
 
     const formData = new FormData();
     formData.append('title', data.title);
@@ -357,7 +359,7 @@ export default function EditTestPage() {
             promptId: match.promptId,
             choiceId: typeof match.choiceId === 'string' ? match.choiceId : '',
           }))
-          .filter((match: any) => match.choiceId !== ''); // Filter out unmatched prompts before saving if DB needs them non-empty
+          .filter((match: any) => match.choiceId !== ''); 
       }
       
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
@@ -431,7 +433,7 @@ export default function EditTestPage() {
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">Edit Test</CardTitle>
-          <CardDescription>Modify the details of your test below. Button enabled: {isDirty ? 'true' : 'false'} (dirty), {isValid ? 'true' : 'false'} (valid)</CardDescription>
+          {/* <CardDescription>Modify the details of your test below. Button enabled: {isDirty ? 'true' : 'false'} (dirty), {isValid ? 'true' : 'false'} (valid)</CardDescription> */}
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-6">
@@ -467,10 +469,37 @@ export default function EditTestPage() {
                     <Label htmlFor="passwordEnabled" className="text-lg">Enable Password Protection</Label>
                 </div>
                 {passwordEnabled && (
-                    <div className="pl-8 space-y-2">
+                    <div className="pl-8 space-y-2 mt-2">
                         <Label htmlFor="password">Set Password</Label>
-                        <Input id="password" type="password" {...register('password')} placeholder="Enter a secure password" />
+                        <div className="relative flex items-center">
+                            <Input
+                                id="password"
+                                type={showPassword ? 'text' : 'password'}
+                                {...register('password')}
+                                placeholder="Enter a secure password"
+                                className="pr-10"
+                            />
+                             <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-1 h-7 w-7 text-muted-foreground hover:text-foreground"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </Button>
+                        </div>
                         {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+                         <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={generateRandomPassword}
+                            className="mt-2"
+                        >
+                            <RefreshCw className="mr-2 h-4 w-4" /> Generate Password
+                        </Button>
                     </div>
                 )}
             </div>
