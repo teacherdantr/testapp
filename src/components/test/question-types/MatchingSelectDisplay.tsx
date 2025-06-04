@@ -6,13 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
 import type { MatchingItem } from '@/lib/types';
-import { QuestionType } from '@/lib/types'; // Import QuestionType
+import { QuestionType } from '@/lib/types';
 
 export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
 
   useEffect(() => {
     if (question && question.type === QuestionType.MatchingSelect) {
-      console.log(`[MatchingSelectDisplay QID: ${question.id}] Full question data:`, JSON.stringify(question, null, 2));
+      console.log(`[MatchingSelectDisplay QID: ${question.id}] Full question data received:`, JSON.stringify(question, null, 2));
     }
   }, [question]);
 
@@ -43,8 +43,9 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
   }, [question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Original question.choices received:`, JSON.stringify(question.choices, null, 2));
     const baseChoices = question.choices || [];
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Original question.choices:`, JSON.stringify(baseChoices, null, 2));
+
     const filteredChoices = baseChoices.filter((choice, idx) => {
       if (!choice) {
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out NULL/UNDEFINED choice object at index ${idx}.`);
@@ -62,6 +63,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with EMPTY/WHITESPACE ID at index ${idx}. Original ID: "${choice.id}", Text: "${choice.text}"`);
         return false;
       }
+      // Text validation (less critical for the value prop error, but good for display)
       if (choice.text != null && typeof choice.text !== 'string') {
          // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
         return false;
@@ -129,24 +131,27 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               <SelectContent>
                 <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
                 {validShuffledChoices.map((choice: MatchingItem, index: number) => {
-                  if (!choice || choice.id == null) { // Check for null/undefined choice or choice.id
-                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Pre-Stringify): Skipping SelectItem due to NULL/UNDEFINED choice object or choice.id. Index: ${index}. Choice:`, JSON.stringify(choice));
+                  if (!choice || choice.id == null) { // choice.id == null checks for both null and undefined
+                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Invalid Choice Object): Skipping SelectItem due to NULL/UNDEFINED choice object or choice.id. Index: ${index}. Choice:`, JSON.stringify(choice));
                     return null;
                   }
                   
-                  const valueForSelectItem = String(choice.id).replace(/\s/g, ''); // Aggressively remove all whitespace
+                  const valueForSelectItem = String(choice.id).trim();
 
                   if (valueForSelectItem === '') {
-                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Post-Sanitize): Skipping SelectItem due to EMPTY ID after aggressive sanitization. Original ID: "${choice.id}", Full Choice:`, JSON.stringify(choice));
-                    return null;
+                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Empty ID Post-Trim): Skipping SelectItem because choice.id ("${choice.id}") became an empty string after String() and trim(). Full Choice:`, JSON.stringify(choice));
+                    return null; // Skip rendering this item
                   }
                   
-                  const choiceTextStr = (choice.text == null ? '' : String(choice.text)).trim();
+                  const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
                   const displayLabel = choiceTextStr || `(Choice ID: ${valueForSelectItem})`;
 
-                  // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem: key="${question.id}-${valueForSelectItem}-${index}", value="${valueForSelectItem}", label="${displayLabel}"`);
                   return (
-                    <SelectItem key={`${question.id}-${valueForSelectItem}-${index}`} value={valueForSelectItem} className="text-base">
+                    <SelectItem
+                      key={`${question.id}-${valueForSelectItem}-${index}-${Math.random()}`} // Added Math.random for extreme uniqueness in case of duplicate sanitized IDs
+                      value={valueForSelectItem} // This is now guaranteed non-empty by the check above
+                      className="text-base"
+                    >
                       {displayLabel}
                     </SelectItem>
                   );
