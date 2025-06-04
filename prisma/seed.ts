@@ -116,12 +116,25 @@ async function main() {
   console.log(`Seeding finished.`);
 }
 
-main()
-  .catch((e) => {
-    console.error("Seeding failed:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// main() // Seeding deactivated
+//   .catch((e) => {
+//     console.error("Seeding failed:", e);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });
 
+console.log("Database seeding is currently deactivated in prisma/seed.ts.");
+
+async function disconnectPrisma() {
+  await prisma.$disconnect();
+}
+
+if (require.main === module) {
+  console.log("Seed script was run directly, but main() is commented out. Disconnecting Prisma.");
+  disconnectPrisma().catch(e => {
+    console.error("Error disconnecting Prisma:", e);
+    process.exit(1);
+  });
+}
