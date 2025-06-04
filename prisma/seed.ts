@@ -16,65 +16,34 @@ const prisma = new PrismaClient();
 // they can remain.
 
 async function main() {
-  console.warn("--------------------------------------------------------------------------");
-  console.warn("ATTENTION: Database seeding (prisma/seed.ts) is currently DEACTIVATED.");
-  console.warn("The 'main' function was executed, but it will NOT perform any data changes.");
-  console.warn("To re-enable seeding, you need to restore or add data manipulation logic");
-  console.warn("within this 'main' function.");
-  console.warn("--------------------------------------------------------------------------");
+  console.warn("-------------------------------------------------------------------------------");
+  console.warn("--- Prisma Database Seeding Script (prisma/seed.ts) ---");
+  console.warn("STATUS: CURRENTLY DEACTIVATED.");
+  console.warn("This script, when executed (e.g., via 'npx prisma db seed'), will NOT");
+  console.warn("perform any data creation, modification, or deletion in any database.");
+  console.warn("It is safe to run in any environment (development, production, etc.) as it");
+  console.warn("will only print this informational message and then exit.");
+  console.warn("To re-enable actual seeding operations, you must modify the 'main' function");
+  console.warn("within this file ('prisma/seed.ts') to include data manipulation logic.");
+  console.warn("-------------------------------------------------------------------------------");
 
   // All original seeding logic that was previously here (e.g., deleting existing tests,
   // creating new tests from JSON data) has been removed or commented out to ensure
   // no unintended data modifications occur while seeding is meant to be off.
-  //
-  // Example of original logic that would be here if active:
-  //
-  // console.log(`Start seeding ...`);
-  // try {
-  //   // Prisma requires deleting related records (questions) before deleting the parent (test)
-  //   // if there's a required relation.
-  //   await prisma.question.deleteMany({ where: { testId: L6P1Data.id } });
-  //   await prisma.test.delete({ where: { id: L6P1Data.id } });
-  //   console.log(`Deleted existing test with ID: ${L6P1Data.id} and its questions.`);
-  // } catch (error: any) {
-  //   if (error.code === 'P2025') {
-  //     console.log(`Test with ID ${L6P1Data.id} not found or already deleted, proceeding to create.`);
-  //   } else {
-  //     console.error(`Error deleting existing test ${L6P1Data.id} (or its questions):`, error.message);
-  //   }
-  // }
-  // const createdTest = await prisma.test.create({
-  //   data: { /* ... L6P1Data mapping ... */ },
-  //   include: { questions: true },
-  // });
-  // console.log(`Created test "${createdTest.title}" (ID: ${createdTest.id}) with ${createdTest.questions.length} questions.`);
-  // console.log(`Seeding finished.`);
 }
 
 // The main function is called, but its content is now just a deactivation notice.
 main()
   .catch((e) => {
-    console.error("An error occurred during the (deactivated) seed process execution:", e);
+    console.error("ERROR: An unexpected error occurred during the (deactivated) seed script execution:");
+    console.error(e);
     // Exit with an error code if something unexpected happens, even in a deactivated state.
     process.exit(1);
   })
   .finally(async () => {
-    console.log("Prisma client disconnecting (from seed script).");
+    console.log("INFO: Seed script (deactivated) finished its execution. Disconnecting the Prisma Client instance used by this script.");
     await prisma.$disconnect();
   });
 
 // The previous if (require.main === module) block is no longer necessary
 // as main() is now always called and handles the primary logic (which is to do nothing but log).
-// console.log("Database seeding is currently deactivated in prisma/seed.ts."); // This top-level log is also now covered by main()
-
-// async function disconnectPrisma() {
-//   await prisma.$disconnect();
-// }
-
-// if (require.main === module) {
-//   console.log("Seed script was run directly. Main function (deactivated) will run. Disconnecting Prisma in finally block.");
-//   // disconnectPrisma().catch(e => { // This explicit call is handled by main's finally block
-//   //   console.error("Error disconnecting Prisma:", e);
-//   //   process.exit(1);
-//   // });
-// }
