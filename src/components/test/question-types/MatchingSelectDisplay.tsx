@@ -20,13 +20,19 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       });
       setMatchingAnswers(currentMatches);
     } catch (e) {
+      // console.error(`[MatchingSelectDisplay QID: ${question.id}] Error parsing userAnswer:`, e, "User answer was:", userAnswer);
       setMatchingAnswers((question.prompts || []).map(p => ({ promptId: p.id, choiceId: null })));
     }
-  }, [userAnswer, question.prompts]);
+  }, [userAnswer, question.prompts, question.id]);
+
+  const prompts = useMemo(() => {
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Received question.prompts:`, JSON.stringify(question.prompts));
+    return question.prompts || [];
+  }, [question.id, question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
     const baseChoices = question.choices || [];
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Received question.choices:`, JSON.stringify(baseChoices));
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Initial baseChoices:`, JSON.stringify(baseChoices));
 
     const filteredChoices = baseChoices.filter((choice, idx) => {
       if (!choice) {
@@ -45,15 +51,14 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with EMPTY/WHITESPACE ID at index ${idx}. Original ID: "${choice.id}", Text: "${choice.text}"`);
         return false;
       }
-      // Text should be a string. It can be empty, but not null/undefined or a non-string type.
-      if (typeof choice.text !== 'string') {
+      if (typeof choice.text !== 'string') { // Text for display can be empty, but not other types
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
         return false;
       }
       return true;
     });
 
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Filtered choices:`, JSON.stringify(filteredChoices));
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Filtered choices (before shuffle):`, JSON.stringify(filteredChoices));
 
     if (testMode === 'testing' || testMode === 'race') {
       const shuffled = [...filteredChoices];
@@ -76,10 +81,10 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     onAnswerChange(question.id, JSON.stringify(newAnswers));
   };
 
-  if (!question.prompts || question.prompts.length === 0) {
+  if (prompts.length === 0) {
     return <p className="text-destructive">Configuration error: No prompts defined for this matching question (ID: {question.id}).</p>;
   }
-   if (!validShuffledChoices || validShuffledChoices.length === 0) {
+   if (validShuffledChoices.length === 0) {
      if (!question.choices || question.choices.length === 0) {
         return <p className="text-destructive">Configuration error: No choices defined for this matching question (ID: {question.id}).</p>;
      }
@@ -89,7 +94,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
 
   return (
     <div className="space-y-4">
-      {question.prompts.map((prompt) => (
+      {prompts.map((prompt) => (
         <div key={prompt.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-center p-3 border rounded-md md:min-w-[300px]">
           <Label htmlFor={`q${question.id}-p${prompt.id}-select`} className="text-base text-foreground">
             {prompt.text}
@@ -105,39 +110,34 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               <SelectValue placeholder="Select match..." />
             </SelectTrigger>
             <SelectContent>
-              {/* Placeholder item - value="" is allowed here by Radix if SelectValue has placeholder prop */}
               <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
               
               {validShuffledChoices.map((choice: MatchingItem, index: number) => {
-                // CRITICAL CHECK: Ensure choice.id is a non-null, non-empty string.
-                if (!choice || choice.id == null) { // Check if choice object or choice.id is null/undefined
-                  console.error(
-                      `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Encountered null/undefined choice object or choice.id within map for Q_ID ${question.id} at index ${index}. ` +
-                      `Skipping this SelectItem. Choice object:`, JSON.stringify(choice)
-                  );
+                // CRITICAL PRE-RENDER CHECK
+                if (!choice || choice.id == null) {
+                  console.error(`[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Encountered null/undefined choice object or choice.id at index ${index} for Q_ID ${question.id}. Skipping SelectItem. Choice:`, JSON.stringify(choice));
                   return null; // Skip rendering this item
                 }
 
-                const choiceIdStr = String(choice.id).trim(); // Convert to string and trim
-                // Ensure choice.text is a string, defaulting to an empty string if null/undefined.
-                // Text for display can be empty, but Radix value cannot.
-                const choiceTextStr = String(choice.text == null ? '' : choice.text); 
+                // Aggressively sanitize the ID for the value prop by removing ALL whitespace
+                const valueForSelectItem = String(choice.id).replace(/\s/g, '');
 
-                if (choiceIdStr === '') {
+                if (valueForSelectItem === '') {
                   console.error(
-                      `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Skipping SelectItem due to EMPTY STRING ID after trim for Q_ID ${question.id}. ` +
-                      `Original ID: "${choice.id}", Original Text: "${choiceTextStr}". ` +
-                      `Problematic Choice Object from validShuffledChoices: ${JSON.stringify(choice)}. Index in validShuffledChoices: ${index}`
+                      `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Skipping SelectItem due to EMPTY ID after aggressive sanitization for Q_ID ${question.id} at index ${index}. ` +
+                      `Original ID: "${choice.id}", Aggressively Sanitized ID: "${valueForSelectItem}". Choice Object: ${JSON.stringify(choice)}`
                   );
-                  return null; // Skip rendering this item if ID is empty string after trim
+                  return null; // Skip rendering this item if ID becomes empty after full whitespace removal
                 }
                 
-                // This console.log can be enabled for deep debugging of rendered items
-                // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem: key="${choiceIdStr}", value="${choiceIdStr}", textContent="${choiceTextStr || `(ID: ${choiceIdStr})`}"`);
+                const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+                
+                // For debugging, you can uncomment this:
+                // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem: key="${valueForSelectItem}", value="${valueForSelectItem}", textContent="${choiceTextStr || `(ID: ${valueForSelectItem})`}"`);
 
                 return (
-                  <SelectItem key={choiceIdStr} value={choiceIdStr} className="text-base">
-                    {choiceTextStr || `(ID: ${choiceIdStr})`} {/* Display ID if text is empty */}
+                  <SelectItem key={valueForSelectItem} value={valueForSelectItem} className="text-base">
+                    {choiceTextStr || `(ID: ${valueForSelectItem})`} {/* Display ID if text is empty */}
                   </SelectItem>
                 );
               })}
