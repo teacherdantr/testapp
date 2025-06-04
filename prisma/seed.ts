@@ -1,140 +1,80 @@
 
-import { PrismaClient, QuestionType, HotspotShapeType } from '@prisma/client';;
-// Adjust the path based on your project structure.
-// If seed.ts is in prisma/ and L6P1.json is in src/data/tests/
-import L6P1Data from '../src/data/tests/L6P1.json';
+import { PrismaClient } from '@prisma/client';
+// Note: QuestionType and HotspotShapeType enums might still be needed if you have
+// complex logic elsewhere in this file, but typically not if main() is inert.
+// For a fully deactivated seed, they can be removed if no other part of this script uses them.
+// import { QuestionType, HotspotShapeType } from '@prisma/client';
+
+// The import for L6P1Data is removed as it's not used by a deactivated main()
+// import L6P1Data from '../src/data/tests/L6P1.json';
 
 const prisma = new PrismaClient();
 
-// Helper function to map JSON question type string to Prisma Enum
-function mapQuestionType(jsonType: string): QuestionType {
-  if (!QuestionType) {
-    throw new Error("Prisma enum 'QuestionType' is not available. Did you run 'npx prisma generate'?");
-  }
-  switch (jsonType.toUpperCase()) {
-    case 'MCQ': return QuestionType.MCQ;
-    case 'MCMA': return QuestionType.MultipleChoiceMultipleAnswer; // Matches your L6P1.json
-    case 'MATRIXCHOICE': return QuestionType.MatrixChoice;
-    case 'HOTSPOT': return QuestionType.Hotspot;
-    case 'MATCHINGSELECT': return QuestionType.MatchingSelect;
-    case 'MTF': return QuestionType.MultipleTrueFalse; // Matches your L6P1.json
-    case 'TRUEFALSE': return QuestionType.TrueFalse;
-    case 'SHORTANSWER': return QuestionType.ShortAnswer;
-    default:
-      throw new Error(`Unknown question type from JSON: ${jsonType}`);
-  }
-}
-
-// Helper function to map JSON hotspot shape string to Prisma Enum
-function mapHotspotShapeType(shapeType: string): HotspotShapeType {
-  switch (shapeType) {
-    case 'Rectangle':
-      return "Rectangle" as HotspotShapeType;
-    case 'circle': return HotspotShapeType.Circle;
-    case 'Polygon': return HotspotShapeType.Polygon;
-    default:
-      throw new Error(`Unknown hotspot shape type: ${shapeType}`);
-  }
-}
+// Helper functions like mapQuestionType and mapHotspotShapeType are removed
+// as they are no longer used by the deactivated main() function.
+// If you have other utility functions in this file that are still needed,
+// they can remain.
 
 async function main() {
-  console.log(`Start seeding ...`);
+  console.warn("--------------------------------------------------------------------------");
+  console.warn("ATTENTION: Database seeding (prisma/seed.ts) is currently DEACTIVATED.");
+  console.warn("The 'main' function was executed, but it will NOT perform any data changes.");
+  console.warn("To re-enable seeding, you need to restore or add data manipulation logic");
+  console.warn("within this 'main' function.");
+  console.warn("--------------------------------------------------------------------------");
 
-  // Delete existing L6P1 test to make seeding idempotent
-  try {
-    // Prisma requires deleting related records (questions) before deleting the parent (test)
-    // if there's a required relation.
-    await prisma.question.deleteMany({ where: { testId: L6P1Data.id } }); // Corrected: test_id to testId
-    await prisma.test.delete({ where: { id: L6P1Data.id } });
-    console.log(`Deleted existing test with ID: ${L6P1Data.id} and its questions.`);
-  } catch (error: any) {
-    // P2025 is the error code for "Record to delete does not exist"
-    if (error.code === 'P2025') {
-      console.log(`Test with ID ${L6P1Data.id} not found or already deleted, proceeding to create.`);
-    } else {
-      // For other errors, log it. You might want to halt seeding if it's critical.
-      console.error(`Error deleting existing test ${L6P1Data.id} (or its questions):`, error.message);
-    }
-  }
-
-  const createdTest = await prisma.test.create({
-    data: {
-      id: L6P1Data.id, // Use the ID from JSON
-      title: L6P1Data.title,
-      description: L6P1Data.description,
-      password: L6P1Data.password,
-      // createdAt and updatedAt will be handled by Prisma's @default(now()) and @updatedAt
-      questions: {
-        create: L6P1Data.questions.map((q: any) => {
-          const questionType = mapQuestionType(q.type);
-          
-          // Construct the questionData JSON object based on question type
-          const questionDataObject: any = {
-            // Store correctAnswer as provided in JSON, assuming its format matches expectations
-            // For MTF, ensure correctAnswer is an array of strings like ["true", "false"]
-            correctAnswer: (questionType === QuestionType.MultipleTrueFalse && Array.isArray(q.correctAnswer))
-                            ? q.correctAnswer.map((ans: any) => String(ans).toLowerCase())
-                            : q.correctAnswer,
-          };
-
-          if (q.options) questionDataObject.options = q.options;
-          if (q.statements) questionDataObject.statements = q.statements;
-          if (q.categories) questionDataObject.categories = q.categories;
-          
-          if (questionType === QuestionType.Hotspot) {
-            questionDataObject.hotspots = q.hotspots?.map((hs: any) => ({
-              ...hs, // id, coords, label from JSON
-              shape: mapHotspotShapeType(hs.shape), // Mapped enum value
-            })) || [];
-            questionDataObject.multipleSelection = !!q.multipleSelection;
-          } else {
-            // Explicitly set multipleSelection to undefined if not a Hotspot question,
-            // as the field is optional in Prisma schema (Boolean?)
-            questionDataObject.multipleSelection = undefined; 
-          }
-
-          if (q.prompts) questionDataObject.prompts = q.prompts;
-          if (q.choices) questionDataObject.choices = q.choices;
-          
-          return {
-            id: q.id, // Use ID from JSON for the question
-            text: q.text,
-            type: questionType,
-            imageUrl: q.imageUrl || null, // Use null if imageUrl is empty/undefined
-            points: q.points,
-            questionData: questionDataObject, // This is the JSONB field
-          };
-        }),
-      },
-    },
-    include: {
-      questions: true, // Optionally include created questions in the result
-    },
-  });
-
-  console.log(`Created test "${createdTest.title}" (ID: ${createdTest.id}) with ${createdTest.questions.length} questions.`);
-  console.log(`Seeding finished.`);
+  // All original seeding logic that was previously here (e.g., deleting existing tests,
+  // creating new tests from JSON data) has been removed or commented out to ensure
+  // no unintended data modifications occur while seeding is meant to be off.
+  //
+  // Example of original logic that would be here if active:
+  //
+  // console.log(`Start seeding ...`);
+  // try {
+  //   // Prisma requires deleting related records (questions) before deleting the parent (test)
+  //   // if there's a required relation.
+  //   await prisma.question.deleteMany({ where: { testId: L6P1Data.id } });
+  //   await prisma.test.delete({ where: { id: L6P1Data.id } });
+  //   console.log(`Deleted existing test with ID: ${L6P1Data.id} and its questions.`);
+  // } catch (error: any) {
+  //   if (error.code === 'P2025') {
+  //     console.log(`Test with ID ${L6P1Data.id} not found or already deleted, proceeding to create.`);
+  //   } else {
+  //     console.error(`Error deleting existing test ${L6P1Data.id} (or its questions):`, error.message);
+  //   }
+  // }
+  // const createdTest = await prisma.test.create({
+  //   data: { /* ... L6P1Data mapping ... */ },
+  //   include: { questions: true },
+  // });
+  // console.log(`Created test "${createdTest.title}" (ID: ${createdTest.id}) with ${createdTest.questions.length} questions.`);
+  // console.log(`Seeding finished.`);
 }
 
-// main() // Seeding deactivated
-//   .catch((e) => {
-//     console.error("Seeding failed:", e);
-//     process.exit(1);
-//   })
-//   .finally(async () => {
-//     await prisma.$disconnect();
-//   });
-
-console.log("Database seeding is currently deactivated in prisma/seed.ts.");
-
-async function disconnectPrisma() {
-  await prisma.$disconnect();
-}
-
-if (require.main === module) {
-  console.log("Seed script was run directly, but main() is commented out. Disconnecting Prisma.");
-  disconnectPrisma().catch(e => {
-    console.error("Error disconnecting Prisma:", e);
+// The main function is called, but its content is now just a deactivation notice.
+main()
+  .catch((e) => {
+    console.error("An error occurred during the (deactivated) seed process execution:", e);
+    // Exit with an error code if something unexpected happens, even in a deactivated state.
     process.exit(1);
+  })
+  .finally(async () => {
+    console.log("Prisma client disconnecting (from seed script).");
+    await prisma.$disconnect();
   });
-}
+
+// The previous if (require.main === module) block is no longer necessary
+// as main() is now always called and handles the primary logic (which is to do nothing but log).
+// console.log("Database seeding is currently deactivated in prisma/seed.ts."); // This top-level log is also now covered by main()
+
+// async function disconnectPrisma() {
+//   await prisma.$disconnect();
+// }
+
+// if (require.main === module) {
+//   console.log("Seed script was run directly. Main function (deactivated) will run. Disconnecting Prisma in finally block.");
+//   // disconnectPrisma().catch(e => { // This explicit call is handled by main's finally block
+//   //   console.error("Error disconnecting Prisma:", e);
+//   //   process.exit(1);
+//   // });
+// }
