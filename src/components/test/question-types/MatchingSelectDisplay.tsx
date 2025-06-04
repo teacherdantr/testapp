@@ -1,45 +1,48 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react'; // Removed useState, useEffect
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
 import type { MatchingItem } from '@/lib/types';
 
 export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
-  const [matchingAnswers, setMatchingAnswers] = useState<Array<{ promptId: string, choiceId: string | null }>>([]);
 
-  useEffect(() => {
+  const currentSelections = useMemo(() => {
+    const selections = new Map<string, string | null>();
+    const allPrompts = question.prompts || [];
     try {
-      const initialUserMatches = userAnswer ? JSON.parse(userAnswer) : [];
-      const allPrompts = question.prompts || [];
-      const currentMatches = allPrompts.map(prompt => {
-        const existingMatch = initialUserMatches.find((match: any) => match.promptId === prompt.id);
-        return { promptId: prompt.id, choiceId: existingMatch ? existingMatch.choiceId : null };
+      const parsedUserAnswer: Array<{ promptId: string, choiceId: string | null }> = userAnswer ? JSON.parse(userAnswer) : [];
+      allPrompts.forEach(prompt => {
+        if (prompt && prompt.id != null) { // Ensure prompt and prompt.id are valid
+          const existingMatch = parsedUserAnswer.find(match => match.promptId === prompt.id);
+          selections.set(prompt.id, existingMatch ? (existingMatch.choiceId === '' ? null : existingMatch.choiceId) : null);
+        }
       });
-      setMatchingAnswers(currentMatches);
     } catch (e) {
-      // console.error(`[MatchingSelectDisplay QID: ${question.id}] Error parsing userAnswer:`, e, "User answer was:", userAnswer);
-      setMatchingAnswers((question.prompts || []).map(p => ({ promptId: p.id, choiceId: null })));
+      // console.error(`[MatchingSelectDisplay QID: ${question.id}] Error parsing userAnswer for currentSelections:`, e, "User answer was:", userAnswer);
+      allPrompts.forEach(prompt => {
+        if (prompt && prompt.id != null) {
+          selections.set(prompt.id, null);
+        }
+      });
     }
+    return selections;
   }, [userAnswer, question.prompts, question.id]);
 
   const prompts = useMemo(() => {
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Received question.prompts:`, JSON.stringify(question.prompts));
-    return question.prompts || [];
+    return (question.prompts || []).filter(p => p && p.id != null); // Filter out invalid prompts
   }, [question.id, question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
     const baseChoices = question.choices || [];
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Initial baseChoices:`, JSON.stringify(baseChoices));
-
     const filteredChoices = baseChoices.filter((choice, idx) => {
       if (!choice) {
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out NULL/UNDEFINED choice object at index ${idx}.`);
         return false;
       }
-      if (choice.id == null) { // Catches both null and undefined for ID
+      if (choice.id == null) {
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NULL/UNDEFINED ID at index ${idx}. Choice text: "${choice.text}"`);
         return false;
       }
@@ -51,14 +54,12 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with EMPTY/WHITESPACE ID at index ${idx}. Original ID: "${choice.id}", Text: "${choice.text}"`);
         return false;
       }
-      if (typeof choice.text !== 'string') { // Text for display can be empty, but not other types
+      if (typeof choice.text !== 'string') {
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
         return false;
       }
       return true;
     });
-
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Filtered choices (before shuffle):`, JSON.stringify(filteredChoices));
 
     if (testMode === 'testing' || testMode === 'race') {
       const shuffled = [...filteredChoices];
@@ -66,86 +67,76 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
-      // console.log(`[MatchingSelectDisplay QID: ${question.id}] Shuffled choices:`, JSON.stringify(shuffled));
       return shuffled;
     }
     return filteredChoices;
   }, [question.choices, question.id, testMode]);
 
 
-  const handleMatchingSelectChange = (promptId: string, choiceId: string) => {
-    const newAnswers = matchingAnswers.map(match =>
-      match.promptId === promptId ? { ...match, choiceId: choiceId === '' ? null : choiceId } : match
-    );
-    setMatchingAnswers(newAnswers);
-    onAnswerChange(question.id, JSON.stringify(newAnswers));
+  const handleMatchingSelectChange = (promptIdToUpdate: string, newChoiceId: string) => {
+    const updatedAnswersArray: Array<{ promptId: string, choiceId: string | null }> = [];
+    prompts.forEach(prompt => { // Iterate over the filtered prompts
+      if (prompt.id === promptIdToUpdate) {
+        updatedAnswersArray.push({ promptId: prompt.id, choiceId: newChoiceId === '' ? null : newChoiceId });
+      } else {
+        // Get the current selection for other prompts from the memoized 'currentSelections'
+        updatedAnswersArray.push({ promptId: prompt.id, choiceId: currentSelections.get(prompt.id) || null });
+      }
+    });
+    onAnswerChange(question.id, JSON.stringify(updatedAnswersArray));
   };
 
   if (prompts.length === 0) {
-    return <p className="text-destructive">Configuration error: No prompts defined for this matching question (ID: {question.id}).</p>;
+    return <p className="text-destructive">Configuration error: No valid prompts defined for this matching question (ID: {question.id}).</p>;
   }
-   if (validShuffledChoices.length === 0) {
-     if (!question.choices || question.choices.length === 0) {
-        return <p className="text-destructive">Configuration error: No choices defined for this matching question (ID: {question.id}).</p>;
-     }
-    return <p className="text-destructive">Configuration error: No valid choices available after filtering for question (ID: {question.id}). Please check choice IDs and text in question data. Ensure all choices have non-empty string IDs.</p>;
+  if (validShuffledChoices.length === 0) {
+    if (!question.choices || question.choices.length === 0) {
+       return <p className="text-destructive">Configuration error: No choices defined for this matching question (ID: {question.id}).</p>;
+    }
+    return <p className="text-destructive">Configuration error: No valid choices available after filtering for question (ID: {question.id}). Please check choice IDs and text in question data.</p>;
   }
-
 
   return (
     <div className="space-y-4">
-      {prompts.map((prompt) => (
-        <div key={prompt.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-center p-3 border rounded-md md:min-w-[300px]">
-          <Label htmlFor={`q${question.id}-p${prompt.id}-select`} className="text-base text-foreground">
-            {prompt.text}
-          </Label>
-          <Select
-            value={matchingAnswers.find(m => m.promptId === prompt.id)?.choiceId || ''}
-            onValueChange={(value) => handleMatchingSelectChange(prompt.id, value)}
-          >
-            <SelectTrigger
-              id={`q${question.id}-p${prompt.id}-select`}
-              className="w-full md:w-[250px] text-base h-11"
+      {prompts.map((prompt) => {
+        const selectedChoiceIdForThisPrompt = currentSelections.get(prompt.id) || ''; // For Select value, empty string for placeholder
+
+        return (
+          <div key={prompt.id} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-center p-3 border rounded-md md:min-w-[300px]">
+            <Label htmlFor={`q${question.id}-p${prompt.id}-select`} className="text-base text-foreground">
+              {prompt.text}
+            </Label>
+            <Select
+              value={selectedChoiceIdForThisPrompt}
+              onValueChange={(value) => handleMatchingSelectChange(prompt.id, value)}
             >
-              <SelectValue placeholder="Select match..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
-              
-              {validShuffledChoices.map((choice: MatchingItem, index: number) => {
-                // CRITICAL PRE-RENDER CHECK
-                if (!choice || choice.id == null) {
-                  console.error(`[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Encountered null/undefined choice object or choice.id at index ${index} for Q_ID ${question.id}. Skipping SelectItem. Choice:`, JSON.stringify(choice));
-                  return null; // Skip rendering this item
-                }
-
-                // Aggressively sanitize the ID for the value prop by removing ALL whitespace
-                const valueForSelectItem = String(choice.id).replace(/\s/g, '');
-
-                if (valueForSelectItem === '') {
-                  console.error(
-                      `[MatchingSelectDisplay] CRITICAL RENDER BLOCK: Skipping SelectItem due to EMPTY ID after aggressive sanitization for Q_ID ${question.id} at index ${index}. ` +
-                      `Original ID: "${choice.id}", Aggressively Sanitized ID: "${valueForSelectItem}". Choice Object: ${JSON.stringify(choice)}`
+              <SelectTrigger
+                id={`q${question.id}-p${prompt.id}-select`}
+                className="w-full md:w-[250px] text-base h-11"
+              >
+                <SelectValue placeholder="Select match..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
+                {validShuffledChoices.map((choice, index) => {
+                  const valueForSelectItem = String(choice.id).replace(/\s/g, '');
+                  if (valueForSelectItem === '') {
+                    // This console.error is a critical safeguard if somehow an empty ID gets past validShuffledChoices
+                    // console.error(`[MatchingSelectDisplay] CRITICAL RENDER BLOCK (Post-Memo): Skipping SelectItem due to EMPTY ID after aggressive sanitization for Q_ID ${question.id}. Original ID: "${choice.id}". Choice:`, JSON.stringify(choice));
+                    return null;
+                  }
+                  const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+                  return (
+                    <SelectItem key={valueForSelectItem} value={valueForSelectItem} className="text-base">
+                      {choiceTextStr || `(ID: ${valueForSelectItem})`}
+                    </SelectItem>
                   );
-                  return null; // Skip rendering this item if ID becomes empty after full whitespace removal
-                }
-                
-                const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
-                
-                // For debugging, you can uncomment this:
-                // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem: key="${valueForSelectItem}", value="${valueForSelectItem}", textContent="${choiceTextStr || `(ID: ${valueForSelectItem})`}"`);
-
-                return (
-                  <SelectItem key={valueForSelectItem} value={valueForSelectItem} className="text-base">
-                    {choiceTextStr || `(ID: ${valueForSelectItem})`} {/* Display ID if text is empty */}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </div>
-      ))}
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        );
+      })}
     </div>
   );
 }
-    
