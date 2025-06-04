@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Dialog, DialogContent, DialogHeader as DialogHeaderUi, DialogTitle as DialogTitleUi } from '@/components/ui/dialog';
-import { Loader2, AlertTriangle, Send, List, CheckCircle2, Circle as CircleIcon, TimerIcon, Goal, Zap, RotateCcw, Rocket, Users, XCircle } from 'lucide-react';
+import { Loader2, AlertTriangle, Send, List, CheckCircle2, Circle as CircleIcon, TimerIcon, Goal, Zap, RotateCcw, Rocket, Users, XCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Progress } from '@/components/ui/progress';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -687,6 +687,7 @@ export default function TestPage() {
         <div className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-sm border-t p-4 md:static md:bg-transparent md:backdrop-blur-none md:border-none md:p-0 md:mt-8">
           <div className="max-w-3xl mx-auto flex justify-between items-center">
             <Button onClick={goToPreviousQuestion} disabled={currentQuestionIndex === 0 || testMode === 'race'} variant="outline" className="w-1/3 md:w-auto">
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Previous
             </Button>
             
@@ -703,6 +704,7 @@ export default function TestPage() {
             ) : (
                 <Button onClick={goToNextQuestion} variant="default" className="w-1/3 md:w-auto">
                     Next
+                    <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             )}
           </div>

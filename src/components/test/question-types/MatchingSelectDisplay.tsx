@@ -129,38 +129,35 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
             </Label>
             <Select
               value={selectedChoiceIdForThisPrompt} // Use "" for placeholder state on the Select component
-              onValueChange={(value) => handleMatchingSelectChange(prompt.id, value)}
+              onValueChange={value => handleMatchingSelectChange(prompt.id, value)}
             >
-              <SelectTrigger
-                id={`q${question.id}-p${prompt.id}-select`}
-                className="w-full md:w-[250px] text-base h-11"
-              >
+              <SelectTrigger id={`q${question.id}-p${prompt.id}-select`} className="w-full md:w-[250px] text-base h-11">
                 <SelectValue placeholder="Select match..." />
               </SelectTrigger>
               <SelectContent>
                 {/* This is the placeholder item. Radix expects value="" for it when SelectValue has a placeholder. */}
-                <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
-                {validShuffledChoices.map((choice: MatchingItem, index: number) => {
-                  if (!choice || choice.id == null) { 
-                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Invalid Choice Object): Skipping SelectItem due to NULL/UNDEFINED choice object or choice.id. Index: ${index}. Choice:`, JSON.stringify(choice));
-                    return null; 
-                  }
-                  
-                  // Sanitize ID specifically for the value prop of SelectItem
-                  // Use user's suggested sanitization: String(choice.id).replace(/\s/g, '').trim();
-                  // However, trim() is redundant if replace(/\s/g, '') is used.
-                  const valueForSelectItem = String(choice.id).replace(/\s/g, ''); 
+                <SelectItem  value="__placeholder__" disabled  className="text-base italic text-muted-foreground">-- Select --</SelectItem>
+                {validShuffledChoices
+                  .filter(choice => {
+                    if (!choice || choice.id == null) {
+                      console.error(`[MatchingSelectDisplay QID: ${question.id}] Filter BLOCK (Invalid Choice Object): Filtering out choice due to NULL/UNDEFINED choice object or choice.id. Choice:`, JSON.stringify(choice));
+                      return false; // Filter out invalid choices
+                    }
+                    const valueForSelectItem = String(choice.id).replace(/\s/g, '');
+                    if (valueForSelectItem === '') {
+                      console.error(`[MatchingSelectDisplay QID: ${question.id}] Filter BLOCK (Empty ID Post-Sanitization): Filtering out choice because choice.id ("${choice.id}") became an empty string after sanitization. Full Choice:`, JSON.stringify(choice));
+                      return false; // Filter out choices with empty IDs after sanitization
+                    }
+                    return true; // Keep valid choices
+                  })
+                  .map((choice: MatchingItem, index: number) => {
+                    // Recalculate sanitized ID for rendering - this is safe now because of the filter above
+                    const valueForSelectItem = String(choice.id).replace(/\s/g, '');
 
-                  if (valueForSelectItem === '') {
-                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Empty ID Post-Sanitization): Skipping SelectItem because choice.id ("${choice.id}") became an empty string after sanitization. Full Choice:`, JSON.stringify(choice));
-                    return null; 
-                  }
-                  
-                  const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
-                  const displayLabel = choiceTextStr || `(Choice ID: ${valueForSelectItem})`;
+                    const choiceTextStr = String(choice.text == null ? '' : choice.text).trim();
+                    const displayLabel = choiceTextStr || `(Choice ID: ${valueForSelectItem})`;
 
-                  // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem for choice: ID="${choice.id}", SanitizedID/Value="${valueForSelectItem}", Text="${displayLabel}"`);
-
+                    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem for choice: ID="${choice.id}", SanitizedID/Value="${valueForSelectItem}", Text="${displayLabel}"`);
                   return (
                     <SelectItem
                       key={`${question.id}-${valueForSelectItem}-${index}-${Math.random()}`} 
