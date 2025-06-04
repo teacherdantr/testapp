@@ -1,13 +1,20 @@
 
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
 import type { MatchingItem } from '@/lib/types';
+import { QuestionType } from '@/lib/types'; // Import QuestionType
 
 export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
+
+  useEffect(() => {
+    if (question && question.type === QuestionType.MatchingSelect) {
+      console.log(`[MatchingSelectDisplay QID: ${question.id}] Full question data:`, JSON.stringify(question, null, 2));
+    }
+  }, [question]);
 
   const currentSelections = useMemo(() => {
     const selections = new Map<string, string | null>();
@@ -33,10 +40,10 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
 
   const prompts = useMemo(() => {
     return (question.prompts || []).filter(p => p && p.id != null);
-  }, [question.id, question.prompts]);
+  }, [question.prompts]);
 
   const validShuffledChoices = useMemo(() => {
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Original question.choices:`, JSON.stringify(question.choices));
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Original question.choices received:`, JSON.stringify(question.choices, null, 2));
     const baseChoices = question.choices || [];
     const filteredChoices = baseChoices.filter((choice, idx) => {
       if (!choice) {
@@ -55,7 +62,6 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with EMPTY/WHITESPACE ID at index ${idx}. Original ID: "${choice.id}", Text: "${choice.text}"`);
         return false;
       }
-      // Text can be empty, but it must be a string if it exists
       if (choice.text != null && typeof choice.text !== 'string') {
          // console.warn(`[MatchingSelectDisplay QID: ${question.id}] Filtering out choice with NON-STRING TEXT (type: ${typeof choice.text}) at index ${idx}. ID: "${choice.id}", Text: ${JSON.stringify(choice.text)}`);
         return false;
@@ -63,7 +69,7 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
       return true;
     });
 
-    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Filtered choices (before shuffle):`, JSON.stringify(filteredChoices));
+    // console.log(`[MatchingSelectDisplay QID: ${question.id}] Filtered choices (before shuffle):`, JSON.stringify(filteredChoices, null, 2));
 
     if (testMode === 'testing' || testMode === 'race') {
       const shuffled = [...filteredChoices];
@@ -71,11 +77,11 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
-      // console.log(`[MatchingSelectDisplay QID: ${question.id}] Shuffled choices:`, JSON.stringify(shuffled));
+      // console.log(`[MatchingSelectDisplay QID: ${question.id}] Shuffled choices:`, JSON.stringify(shuffled, null, 2));
       return shuffled;
     }
     return filteredChoices;
-  }, [question.choices, question.id, testMode]);
+  }, [question.id, question.choices, testMode]);
 
 
   const handleMatchingSelectChange = (promptIdToUpdate: string, newChoiceId: string) => {
@@ -122,27 +128,23 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="" className="text-base italic text-muted-foreground">-- Select --</SelectItem>
-                {validShuffledChoices.map((choice, index) => {
-                  // **MOST CRITICAL PART FOR PREVENTING THE ERROR**
+                {validShuffledChoices.map((choice: MatchingItem, index: number) => {
                   if (!choice || choice.id == null) { // Check for null/undefined choice or choice.id
-                    console.error(`[MatchingSelectDisplay] CRITICAL RENDER BLOCK (Pre-Stringify): Skipping SelectItem due to NULL/UNDEFINED choice object or choice.id. Q_ID ${question.id}. Index: ${index}. Choice:`, JSON.stringify(choice));
-                    return null;
-                  }
-
-                  const valueForSelectItem = String(choice.id).trim(); // Convert to string and trim
-
-                  if (valueForSelectItem === '') { // If ID becomes empty after trim, skip.
-                    console.error(`[MatchingSelectDisplay] CRITICAL RENDER BLOCK (Post-Trim): Skipping SelectItem due to EMPTY ID after trim. Q_ID ${question.id}. Original ID: "${choice.id}". Choice:`, JSON.stringify(choice));
+                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Pre-Stringify): Skipping SelectItem due to NULL/UNDEFINED choice object or choice.id. Index: ${index}. Choice:`, JSON.stringify(choice));
                     return null;
                   }
                   
-                  // Ensure text is a string for display, fallback if null/undefined
+                  const valueForSelectItem = String(choice.id).replace(/\s/g, ''); // Aggressively remove all whitespace
+
+                  if (valueForSelectItem === '') {
+                    console.error(`[MatchingSelectDisplay QID: ${question.id}] CRITICAL RENDER BLOCK (Post-Sanitize): Skipping SelectItem due to EMPTY ID after aggressive sanitization. Original ID: "${choice.id}", Full Choice:`, JSON.stringify(choice));
+                    return null;
+                  }
+                  
                   const choiceTextStr = (choice.text == null ? '' : String(choice.text)).trim();
                   const displayLabel = choiceTextStr || `(Choice ID: ${valueForSelectItem})`;
 
-                  // Uncomment for deep debugging of rendered items:
-                  // console.log(`[MatchingSelectDisplay] Rendering SelectItem: key="${question.id}-${valueForSelectItem}-${index}", value="${valueForSelectItem}", label="${displayLabel}"`);
-
+                  // console.log(`[MatchingSelectDisplay QID: ${question.id}] Rendering SelectItem: key="${question.id}-${valueForSelectItem}-${index}", value="${valueForSelectItem}", label="${displayLabel}"`);
                   return (
                     <SelectItem key={`${question.id}-${valueForSelectItem}-${index}`} value={valueForSelectItem} className="text-base">
                       {displayLabel}
