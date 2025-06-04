@@ -97,9 +97,11 @@ export default function HomePage() {
               The modern platform for creating, distributing, and taking online tests with ease and confidence.
             </p>
             <div className="mt-10 md:mt-12">
-              <Link href="/select-test" asChild>
-                <Button size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
-                  <PlayCircle className="mr-2 h-6 w-6"/> Take a Test Now
+              <Link href="/select-test" legacyBehavior passHref>
+                <Button asChild size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
+                  <a>
+                    <PlayCircle className="mr-2 h-6 w-6"/> Take a Test Now
+                  </a>
                 </Button>
               </Link>
             </div>
@@ -185,9 +187,11 @@ export default function HomePage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <Link href="/admin" asChild>
-                    <Button size="lg" className="w-full md:w-auto text-lg px-8 py-5">
-                      Go to Admin Dashboard
+                  <Link href="/admin" legacyBehavior passHref>
+                    <Button asChild size="lg" className="w-full md:w-auto text-lg px-8 py-5">
+                      <a>
+                        Go to Admin Dashboard
+                      </a>
                     </Button>
                   </Link>
                 </CardContent>
