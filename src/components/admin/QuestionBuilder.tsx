@@ -13,13 +13,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
-import { Trash2, PlusCircle, Brain, ImageIcon as ImageIconLucide } from 'lucide-react'; // Renamed Image to ImageIconLucide
+import { Trash2, PlusCircle, Brain, ImageIcon as ImageIconLucide, PencilRuler } from 'lucide-react';
 import { QuestionType, type Option as OptionType, type TrueFalseStatement, type Category, type HotspotArea, HotspotShapeType, type MatchingItem } from '@/lib/types';
 import { generateAnswerOptionsAI } from '@/lib/actions/testActions';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 
 interface QuestionBuilderProps {
@@ -276,6 +276,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                     setValue={setValue}
                     getValues={getValues}
                     watch={watch}
+                    toast={toast}
                   />
                 )}
 
@@ -435,7 +436,7 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
                                 </Button>
                             </div>
                             {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
-                                <p className="text-sm text-destructive ml-7"> {/* Adjusted margin for alignment */}
+                                <p className="text-sm text-destructive ml-7">
                                     {(errors.questions[questionIndex].options[optionIndex].text as any).message}
                                 </p>
                             )}
@@ -452,9 +453,9 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
             <div key={optionField.id} className="flex flex-col space-y-1">
                 <div className="flex items-center space-x-2">
                     <Controller
-                        name={`questions.${questionIndex}.options.${optionIndex}.text`} // This name is for RHF internal tracking, not directly what's being validated for checked state
+                        name={`questions.${questionIndex}.options.${optionIndex}.text`} 
                         control={control}
-                        render={({ }) => ( // Field not directly used here, state derived from correctAnswer
+                        render={({ }) => ( 
                             <Checkbox
                                 id={`q${questionIndex}-opt${optionIndex}-checkbox`}
                                 checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
@@ -489,7 +490,7 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
                   </Button>
                 </div>
                 {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
-                    <p className="text-sm text-destructive ml-7"> {/* Adjusted margin for alignment */}
+                    <p className="text-sm text-destructive ml-7">
                         {(errors.questions[questionIndex].options[optionIndex].text as any).message}
                     </p>
                 )}
@@ -497,24 +498,11 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
           ))}
         </div>
       )}
-
-      {/* Displays the "MCQ and MCMA questions must have at least two options." error if that specific refine fails */}
       {errors.questions?.[questionIndex]?.options?.message && typeof errors.questions[questionIndex].options.message === 'string' && (
         <p className="text-sm text-destructive mt-1">
             {(errors.questions[questionIndex].options as any).message}
         </p>
       )}
-       {/* Fallback for older general message display if needed, though should be covered by specific messages now */}
-       {/*
-       {errors.questions?.[questionIndex]?.options && !errors.questions[questionIndex].options.message && (
-            Array.isArray(errors.questions[questionIndex].options) ?
-            (errors.questions[questionIndex].options as any[]).some(optErr => optErr?.text) : false // Check if it's an array error from individual options
-            ) ? null :
-            <p className="text-sm text-destructive mt-1">Please ensure options are correctly configured.</p>
-        }
-      */}
-
-
       <Button type="button" onClick={() => appendOption({ text: '' })} variant="outline" size="sm">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Option
       </Button>
@@ -798,9 +786,10 @@ interface HotspotBuilderProps {
   setValue: UseFormSetValue<any>;
   getValues: UseFormGetValues<any>;
   watch: (name: string | string[]) => any;
+  toast: ({ title, description, variant }: { title: string; description?: string; variant?: 'default' | 'destructive' }) => void;
 }
 
-function HotspotBuilder({ questionIndex, control, register, errors, setValue, getValues, watch }: HotspotBuilderProps) {
+function HotspotBuilder({ questionIndex, control, register, errors, setValue, getValues, watch, toast }: HotspotBuilderProps) {
   const { fields: hotspotFields, append: appendHotspot, remove: removeHotspot } = useFieldArray({
     control,
     name: `questions.${questionIndex}.hotspots` as const,
@@ -808,6 +797,102 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
 
   const imageUrl = watch(`questions.${questionIndex}.imageUrl`);
   const multipleSelection = watch(`questions.${questionIndex}.multipleSelection`);
+
+  // State for drawing
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(null);
+  const [currentRect, setCurrentRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const [naturalImageSize, setNaturalImageSize] = useState<{ width: number; height: number } | null>(null);
+  
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const imageElementRef = useRef<HTMLImageElement>(null);
+
+
+  const handleImageMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageUrl || !imageContainerRef.current) return;
+    event.preventDefault(); 
+    const rect = imageContainerRef.current.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    setIsDrawing(true);
+    setStartPoint({ x, y });
+    setCurrentRect({ x, y, width: 0, height: 0 });
+  };
+
+  const handleImageMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDrawing || !startPoint || !imageContainerRef.current) return;
+    const containerRect = imageContainerRef.current.getBoundingClientRect();
+    const currentX = event.clientX - containerRect.left;
+    const currentY = event.clientY - containerRect.top;
+    
+    const constrainedX = Math.max(0, Math.min(currentX, containerRect.width));
+    const constrainedY = Math.max(0, Math.min(currentY, containerRect.height));
+
+    const newRect = {
+      x: Math.min(startPoint.x, constrainedX),
+      y: Math.min(startPoint.y, constrainedY),
+      width: Math.abs(constrainedX - startPoint.x),
+      height: Math.abs(constrainedY - startPoint.y),
+    };
+    setCurrentRect(newRect);
+  };
+
+  const handleImageMouseUpOrLeave = () => {
+    if (isDrawing) {
+      setIsDrawing(false);
+      if (currentRect && (currentRect.width < 5 || currentRect.height < 5)) {
+          setCurrentRect(null); 
+          toast({ title: "Hotspot too small", description: "Please draw a larger rectangle.", variant: "default" });
+      }
+      // Keep currentRect so user can click "Add Drawn Hotspot"
+    }
+  };
+
+  const handleAddDrawnHotspot = () => {
+    if (!currentRect || !imageElementRef.current || currentRect.width < 5 || currentRect.height < 5) {
+      toast({ title: "No valid rectangle drawn", description: "Please draw a sufficiently large rectangle on the image first.", variant: "destructive" });
+      return;
+    }
+  
+    const img = imageElementRef.current;
+    if (!naturalImageSize || naturalImageSize.width === 0 || naturalImageSize.height === 0) {
+      toast({ title: "Image error", description: "Cannot determine natural image dimensions. Ensure image is loaded.", variant: "destructive" });
+      return;
+    }
+    
+    const displayedWidth = img.offsetWidth;
+    const displayedHeight = img.offsetHeight;
+
+    if (displayedWidth === 0 || displayedHeight === 0) {
+      toast({ title: "Image display error", description: "Cannot determine displayed image dimensions.", variant: "destructive" });
+      return;
+    }
+  
+    // Normalize coordinates based on displayed size relative to natural size.
+    // The drawn currentRect coordinates are relative to the displayed image.
+    // We need to map these to the 0-1 range based on the natural dimensions.
+    // This assumes the image display maintains aspect ratio (object-fit: contain helps)
+
+    const normX = currentRect.x / displayedWidth;
+    const normY = currentRect.y / displayedHeight;
+    const normWidth = currentRect.width / displayedWidth;
+    const normHeight = currentRect.height / displayedHeight;
+  
+    const coordsString = `${normX.toFixed(4)},${normY.toFixed(4)},${normWidth.toFixed(4)},${normHeight.toFixed(4)}`;
+  
+    appendHotspot({
+      id: crypto.randomUUID(),
+      shape: HotspotShapeType.Rectangle,
+      coords: coordsString,
+      label: `Drawn Hotspot ${hotspotFields.length + 1}`,
+    });
+  
+    setCurrentRect(null);
+    setStartPoint(null);
+    toast({ title: "Hotspot Added", description: "The drawn rectangle has been added as a hotspot." });
+  };
+
 
   const handleCorrectHotspotChange = (hotspotId: string, checked: boolean) => {
     let currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`);
@@ -828,6 +913,14 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
   const addHotspotField = () => {
     appendHotspot({ id: crypto.randomUUID(), shape: HotspotShapeType.Rectangle, coords: '', label: `Hotspot ${hotspotFields.length + 1}` });
   };
+  
+  // Reset drawing state if image URL changes
+  useEffect(() => {
+    setCurrentRect(null);
+    setStartPoint(null);
+    setIsDrawing(false);
+    setNaturalImageSize(null);
+  }, [imageUrl]);
 
   return (
     <div className="space-y-4">
@@ -842,12 +935,62 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
         {errors.questions?.[questionIndex]?.imageUrl && (
           <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.imageUrl as any)?.message}</p>
         )}
-        {imageUrl && (imageUrl.startsWith('https://') || imageUrl.startsWith('/images/')) && (
-          <div className="mt-2 relative border rounded-md overflow-hidden" style={{ maxWidth: '400px', maxHeight: '300px' }}>
-            <Image src={imageUrl} alt="Hotspot image preview" width={400} height={300} style={{ objectFit: 'contain' }} data-ai-hint="image map" />
-          </div>
-        )}
       </div>
+      
+      {imageUrl && (imageUrl.startsWith('https://') || imageUrl.startsWith('/images/')) && (
+        <div className="space-y-2">
+          <Label>Draw Hotspot (Rectangles Only)</Label>
+          <div
+            ref={imageContainerRef}
+            className="relative w-full max-w-md mx-auto aspect-video border rounded-md overflow-hidden cursor-crosshair bg-muted/20"
+            onMouseDown={handleImageMouseDown}
+            onMouseMove={handleImageMouseMove}
+            onMouseUp={handleImageMouseUpOrLeave}
+            onMouseLeave={handleImageMouseUpOrLeave}
+            data-ai-hint="interactive map editor"
+          >
+            <Image
+              ref={imageElementRef}
+              src={imageUrl}
+              alt="Hotspot image preview for drawing"
+              fill
+              style={{ objectFit: 'contain' }} // Important for aspect ratio
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
+              className="pointer-events-none" // Image itself should not capture mouse events meant for container
+              onLoad={(e) => {
+                const imgTarget = e.target as HTMLImageElement;
+                setNaturalImageSize({ width: imgTarget.naturalWidth, height: imgTarget.naturalHeight });
+              }}
+            />
+            {currentRect && imageContainerRef.current && (
+              <svg
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                // viewBox={`0 0 ${imageContainerRef.current.offsetWidth} ${imageContainerRef.current.offsetHeight}`} // Not needed if rect coords are direct pixels
+              >
+                <rect
+                  x={currentRect.x}
+                  y={currentRect.y}
+                  width={currentRect.width}
+                  height={currentRect.height}
+                  className="fill-primary/30 stroke-primary stroke-2"
+                />
+              </svg>
+            )}
+          </div>
+          <Button
+            type="button"
+            onClick={handleAddDrawnHotspot}
+            disabled={!currentRect || currentRect.width < 5 || currentRect.height < 5}
+            size="sm"
+            variant="outline"
+            className="w-full"
+          >
+            <PencilRuler className="mr-2 h-4 w-4" /> Add Drawn Rectangle as Hotspot
+          </Button>
+        </div>
+      )}
+
 
       <div className="flex items-center space-x-2">
         <Controller
@@ -868,7 +1011,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
         <Label htmlFor={`questions.${questionIndex}.multipleSelection`}>Allow multiple correct hotspots</Label>
       </div>
 
-      <Label>Hotspots (Define clickable areas and select correct ones)</Label>
+      <Label>Defined Hotspots (Select correct ones)</Label>
       {hotspotFields.map((hotspotField, hotspotIdx) => (
         <div key={hotspotField.id} className="p-3 border rounded-md space-y-2">
           <div className="flex items-center space-x-2">
@@ -941,7 +1084,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
       <Button type="button" onClick={addHotspotField} variant="outline" size="sm">
-        <PlusCircle className="mr-2 h-4 w-4" /> Add Hotspot Area
+        <PlusCircle className="mr-2 h-4 w-4" /> Add Hotspot Area Manually
       </Button>
     </div>
   );
