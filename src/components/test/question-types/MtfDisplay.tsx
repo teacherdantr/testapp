@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import { CheckCircle2, Circle } from 'lucide-react'; // Import icons
 
 export function MtfDisplay({ question, userAnswer, onAnswerChange }: QuestionTypeDisplayProps) {
   const [mtfAnswers, setMtfAnswers] = useState<string[]>([]);
@@ -49,22 +50,36 @@ export function MtfDisplay({ question, userAnswer, onAnswerChange }: QuestionTyp
           <Label
             htmlFor={`${question.id}-s${statement.id}-true`}
             className={cn(
-              "flex items-center justify-center p-2 rounded-md border cursor-pointer transition-colors w-20 text-center text-base",
-              mtfAnswers[index] === 'true' ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-accent/50 border-input"
+              "flex items-center justify-center w-10 h-10 rounded-full border cursor-pointer transition-colors", // Matched style
+              mtfAnswers[index] === 'true' 
+                ? "bg-primary text-primary-foreground border-primary" 
+                : "bg-background hover:bg-accent/50 border-input"
             )}
+            title={`Select True for "${statement.text}"`}
           >
             <RadioGroupItem value="true" id={`${question.id}-s${statement.id}-true`} className="hidden" />
-            True
+            {mtfAnswers[index] === 'true' ? (
+              <CheckCircle2 className="h-5 w-5" />
+            ) : (
+              <Circle className="h-5 w-5 text-muted-foreground/50" />
+            )}
           </Label>
           <Label
             htmlFor={`${question.id}-s${statement.id}-false`}
             className={cn(
-              "flex items-center justify-center p-2 rounded-md border cursor-pointer transition-colors w-20 text-center text-base",
-              mtfAnswers[index] === 'false' ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-accent/50 border-input"
+              "flex items-center justify-center w-10 h-10 rounded-full border cursor-pointer transition-colors", // Matched style
+              mtfAnswers[index] === 'false' 
+                ? "bg-primary text-primary-foreground border-primary" 
+                : "bg-background hover:bg-accent/50 border-input"
             )}
+            title={`Select False for "${statement.text}"`}
           >
             <RadioGroupItem value="false" id={`${question.id}-s${statement.id}-false`} className="hidden" />
-            False
+             {mtfAnswers[index] === 'false' ? (
+              <CheckCircle2 className="h-5 w-5" />
+            ) : (
+              <Circle className="h-5 w-5 text-muted-foreground/50" />
+            )}
           </Label>
         </RadioGroup>
       ))}
