@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button'; // Import buttonVariants
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -98,9 +98,9 @@ export default function HomePage() {
             </p>
             <div className="mt-10 md:mt-12">
               <Link href="/select-test" asChild>
-                <Button size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
+                <a className={buttonVariants({ size: "lg", className: "text-lg px-8 sm:px-10 py-5 sm:py-6" })}>
                   <PlayCircle className="mr-2 h-6 w-6"/> Take a Test Now
-                </Button>
+                </a>
               </Link>
             </div>
           </div>
@@ -186,9 +186,9 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent className="p-0">
                   <Link href="/admin" asChild>
-                    <Button size="lg" className="w-full md:w-auto text-lg px-8 py-5">
+                    <a className={buttonVariants({ size: "lg", className: "w-full md:w-auto text-lg px-8 py-5" })}>
                       Go to Admin Dashboard
-                    </Button>
+                    </a>
                   </Link>
                 </CardContent>
               </div>
