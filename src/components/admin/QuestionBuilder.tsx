@@ -403,35 +403,42 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
                     className="space-y-2"
                 >
                     {optionFields.map((optionField, optionIndex) => (
-                        <div key={optionField.id} className="flex items-center space-x-2">
-                            <RadioGroupItem
-                                value={getValues(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                                id={`q${questionIndex}-opt${optionIndex}-radio`}
-                            />
-                            <Input
-                                id={`q${questionIndex}-opt${optionIndex}-text-input`}
-                                {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                                placeholder={`Option ${optionIndex + 1}`}
-                                className="flex-grow"
-                                onChange={(e) => {
-                                    const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
-                                    const newText = e.target.value;
-                                    setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
-                                    if (controllerField.value === oldText) {
-                                        controllerField.onChange(newText);
-                                    }
-                                }}
-                            />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => removeOption(optionIndex)}
-                                className="text-destructive hover:bg-destructive/10"
-                                aria-label="Remove option"
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                        <div key={optionField.id} className="flex flex-col space-y-1">
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                    value={getValues(`questions.${questionIndex}.options.${optionIndex}.text`)}
+                                    id={`q${questionIndex}-opt${optionIndex}-radio`}
+                                />
+                                <Input
+                                    id={`q${questionIndex}-opt${optionIndex}-text-input`}
+                                    {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
+                                    placeholder={`Option ${optionIndex + 1}`}
+                                    className="flex-grow"
+                                    onChange={(e) => {
+                                        const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
+                                        const newText = e.target.value;
+                                        setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
+                                        if (controllerField.value === oldText) {
+                                            controllerField.onChange(newText);
+                                        }
+                                    }}
+                                />
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => removeOption(optionIndex)}
+                                    className="text-destructive hover:bg-destructive/10"
+                                    aria-label="Remove option"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
+                                <p className="text-sm text-destructive ml-7"> {/* Adjusted margin for alignment */}
+                                    {(errors.questions[questionIndex].options[optionIndex].text as any).message}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </RadioGroup>
@@ -442,54 +449,71 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
       {questionType === QuestionType.MultipleChoiceMultipleAnswer && (
         <div className="space-y-2">
           {optionFields.map((optionField, optionIndex) => (
-            <div key={optionField.id} className="flex items-center space-x-2">
-                <Controller
-                    name={`questions.${questionIndex}.options.${optionIndex}.text`}
-                    control={control}
-                    render={({ }) => (
-                        <Checkbox
-                            id={`q${questionIndex}-opt${optionIndex}-checkbox`}
-                            checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
-                            onCheckedChange={(checked) => handleMCMACorrectAnswerChange(getValues(`questions.${questionIndex}.options.${optionIndex}.text`), !!checked)}
-                        />
-                    )}
-                />
-              <Input
-                id={`q${questionIndex}-opt${optionIndex}-text`}
-                {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                placeholder={`Option ${optionIndex + 1}`}
-                className="flex-grow"
-                onChange={(e) => {
-                    const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
-                    const newText = e.target.value;
-                    setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
-                    const ca = getValues(`questions.${questionIndex}.correctAnswer`) as string[];
-                    if (ca && ca.includes(oldText)) {
-                        setValue(`questions.${questionIndex}.correctAnswer`, ca.map(ans => ans === oldText ? newText : ans), { shouldDirty: true, shouldValidate: true });
-                    }
-                }}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => removeOption(optionIndex)}
-                className="text-destructive hover:bg-destructive/10"
-                aria-label="Remove option"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
+            <div key={optionField.id} className="flex flex-col space-y-1">
+                <div className="flex items-center space-x-2">
+                    <Controller
+                        name={`questions.${questionIndex}.options.${optionIndex}.text`} // This name is for RHF internal tracking, not directly what's being validated for checked state
+                        control={control}
+                        render={({ }) => ( // Field not directly used here, state derived from correctAnswer
+                            <Checkbox
+                                id={`q${questionIndex}-opt${optionIndex}-checkbox`}
+                                checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
+                                onCheckedChange={(checked) => handleMCMACorrectAnswerChange(getValues(`questions.${questionIndex}.options.${optionIndex}.text`), !!checked)}
+                            />
+                        )}
+                    />
+                  <Input
+                    id={`q${questionIndex}-opt${optionIndex}-text`}
+                    {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
+                    placeholder={`Option ${optionIndex + 1}`}
+                    className="flex-grow"
+                    onChange={(e) => {
+                        const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
+                        const newText = e.target.value;
+                        setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
+                        const ca = getValues(`questions.${questionIndex}.correctAnswer`) as string[];
+                        if (ca && ca.includes(oldText)) {
+                            setValue(`questions.${questionIndex}.correctAnswer`, ca.map(ans => ans === oldText ? newText : ans), { shouldDirty: true, shouldValidate: true });
+                        }
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeOption(optionIndex)}
+                    className="text-destructive hover:bg-destructive/10"
+                    aria-label="Remove option"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
+                    <p className="text-sm text-destructive ml-7"> {/* Adjusted margin for alignment */}
+                        {(errors.questions[questionIndex].options[optionIndex].text as any).message}
+                    </p>
+                )}
             </div>
           ))}
         </div>
       )}
 
-      {errors.questions?.[questionIndex]?.options && (
-        <p className="text-sm text-destructive mt-1">Ensure all options have text and at least two options are provided.</p>
+      {/* Displays the "MCQ and MCMA questions must have at least two options." error if that specific refine fails */}
+      {errors.questions?.[questionIndex]?.options?.message && typeof errors.questions[questionIndex].options.message === 'string' && (
+        <p className="text-sm text-destructive mt-1">
+            {(errors.questions[questionIndex].options as any).message}
+        </p>
       )}
-      {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
-          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
-      )}
+       {/* Fallback for older general message display if needed, though should be covered by specific messages now */}
+       {/*
+       {errors.questions?.[questionIndex]?.options && !errors.questions[questionIndex].options.message && (
+            Array.isArray(errors.questions[questionIndex].options) ?
+            (errors.questions[questionIndex].options as any[]).some(optErr => optErr?.text) : false // Check if it's an array error from individual options
+            ) ? null :
+            <p className="text-sm text-destructive mt-1">Please ensure options are correctly configured.</p>
+        }
+      */}
+
 
       <Button type="button" onClick={() => appendOption({ text: '' })} variant="outline" size="sm">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Option
@@ -1077,3 +1101,4 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
     </div>
   );
 }
+

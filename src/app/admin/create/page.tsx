@@ -71,11 +71,11 @@ const questionSchema = z.object({
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
   if (data.type === QuestionType.MCQ || data.type === QuestionType.MultipleChoiceMultipleAnswer) {
-    return data.options && data.options.length >= 2 && data.options.every(opt => opt.text.trim() !== '');
+    return data.options && data.options.length >= 2;
   }
   return true;
 }, {
-  message: 'MCQ and MCMA questions must have at least two options with text.',
+  message: 'MCQ and MCMA questions must have at least two options.',
   path: ['options'],
 }).refine(data => {
   if (data.type === QuestionType.MultipleChoiceMultipleAnswer || (data.type === QuestionType.Hotspot && data.multipleSelection)) {

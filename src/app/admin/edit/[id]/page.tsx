@@ -47,8 +47,8 @@ const matchingItemSchema = z.object({
 });
 
 const correctMatchSchema = z.object({
-  promptId: z.string(),
-  choiceId: z.string(), // Allows empty string for edit page (unmatched state)
+  promptId: z.string(), 
+  choiceId: z.string(), // Allows empty string for "unselected" state during edit
 });
 
 const questionSchema = z.object({
@@ -73,11 +73,11 @@ const questionSchema = z.object({
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
   if (data.type === QuestionType.MCQ || data.type === QuestionType.MultipleChoiceMultipleAnswer) {
-    return data.options && data.options.length >= 2 && data.options.every(opt => opt.text.trim() !== '');
+    return data.options && data.options.length >= 2;
   }
   return true;
 }, {
-  message: 'MCQ and MCMA questions must have at least two options with text.',
+  message: 'MCQ and MCMA questions must have at least two options.',
   path: ['options'],
 }).refine(data => {
   if (data.type === QuestionType.MultipleChoiceMultipleAnswer || (data.type === QuestionType.Hotspot && data.multipleSelection)) {
@@ -111,10 +111,11 @@ const questionSchema = z.object({
     if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.prompts.length) {
       return false;
     }
+    // For edit, choiceId can be empty (unselected), but if not empty, it must exist in choices. All prompts must be covered.
     return (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => {
       const promptExists = data.prompts!.some(p => p.id === match.promptId);
-      const choiceIsValid = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
-      return promptExists && choiceIsValid;
+      const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
+      return promptExists && choiceIsValidIfSelected;
     });
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
@@ -514,7 +515,12 @@ export default function EditTestPage() {
                 {Array.isArray(errors.questions) && errors.questions.map((qError, i) => {
                     let errorMessages = [];
                     if (qError?.text) errorMessages.push(`Q${i+1} Text: ${qError.text.message}`);
-                    if (qError?.options) errorMessages.push(`Q${i+1} Options: ${qError.options.message || JSON.stringify(qError.options)}`);
+                    if (qError?.options?.message) errorMessages.push(`Q${i+1} Options: ${qError.options.message}`); // Use .message if available
+                    else if (Array.isArray(qError?.options)) { // Handle array of option errors
+                        qError.options.forEach((optErr: any, optIdx: number) => {
+                            if(optErr?.text?.message) errorMessages.push(`Q${i+1} Opt${optIdx+1} Text: ${optErr.text.message}`);
+                        });
+                    }
                     if (qError?.statements) errorMessages.push(`Q${i+1} Statements: ${qError.statements.message || JSON.stringify(qError.statements)}`);
                     if (qError?.categories) errorMessages.push(`Q${i+1} Categories: ${qError.categories.message || JSON.stringify(qError.categories)}`);
                     if (qError?.hotspots) errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message || JSON.stringify(qError.hotspots)}`);
@@ -545,3 +551,4 @@ export default function EditTestPage() {
     
 
       
+
