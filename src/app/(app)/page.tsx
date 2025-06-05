@@ -1,32 +1,21 @@
 
 'use client';
 
-import { Button, buttonVariants } from '@/components/ui/button'; // Import buttonVariants
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Waves, Edit3, Share2, Laptop, BarChart3, FilePlus2, Users, ClipboardCheck, GraduationCap, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { useRouter } from 'next/navigation'; // No longer needed for test ID input
 import { useState } from 'react';
 
 
 export default function HomePage() {
-  // const router = useRouter(); // No longer needed
-  // const [testId, setTestId] = useState(''); // No longer needed
   const [email, setEmail] = useState('');
-
-  // const handleGoToTest = (e: React.FormEvent) => { // No longer needed
-  //   e.preventDefault();
-  //   if (testId.trim()) {
-  //     router.push(`/test/${testId.trim()}`);
-  //   }
-  // };
 
   const handleSubscriptionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for actual subscription logic
     if (email.trim()) {
       console.log('Subscribing email:', email);
       alert(`Thank you for subscribing with ${email}! (Feature in development)`);
@@ -73,7 +62,7 @@ export default function HomePage() {
       description: 'Distribute unique test links or IDs to students easily and securely.',
     },
     {
-      icon: Users, 
+      icon: Users,
       title: 'Students Take Tests',
       description: 'Test-takers complete assessments online, from any device with internet access.',
     },
@@ -98,9 +87,9 @@ export default function HomePage() {
             </p>
             <div className="mt-10 md:mt-12">
               <Link href="/select-test" asChild>
-                <a className={buttonVariants({ size: "lg", className: "text-lg px-8 sm:px-10 py-5 sm:py-6" })}>
+                <Button size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
                   <PlayCircle className="mr-2 h-6 w-6"/> Take a Test Now
-                </a>
+                </Button>
               </Link>
             </div>
           </div>
@@ -119,8 +108,6 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Section for Test ID input has been removed */}
-      
       <section className="py-16 md:py-24 bg-card w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-16 md:mb-20">
@@ -128,8 +115,8 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature) => (
-              <Card 
-                key={feature.title} 
+              <Card
+                key={feature.title}
                 className="text-center shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group hover:scale-105 overflow-hidden rounded-lg"
               >
                 <div className="relative w-full h-48">
@@ -186,9 +173,9 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent className="p-0">
                   <Link href="/admin" asChild>
-                    <a className={buttonVariants({ size: "lg", className: "w-full md:w-auto text-lg px-8 py-5" })}>
+                    <Button size="lg" className="w-full md:w-auto text-lg px-8 py-5">
                       Go to Admin Dashboard
-                    </a>
+                    </Button>
                   </Link>
                 </CardContent>
               </div>

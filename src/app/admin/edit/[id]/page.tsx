@@ -515,15 +515,37 @@ export default function EditTestPage() {
                 {Array.isArray(errors.questions) && errors.questions.map((qError, i) => {
                     let errorMessages = [];
                     if (qError?.text) errorMessages.push(`Q${i+1} Text: ${qError.text.message}`);
-                    if (qError?.options?.message) errorMessages.push(`Q${i+1} Options: ${qError.options.message}`); // Use .message if available
-                    else if (Array.isArray(qError?.options)) { // Handle array of option errors
+                    
+                    if (qError?.options?.message) { // Array-level message for options
+                        errorMessages.push(`Q${i+1} Options: ${qError.options.message}`);
+                    } else if (Array.isArray(qError?.options)) { // Item-level messages for options
                         qError.options.forEach((optErr: any, optIdx: number) => {
                             if(optErr?.text?.message) errorMessages.push(`Q${i+1} Opt${optIdx+1} Text: ${optErr.text.message}`);
                         });
                     }
-                    if (qError?.statements) errorMessages.push(`Q${i+1} Statements: ${qError.statements.message || JSON.stringify(qError.statements)}`);
-                    if (qError?.categories) errorMessages.push(`Q${i+1} Categories: ${qError.categories.message || JSON.stringify(qError.categories)}`);
-                    if (qError?.hotspots) errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message || JSON.stringify(qError.hotspots)}`);
+
+                    if (qError?.statements) {
+                        if (qError.statements.message) {
+                            errorMessages.push(`Q${i+1} Statements: ${qError.statements.message}`);
+                        } else if (Array.isArray(qError.statements) && qError.statements.some((s:any) => s && Object.keys(s).length > 0)) {
+                            errorMessages.push(`Q${i+1} Statements: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+                    if (qError?.categories) {
+                        if (qError.categories.message) {
+                            errorMessages.push(`Q${i+1} Categories: ${qError.categories.message}`);
+                        } else if (Array.isArray(qError.categories) && qError.categories.some((c:any) => c && Object.keys(c).length > 0)) {
+                            errorMessages.push(`Q${i+1} Categories: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+                    if (qError?.hotspots) {
+                        if (qError.hotspots.message) {
+                            errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message}`);
+                        } else if (Array.isArray(qError.hotspots) && qError.hotspots.some((h:any) => h && Object.keys(h).length > 0)) {
+                            errorMessages.push(`Q${i+1} Hotspots: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+
                     if (qError?.imageUrl) errorMessages.push(`Q${i+1} Image URL: ${(qError.imageUrl as any).message}`);
                     if (qError?.correctAnswer) errorMessages.push(`Q${i+1} Correct Answer: ${(qError.correctAnswer as any).message}`);
                     if (qError?.points) errorMessages.push(`Q${i+1} Points: ${qError.points.message}`);
@@ -551,4 +573,5 @@ export default function EditTestPage() {
     
 
       
+
 
