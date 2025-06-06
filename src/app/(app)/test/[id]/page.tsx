@@ -3,6 +3,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link'; // Added import
 import { fetchTestById, verifyTestPassword, submitTest, fetchAdminTestById } from '@/lib/actions/testActions';
 import type { Test, UserAnswer, TestResult, Question, Option as OptionType, TrueFalseStatement, Category, HotspotArea, MatchingItem } from '@/lib/types';
 import { PasswordPrompt } from '@/components/test/PasswordPrompt';
@@ -802,3 +803,5 @@ export default function TestPage() {
   return null;
 }
 
+
+    
