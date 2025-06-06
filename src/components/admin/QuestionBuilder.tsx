@@ -114,7 +114,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
           <AccordionItem key={field.id} value={`item-${index}`}>
              <div className="flex items-center w-full border-b">
                <AccordionTrigger className="flex-grow hover:no-underline text-left justify-start px-2 py-4 text-lg font-medium">
-                Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0,30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""}
+                Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0,30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""} (Points: {getValues(`questions.${index}.points`) || 0})
               </AccordionTrigger>
               <Button
                 type="button"
@@ -1244,4 +1244,5 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
     </div>
   );
 }
+
 
