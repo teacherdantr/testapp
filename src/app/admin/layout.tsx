@@ -53,18 +53,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         <span>{item.label}</span>
                       </SidebarMenuButton>
                     ) : (
-                      <Link href={item.href} passHref legacyBehavior>
+                      <Link href={item.href} asChild>
                         <SidebarMenuButton
-                          asChild
                           isActive={pathname === item.href}
                           tooltip={item.label}
-                          disabled={item.disabled} // Retain for styling via variants
                         >
-                          {/* The content for the <a> tag rendered by Link */}
-                          <>
-                            <item.icon className="h-5 w-5" />
-                            <span>{item.label}</span>
-                          </>
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.label}</span>
                         </SidebarMenuButton>
                       </Link>
                     )}
