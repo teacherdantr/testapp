@@ -38,9 +38,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex flex-1 h-[calc(100vh-var(--navbar-height,4rem))]"> {/* Adjust height considering navbar */}
           <Sidebar side="left" collapsible="icon" className="border-r bg-sidebar text-sidebar-foreground">
             <SidebarHeader className="p-3 flex items-center justify-between h-14 border-b border-sidebar-border">
-              <Link href="/admin" className="flex items-center gap-2 group-data-[collapsible=icon]:hidden text-sidebar-primary hover:text-sidebar-primary/80 transition-colors">
+              <Link href="/admin" className="flex items-center gap-2 text-sidebar-primary hover:text-sidebar-primary/80 transition-colors">
                 <LayoutDashboard className="h-6 w-6" />
-                <span className="font-semibold text-lg">Admin Panel</span>
+                <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">Admin Panel</span>
               </Link>
               <SidebarTrigger />
             </SidebarHeader>
@@ -87,3 +87,4 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 //     --navbar-height: 4rem; /* Or actual height of Navbar */
 //   }
 // `}</style>
+
