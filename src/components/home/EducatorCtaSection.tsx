@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Edit3 } from 'lucide-react';
 
@@ -24,7 +24,7 @@ export function EducatorCtaSection() {
               </CardHeader>
               <CardContent className="p-0">
                 <Link href="/admin" legacyBehavior passHref>
-                  <a className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "w-full md:w-auto text-lg px-8 py-5")}>
+                  <a className={cn(Button.displayName, "w-full md:w-auto text-lg px-8 py-5 bg-primary text-primary-foreground hover:bg-primary/90")}>
                     Go to Admin Dashboard
                   </a>
                 </Link>
