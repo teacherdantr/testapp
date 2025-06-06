@@ -6,10 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
-import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search } from 'lucide-react';
+import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search, Eye, Trash2 } from 'lucide-react';
 import type { StoredTestResult } from '@/lib/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from '@/hooks/use-toast';
+import { deleteUserScoreByIds } from '@/lib/actions/userActions';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
 
 type SortableKeys = 'testTitle' | 'userId' | 'percentage' | 'submittedAt' | 'timeTaken' | 'testMode';
 type SortDirection = 'ascending' | 'descending';
@@ -21,21 +35,25 @@ interface SortConfig {
 
 interface SubmissionsDataTableProps {
   submissions: StoredTestResult[];
-  isLoading: boolean; // Retained for potential future internal loading states
+  isLoading: boolean;
   error: string | null;
+  onSubmissionDeleted: (submission: StoredTestResult) => void;
 }
 
 const formatTimeTaken = (seconds?: number): string => {
   if (seconds === undefined || seconds === null) return 'N/A';
-  if (seconds < 0) return 'N/A'; // Should not happen
+  if (seconds < 0) return 'N/A';
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
 
-export function SubmissionsDataTable({ submissions, isLoading, error }: SubmissionsDataTableProps) {
+export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissionDeleted }: SubmissionsDataTableProps) {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'submittedAt', direction: 'descending' });
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [submissionToDelete, setSubmissionToDelete] = useState<StoredTestResult | null>(null);
+  const { toast } = useToast();
 
   const sortedSubmissions = useMemo(() => {
     let filteredItems = [...submissions];
@@ -103,14 +121,18 @@ export function SubmissionsDataTable({ submissions, isLoading, error }: Submissi
     return 'text-green-600 dark:text-green-400';
   };
 
-  const getModeDisplay = (mode?: 'training' | 'testing') => {
+  const getModeDisplay = (mode?: 'training' | 'testing' | 'race') => {
     if (!mode) return <span className="text-xs text-muted-foreground italic ml-1.5">N/A</span>;
-    const Icon = mode === 'training' ? Users : Zap;
+    const Icon = mode === 'training' ? Users : (mode === 'race' ? Zap : Zap); // Zap for both testing and race
     const text = mode.charAt(0).toUpperCase() + mode.slice(1);
+    let bgColor = "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300";
+    if (mode === 'training') bgColor = "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300";
+    if (mode === 'race') bgColor = "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300";
+
     return (
       <span className={cn(
         "inline-flex items-center text-xs font-medium px-1.5 py-0.5 rounded-full ml-1.5",
-        mode === 'training' ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300" : "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"
+        bgColor
       )}>
         <Icon className="h-3 w-3 mr-1" />
         {text}
@@ -118,106 +140,206 @@ export function SubmissionsDataTable({ submissions, isLoading, error }: Submissi
     );
   };
 
+  const handleViewDetails = (submission: StoredTestResult) => {
+    console.log("View Details for:", submission);
+    // In a real app, this would navigate to a detailed view or open a modal.
+    // For now, we'll just use a toast to show some info.
+    toast({
+        title: `Details for ${submission.userId}'s Test`,
+        description: (
+            <pre className="mt-2 w-full rounded-md bg-slate-950 p-4 overflow-x-auto">
+                <code className="text-white text-xs">
+                    {JSON.stringify({
+                        testTitle: submission.testTitle,
+                        score: `${submission.score}/${submission.totalPoints}`,
+                        submittedAt: format(new Date(submission.submittedAt), 'PPpp'),
+                        timeTaken: formatTimeTaken(submission.timeTaken),
+                        mode: submission.testMode || "N/A"
+                    }, null, 2)}
+                </code>
+            </pre>
+        ),
+        duration: 10000,
+    });
+  };
+
+  const handleDeleteRequest = (submission: StoredTestResult) => {
+    setSubmissionToDelete(submission);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmDeleteSubmission = async () => {
+    if (!submissionToDelete) return;
+
+    const result = await deleteUserScoreByIds({
+      userId: submissionToDelete.userId,
+      testId: submissionToDelete.testId,
+      submittedAt: submissionToDelete.submittedAt, // Pass as string, action will convert
+    });
+
+    if (result.success) {
+      onSubmissionDeleted(submissionToDelete); // Call parent callback
+    } else {
+      toast({
+        title: "Error Deleting Submission",
+        description: result.error || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
+    setShowDeleteDialog(false);
+    setSubmissionToDelete(null);
+  };
+
   return (
-    <div>
-      <div className="mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            placeholder="Search by Test Title or User ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-md pl-10 h-11"
-          />
+    <TooltipProvider delayDuration={100}>
+      <div>
+        <div className="mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              placeholder="Search by Test Title or User ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full max-w-md pl-10 h-11"
+            />
+          </div>
         </div>
-      </div>
 
-      {error && submissions.length === 0 && !isLoading && (
-        <Alert variant={error === 'No test submissions found yet.' ? 'default' : 'destructive'} className="mt-0">
-          <AlertTriangle className="h-5 w-5" />
-          <AlertTitle>{error === 'No test submissions found yet.' ? 'Information' : 'Error'}</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+        {error && submissions.length === 0 && !isLoading && (
+          <Alert variant={error === 'No test submissions found yet.' ? 'default' : 'destructive'} className="mt-0">
+            <AlertTriangle className="h-5 w-5" />
+            <AlertTitle>{error === 'No test submissions found yet.' ? 'Information' : 'Error'}</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() !== '' && (
-        <Alert variant="default" className="mt-0">
-          <Search className="h-5 w-5" />
-          <AlertTitle>No Matching Records</AlertTitle>
-          <AlertDescription>Your search for "{searchTerm}" did not match any test submissions.</AlertDescription>
-        </Alert>
-      )}
-      
-      {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() === '' && error && (
-         <Alert variant="default" className="mt-0">
-          <AlertTriangle className="h-5 w-5" />
-          <AlertTitle>Information</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+        {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() !== '' && (
+          <Alert variant="default" className="mt-0">
+            <Search className="h-5 w-5" />
+            <AlertTitle>No Matching Records</AlertTitle>
+            <AlertDescription>Your search for "{searchTerm}" did not match any test submissions.</AlertDescription>
+          </Alert>
+        )}
+        
+        {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() === '' && error && (
+           <Alert variant="default" className="mt-0">
+            <AlertTriangle className="h-5 w-5" />
+            <AlertTitle>Information</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      {sortedSubmissions.length > 0 && !isLoading && (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[25%]">
-                <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                  <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title / Mode
-                  {getSortIcon('testTitle')}
-                </Button>
-              </TableHead>
-              <TableHead className="w-[15%]">
-                <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                  <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
-                  {getSortIcon('userId')}
-                </Button>
-              </TableHead>
-              <TableHead className="text-right w-[15%]">
-                 <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                  <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
-                  {getSortIcon('percentage')}
-                </Button>
-              </TableHead>
-              <TableHead className="text-right w-[15%]">
-                <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                  <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time Taken
-                  {getSortIcon('timeTaken')}
-                </Button>
-              </TableHead>
-              <TableHead className="text-right w-[20%]">
-                <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                  <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted At
-                  {getSortIcon('submittedAt')}
-                </Button>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedSubmissions.map((result) => (
-              <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
-                <TableCell className="font-medium text-primary">
-                  {result.testTitle}
-                  {getModeDisplay(result.testMode)}
-                </TableCell>
-                <TableCell>{result.userId}</TableCell>
-                <TableCell
-                  className={cn(
-                    "text-right font-semibold",
-                    getScoreColorClass(result.score, result.totalPoints)
-                  )}
+        {sortedSubmissions.length > 0 && !isLoading && (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[25%] min-w-[200px]">
+                    <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                      <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title / Mode
+                      {getSortIcon('testTitle')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="w-[15%] min-w-[120px]">
+                    <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                      <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
+                      {getSortIcon('userId')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="text-right w-[15%] min-w-[150px]">
+                     <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                      <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
+                      {getSortIcon('percentage')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="text-right w-[12%] min-w-[120px]">
+                    <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                      <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time
+                      {getSortIcon('timeTaken')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="text-right w-[18%] min-w-[180px]">
+                    <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                      <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted
+                      {getSortIcon('submittedAt')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="text-center w-[15%] min-w-[120px]">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedSubmissions.map((result) => (
+                  <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
+                    <TableCell className="font-medium text-primary">
+                      {result.testTitle}
+                      {getModeDisplay(result.testMode)}
+                    </TableCell>
+                    <TableCell>{result.userId}</TableCell>
+                    <TableCell
+                      className={cn(
+                        "text-right font-semibold",
+                        getScoreColorClass(result.score, result.totalPoints)
+                      )}
+                    >
+                      {result.score} / {result.totalPoints}
+                      <span className="ml-2 text-muted-foreground text-xs font-normal">
+                        ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
+                    <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
+                    <TableCell className="text-center">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon" onClick={() => handleViewDetails(result)} className="hover:text-primary">
+                            <Eye className="h-4 w-4" />
+                            <span className="sr-only">View Details</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent><p>View Details</p></TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon" onClick={() => handleDeleteRequest(result)} className="hover:text-destructive">
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Delete Submission</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent><p>Delete Submission</p></TooltipContent>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+
+        {submissionToDelete && (
+          <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center">
+                  <AlertTriangle className="mr-2 h-6 w-6 text-destructive" />
+                  Confirm Deletion
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete the submission by '{submissionToDelete.userId}' for test "{submissionToDelete.testTitle}" taken on {format(new Date(submissionToDelete.submittedAt), 'PPp')}? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowDeleteDialog(false)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={confirmDeleteSubmission}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
-                  {result.score} / {result.totalPoints}
-                  <span className="ml-2 text-muted-foreground text-xs font-normal">
-                    ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
-                <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </div>
+                  Delete Submission
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+      </div>
+    </TooltipProvider>
   );
 }

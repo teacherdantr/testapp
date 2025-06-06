@@ -25,10 +25,10 @@ export async function fetchUserScoreHistory(userId: string): Promise<StoredTestR
     return userScoresFromDb.map(score => ({
       userId: score.userId,
       testId: score.testId,
-      testTitle: score.testTitle, // Changed from testTitleSnapshot
+      testTitle: score.testTitle, 
       score: score.score,
       totalPoints: score.totalPoints,
-      questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches
+      questionResults: score.questionResultsDetails as TestResult['questionResults'], 
       submittedAt: score.submittedAt.toISOString(),
       timeTaken: score.timeTakenSeconds ?? undefined,
       testMode: score.testMode as StoredTestResult['testMode'] | undefined,
@@ -49,10 +49,10 @@ export async function fetchAllPublicTestSubmissions(): Promise<StoredTestResult[
     return allScoresFromDb.map(score => ({
       userId: score.userId,
       testId: score.testId,
-      testTitle: score.testTitle, // Changed from testTitleSnapshot
+      testTitle: score.testTitle,
       score: score.score,
       totalPoints: score.totalPoints,
-      questionResults: score.questionResultsDetails as TestResult['questionResults'], // Assuming structure matches
+      questionResults: score.questionResultsDetails as TestResult['questionResults'],
       submittedAt: score.submittedAt.toISOString(),
       timeTaken: score.timeTakenSeconds ?? undefined,
       testMode: score.testMode as StoredTestResult['testMode'] | undefined,
@@ -60,5 +60,42 @@ export async function fetchAllPublicTestSubmissions(): Promise<StoredTestResult[
   } catch (e: any) {
     console.error('Error fetching all public test submissions with Prisma:', e);
     return { error: `Failed to fetch public test records. ${e.message}` };
+  }
+}
+
+const deleteUserScoreSchema = z.object({
+  userId: z.string(),
+  testId: z.string(),
+  submittedAt: z.string().datetime(), // Expect ISO string
+});
+
+export async function deleteUserScoreByIds(
+  params: z.infer<typeof deleteUserScoreSchema>
+): Promise<{ success: boolean; error?: string }> {
+  const validatedParams = deleteUserScoreSchema.safeParse(params);
+
+  if (!validatedParams.success) {
+    return { success: false, error: 'Invalid parameters for deletion.' };
+  }
+
+  const { userId, testId, submittedAt } = validatedParams.data;
+
+  try {
+    await prisma.userScore.delete({
+      where: {
+        userId_testId_submittedAt: {
+          userId: userId,
+          testId: testId,
+          submittedAt: new Date(submittedAt), // Convert ISO string to Date object
+        },
+      },
+    });
+    return { success: true };
+  } catch (e: any) {
+    console.error('Error deleting user score with Prisma:', e);
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+      return { success: false, error: 'Submission record not found for deletion.' };
+    }
+    return { success: false, error: `Failed to delete submission. ${e.message}` };
   }
 }
