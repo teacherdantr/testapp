@@ -4,6 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
+import Link from 'next/link'; // Added Link import
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,7 +16,7 @@ import { QuestionType, type Test, type Category, type HotspotArea, HotspotShapeT
 import { useRouter, useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
-import { Loader2, AlertTriangle, Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { Loader2, AlertTriangle, Eye, EyeOff, RefreshCw, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
 import { Switch } from "@/components/ui/switch";
 
 const optionSchema = z.object({
@@ -47,7 +48,7 @@ const matchingItemSchema = z.object({
 });
 
 const correctMatchSchema = z.object({
-  promptId: z.string(), 
+  promptId: z.string(),
   choiceId: z.string(), // Allows empty string for "unselected" state during edit
 });
 
@@ -106,12 +107,11 @@ const questionSchema = z.object({
   }
   if (data.type === QuestionType.MatchingSelect) {
     if (!data.prompts || data.prompts.length === 0 || !data.choices || data.choices.length === 0) {
-      return false; 
+      return false;
     }
     if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.prompts.length) {
       return false;
     }
-    // For edit, choiceId can be empty (unselected), but if not empty, it must exist in choices. All prompts must be covered.
     return (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => {
       const promptExists = data.prompts!.some(p => p.id === match.promptId);
       const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
@@ -159,14 +159,14 @@ const questionSchema = z.object({
   message: 'Hotspot questions must have at least one hotspot defined with coordinates.',
   path: ['hotspots'],
 }).refine(data => {
-  if (data.type === QuestionType.MatchingSelect) { 
+  if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
   }
   return true;
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
-  path: ['prompts'], 
+  path: ['prompts'],
 });
 
 
@@ -206,7 +206,7 @@ export default function EditTestPage() {
       password: '',
       questions: [],
     },
-    mode: 'onChange', 
+    mode: 'onChange',
   });
 
   useEffect(() => {
@@ -260,7 +260,7 @@ export default function EditTestPage() {
                   default:
                     correctAnswerValue = '';
                 }
-                const ensureIds = <T extends { id?: string, text?: string }>(items: T[] = [], itemName: string = "item"): T[] => 
+                const ensureIds = <T extends { id?: string, text?: string }>(items: T[] = [], itemName: string = "item"): T[] =>
                     items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
 
                 return {
@@ -273,18 +273,18 @@ export default function EditTestPage() {
                   categories: ensureIds(q.categories, 'category'),
                   hotspots: (q.hotspots || []).map(hs => ({ ...hs, id: hs.id || crypto.randomUUID(), shape: hs.shape || HotspotShapeType.Rectangle, coords: hs.coords || '', label: hs.label || '' })),
                   multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
-                  prompts: ensureIds(q.prompts, 'prompt'), 
-                  choices: ensureIds(q.choices, 'choice'), 
+                  prompts: ensureIds(q.prompts, 'prompt'),
+                  choices: ensureIds(q.choices, 'choice'),
                   correctAnswer: correctAnswerValue,
                   points: q.points || 1,
                 };
               } catch (mapError: any) {
                 console.error(`Error mapping question ID ${q.id || 'new'} ("${(q.text || '').substring(0,30)}...") for form:`, mapError.message, q);
                 toast({ title: "Data Loading Error", description: `Could not fully load question "${(q.text || 'Unnamed Question').substring(0,20)}...". It may have invalid data or structure. Please review and save to fix.`, variant: "destructive", duration: 7000 });
-                return { 
+                return {
                     id: q.id || crypto.randomUUID(),
                     text: `Error: Could not load question text for ID ${q.id}. Original text: ${(q.text || '').substring(0,50)}...`,
-                    type: q.type || QuestionType.MCQ, 
+                    type: q.type || QuestionType.MCQ,
                     imageUrl: q.imageUrl || '',
                     options: [{id: crypto.randomUUID(), text: 'Error Option 1'}, {id: crypto.randomUUID(), text: 'Error Option 2'}],
                     statements: [], categories: [], hotspots: [], multipleSelection: false, prompts: [], choices: [],
@@ -293,7 +293,7 @@ export default function EditTestPage() {
                 };
               }
             });
-          
+
           reset({
             title: testData.title,
             description: testData.description || '',
@@ -336,14 +336,14 @@ export default function EditTestPage() {
     if (data.passwordEnabled && data.password) {
         formData.append('password', data.password);
     } else {
-        formData.append('password', ''); 
+        formData.append('password', '');
     }
 
     const processedQuestions = data.questions.map(q => {
-      const ensureClientIds = <T extends { id?: string }>(items: T[] = []): T[] => 
+      const ensureClientIds = <T extends { id?: string }>(items: T[] = []): T[] =>
         items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
 
-      const questionToProcess: any = { 
+      const questionToProcess: any = {
         ...q,
         id: q.id,
         options: ensureClientIds(q.options),
@@ -353,16 +353,16 @@ export default function EditTestPage() {
         prompts: ensureClientIds(q.prompts),
         choices: ensureClientIds(q.choices),
       };
-      
+
       if (questionToProcess.type === QuestionType.MatchingSelect && Array.isArray(questionToProcess.correctAnswer)) {
         questionToProcess.correctAnswer = questionToProcess.correctAnswer
           .map((match: any) => ({
             promptId: match.promptId,
             choiceId: typeof match.choiceId === 'string' ? match.choiceId : '',
           }))
-          .filter((match: any) => match.choiceId !== ''); 
+          .filter((match: any) => match.choiceId !== '');
       }
-      
+
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
         delete questionToProcess.options;
       }
@@ -385,7 +385,7 @@ export default function EditTestPage() {
         delete questionToProcess.prompts;
         delete questionToProcess.choices;
       }
-      
+
       return questionToProcess;
     });
 
@@ -431,6 +431,14 @@ export default function EditTestPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <div className="mb-6 flex justify-start">
+        <Button asChild variant="outline">
+          <Link href="/admin">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Admin Dashboard
+          </Link>
+        </Button>
+      </div>
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">Edit Test</CardTitle>
@@ -515,10 +523,10 @@ export default function EditTestPage() {
                 {Array.isArray(errors.questions) && errors.questions.map((qError, i) => {
                     let errorMessages = [];
                     if (qError?.text) errorMessages.push(`Q${i+1} Text: ${qError.text.message}`);
-                    
-                    if (qError?.options?.message) { // Array-level message for options
+
+                    if (qError?.options?.message) {
                         errorMessages.push(`Q${i+1} Options: ${qError.options.message}`);
-                    } else if (Array.isArray(qError?.options)) { // Item-level messages for options
+                    } else if (Array.isArray(qError?.options)) {
                         qError.options.forEach((optErr: any, optIdx: number) => {
                             if(optErr?.text?.message) errorMessages.push(`Q${i+1} Opt${optIdx+1} Text: ${optErr.text.message}`);
                         });
@@ -540,16 +548,16 @@ export default function EditTestPage() {
                     }
                     if (qError?.hotspots) {
                         if (qError.hotspots.message) {
-                            errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message}`);
+                             errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message}`);
                         } else if (Array.isArray(qError.hotspots) && qError.hotspots.some((h:any) => h && Object.keys(h).length > 0)) {
-                            errorMessages.push(`Q${i+1} Hotspots: Contains invalid items. Check details within the question.`);
+                             errorMessages.push(`Q${i+1} Hotspots: Contains invalid items. Check details within the question.`);
                         }
                     }
 
                     if (qError?.imageUrl) errorMessages.push(`Q${i+1} Image URL: ${(qError.imageUrl as any).message}`);
                     if (qError?.correctAnswer) errorMessages.push(`Q${i+1} Correct Answer: ${(qError.correctAnswer as any).message}`);
                     if (qError?.points) errorMessages.push(`Q${i+1} Points: ${qError.points.message}`);
-                    
+
                     if (errorMessages.length > 0) {
                         return <p key={`q-${i}-err`} className="text-sm text-destructive mt-1">{errorMessages.join('; ')}</p>;
                     }
@@ -570,8 +578,5 @@ export default function EditTestPage() {
     </div>
   );
 }
-    
-
-      
 
 

@@ -4,6 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
+import Link from 'next/link'; // Added Link import
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,7 +16,7 @@ import { QuestionType, HotspotShapeType } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Switch } from "@/components/ui/switch";
-import { Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { Eye, EyeOff, RefreshCw, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
 import { useState } from 'react';
 
 const optionSchema = z.object({
@@ -150,7 +151,7 @@ const questionSchema = z.object({
   return true;
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
-  path: ['prompts'], 
+  path: ['prompts'],
 });
 
 
@@ -189,7 +190,7 @@ export default function CreateTestPage() {
         {
           text: '',
           type: QuestionType.MCQ,
-          imageUrl: '', 
+          imageUrl: '',
           options: [{ text: '' }, { text: '' }],
           statements: [],
           categories: [],
@@ -226,7 +227,7 @@ export default function CreateTestPage() {
 
     const processedQuestions = data.questions.map(q => {
       let processedQuestion: any = { ...q };
-      
+
       if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
         processedQuestion.options = undefined;
       }
@@ -246,10 +247,10 @@ export default function CreateTestPage() {
         processedQuestion.prompts = undefined;
         processedQuestion.choices = undefined;
       }
-      
+
       if (q.type === QuestionType.MatchingSelect && Array.isArray(q.correctAnswer)) {
          processedQuestion.correctAnswer = q.correctAnswer.map(match => ({
-           promptId: (match as any).promptId, 
+           promptId: (match as any).promptId,
            choiceId: (match as any).choiceId,
          }));
       }
@@ -278,6 +279,14 @@ export default function CreateTestPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <div className="mb-6 flex justify-start">
+        <Button asChild variant="outline">
+          <Link href="/admin">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Admin Dashboard
+          </Link>
+        </Button>
+      </div>
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">Create New Test</CardTitle>
@@ -320,7 +329,7 @@ export default function CreateTestPage() {
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('password')}
                                 placeholder="Enter a secure password"
-                                className="pr-10" 
+                                className="pr-10"
                             />
                             <Button
                                 type="button"
@@ -355,9 +364,49 @@ export default function CreateTestPage() {
                 <p className="text-sm text-destructive mt-2">{errors.questions.message}</p>
               )}
                {errors.questions?.root && <p className="text-sm text-destructive mt-2">{errors.questions.root.message}</p>}
-                {Array.isArray(errors.questions) && errors.questions.map((qError, i) => (
-                    qError?.correctAnswer && <p key={`q-${i}-ca-err`} className="text-sm text-destructive mt-1">{`Q${i+1} Correct Answer: ${qError.correctAnswer.message}`}</p>
-                ))}
+                {Array.isArray(errors.questions) && errors.questions.map((qError, i) => {
+                    let errorMessages = [];
+                    if (qError?.text) errorMessages.push(`Q${i+1} Text: ${qError.text.message}`);
+
+                    if (qError?.options?.message) {
+                        errorMessages.push(`Q${i+1} Options: ${qError.options.message}`);
+                    } else if (Array.isArray(qError?.options)) {
+                        qError.options.forEach((optErr: any, optIdx: number) => {
+                            if(optErr?.text?.message) errorMessages.push(`Q${i+1} Opt${optIdx+1} Text: ${optErr.text.message}`);
+                        });
+                    }
+
+                    if (qError?.statements) {
+                        if (qError.statements.message) {
+                            errorMessages.push(`Q${i+1} Statements: ${qError.statements.message}`);
+                        } else if (Array.isArray(qError.statements) && qError.statements.some((s:any) => s && Object.keys(s).length > 0)) {
+                            errorMessages.push(`Q${i+1} Statements: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+                    if (qError?.categories) {
+                        if (qError.categories.message) {
+                            errorMessages.push(`Q${i+1} Categories: ${qError.categories.message}`);
+                        } else if (Array.isArray(qError.categories) && qError.categories.some((c:any) => c && Object.keys(c).length > 0)) {
+                            errorMessages.push(`Q${i+1} Categories: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+                    if (qError?.hotspots) {
+                        if (qError.hotspots.message) {
+                            errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message}`);
+                        } else if (Array.isArray(qError.hotspots) && qError.hotspots.some((h:any) => h && Object.keys(h).length > 0)) {
+                            errorMessages.push(`Q${i+1} Hotspots: Contains invalid items. Check details within the question.`);
+                        }
+                    }
+
+                    if (qError?.imageUrl) errorMessages.push(`Q${i+1} Image URL: ${(qError.imageUrl as any).message}`);
+                    if (qError?.correctAnswer) errorMessages.push(`Q${i+1} Correct Answer: ${(qError.correctAnswer as any).message}`);
+                    if (qError?.points) errorMessages.push(`Q${i+1} Points: ${qError.points.message}`);
+
+                    if (errorMessages.length > 0) {
+                        return <p key={`q-${i}-err`} className="text-sm text-destructive mt-1">{errorMessages.join('; ')}</p>;
+                    }
+                    return null;
+                })}
             </div>
           </CardContent>
           <CardFooter>
