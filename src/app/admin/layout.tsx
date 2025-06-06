@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const adminNavItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/create', label: 'Create Test', icon: PlusCircle },
-    { href: '/admin/submissions', label: 'Submissions', icon: ClipboardList, disabled: false }, // Enabled this link
+    { href: '/admin/submissions', label: 'Submissions', icon: ClipboardList, disabled: false },
     { href: '#', label: 'Users', icon: UsersIcon, disabled: true },
     { href: '#', label: 'Settings', icon: Settings, disabled: true },
   ];
@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <SidebarContent className="p-2">
               <SidebarMenu>
                 {adminNavItems.map((item) => (
-                  <SidebarMenuItem key={item.href}>
+                  <SidebarMenuItem key={item.label}> {/* Changed key from item.href to item.label */}
                     <SidebarMenuButton
                       href={item.href}
                       isActive={pathname === item.href}
