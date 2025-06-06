@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <SidebarHeader className="p-3 flex items-center justify-between h-14 border-b border-sidebar-border">
               <Link href="/admin" className="flex items-center gap-2 text-sidebar-primary hover:text-sidebar-primary/80 transition-colors">
                 <LayoutDashboard className="h-6 w-6" />
-                <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">Admin Panel</span>
+                {/* <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">Admin Panel</span> */}
               </Link>
               <SidebarTrigger />
             </SidebarHeader>
