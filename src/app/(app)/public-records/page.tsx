@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Loader2, AlertTriangle, ArchiveIcon, User, BookOpenText, CalendarDays, Percent, ListChecks, ArrowUp, ArrowDown, Timer, Zap, Users, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input'; // Added Input import
+import { Loader2, AlertTriangle, ArchiveIcon, User, BookOpenText, CalendarDays, Percent, ListChecks, ArrowUp, ArrowDown, Timer, Zap, Users, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { fetchAllPublicTestSubmissions } from '@/lib/actions/userActions';
 import type { StoredTestResult } from '@/lib/types';
 import { format } from 'date-fns';
@@ -20,6 +20,8 @@ interface SortConfig {
   key: SortableKeys | null;
   direction: SortDirection;
 }
+
+const RECORDS_PER_PAGE = 30;
 
 const formatTimeTaken = (seconds?: number): string => {
   if (seconds === undefined || seconds === null) return 'N/A';
@@ -35,12 +37,14 @@ export default function PublicRecordsPage() {
   const [error, setError] = useState<string | null>(null);
   const [submissions, setSubmissions] = useState<StoredTestResult[]>([]);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'submittedAt', direction: 'descending' });
-  const [searchTerm, setSearchTerm] = useState(''); // Added searchTerm state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadSubmissions = async () => {
       setIsLoading(true);
       setError(null);
+      setCurrentPage(1); // Reset page on initial load
       const result = await fetchAllPublicTestSubmissions();
       if ('error' in result) {
         setError(result.error);
@@ -56,7 +60,7 @@ export default function PublicRecordsPage() {
     loadSubmissions();
   }, []);
 
-  const sortedSubmissions = useMemo(() => {
+  const sortedAndFilteredSubmissions = useMemo(() => {
     let filteredItems = [...submissions];
 
     if (searchTerm.trim() !== '') {
@@ -67,7 +71,7 @@ export default function PublicRecordsPage() {
       );
     }
 
-    let sortableItems = [...filteredItems]; // Use filteredItems for sorting
+    let sortableItems = [...filteredItems];
     if (sortConfig.key !== null) {
       sortableItems.sort((a, b) => {
         let aValue, bValue;
@@ -106,7 +110,18 @@ export default function PublicRecordsPage() {
       });
     }
     return sortableItems;
-  }, [submissions, sortConfig, searchTerm]); // Added searchTerm to dependencies
+  }, [submissions, sortConfig, searchTerm]);
+
+  const totalPages = Math.ceil(sortedAndFilteredSubmissions.length / RECORDS_PER_PAGE);
+  const currentItemsToDisplay = sortedAndFilteredSubmissions.slice(
+    (currentPage - 1) * RECORDS_PER_PAGE,
+    currentPage * RECORDS_PER_PAGE
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
 
   const requestSort = (key: SortableKeys) => {
     let direction: SortDirection = 'ascending';
@@ -114,6 +129,7 @@ export default function PublicRecordsPage() {
       direction = 'descending';
     }
     setSortConfig({ key, direction });
+    setCurrentPage(1); // Reset to first page on sort change
   };
 
   const getSortIcon = (key: SortableKeys) => {
@@ -173,7 +189,7 @@ export default function PublicRecordsPage() {
               <Input
                 placeholder="Search by Test Title or User ID..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
                 className="w-full max-w-md pl-10 h-11"
               />
             </div>
@@ -187,7 +203,7 @@ export default function PublicRecordsPage() {
             </Alert>
           )}
 
-          {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() !== '' && (
+          {!isLoading && submissions.length > 0 && sortedAndFilteredSubmissions.length === 0 && searchTerm.trim() !== '' && (
             <Alert variant="default" className="mt-0">
               <Search className="h-5 w-5" />
               <AlertTitle>No Matching Records</AlertTitle>
@@ -195,7 +211,7 @@ export default function PublicRecordsPage() {
             </Alert>
           )}
           
-          {!isLoading && submissions.length > 0 && sortedSubmissions.length === 0 && searchTerm.trim() === '' && error && (
+          {!isLoading && submissions.length > 0 && sortedAndFilteredSubmissions.length === 0 && searchTerm.trim() === '' && error && (
              <Alert variant="default" className="mt-0">
               <AlertTriangle className="h-5 w-5" />
               <AlertTitle>Information</AlertTitle>
@@ -204,70 +220,92 @@ export default function PublicRecordsPage() {
           )}
 
 
-          {sortedSubmissions.length > 0 && !isLoading && (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[25%]"> 
-                    <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                      <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title
-                      {getSortIcon('testTitle')}
-                    </Button>
-                  </TableHead>
-                  <TableHead className="w-[15%]"> 
-                    <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                      <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
-                      {getSortIcon('userId')}
-                    </Button>
-                  </TableHead>
-                  <TableHead className="text-right w-[15%]"> 
-                     <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                      <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
-                      {getSortIcon('percentage')}
-                    </Button>
-                  </TableHead>
-                  <TableHead className="text-right w-[15%]"> 
-                    <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                      <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time Taken
-                      {getSortIcon('timeTaken')}
-                    </Button>
-                  </TableHead>
-                  <TableHead className="text-right w-[20%]"> 
-                    <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                      <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted At
-                      {getSortIcon('submittedAt')}
-                    </Button>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sortedSubmissions.map((result) => (
-                  <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
-                    <TableCell className="font-medium text-primary flex items-center">
-                      {result.testTitle}
-                      {getModeDisplay(result.testMode)}
-                    </TableCell>
-                    <TableCell>{result.userId}</TableCell>
-                    <TableCell 
-                      className={cn(
-                        "text-right font-semibold",
-                        getScoreColorClass(result.score, result.totalPoints)
-                      )}
-                    >
-                      {result.score} / {result.totalPoints} 
-                      <span className="ml-2 text-muted-foreground text-xs font-normal">
-                        ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
-                    <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
+          {currentItemsToDisplay.length > 0 && !isLoading && (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[25%]"> 
+                      <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                        <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title
+                        {getSortIcon('testTitle')}
+                      </Button>
+                    </TableHead>
+                    <TableHead className="w-[15%]"> 
+                      <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                        <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
+                        {getSortIcon('userId')}
+                      </Button>
+                    </TableHead>
+                    <TableHead className="text-right w-[15%]"> 
+                       <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                        <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
+                        {getSortIcon('percentage')}
+                      </Button>
+                    </TableHead>
+                    <TableHead className="text-right w-[15%]"> 
+                      <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                        <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time Taken
+                        {getSortIcon('timeTaken')}
+                      </Button>
+                    </TableHead>
+                    <TableHead className="text-right w-[20%]"> 
+                      <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                        <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted At
+                        {getSortIcon('submittedAt')}
+                      </Button>
+                    </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {currentItemsToDisplay.map((result) => (
+                    <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
+                      <TableCell className="font-medium text-primary flex items-center">
+                        {result.testTitle}
+                        {getModeDisplay(result.testMode)}
+                      </TableCell>
+                      <TableCell>{result.userId}</TableCell>
+                      <TableCell 
+                        className={cn(
+                          "text-right font-semibold",
+                          getScoreColorClass(result.score, result.totalPoints)
+                        )}
+                      >
+                        {result.score} / {result.totalPoints} 
+                        <span className="ml-2 text-muted-foreground text-xs font-normal">
+                          ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
+                      <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <div className="flex items-center justify-between mt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                >
+                  Next <ChevronRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
     </div>
   );
 }
+
