@@ -111,7 +111,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
           const questionType = watch(`questions.${index}.type`);
           const currentImageUrl = watch(`questions.${index}.imageUrl`);
           return (
-          <AccordionItem key={field.id} value={`item-${index}`}>
+          <AccordionItem key={field.id} value={field.id}>
              <div className="flex items-center w-full border-b">
                <AccordionTrigger className="flex-grow hover:no-underline text-left justify-start px-2 py-4 text-lg font-medium">
                 Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0,30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""} (Points: {getValues(`questions.${index}.points`) || 0})
@@ -1244,5 +1244,6 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
     </div>
   );
 }
+
 
 
