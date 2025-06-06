@@ -25,8 +25,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const adminNavItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/create', label: 'Create Test', icon: PlusCircle },
-    // Placeholder items
-    { href: '#', label: 'Submissions', icon: ClipboardList, disabled: true },
+    { href: '/admin/submissions', label: 'Submissions', icon: ClipboardList, disabled: false }, // Enabled this link
     { href: '#', label: 'Users', icon: UsersIcon, disabled: true },
     { href: '#', label: 'Settings', icon: Settings, disabled: true },
   ];
