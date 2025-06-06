@@ -9,6 +9,7 @@ import { Waves, Edit3, Share2, Laptop, BarChart3, FilePlus2, Users, ClipboardChe
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 
 export default function HomePage() {
@@ -86,10 +87,10 @@ export default function HomePage() {
               The modern platform for creating, distributing, and taking online tests with ease and confidence.
             </p>
             <div className="mt-10 md:mt-12">
-              <Link href="/select-test" asChild>
-                <Button size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
+              <Link href="/select-test" legacyBehavior>
+                <a className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "text-lg px-8 sm:px-10 py-5 sm:py-6")}>
                   <PlayCircle className="mr-2 h-6 w-6"/> Take a Test Now
-                </Button>
+                </a>
               </Link>
             </div>
           </div>
@@ -172,10 +173,10 @@ export default function HomePage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <Link href="/admin" asChild>
-                    <Button size="lg" className="w-full md:w-auto text-lg px-8 py-5">
+                  <Link href="/admin" legacyBehavior>
+                    <a className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "w-full md:w-auto text-lg px-8 py-5")}>
                       Go to Admin Dashboard
-                    </Button>
+                    </a>
                   </Link>
                 </CardContent>
               </div>
