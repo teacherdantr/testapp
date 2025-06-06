@@ -114,8 +114,10 @@ const questionSchema = z.object({
     }
     return (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => {
       const promptExists = data.prompts!.some(p => p.id === match.promptId);
-      const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
-      return promptExists && choiceIsValidIfSelected;
+      const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId); // Allow empty string for "unselected"
+      // Ensure all prompts are matched to a *non-empty* choice
+      const allPromptsMatchedToNonEmptyChoice = (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(m => m.choiceId !== '');
+      return promptExists && choiceIsValidIfSelected && allPromptsMatchedToNonEmptyChoice;
     });
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
@@ -126,7 +128,7 @@ const questionSchema = z.object({
   }
   return true;
 }, {
-  message: 'Correct answer(s) must be provided, in the correct format, and reference existing items (options/hotspots/prompts/choices) for the question type. For MatchingSelect, ensure all prompts are covered and selected choices are valid (or empty for "unselected").',
+  message: 'Correct answer(s) must be provided, in the correct format, and reference existing items (options/hotspots/prompts/choices) for the question type. For MatchingSelect, ensure all prompts are matched to a valid, non-empty choice.',
   path: ['correctAnswer'],
 }).refine(data => {
     if (data.type === QuestionType.MultipleTrueFalse || data.type === QuestionType.MatrixChoice) {
@@ -405,7 +407,11 @@ export default function EditTestPage() {
         title: 'Test Updated Successfully!',
         description: `Test "${data.title}" has been updated.`,
       });
-      router.push('/admin');
+      // router.push('/admin'); // Removed this line
+      // Optionally, you might want to re-fetch the test data here if server made further changes
+      // or reset the form's dirty state if appropriate.
+      // For now, just staying on the page.
+      reset(data); // Reset form with current data to clear dirty state
     }
   };
 
@@ -578,5 +584,3 @@ export default function EditTestPage() {
     </div>
   );
 }
-
-

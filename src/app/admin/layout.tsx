@@ -18,13 +18,14 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { LayoutDashboard, PlusCircle, ClipboardList, UsersIcon, Settings } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   const adminNavItems = [
-    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/admin/create', label: 'Create Test', icon: PlusCircle },
+    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, disabled: false },
+    { href: '/admin/create', label: 'Create Test', icon: PlusCircle, disabled: false },
     { href: '/admin/submissions', label: 'Submissions', icon: ClipboardList, disabled: false },
     { href: '#', label: 'Users', icon: UsersIcon, disabled: true },
     { href: '#', label: 'Settings', icon: Settings, disabled: true },
@@ -37,23 +38,36 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex flex-1 h-[calc(100vh-var(--navbar-height,4rem))]"> {/* Adjust height considering navbar */}
           <Sidebar side="left" collapsible="icon" className="border-r bg-sidebar text-sidebar-foreground">
             <SidebarHeader className="p-3 flex items-center justify-end h-14 border-b border-sidebar-border">
-              {/* The Link component containing the LayoutDashboard icon has been removed from here. */}
               <SidebarTrigger />
             </SidebarHeader>
             <SidebarContent className="p-2">
               <SidebarMenu>
                 {adminNavItems.map((item) => (
-                  <SidebarMenuItem key={item.label}> {/* Changed key from item.href to item.label */}
-                    <SidebarMenuButton
-                      href={item.href}
-                      isActive={pathname === item.href}
-                      tooltip={item.label}
-                      disabled={item.disabled}
-                      className={item.disabled ? "cursor-not-allowed opacity-50" : ""}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
+                  <SidebarMenuItem key={item.label}>
+                    {item.disabled || item.href === '#' ? (
+                      <SidebarMenuButton
+                        tooltip={item.label}
+                        disabled={true}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                    ) : (
+                      <Link href={item.href} passHref legacyBehavior>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === item.href}
+                          tooltip={item.label}
+                          disabled={item.disabled} // Retain for styling via variants
+                        >
+                          {/* The content for the <a> tag rendered by Link */}
+                          <>
+                            <item.icon className="h-5 w-5" />
+                            <span>{item.label}</span>
+                          </>
+                        </SidebarMenuButton>
+                      </Link>
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
