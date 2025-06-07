@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'; // Button import seems unused if Link is styled directly
 import { cn } from '@/lib/utils';
 import { Edit3 } from 'lucide-react';
 
@@ -23,10 +23,18 @@ export function EducatorCtaSection() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0">
-                <Link href="/admin" legacyBehavior passHref>
-                  <a className={cn(Button.displayName, "w-full md:w-auto text-lg px-8 py-5 bg-primary text-primary-foreground hover:bg-primary/90")}>
-                    Go to Admin Dashboard
-                  </a>
+                <Link 
+                  href="/admin" 
+                  className={cn(
+                    // Applying button-like styles directly. 
+                    // Consider using buttonVariants if a standard button appearance is desired.
+                    "inline-block text-center w-full md:w-auto text-lg px-8 py-5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors",
+                    Button.displayName // This effectively adds a class "Button" which might not be intended. If custom styling mimicking a button, the classes above handle it.
+                                      // If it's meant to look exactly like your <Button /> component, consider using Link asChild with <Button />.
+                                      // For now, keeping the structure closer to the original intent's direct styling.
+                  )}
+                >
+                  Go to Admin Dashboard
                 </Link>
               </CardContent>
             </div>

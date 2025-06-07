@@ -22,12 +22,9 @@ export function HomeHeader() {
           <div className="mt-10 md:mt-12">
             <Link
               href="/select-test"
-              legacyBehavior
-              passHref
+              className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "text-lg px-8 sm:px-10 py-5 sm:py-6")}
             >
-              <a className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "text-lg px-8 sm:px-10 py-5 sm:py-6")}>
-                <PlayCircle className="mr-2 h-6 w-6" /> Take a Test Now
-              </a>
+              <PlayCircle className="mr-2 h-6 w-6" /> Take a Test Now
             </Link>
           </div>
         </div>
