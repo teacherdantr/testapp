@@ -21,6 +21,16 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
+// Import the new question type builders
+import { McqOptionsBuilder } from './QuestionBuilders/McqOptionsBuilder';
+import { McmaOptionsBuilder } from './QuestionBuilders/McmaOptionsBuilder';
+import { MtfStatementsBuilder } from './QuestionBuilders/MtfStatementsBuilder';
+import { MatrixChoiceGridBuilder } from './QuestionBuilders/MatrixChoiceGridBuilder';
+import { HotspotImageBuilder } from './QuestionBuilders/HotspotImageBuilder';
+import { MatchingSelectItemsBuilder } from './QuestionBuilders/MatchingSelectItemsBuilder';
+import { ShortAnswerBuilder } from './QuestionBuilders/ShortAnswerBuilder';
+import { TrueFalseSelector } from './QuestionBuilders/TrueFalseSelector';
+
 
 interface QuestionBuilderProps {
   control: Control<any>;
@@ -64,11 +74,11 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       correctAnswerForAI = currentCorrectAnswer;
     } else if (Array.isArray(currentCorrectAnswer) && currentCorrectAnswer.length > 0 && typeof currentCorrectAnswer[0] === 'string') {
       correctAnswerForAI = currentCorrectAnswer[0];
-      toast({ title: "AI Hint", description: "For MCMA/MTF/Matrix, AI generates options based on the first correct answer/statement. Please adjust manually."});
+      toast({ title: "AI Hint", description: "For MCMA/MTF/Matrix, AI generates options based on the first correct answer/statement. Please adjust manually." });
     } else if (Array.isArray(currentCorrectAnswer) && currentCorrectAnswer.length > 0 && typeof currentCorrectAnswer[0] === 'object') {
-        const firstMatch = currentCorrectAnswer[0] as { promptId: string, choiceId: string };
-        const choice = getValues(`questions.${questionIndex}.choices`)?.find((c: MatchingItem) => c.id === firstMatch.choiceId);
-        if (choice) correctAnswerForAI = choice.text;
+      const firstMatch = currentCorrectAnswer[0] as { promptId: string, choiceId: string };
+      const choice = getValues(`questions.${questionIndex}.choices`)?.find((c: MatchingItem) => c.id === firstMatch.choiceId);
+      if (choice) correctAnswerForAI = choice.text;
     }
 
 
@@ -81,7 +91,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       return;
     }
 
-    toast({ title: "Generating AI Options...", description: "Please wait a moment."});
+    toast({ title: "Generating AI Options...", description: "Please wait a moment." });
     const result = await generateAnswerOptionsAI(questionText, correctAnswerForAI, 4);
 
     if (result.error) {
@@ -93,11 +103,11 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       const questionType = getValues(`questions.${questionIndex}.type`);
       if (questionType === QuestionType.MCQ) {
         const correctOptionIndex = newOptions.findIndex(opt => opt.text.toLowerCase() === correctAnswerForAI!.toLowerCase());
-         setValue(`questions.${questionIndex}.correctAnswer`, newOptions[correctOptionIndex !== -1 ? correctOptionIndex : 0]?.text || '', { shouldValidate: true, shouldDirty: true });
+        setValue(`questions.${questionIndex}.correctAnswer`, newOptions[correctOptionIndex !== -1 ? correctOptionIndex : 0]?.text || '', { shouldValidate: true, shouldDirty: true });
       } else if (questionType === QuestionType.MultipleChoiceMultipleAnswer) {
         const correctOptionTexts = newOptions
-            .filter(opt => opt.text.toLowerCase() === correctAnswerForAI!.toLowerCase())
-            .map(opt => opt.text);
+          .filter(opt => opt.text.toLowerCase() === correctAnswerForAI!.toLowerCase())
+          .map(opt => opt.text);
         setValue(`questions.${questionIndex}.correctAnswer`, correctOptionTexts.length > 0 ? correctOptionTexts : [], { shouldValidate: true, shouldDirty: true });
       }
       toast({ title: "AI Options Generated", description: "Review and adjust the options as needed." });
@@ -111,236 +121,212 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
           const questionType = watch(`questions.${index}.type`);
           const currentImageUrl = watch(`questions.${index}.imageUrl`);
           return (
-          <AccordionItem key={field.id} value={field.id}>
-             <div className="flex items-center w-full border-b">
-               <AccordionTrigger className="flex-grow hover:no-underline text-left justify-start px-2 py-4 text-lg font-medium">
-                Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0,30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""} (Points: {getValues(`questions.${index}.points`) || 0})
-              </AccordionTrigger>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => remove(index)}
-                className="text-destructive hover:bg-destructive/10 ml-auto mr-2 shrink-0"
-                aria-label="Remove question"
-              >
-                <Trash2 className="h-5 w-5" />
-              </Button>
-            </div>
-            <AccordionContent>
-              <CardContent className="space-y-4 pt-4">
-                <div>
-                  <Label htmlFor={`questions.${index}.text`}>Question Text/Prompt</Label>
-                  <Textarea
-                    id={`questions.${index}.text`}
-                    {...register(`questions.${index}.text`)}
-                    placeholder="e.g., What is the capital of France? OR Indicate T/F for the following:"
-                    className="mt-1"
-                  />
-                  {errors.questions?.[index]?.text && (
-                    <p className="text-sm text-destructive mt-1">{errors.questions[index]?.text?.message}</p>
-                  )}
-                </div>
-
-                {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer || questionType === QuestionType.MatchingSelect) && (
-                  <div className="space-y-2">
-                    <Label htmlFor={`questions.${index}.imageUrl`}>Image URL (Optional)</Label>
-                    <Input
-                      id={`questions.${index}.imageUrl`}
-                      {...register(`questions.${index}.imageUrl`)}
-                      placeholder="https://example.com/image.png or /images/my-image.png"
+            <AccordionItem key={field.id} value={field.id}>
+              <div className="flex items-center w-full border-b">
+                <AccordionTrigger className="flex-grow hover:no-underline text-left justify-start px-2 py-4 text-lg font-medium">
+                  Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0, 30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""} (Points: {getValues(`questions.${index}.points`) || 0})
+                </AccordionTrigger>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => remove(index)}
+                  className="text-destructive hover:bg-destructive/10 ml-auto mr-2 shrink-0"
+                  aria-label="Remove question"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              </div>
+              <AccordionContent>
+                <CardContent className="space-y-4 pt-4">
+                  <div>
+                    <Label htmlFor={`questions.${index}.text`}>Question Text/Prompt</Label>
+                    <Textarea
+                      id={`questions.${index}.text`}
+                      {...register(`questions.${index}.text`)}
+                      placeholder="e.g., What is the capital of France? OR Indicate T/F for the following:"
                       className="mt-1"
                     />
-                    {errors.questions?.[index]?.imageUrl && (
-                      <p className="text-sm text-destructive mt-1">{(errors.questions[index]?.imageUrl as any)?.message}</p>
-                    )}
-                    {currentImageUrl && (currentImageUrl.startsWith('https://') || currentImageUrl.startsWith('/images/')) && (
-                      <div className="mt-2 relative border rounded-md overflow-hidden" style={{ maxWidth: '200px', maxHeight: '150px' }}>
-                        <Image src={currentImageUrl} alt="Question image preview" width={200} height={150} style={{ objectFit: 'contain' }} data-ai-hint="question image" />
-                      </div>
+                    {errors.questions?.[index]?.text && (
+                      <p className="text-sm text-destructive mt-1">{errors.questions[index]?.text?.message}</p>
                     )}
                   </div>
-                )}
+
+                  {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer || questionType === QuestionType.MatchingSelect) && (
+                    <div className="space-y-2">
+                      <Label htmlFor={`questions.${index}.imageUrl`}>Image URL (Optional)</Label>
+                      <Input
+                        id={`questions.${index}.imageUrl`}
+                        {...register(`questions.${index}.imageUrl`)}
+                        placeholder="https://example.com/image.png or /images/my-image.png"
+                        className="mt-1"
+                      />
+                      {errors.questions?.[index]?.imageUrl && (
+                        <p className="text-sm text-destructive mt-1">{(errors.questions[index]?.imageUrl as any)?.message}</p>
+                      )}
+                      {currentImageUrl && (currentImageUrl.startsWith('https://') || currentImageUrl.startsWith('/images/')) && (
+                        <div className="mt-2 relative border rounded-md overflow-hidden" style={{ maxWidth: '200px', maxHeight: '150px' }}>
+                          <Image src={currentImageUrl} alt="Question image preview" width={200} height={150} style={{ objectFit: 'contain' }} data-ai-hint="question image" />
+                        </div>
+                      )}
+                    </div>
+                  )}
 
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor={`questions.${index}.type`}>Question Type</Label>
-                    <Controller
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor={`questions.${index}.type`}>Question Type</Label>
+                      <Controller
                         name={`questions.${index}.type`}
                         control={control}
                         defaultValue={(field as any).type}
                         render={({ field: controllerField }) => (
-                            <Select
-                                value={controllerField.value}
-                                onValueChange={(value) => {
-                                    const newType = value as QuestionType;
-                                    controllerField.onChange(newType);
+                          <Select
+                            value={controllerField.value}
+                            onValueChange={(value) => {
+                              const newType = value as QuestionType;
+                              controllerField.onChange(newType);
 
-                                    setValue(`questions.${index}.options`, newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer ? [{ text: '' }, { text: '' }] : []);
-                                    setValue(`questions.${index}.statements`, newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice ? [{ id: crypto.randomUUID(), text: ''}] : []);
-                                    setValue(`questions.${index}.categories`, newType === QuestionType.MatrixChoice ? [{id: crypto.randomUUID(), text: 'Column 1'}, {id: crypto.randomUUID(), text: 'Column 2'}] : []);
-                                    setValue(`questions.${index}.imageUrl`, (newType === QuestionType.Hotspot || newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer || newType === QuestionType.MatchingSelect) ? getValues(`questions.${index}.imageUrl`) || '' : undefined);
-                                    setValue(`questions.${index}.hotspots`, newType === QuestionType.Hotspot ? [{ id: crypto.randomUUID(), shape: HotspotShapeType.Rectangle, coords: '', label: 'Hotspot 1' }] : []);
-                                    setValue(`questions.${index}.multipleSelection`, newType === QuestionType.Hotspot ? false : undefined);
-                                    setValue(`questions.${index}.prompts`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: ''}] : []);
-                                    setValue(`questions.${index}.choices`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: ''}] : []);
+                              setValue(`questions.${index}.options`, newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer ? [{ text: '' }, { text: '' }] : []);
+                              setValue(`questions.${index}.statements`, newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice ? [{ id: crypto.randomUUID(), text: '' }] : []);
+                              setValue(`questions.${index}.categories`, newType === QuestionType.MatrixChoice ? [{ id: crypto.randomUUID(), text: 'Column 1' }, { id: crypto.randomUUID(), text: 'Column 2' }] : []);
+                              setValue(`questions.${index}.imageUrl`, (newType === QuestionType.Hotspot || newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer || newType === QuestionType.MatchingSelect) ? getValues(`questions.${index}.imageUrl`) || '' : undefined);
+                              setValue(`questions.${index}.hotspots`, newType === QuestionType.Hotspot ? [{ id: crypto.randomUUID(), shape: HotspotShapeType.Rectangle, coords: '', label: 'Hotspot 1' }] : []);
+                              setValue(`questions.${index}.multipleSelection`, newType === QuestionType.Hotspot ? false : undefined);
+                              setValue(`questions.${index}.prompts`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: '' }] : []);
+                              setValue(`questions.${index}.choices`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: '' }] : []);
 
 
-                                    if (newType === QuestionType.MultipleChoiceMultipleAnswer || (newType === QuestionType.Hotspot && getValues(`questions.${index}.multipleSelection`))) {
-                                      setValue(`questions.${index}.correctAnswer`, []);
-                                    } else if (newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice) {
-                                      const stmts = getValues(`questions.${index}.statements`);
-                                      setValue(`questions.${index}.correctAnswer`, stmts ? stmts.map(() => (newType === QuestionType.MultipleTrueFalse ? 'false' : '')) : []);
-                                    } else if (newType === QuestionType.MatchingSelect) {
-                                      const prompts = getValues(`questions.${index}.prompts`);
-                                      setValue(`questions.${index}.correctAnswer`, prompts ? prompts.map((p: MatchingItem) => ({ promptId: p.id, choiceId: ''})) : []);
-                                    } else {
-                                      setValue(`questions.${index}.correctAnswer`, '');
-                                    }
-                                }}
-                            >
-                                <SelectTrigger id={`questions.${index}.type`} className="mt-1">
-                                    <SelectValue placeholder="Select type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={QuestionType.MCQ}>Multiple Choice (Single Answer)</SelectItem>
-                                    <SelectItem value={QuestionType.MultipleChoiceMultipleAnswer}>Multiple Choice (Multiple Answers)</SelectItem>
-                                    <SelectItem value={QuestionType.MultipleTrueFalse}>Multiple True/False</SelectItem>
-                                    <SelectItem value={QuestionType.MatrixChoice}>Matrix Choice (Grid)</SelectItem>
-                                    <SelectItem value={QuestionType.Hotspot}>Hotspot (Clickable Image)</SelectItem>
-                                    <SelectItem value={QuestionType.MatchingSelect}>Matching (Select from Dropdown)</SelectItem>
-                                    <SelectItem value={QuestionType.ShortAnswer}>Short Answer</SelectItem>
-                                    <SelectItem value={QuestionType.TrueFalse}>True/False</SelectItem>
-                                </SelectContent>
-                            </Select>
+                              if (newType === QuestionType.MultipleChoiceMultipleAnswer || (newType === QuestionType.Hotspot && getValues(`questions.${index}.multipleSelection`))) {
+                                setValue(`questions.${index}.correctAnswer`, []);
+                              } else if (newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice) {
+                                const stmts = getValues(`questions.${index}.statements`);
+                                setValue(`questions.${index}.correctAnswer`, stmts ? stmts.map(() => (newType === QuestionType.MultipleTrueFalse ? 'false' : '')) : []);
+                              } else if (newType === QuestionType.MatchingSelect) {
+                                const prompts = getValues(`questions.${index}.prompts`);
+                                setValue(`questions.${index}.correctAnswer`, prompts ? prompts.map((p: MatchingItem) => ({ promptId: p.id, choiceId: '' })) : []);
+                              } else {
+                                setValue(`questions.${index}.correctAnswer`, '');
+                              }
+                            }}
+                          >
+                            <SelectTrigger id={`questions.${index}.type`} className="mt-1">
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value={QuestionType.MCQ}>Multiple Choice (Single Answer)</SelectItem>
+                              <SelectItem value={QuestionType.MultipleChoiceMultipleAnswer}>Multiple Choice (Multiple Answers)</SelectItem>
+                              <SelectItem value={QuestionType.MultipleTrueFalse}>Multiple True/False</SelectItem>
+                              <SelectItem value={QuestionType.MatrixChoice}>Matrix Choice (Grid)</SelectItem>
+                              <SelectItem value={QuestionType.Hotspot}>Hotspot (Clickable Image)</SelectItem>
+                              <SelectItem value={QuestionType.MatchingSelect}>Matching (Select from Dropdown)</SelectItem>
+                              <SelectItem value={QuestionType.ShortAnswer}>Short Answer</SelectItem>
+                              <SelectItem value={QuestionType.TrueFalse}>True/False</SelectItem>
+                            </SelectContent>
+                          </Select>
                         )}
-                    />
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor={`questions.${index}.points`}>Points</Label>
+                      <Input
+                        id={`questions.${index}.points`}
+                        type="number"
+                        {...register(`questions.${index}.points`, { valueAsNumber: true })}
+                        defaultValue={1}
+                        min="1"
+                        className="mt-1"
+                      />
+                      {errors.questions?.[index]?.points && (
+                        <p className="text-sm text-destructive mt-1">{errors.questions[index]?.points?.message}</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <Label htmlFor={`questions.${index}.points`}>Points</Label>
-                    <Input
-                      id={`questions.${index}.points`}
-                      type="number"
-                      {...register(`questions.${index}.points`, { valueAsNumber: true })}
-                      defaultValue={1}
-                      min="1"
-                      className="mt-1"
+
+                  {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer) && (
+                    <OptionsAndCorrectAnswerBuilder
+                      questionIndex={index}
+                      control={control}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
+                      handleGenerateAIOptions={handleGenerateAIOptions}
+                      register={register}
                     />
-                     {errors.questions?.[index]?.points && (
-                      <p className="text-sm text-destructive mt-1">{errors.questions[index]?.points?.message}</p>
-                    )}
-                  </div>
-                </div>
+                  )}
 
-                {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer) && (
-                  <OptionsAndCorrectAnswerBuilder
-                    questionIndex={index}
-                    control={control}
-                    errors={errors}
-                    setValue={setValue}
-                    getValues={getValues}
-                    handleGenerateAIOptions={handleGenerateAIOptions}
-                    register={register}
-                  />
-                )}
-
-                {questionType === QuestionType.MultipleTrueFalse && (
-                    <StatementsBuilder
-                        questionIndex={index}
-                        control={control}
-                        register={register}
-                        errors={errors}
-                        setValue={setValue}
-                        getValues={getValues}
+                  {questionType === QuestionType.MultipleTrueFalse && (
+                    <MtfStatementsBuilder
+                      questionIndex={index}
+                      control={control}
+                      register={register}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
                     />
-                )}
-
-                {questionType === QuestionType.MatrixChoice && (
-                  <MatrixChoiceBuilder
-                    questionIndex={index}
-                    control={control}
-                    register={register}
-                    errors={errors}
-                    setValue={setValue}
-                    getValues={getValues}
-                  />
-                )}
-
-                {questionType === QuestionType.Hotspot && (
-                  <HotspotBuilder
-                    questionIndex={index}
-                    control={control}
-                    register={register}
-                    errors={errors}
-                    setValue={setValue}
-                    getValues={getValues}
-                    watch={watch}
-                    toast={toast}
-                  />
-                )}
-
-                {questionType === QuestionType.MatchingSelect && (
-                  <MatchingSelectBuilder
-                    questionIndex={index}
-                    control={control}
-                    register={register}
-                    errors={errors}
-                    setValue={setValue}
-                    getValues={getValues}
-                  />
-                )}
+                  )}
 
 
-                {questionType === QuestionType.ShortAnswer && (
-                  <div>
-                    <Label htmlFor={`questions.${index}.correctAnswerSA`}>Correct Answer</Label>
-                    <Input
-                      id={`questions.${index}.correctAnswerSA`}
-                      {...register(`questions.${index}.correctAnswer`)}
-                      placeholder="Enter the exact correct answer"
-                      className="mt-1"
+                  {questionType === QuestionType.MatrixChoice && (
+                    <MatrixChoiceGridBuilder
+                      questionIndex={index}
+                      control={control}
+                      register={register}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
                     />
-                    {errors.questions?.[index]?.correctAnswer && (
-                        <p className="text-sm text-destructive mt-1">{(errors.questions[index]?.correctAnswer as any)?.message}</p>
-                    )}
-                  </div>
-                )}
+                  )}
 
-                {questionType === QuestionType.TrueFalse && (
-                  <div>
-                    <Label>Correct Answer</Label>
-                     <Controller
-                        name={`questions.${index}.correctAnswer`}
-                        control={control}
-                        defaultValue={(field as any).correctAnswer as string || 'false'}
-                        render={({ field: controllerField }) => (
-                            <RadioGroup
-                                value={controllerField.value as string}
-                                onValueChange={(value) => controllerField.onChange(value)}
-                                className="mt-2 flex space-x-4"
-                            >
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="true" id={`q${index}-true`} />
-                                    <Label htmlFor={`q${index}-true`} className="font-normal">True</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="false" id={`q${index}-false`} />
-                                    <Label htmlFor={`q${index}-false`} className="font-normal">False</Label>
-                                </div>
-                            </RadioGroup>
-                        )}
+
+                  {questionType === QuestionType.Hotspot && (
+                    <HotspotImageBuilder
+                      questionIndex={index}
+                      control={control}
+                      register={register}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
+                      watch={watch}
+                      toast={toast}
                     />
-                     {errors.questions?.[index]?.correctAnswer && (
-                        <p className="text-sm text-destructive mt-1">{(errors.questions[index]?.correctAnswer as any)?.message}</p>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
+                  )}
+
+
+                  {questionType === QuestionType.MatchingSelect && (
+                    <MatchingSelectBuilder
+                      questionIndex={index}
+                      control={control}
+                      register={register}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
+                    />
+                  )}
+
+
+                  {questionType === QuestionType.ShortAnswer && (
+                    <ShortAnswerBuilder
+                      questionIndex={index}
+                      register={register}
+                      errors={errors}
+                    />
+                  )}
+
+
+                  {questionType === QuestionType.TrueFalse && (
+                    <TrueFalseSelector
+                      questionIndex={index}
+                      control={control}
+                      errors={errors}
+                    />
+                  )}
+
+                </CardContent>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
       </Accordion>
 
       <Button type="button" onClick={addQuestion} variant="outline" className="w-full">
@@ -385,122 +371,39 @@ function OptionsAndCorrectAnswerBuilder({ questionIndex, control, errors, setVal
       <div className="flex justify-between items-center">
         <Label>{questionType === QuestionType.MCQ ? 'Options (select one correct answer)' : 'Options (select all correct answers)'}</Label>
         {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer) && (
-             <Button type="button" variant="ghost" size="sm" onClick={() => handleGenerateAIOptions(questionIndex)}>
-                <Brain className="mr-2 h-4 w-4" /> Generate with AI
-            </Button>
+          <Button type="button" variant="ghost" size="sm" onClick={() => handleGenerateAIOptions(questionIndex)}>
+            <Brain className="mr-2 h-4 w-4" /> Generate with AI
+          </Button>
         )}
       </div>
 
       {questionType === QuestionType.MCQ && (
-        <Controller
-            name={`questions.${questionIndex}.correctAnswer`}
-            control={control}
-            render={({ field: controllerField }) => (
-                <RadioGroup
-                    value={controllerField.value as string}
-                    onValueChange={(value) => {
-                        controllerField.onChange(value);
-                    }}
-                    className="space-y-2"
-                >
-                    {optionFields.map((optionField, optionIndex) => (
-                        <div key={optionField.id} className="flex flex-col space-y-1">
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                    value={getValues(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                                    id={`q${questionIndex}-opt${optionIndex}-radio`}
-                                />
-                                <Input
-                                    id={`q${questionIndex}-opt${optionIndex}-text-input`}
-                                    {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                                    placeholder={`Option ${optionIndex + 1}`}
-                                    className="flex-grow"
-                                    onChange={(e) => {
-                                        const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
-                                        const newText = e.target.value;
-                                        setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
-                                        if (controllerField.value === oldText) {
-                                            controllerField.onChange(newText);
-                                        }
-                                    }}
-                                />
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => removeOption(optionIndex)}
-                                    className="text-destructive hover:bg-destructive/10"
-                                    aria-label="Remove option"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
-                            {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
-                                <p className="text-sm text-destructive ml-7">
-                                    {(errors.questions[questionIndex].options[optionIndex].text as any).message}
-                                </p>
-                            )}
-                        </div>
-                    ))}
-                </RadioGroup>
-            )}
+        <McqOptionsBuilder
+          questionIndex={index}
+          control={control}
+          errors={errors}
+          setValue={setValue}
+          getValues={getValues}
+          handleGenerateAIOptions={handleGenerateAIOptions}
+          register={register}
         />
       )}
 
       {questionType === QuestionType.MultipleChoiceMultipleAnswer && (
-        <div className="space-y-2">
-          {optionFields.map((optionField, optionIndex) => (
-            <div key={optionField.id} className="flex flex-col space-y-1">
-                <div className="flex items-center space-x-2">
-                    <Controller
-                        name={`questions.${questionIndex}.options.${optionIndex}.text`} 
-                        control={control}
-                        render={({ }) => ( 
-                            <Checkbox
-                                id={`q${questionIndex}-opt${optionIndex}-checkbox`}
-                                checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
-                                onCheckedChange={(checked) => handleMCMACorrectAnswerChange(getValues(`questions.${questionIndex}.options.${optionIndex}.text`), !!checked)}
-                            />
-                        )}
-                    />
-                  <Input
-                    id={`q${questionIndex}-opt${optionIndex}-text`}
-                    {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
-                    placeholder={`Option ${optionIndex + 1}`}
-                    className="flex-grow"
-                    onChange={(e) => {
-                        const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
-                        const newText = e.target.value;
-                        setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
-                        const ca = getValues(`questions.${questionIndex}.correctAnswer`) as string[];
-                        if (ca && ca.includes(oldText)) {
-                            setValue(`questions.${questionIndex}.correctAnswer`, ca.map(ans => ans === oldText ? newText : ans), { shouldDirty: true, shouldValidate: true });
-                        }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeOption(optionIndex)}
-                    className="text-destructive hover:bg-destructive/10"
-                    aria-label="Remove option"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-                {errors.questions?.[questionIndex]?.options?.[optionIndex]?.text && (
-                    <p className="text-sm text-destructive ml-7">
-                        {(errors.questions[questionIndex].options[optionIndex].text as any).message}
-                    </p>
-                )}
-            </div>
-          ))}
-        </div>
+        <McmaOptionsBuilder
+          questionIndex={index}
+          control={control}
+          errors={errors}
+          setValue={setValue}
+          getValues={getValues}
+          handleGenerateAIOptions={handleGenerateAIOptions}
+          register={register}
+        />
       )}
+
       {errors.questions?.[questionIndex]?.options?.message && typeof errors.questions[questionIndex].options.message === 'string' && (
         <p className="text-sm text-destructive mt-1">
-            {(errors.questions[questionIndex].options as any).message}
+          {(errors.questions[questionIndex].options as any).message}
         </p>
       )}
       <Button type="button" onClick={() => appendOption({ text: '' })} variant="outline" size="sm">
@@ -576,34 +479,34 @@ function StatementsBuilder({ questionIndex, control, register, errors, setValue,
           <div>
             <Label className="text-xs">Correct Answer for this statement:</Label>
             <Controller
-                name={`questions.${questionIndex}.correctAnswer.${statementIdx}`}
-                control={control}
-                defaultValue={(getValues(`questions.${questionIndex}.correctAnswer`) as string[])?.[statementIdx] || 'false'}
-                render={({ field: controllerField }) => (
-                    <RadioGroup
-                        value={controllerField.value}
-                        onValueChange={(val) => handleStatementCorrectAnswerChange(statementIdx, val as 'true' | 'false')}
-                        className="mt-1 flex space-x-3"
-                    >
-                        <div className="flex items-center space-x-1">
-                        <RadioGroupItem value="true" id={`q${questionIndex}-s${statementIdx}-true`} />
-                        <Label htmlFor={`q${questionIndex}-s${statementIdx}-true`} className="font-normal text-sm">True</Label>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                        <RadioGroupItem value="false" id={`q${questionIndex}-s${statementIdx}-false`} />
-                        <Label htmlFor={`q${questionIndex}-s${statementIdx}-false`} className="font-normal text-sm">False</Label>
-                        </div>
-                    </RadioGroup>
-                )}
+              name={`questions.${questionIndex}.correctAnswer.${statementIdx}`}
+              control={control}
+              defaultValue={(getValues(`questions.${questionIndex}.correctAnswer`) as string[])?.[statementIdx] || 'false'}
+              render={({ field: controllerField }) => (
+                <RadioGroup
+                  value={controllerField.value}
+                  onValueChange={(val) => handleStatementCorrectAnswerChange(statementIdx, val as 'true' | 'false')}
+                  className="mt-1 flex space-x-3"
+                >
+                  <div className="flex items-center space-x-1">
+                    <RadioGroupItem value="true" id={`q${questionIndex}-s${statementIdx}-true`} />
+                    <Label htmlFor={`q${questionIndex}-s${statementIdx}-true`} className="font-normal text-sm">True</Label>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <RadioGroupItem value="false" id={`q${questionIndex}-s${statementIdx}-false`} />
+                    <Label htmlFor={`q${questionIndex}-s${statementIdx}-false`} className="font-normal text-sm">False</Label>
+                  </div>
+                </RadioGroup>
+              )}
             />
           </div>
         </div>
       ))}
       {errors.questions?.[questionIndex]?.statements && typeof errors.questions[questionIndex]?.statements?.message === 'string' && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.statements as any)?.message}</p>
+        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.statements as any)?.message}</p>
       )}
-       {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
+      {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
+        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
 
 
@@ -687,8 +590,8 @@ function MatrixChoiceBuilder({ questionIndex, control, register, errors, setValu
 
                 const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as string[];
                 if (currentCorrectAnswers && currentCorrectAnswers.includes(oldText)) {
-                    const updatedCorrectAnswers = currentCorrectAnswers.map(ans => ans === oldText ? newText : ans);
-                    setValue(`questions.${questionIndex}.correctAnswer`, updatedCorrectAnswers, { shouldValidate: true, shouldDirty: true });
+                  const updatedCorrectAnswers = currentCorrectAnswers.map(ans => ans === oldText ? newText : ans);
+                  setValue(`questions.${questionIndex}.correctAnswer`, updatedCorrectAnswers, { shouldValidate: true, shouldDirty: true });
                 }
               }}
             />
@@ -704,11 +607,11 @@ function MatrixChoiceBuilder({ questionIndex, control, register, errors, setValu
             </Button>
           </div>
         ))}
-        {errors.questions?.[questionIndex]?.categories && typeof errors.questions[questionIndex]?.categories?.message === 'string' &&(
-             <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.categories as any)?.message}</p>
+        {errors.questions?.[questionIndex]?.categories && typeof errors.questions[questionIndex]?.categories?.message === 'string' && (
+          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.categories as any)?.message}</p>
         )}
-         {Array.isArray(errors.questions?.[questionIndex]?.categories) && (errors.questions?.[questionIndex]?.categories as any[]).map((catErr, catIdx) => (
-            catErr?.text && <p key={`cat-${catIdx}-err`} className="text-sm text-destructive">Category {catIdx + 1}: {catErr.text.message}</p>
+        {Array.isArray(errors.questions?.[questionIndex]?.categories) && (errors.questions?.[questionIndex]?.categories as any[]).map((catErr, catIdx) => (
+          catErr?.text && <p key={`cat-${catIdx}-err`} className="text-sm text-destructive">Category {catIdx + 1}: {catErr.text.message}</p>
         ))}
         <Button type="button" onClick={addCategoryField} variant="outline" size="sm">
           <PlusCircle className="mr-2 h-4 w-4" /> Add Category
@@ -771,8 +674,8 @@ function MatrixChoiceBuilder({ questionIndex, control, register, errors, setValu
           <PlusCircle className="mr-2 h-4 w-4" /> Add Statement
         </Button>
       </div>
-       {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
+      {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
+        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
     </div>
   );
@@ -803,14 +706,14 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
   const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(null);
   const [currentRect, setCurrentRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const [naturalImageSize, setNaturalImageSize] = useState<{ width: number; height: number } | null>(null);
-  
+
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
 
 
   const handleImageMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!imageUrl || !imageContainerRef.current) return;
-    event.preventDefault(); 
+    event.preventDefault();
     const rect = imageContainerRef.current.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -825,7 +728,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
     const containerRect = imageContainerRef.current.getBoundingClientRect();
     const currentX = event.clientX - containerRect.left;
     const currentY = event.clientY - containerRect.top;
-    
+
     const constrainedX = Math.max(0, Math.min(currentX, containerRect.width));
     const constrainedY = Math.max(0, Math.min(currentY, containerRect.height));
 
@@ -842,8 +745,8 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
     if (isDrawing) {
       setIsDrawing(false);
       if (currentRect && (currentRect.width < 5 || currentRect.height < 5)) {
-          setCurrentRect(null); 
-          toast({ title: "Hotspot too small", description: "Please draw a larger rectangle.", variant: "default" });
+        setCurrentRect(null);
+        toast({ title: "Hotspot too small", description: "Please draw a larger rectangle.", variant: "default" });
       }
       // Keep currentRect so user can click "Add Drawn Hotspot"
     }
@@ -854,13 +757,13 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
       toast({ title: "No valid rectangle drawn", description: "Please draw a sufficiently large rectangle on the image first.", variant: "destructive" });
       return;
     }
-  
+
     const img = imageElementRef.current;
     if (!naturalImageSize || naturalImageSize.width === 0 || naturalImageSize.height === 0) {
       toast({ title: "Image error", description: "Cannot determine natural image dimensions. Ensure image is loaded.", variant: "destructive" });
       return;
     }
-    
+
     const displayedWidth = img.offsetWidth;
     const displayedHeight = img.offsetHeight;
 
@@ -868,7 +771,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
       toast({ title: "Image display error", description: "Cannot determine displayed image dimensions.", variant: "destructive" });
       return;
     }
-  
+
     // Normalize coordinates based on displayed size relative to natural size.
     // The drawn currentRect coordinates are relative to the displayed image.
     // We need to map these to the 0-1 range based on the natural dimensions.
@@ -878,16 +781,16 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
     const normY = currentRect.y / displayedHeight;
     const normWidth = currentRect.width / displayedWidth;
     const normHeight = currentRect.height / displayedHeight;
-  
+
     const coordsString = `${normX.toFixed(4)},${normY.toFixed(4)},${normWidth.toFixed(4)},${normHeight.toFixed(4)}`;
-  
+
     appendHotspot({
       id: crypto.randomUUID(),
       shape: HotspotShapeType.Rectangle,
       coords: coordsString,
       label: `Drawn Hotspot ${hotspotFields.length + 1}`,
     });
-  
+
     setCurrentRect(null);
     setStartPoint(null);
     toast({ title: "Hotspot Added", description: "The drawn rectangle has been added as a hotspot." });
@@ -913,7 +816,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
   const addHotspotField = () => {
     appendHotspot({ id: crypto.randomUUID(), shape: HotspotShapeType.Rectangle, coords: '', label: `Hotspot ${hotspotFields.length + 1}` });
   };
-  
+
   // Reset drawing state if image URL changes
   useEffect(() => {
     setCurrentRect(null);
@@ -936,7 +839,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
           <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.imageUrl as any)?.message}</p>
         )}
       </div>
-      
+
       {imageUrl && (imageUrl.startsWith('https://') || imageUrl.startsWith('/images/')) && (
         <div className="space-y-2">
           <Label>Draw Hotspot (Rectangles Only)</Label>
@@ -966,7 +869,7 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
             {currentRect && imageContainerRef.current && (
               <svg
                 className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                // viewBox={`0 0 ${imageContainerRef.current.offsetWidth} ${imageContainerRef.current.offsetHeight}`} // Not needed if rect coords are direct pixels
+              // viewBox={`0 0 ${imageContainerRef.current.offsetWidth} ${imageContainerRef.current.offsetHeight}`} // Not needed if rect coords are direct pixels
               >
                 <rect
                   x={currentRect.x}
@@ -994,19 +897,19 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
 
       <div className="flex items-center space-x-2">
         <Controller
-            name={`questions.${questionIndex}.multipleSelection`}
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-                <Switch
-                    id={`questions.${questionIndex}.multipleSelection`}
-                    checked={field.value}
-                    onCheckedChange={(checked) => {
-                        field.onChange(checked);
-                        setValue(`questions.${questionIndex}.correctAnswer`, checked ? [] : '', { shouldValidate: true });
-                    }}
-                />
-            )}
+          name={`questions.${questionIndex}.multipleSelection`}
+          control={control}
+          defaultValue={false}
+          render={({ field }) => (
+            <Switch
+              id={`questions.${questionIndex}.multipleSelection`}
+              checked={field.value}
+              onCheckedChange={(checked) => {
+                field.onChange(checked);
+                setValue(`questions.${questionIndex}.correctAnswer`, checked ? [] : '', { shouldValidate: true });
+              }}
+            />
+          )}
         />
         <Label htmlFor={`questions.${questionIndex}.multipleSelection`}>Allow multiple correct hotspots</Label>
       </div>
@@ -1052,8 +955,8 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
               {...register(`questions.${questionIndex}.hotspots.${hotspotIdx}.coords`)}
               placeholder={
                 getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.shape`) === HotspotShapeType.Rectangle ? "x,y,width,height (e.g., 0.1,0.1,0.2,0.1)" :
-                getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.shape`) === HotspotShapeType.Circle ? "cx,cy,r (e.g., 0.5,0.5,0.05)" :
-                "x1,y1,x2,y2,x3,y3,... (e.g., 0.1,0.1,0.2,0.1,0.15,0.2)"
+                  getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.shape`) === HotspotShapeType.Circle ? "cx,cy,r (e.g., 0.5,0.5,0.05)" :
+                    "x1,y1,x2,y2,x3,y3,... (e.g., 0.1,0.1,0.2,0.1,0.15,0.2)"
               }
               className="mt-1"
             />
@@ -1066,8 +969,8 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
               id={`q${questionIndex}-hs${hotspotIdx}-correct`}
               checked={
                 multipleSelection
-                ? (getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.id`))
-                : getValues(`questions.${questionIndex}.correctAnswer`) === getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.id`)
+                  ? (getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.id`))
+                  : getValues(`questions.${questionIndex}.correctAnswer`) === getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.id`)
               }
               onCheckedChange={(checked) => handleCorrectHotspotChange(getValues(`questions.${questionIndex}.hotspots.${hotspotIdx}.id`), !!checked)}
             />
@@ -1078,10 +981,10 @@ function HotspotBuilder({ questionIndex, control, register, errors, setValue, ge
         </div>
       ))}
       {errors.questions?.[questionIndex]?.hotspots && typeof errors.questions[questionIndex]?.hotspots?.message === 'string' && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.hotspots as any)?.message}</p>
+        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.hotspots as any)?.message}</p>
       )}
       {errors.questions?.[questionIndex]?.correctAnswer && (errors.questions?.[questionIndex]?.correctAnswer as any)?.message && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
+        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
       <Button type="button" onClick={addHotspotField} variant="outline" size="sm">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Hotspot Area Manually
@@ -1135,14 +1038,14 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
   const addPromptField = () => {
     const newPromptId = crypto.randomUUID();
     appendPrompt({ id: newPromptId, text: '' });
-    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{promptId: string, choiceId: string}> || [];
+    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{ promptId: string, choiceId: string }> || [];
     setValue(`questions.${questionIndex}.correctAnswer`, [...currentCorrectAnswers, { promptId: newPromptId, choiceId: '' }], { shouldValidate: true, shouldDirty: true });
   };
 
   const removePromptField = (promptIdx: number) => {
     const promptIdToRemove = getValues(`questions.${questionIndex}.prompts.${promptIdx}.id`);
     removePrompt(promptIdx);
-    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{promptId: string, choiceId: string}> || [];
+    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{ promptId: string, choiceId: string }> || [];
     setValue(`questions.${questionIndex}.correctAnswer`, currentCorrectAnswers.filter(match => match.promptId !== promptIdToRemove), { shouldValidate: true, shouldDirty: true });
   };
 
@@ -1153,8 +1056,8 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
   const removeChoiceField = (choiceIdx: number) => {
     const choiceIdToRemove = getValues(`questions.${questionIndex}.choices.${choiceIdx}.id`);
     removeChoice(choiceIdx);
-    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{promptId: string, choiceId: string}> || [];
-    setValue(`questions.${questionIndex}.correctAnswer`, currentCorrectAnswers.map(match => match.choiceId === choiceIdToRemove ? {...match, choiceId: ''} : match), { shouldValidate: true, shouldDirty: true });
+    const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{ promptId: string, choiceId: string }> || [];
+    setValue(`questions.${questionIndex}.correctAnswer`, currentCorrectAnswers.map(match => match.choiceId === choiceIdToRemove ? { ...match, choiceId: '' } : match), { shouldValidate: true, shouldDirty: true });
   };
 
   return (
@@ -1179,7 +1082,7 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
           <PlusCircle className="mr-2 h-4 w-4" /> Add Prompt Item
         </Button>
         {errors.questions?.[questionIndex]?.prompts && (
-            <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.prompts as any)?.message || (errors.questions[questionIndex]?.prompts as any)?.[0]?.text?.message}</p>
+          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.prompts as any)?.message || (errors.questions[questionIndex]?.prompts as any)?.[0]?.text?.message}</p>
         )}
       </div>
 
@@ -1202,8 +1105,8 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
         <Button type="button" onClick={addChoiceField} variant="outline" size="sm">
           <PlusCircle className="mr-2 h-4 w-4" /> Add Choice Item
         </Button>
-         {errors.questions?.[questionIndex]?.choices && (
-            <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.choices as any)?.message || (errors.questions[questionIndex]?.choices as any)?.[0]?.text?.message}</p>
+        {errors.questions?.[questionIndex]?.choices && (
+          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.choices as any)?.message || (errors.questions[questionIndex]?.choices as any)?.[0]?.text?.message}</p>
         )}
       </div>
 
@@ -1236,7 +1139,7 @@ function MatchingSelectBuilder({ questionIndex, control, register, errors, setVa
               />
             </div>
           ))}
-           {errors.questions?.[questionIndex]?.correctAnswer && (
+          {errors.questions?.[questionIndex]?.correctAnswer && (
             <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message || (errors.questions[questionIndex]?.correctAnswer as any)?.[0]?.choiceId?.message}</p>
           )}
         </div>
