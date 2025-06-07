@@ -1,6 +1,4 @@
 
-'use client';
-
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { WorkflowSection } from '@/components/home/WorkflowSection';
