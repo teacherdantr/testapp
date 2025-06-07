@@ -1,6 +1,4 @@
 
-'use client';
-
 import { FilePlus2, Share2, Users, BarChart3 } from 'lucide-react';
 
 const workflowSteps = [
