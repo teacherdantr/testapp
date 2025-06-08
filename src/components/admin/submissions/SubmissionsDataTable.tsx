@@ -138,11 +138,12 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
 
   const getModeDisplay = (mode?: 'training' | 'testing' | 'race') => {
     if (!mode) return <span className="text-xs text-muted-foreground italic ml-1.5">N/A</span>;
-    const Icon = mode === 'training' ? Users : (mode === 'race' ? Zap : Zap); // Zap for both testing and race
+    const Icon = mode === 'training' ? Users : (mode === 'race' ? Rocket : Zap); // Zap for testing
     const text = mode.charAt(0).toUpperCase() + mode.slice(1);
-    let bgColor = "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300";
+    let bgColor = "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"; // Default for testing
     if (mode === 'training') bgColor = "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300";
     if (mode === 'race') bgColor = "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300";
+
 
     return (
       <span className={cn(
@@ -156,6 +157,7 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
   };
 
   const handleViewDetails = (submission: StoredTestResult) => {
+    console.log("[SubmissionsDataTable] View Details clicked for:", submission);
     toast({
         title: `Details for ${submission.userId}'s Test`,
         description: (
@@ -176,21 +178,24 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
   };
 
   const handleDeleteRequest = (submission: StoredTestResult) => {
+    console.log("[SubmissionsDataTable] Delete request for submission:", submission);
     setSubmissionToDelete(submission);
     setShowDeleteDialog(true);
   };
 
   const confirmDeleteSubmission = async () => {
     if (!submissionToDelete) return;
+    console.log("[SubmissionsDataTable] Confirming delete for submission:", submissionToDelete);
 
     const result = await deleteUserScoreByIds({
       userId: submissionToDelete.userId,
       testId: submissionToDelete.testId,
       submittedAt: submissionToDelete.submittedAt,
     });
+    console.log("[SubmissionsDataTable] Delete action result:", result);
 
     if (result.success) {
-      onSubmissionDeleted(submissionToDelete); 
+      onSubmissionDeleted(submissionToDelete);
     } else {
       toast({
         title: "Error Deleting Submission",

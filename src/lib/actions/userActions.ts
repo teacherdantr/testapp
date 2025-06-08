@@ -25,10 +25,10 @@ export async function fetchUserScoreHistory(userId: string): Promise<StoredTestR
     return userScoresFromDb.map(score => ({
       userId: score.userId,
       testId: score.testId,
-      testTitle: score.testTitle, 
+      testTitle: score.testTitle,
       score: score.score,
       totalPoints: score.totalPoints,
-      questionResults: score.questionResultsDetails as TestResult['questionResults'], 
+      questionResults: score.questionResultsDetails as TestResult['questionResults'],
       submittedAt: score.submittedAt.toISOString(),
       timeTaken: score.timeTakenSeconds ?? undefined,
       testMode: score.testMode as StoredTestResult['testMode'] | undefined,
@@ -72,16 +72,18 @@ const deleteUserScoreSchema = z.object({
 export async function deleteUserScoreByIds(
   params: z.infer<typeof deleteUserScoreSchema>
 ): Promise<{ success: boolean; error?: string }> {
+  console.log("[deleteUserScoreByIds Action] Received params:", params);
   const validatedParams = deleteUserScoreSchema.safeParse(params);
 
   if (!validatedParams.success) {
+    console.error("[deleteUserScoreByIds Action] Validation failed:", validatedParams.error.flatten());
     return { success: false, error: 'Invalid parameters for deletion.' };
   }
 
   const { userId, testId, submittedAt } = validatedParams.data;
 
   try {
-    await prisma.userScore.delete({
+    const result = await prisma.userScore.delete({
       where: {
         userId_testId_submittedAt: {
           userId: userId,
@@ -90,12 +92,14 @@ export async function deleteUserScoreByIds(
         },
       },
     });
+    console.log("[deleteUserScoreByIds Action] Deletion successful, result:", result);
     return { success: true };
   } catch (e: any) {
-    console.error('Error deleting user score with Prisma:', e);
+    console.error('[deleteUserScoreByIds Action] Error deleting user score with Prisma:', e);
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
       return { success: false, error: 'Submission record not found for deletion.' };
     }
     return { success: false, error: `Failed to delete submission. ${e.message}` };
   }
 }
+
