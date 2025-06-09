@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Control, FieldErrors, UseFormRegister, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
@@ -9,12 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { Trash2, PlusCircle, PencilRuler } from 'lucide-react';
-import { type HotspotArea, HotspotShapeType } from '@/lib/types';
-import { useToast } from '@/hooks/use-toast';
+import { HotspotShapeType } from '@/lib/types';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
-
 
 interface HotspotImageBuilderProps {
   questionIndex: number;
@@ -36,7 +34,6 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
   const imageUrl = watch(`questions.${questionIndex}.imageUrl`);
   const multipleSelection = watch(`questions.${questionIndex}.multipleSelection`);
 
-  // State for drawing
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(null);
   const [currentRect, setCurrentRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
@@ -83,7 +80,6 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
           setCurrentRect(null);
           toast({ title: "Hotspot too small", description: "Please draw a larger rectangle.", variant: "default" });
       }
-      // Keep currentRect so user can click "Add Drawn Hotspot"
     }
   };
 
@@ -106,11 +102,6 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
       toast({ title: "Image display error", description: "Cannot determine displayed image dimensions.", variant: "destructive" });
       return;
     }
-
-    // Normalize coordinates based on displayed size relative to natural size.
-    // The drawn currentRect coordinates are relative to the displayed image.
-    // We need to map these to the 0-1 range based on the natural dimensions.
-    // This assumes the image display maintains aspect ratio (object-fit: contain helps)
 
     const normX = currentRect.x / displayedWidth;
     const normY = currentRect.y / displayedHeight;
@@ -152,7 +143,6 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
     appendHotspot({ id: crypto.randomUUID(), shape: HotspotShapeType.Rectangle, coords: '', label: `Hotspot ${hotspotFields.length + 1}` });
   };
 
-  // Reset drawing state if image URL changes
   useEffect(() => {
     setCurrentRect(null);
     setStartPoint(null);
@@ -192,10 +182,10 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
               src={imageUrl}
               alt="Hotspot image preview for drawing"
               fill
-              style={{ objectFit: 'contain' }} // Important for aspect ratio
+              style={{ objectFit: 'contain' }}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
-              className="pointer-events-none" // Image itself should not capture mouse events meant for container
+              className="pointer-events-none"
               onLoad={(e) => {
                 const imgTarget = e.target as HTMLImageElement;
                 setNaturalImageSize({ width: imgTarget.naturalWidth, height: imgTarget.naturalHeight });
@@ -317,7 +307,8 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
       {errors.questions?.[questionIndex]?.hotspots && typeof errors.questions[questionIndex]?.hotspots?.message === 'string' && (
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.hotspots as any)?.message}</p>
       )}
-      {errors.questions?.[questionIndex]?.correctAnswer && (errors.questions?.[questionIndex]?.correctAnswer as any)?.message && (
+      {/* Error for overall correctAnswer array for this question type (e.g. if not selected or wrong type) */}
+      {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
       <Button type="button" onClick={addHotspotField} variant="outline" size="sm">

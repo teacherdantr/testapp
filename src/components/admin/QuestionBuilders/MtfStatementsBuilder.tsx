@@ -1,17 +1,15 @@
 
 'use client';
 
-import type { Control, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, FieldErrors, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
+import type { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
 import { useFieldArray, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Trash2, PlusCircle } from 'lucide-react';
-import { type TrueFalseStatement } from '@/lib/types';
 
-interface StatementsBuilderProps {
+interface MtfStatementsBuilderProps {
   questionIndex: number;
   control: Control<any>;
   register: UseFormRegister<any>;
@@ -20,7 +18,7 @@ interface StatementsBuilderProps {
   getValues: UseFormGetValues<any>;
 }
 
-export function MtfStatementsBuilder({ questionIndex, control, register, errors, setValue, getValues }: StatementsBuilderProps) {
+export function MtfStatementsBuilder({ questionIndex, control, register, errors, setValue, getValues }: MtfStatementsBuilderProps) {
   const { fields: statementFields, append: appendStatement, remove: removeStatement } = useFieldArray({
     control,
     name: `questions.${questionIndex}.statements` as const,
@@ -102,7 +100,8 @@ export function MtfStatementsBuilder({ questionIndex, control, register, errors,
       {errors.questions?.[questionIndex]?.statements && typeof errors.questions[questionIndex]?.statements?.message === 'string' && (
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.statements as any)?.message}</p>
       )}
-       {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
+      {/* Error for overall correctAnswer array for this question type (e.g. if length mismatch) */}
+      {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
 

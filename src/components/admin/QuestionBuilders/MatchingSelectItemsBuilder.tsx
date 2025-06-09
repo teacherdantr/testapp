@@ -1,6 +1,7 @@
+
 'use client';
 
-import type { Control, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import type { Control, FieldErrors, UseFormSetValue, UseFormGetValues, UseFormRegister } from 'react-hook-form';
 import { useFieldArray, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,17 +33,17 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
     const prompts = getValues(`questions.${questionIndex}.prompts`) || [];
     const choices = getValues(`questions.${questionIndex}.choices`) || [];
 
-    // Initialize correct answers based on prompts when prompts change
     useEffect(() => {
         const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-        if (!Array.isArray(currentCorrectAnswers) || currentCorrectAnswers.length !== prompts.length) {
-            const newCorrectAnswers = prompts.map((prompt: MatchingItem) => {
+        const currentPrompts = getValues(`questions.${questionIndex}.prompts`) || [];
+        if (!Array.isArray(currentCorrectAnswers) || currentCorrectAnswers.length !== currentPrompts.length) {
+            const newCorrectAnswers = currentPrompts.map((prompt: MatchingItem) => {
                 const existingMatch = Array.isArray(currentCorrectAnswers) ? currentCorrectAnswers.find((ca: any) => ca.promptId === prompt.id) : null;
                 return { promptId: prompt.id, choiceId: existingMatch ? existingMatch.choiceId : '' };
             });
             setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldValidate: true });
         }
-    }, [prompts, questionIndex, setValue, getValues]);
+    }, [prompts, questionIndex, setValue, getValues]); // Depend on prompts array from getValues
 
     const handleCorrectMatchChange = (promptIdx: number, choiceId: string) => {
         const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as Array<{ promptId: string, choiceId: string }>;
@@ -80,7 +81,6 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
 
     return (
         <div className="space-y-6">
-            {/* Prompts Section */}
             <div className="space-y-3 p-3 border rounded-md">
                 <Label className="text-md font-semibold">Prompt Items (Left Column)</Label>
                 {promptFields.map((promptField, promptIdx) => (
@@ -104,7 +104,6 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                 )}
             </div>
 
-            {/* Choices Section */}
             <div className="space-y-3 p-3 border rounded-md">
                 <Label className="text-md font-semibold">Choice Items (Options for Right Column Dropdowns)</Label>
                 {choiceFields.map((choiceField, choiceIdx) => (
@@ -128,7 +127,6 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                 )}
             </div>
 
-            {/* Correct Matches Section */}
             {prompts.length > 0 && choices.length > 0 && (
                 <div className="space-y-3 p-3 border rounded-md">
                     <Label className="text-md font-semibold">Define Correct Matches</Label>
@@ -148,6 +146,7 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                                             <SelectValue placeholder="Select matching choice" />
                                         </SelectTrigger>
                                         <SelectContent>
+                                            <SelectItem value="" disabled className="text-muted-foreground">-- Select --</SelectItem>
                                             {choices.map((choice: MatchingItem) => (
                                                 <SelectItem key={choice.id} value={choice.id || ''}>{choice.text}</SelectItem>
                                             ))}
@@ -157,9 +156,13 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                             />
                         </div>
                     ))}
-                    {errors.questions?.[questionIndex]?.correctAnswer && (
-                        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message || (errors.questions[questionIndex]?.correctAnswer as any)?.[0]?.choiceId?.message}</p>
+                    {/* Error for overall correctAnswer array for this question type (e.g. if not all matched) */}
+                    {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
+                        <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
                     )}
+                     {Array.isArray(errors.questions?.[questionIndex]?.correctAnswer) && (errors.questions?.[questionIndex]?.correctAnswer as any[]).map((matchErr, matchIdx) => (
+                        matchErr?.choiceId && <p key={`match-${matchIdx}-err`} className="text-sm text-destructive">Match for Prompt {matchIdx + 1}: {matchErr.choiceId.message}</p>
+                    ))}
                 </div>
             )}
         </div>

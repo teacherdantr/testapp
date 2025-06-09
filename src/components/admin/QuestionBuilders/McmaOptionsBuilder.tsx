@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Control, FieldErrors, UseFormRegister, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
@@ -7,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, PlusCircle, Brain } from 'lucide-react';
-import { QuestionType } from '@/lib/types';
 
 interface McmaOptionsBuilderProps {
   questionIndex: number;
@@ -50,9 +50,9 @@ export function McmaOptionsBuilder({ questionIndex, control, errors, setValue, g
           <div key={optionField.id} className="flex flex-col space-y-1">
             <div className="flex items-center space-x-2">
               <Controller
-                name={`questions.${questionIndex}.options.${optionIndex}.text`}
+                name={`questions.${questionIndex}.options.${optionIndex}.text`} // Name doesn't directly control checkbox, but links it to the option
                 control={control}
-                render={() => (
+                render={() => ( // Render prop doesn't use field, relies on getValues
                   <Checkbox
                     id={`q${questionIndex}-opt${optionIndex}-checkbox`}
                     checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
@@ -99,12 +99,9 @@ export function McmaOptionsBuilder({ questionIndex, control, errors, setValue, g
           {(errors.questions[questionIndex].options as any).message}
         </p>
       )}
-      <Button type="button" onClick={() => appendOption({ text: '' })} variant="outline" size="sm">
+      <Button type="button" onClick={() => appendOption({ id: crypto.randomUUID(), text: '' })} variant="outline" size="sm">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Option
       </Button>
-       {errors.questions?.[questionIndex]?.correctAnswer && (errors.questions?.[questionIndex]?.correctAnswer as any)?.message && (
-         <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
-      )}
     </div>
   );
 }

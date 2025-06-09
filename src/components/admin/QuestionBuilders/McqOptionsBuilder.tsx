@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Control, FieldErrors, UseFormSetValue, UseFormGetValues, UseFormRegister } from 'react-hook-form';
@@ -6,8 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Trash2, Brain } from 'lucide-react';
-import { QuestionType } from '@/lib/types'; // Assuming QuestionType enum is defined here
+import { Trash2, PlusCircle, Brain } from 'lucide-react'; // Added PlusCircle
 
 interface McqOptionsBuilderProps {
   questionIndex: number;
@@ -61,7 +61,6 @@ export function McqOptionsBuilder({ questionIndex, control, errors, setValue, ge
                       const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
                       const newText = e.target.value;
                       setValue(`questions.${questionIndex}.options.${optionIndex}.text`, newText, { shouldDirty: true, shouldValidate: true });
-                      // Update the correct answer if the text of the selected option changes
                       if (controllerField.value === oldText) {
                         controllerField.onChange(newText);
                       }
@@ -93,7 +92,7 @@ export function McqOptionsBuilder({ questionIndex, control, errors, setValue, ge
           {(errors.questions[questionIndex].options as any).message}
         </p>
       )}
-      <Button type="button" onClick={() => appendOption({ text: '' })} variant="outline" size="sm">
+      <Button type="button" onClick={() => appendOption({ id: crypto.randomUUID(), text: '' })} variant="outline" size="sm">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Option
       </Button>
     </div>

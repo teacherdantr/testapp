@@ -1,7 +1,7 @@
 
 'use client';
 
-import type { Control, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, FieldErrors, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
+import type { Control, FieldErrors, UseFormRegister, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
 import { useFieldArray, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,9 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Trash2, PlusCircle } from 'lucide-react';
-import type { Category, MatchingItem, TrueFalseStatement } from '@/lib/types'; // Reusing MatchingItem and TrueFalseStatement types might be appropriate or create new ones if needed
+import type { Category } from '@/lib/types';
 
-interface MatrixChoiceBuilderProps {
+interface MatrixChoiceGridBuilderProps {
   questionIndex: number;
   control: Control<any>;
   register: UseFormRegister<any>;
@@ -20,7 +20,7 @@ interface MatrixChoiceBuilderProps {
   getValues: UseFormGetValues<any>;
 }
 
-export function MatrixChoiceGridBuilder({ questionIndex, control, register, errors, setValue, getValues }: MatrixChoiceBuilderProps) {
+export function MatrixChoiceGridBuilder({ questionIndex, control, register, errors, setValue, getValues }: MatrixChoiceGridBuilderProps) {
   const { fields: statementFields, append: appendStatement, remove: removeStatement } = useFieldArray({
     control,
     name: `questions.${questionIndex}.statements` as const,
@@ -31,7 +31,7 @@ export function MatrixChoiceGridBuilder({ questionIndex, control, register, erro
   });
 
   const handleMatrixCorrectAnswerChange = (statementIdx: number, categoryText: string) => {
-    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[]) || [];
+    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[] | undefined) || [];
     const newCorrectAnswers = [...currentCorrectAnswers];
     newCorrectAnswers[statementIdx] = categoryText;
     setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldValidate: true, shouldDirty: true });
@@ -39,14 +39,14 @@ export function MatrixChoiceGridBuilder({ questionIndex, control, register, erro
 
   const addStatementField = () => {
     appendStatement({ id: crypto.randomUUID(), text: '' });
-    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[]) || [];
+    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[] | undefined) || [];
     const firstCategoryText = getValues(`questions.${questionIndex}.categories.0.text`) || '';
     setValue(`questions.${questionIndex}.correctAnswer`, [...currentCorrectAnswers, firstCategoryText], { shouldValidate: true, shouldDirty: true });
   };
 
   const removeStatementField = (statementIdx: number) => {
     removeStatement(statementIdx);
-    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[]) || [];
+    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[] | undefined) || [];
     const newCorrectAnswers = currentCorrectAnswers.filter((_, i) => i !== statementIdx);
     setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldValidate: true, shouldDirty: true });
   };
@@ -58,7 +58,7 @@ export function MatrixChoiceGridBuilder({ questionIndex, control, register, erro
   const removeCategoryField = (categoryIdx: number) => {
     const removedCategoryText = getValues(`questions.${questionIndex}.categories.${categoryIdx}.text`);
     removeCategory(categoryIdx);
-    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[]) || [];
+    const currentCorrectAnswers = (getValues(`questions.${questionIndex}.correctAnswer`) as string[] | undefined) || [];
     const firstCategoryText = getValues(`questions.${questionIndex}.categories.0.text`) || '';
     const newCorrectAnswers = currentCorrectAnswers.map(ans => ans === removedCategoryText ? firstCategoryText : ans);
     setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldValidate: true, shouldDirty: true });
@@ -81,7 +81,7 @@ export function MatrixChoiceGridBuilder({ questionIndex, control, register, erro
                 const newText = e.target.value;
                 setValue(`questions.${questionIndex}.categories.${categoryIdx}.text`, newText, { shouldValidate: true, shouldDirty: true });
 
-                const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as string[];
+                const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as string[] | undefined;
                 if (currentCorrectAnswers) {
                     const updatedCorrectAnswers = currentCorrectAnswers.map(ans => ans === oldText ? newText : ans);
                     setValue(`questions.${questionIndex}.correctAnswer`, updatedCorrectAnswers, { shouldValidate: true, shouldDirty: true });
@@ -167,6 +167,7 @@ export function MatrixChoiceGridBuilder({ questionIndex, control, register, erro
           <PlusCircle className="mr-2 h-4 w-4" /> Add Statement
         </Button>
       </div>
+       {/* Error for overall correctAnswer array for this question type (e.g. if length mismatch) */}
        {errors.questions?.[questionIndex]?.correctAnswer && typeof errors.questions[questionIndex]?.correctAnswer?.message === 'string' && (
          <p className="text-sm text-destructive mt-1">{(errors.questions[questionIndex]?.correctAnswer as any)?.message}</p>
       )}
