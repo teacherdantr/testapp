@@ -21,7 +21,7 @@ export function Navbar() {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/select-test', label: 'Take a Test', icon: ListChecks },
-    { href: '/public-records', label: 'Public Records', icon: ArchiveIcon },
+    { href: '/public-records', label: 'Test History', icon: ArchiveIcon },
     { href: '/admin', label: 'Admin', icon: UserCog },
   ];
 
@@ -90,7 +90,7 @@ export function Navbar() {
                   </Link>
               </Button>
               <Button variant="ghost" size="icon" asChild>
-                  <Link href="/public-records" aria-label="Public Records">
+                  <Link href="/public-records" aria-label="Test History">
                       <ArchiveIcon className="h-5 w-5"/>
                   </Link>
               </Button>
