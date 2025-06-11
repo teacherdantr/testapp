@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Trash2, PlusCircle, Brain } from 'lucide-react';
+import { Trash2, PlusCircle, Brain, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { QuestionType, type MatchingItem } from '@/lib/types';
 import { generateAnswerOptionsAI } from '@/lib/actions/testActions';
 import { useToast } from '@/hooks/use-toast';
@@ -37,7 +37,7 @@ interface QuestionBuilderProps {
 }
 
 export function QuestionBuilder({ control, register, errors, getValues, setValue, watch }: QuestionBuilderProps) {
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'questions',
   });
@@ -125,8 +125,30 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                   type="button"
                   variant="ghost"
                   size="icon"
+                  onClick={() => swap(index, index - 1)}
+                  disabled={index === 0}
+                  className="text-muted-foreground hover:text-primary ml-auto shrink-0"
+                  aria-label="Move question up"
+                >
+                  <ArrowUpCircle className="h-5 w-5" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => swap(index, index + 1)}
+                  disabled={index === fields.length - 1}
+                  className="text-muted-foreground hover:text-primary shrink-0"
+                  aria-label="Move question down"
+                >
+                  <ArrowDownCircle className="h-5 w-5" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
                   onClick={() => remove(index)}
-                  className="text-destructive hover:bg-destructive/10 ml-auto mr-2 shrink-0"
+                  className="text-destructive hover:bg-destructive/10 shrink-0 mr-2"
                   aria-label="Remove question"
                 >
                   <Trash2 className="h-5 w-5" />
@@ -346,3 +368,6 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     </div>
   );
 }
+
+
+    
