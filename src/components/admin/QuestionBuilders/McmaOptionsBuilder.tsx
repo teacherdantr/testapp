@@ -36,6 +36,33 @@ export function McmaOptionsBuilder({ questionIndex, control, errors, setValue, g
     setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldValidate: true, shouldDirty: true });
   };
 
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>, optionIndex: number) => {
+    const pastedText = event.clipboardData.getData('text/plain');
+    const lines = pastedText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+    if (lines.length > 1) {
+      event.preventDefault();
+
+      const firstLine = lines[0];
+      const oldTextOfPastedOption = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
+      setValue(`questions.${questionIndex}.options.${optionIndex}.text`, firstLine, { shouldDirty: true, shouldValidate: true });
+
+      // If the pasted-into option was among the correct answers, update its text in the correctAnswer array.
+      const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) as string[] || [];
+      if (currentCorrectAnswers.includes(oldTextOfPastedOption)) {
+        const newCorrectAnswers = currentCorrectAnswers.map(ans => ans === oldTextOfPastedOption ? firstLine : ans);
+        setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswers, { shouldDirty: true, shouldValidate: true });
+      }
+
+      // Add subsequent lines as new options.
+      for (let i = 1; i < lines.length; i++) {
+        appendOption({ id: crypto.randomUUID(), text: lines[i] });
+      }
+    }
+    // If lines.length <= 1, let the default paste and existing onChange handler work.
+  };
+
+
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
@@ -50,9 +77,9 @@ export function McmaOptionsBuilder({ questionIndex, control, errors, setValue, g
           <div key={optionField.id} className="flex flex-col space-y-1">
             <div className="flex items-center space-x-2">
               <Controller
-                name={`questions.${questionIndex}.options.${optionIndex}.text`} // Name doesn't directly control checkbox, but links it to the option
+                name={`questions.${questionIndex}.options.${optionIndex}.text`} 
                 control={control}
-                render={() => ( // Render prop doesn't use field, relies on getValues
+                render={() => ( 
                   <Checkbox
                     id={`q${questionIndex}-opt${optionIndex}-checkbox`}
                     checked={(getValues(`questions.${questionIndex}.correctAnswer`) as string[] || []).includes(getValues(`questions.${questionIndex}.options.${optionIndex}.text`))}
@@ -65,6 +92,7 @@ export function McmaOptionsBuilder({ questionIndex, control, errors, setValue, g
                 {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
                 placeholder={`Option ${optionIndex + 1}`}
                 className="flex-grow"
+                onPaste={(e) => handlePaste(e, optionIndex)}
                 onChange={(e) => {
                   const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
                   const newText = e.target.value;

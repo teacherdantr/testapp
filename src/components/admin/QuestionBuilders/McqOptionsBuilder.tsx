@@ -25,6 +25,35 @@ export function McqOptionsBuilder({ questionIndex, control, errors, setValue, ge
     name: `questions.${questionIndex}.options` as const,
   });
 
+  const handlePaste = (
+    event: React.ClipboardEvent<HTMLInputElement>,
+    optionIndex: number,
+    mcqControllerField: { value: string | undefined; onChange: (value: string) => void }
+  ) => {
+    const pastedText = event.clipboardData.getData('text/plain');
+    const lines = pastedText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+    if (lines.length > 1) {
+      event.preventDefault();
+
+      const firstLine = lines[0];
+      const oldTextOfPastedOption = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
+      setValue(`questions.${questionIndex}.options.${optionIndex}.text`, firstLine, { shouldDirty: true, shouldValidate: true });
+
+      // If the pasted-into option was the selected correct answer, update the correct answer to the new text (firstLine).
+      if (mcqControllerField.value === oldTextOfPastedOption) {
+        mcqControllerField.onChange(firstLine);
+      }
+
+      // Add subsequent lines as new options.
+      for (let i = 1; i < lines.length; i++) {
+        appendOption({ id: crypto.randomUUID(), text: lines[i] });
+      }
+    }
+    // If lines.length <= 1, let the default paste and existing onChange handler work.
+  };
+
+
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
@@ -57,6 +86,7 @@ export function McqOptionsBuilder({ questionIndex, control, errors, setValue, ge
                     {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
                     placeholder={`Option ${optionIndex + 1}`}
                     className="flex-grow"
+                    onPaste={(e) => handlePaste(e, optionIndex, controllerField)}
                     onChange={(e) => {
                       const oldText = getValues(`questions.${questionIndex}.options.${optionIndex}.text`);
                       const newText = e.target.value;
