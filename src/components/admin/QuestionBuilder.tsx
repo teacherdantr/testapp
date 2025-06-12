@@ -114,9 +114,10 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     const lines = pastedText.split('\n').map(line => line.trim());
 
     let questionText = pastedText; 
-    let potentialOptionLines: string[] = [];
+    let potentialItemLines: string[] = [];
     let questionBreakPoint = -1;
 
+    // Find the last line ending with '?' or ':' to be the question
     for (let i = lines.length - 1; i >= 0; i--) {
       if (lines[i].endsWith('?') || lines[i].endsWith(':')) {
         questionBreakPoint = i;
@@ -126,44 +127,46 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
 
     if (questionBreakPoint !== -1) {
       questionText = lines.slice(0, questionBreakPoint + 1).join('\n');
-      potentialOptionLines = lines.slice(questionBreakPoint + 1).filter(line => line.length > 0);
+      potentialItemLines = lines.slice(questionBreakPoint + 1).filter(line => line.length > 0);
     } else if (lines.length > 1 && (lines[0].endsWith('?') || lines[0].endsWith(':'))) {
+        // If no line ends with ?/: but the first line does, and there are subsequent lines
         questionText = lines[0];
-        potentialOptionLines = lines.slice(1).filter(line => line.length > 0);
+        potentialItemLines = lines.slice(1).filter(line => line.length > 0);
     }
 
     setValue(`questions.${questionIndex}.text`, questionText, { shouldValidate: true, shouldDirty: true });
     const questionType = getValues(`questions.${questionIndex}.type`);
 
-    if (potentialOptionLines.length > 0) {
-      event.preventDefault(); // Prevent default paste only if we're handling options/statements
+    if (potentialItemLines.length > 0) {
+      event.preventDefault(); // Prevent default paste only if we're also handling options/statements
 
       if (questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer) {
-        const newOptions = potentialOptionLines.map(line => ({ id: crypto.randomUUID(), text: line }));
+        const newOptions = potentialItemLines.map(line => ({ id: crypto.randomUUID(), text: line }));
         setValue(`questions.${questionIndex}.options`, newOptions, { shouldValidate: true, shouldDirty: true });
         if (questionType === QuestionType.MCQ) {
           setValue(`questions.${questionIndex}.correctAnswer`, newOptions.length > 0 ? newOptions[0].text : '', { shouldValidate: true, shouldDirty: true });
-        } else { 
+        } else { // MCMA
           setValue(`questions.${questionIndex}.correctAnswer`, [], { shouldValidate: true, shouldDirty: true });
         }
         toast({ title: "Pasted!", description: "Question and options populated."});
       } else if (questionType === QuestionType.MultipleTrueFalse || questionType === QuestionType.MatrixChoice) {
-        const newStatements = potentialOptionLines.map(line => ({ id: crypto.randomUUID(), text: line }));
+        const newStatements = potentialItemLines.map(line => ({ id: crypto.randomUUID(), text: line }));
         setValue(`questions.${questionIndex}.statements`, newStatements, { shouldValidate: true, shouldDirty: true });
         if (questionType === QuestionType.MultipleTrueFalse) {
           setValue(`questions.${questionIndex}.correctAnswer`, newStatements.map(() => 'false'), { shouldValidate: true, shouldDirty: true });
-        } else { 
+        } else { // MatrixChoice
           const firstCategoryText = getValues(`questions.${questionIndex}.categories.0.text`) || '';
           setValue(`questions.${questionIndex}.correctAnswer`, newStatements.map(() => firstCategoryText), { shouldValidate: true, shouldDirty: true });
         }
         toast({ title: "Pasted!", description: "Question and statements populated."});
-      } else if (questionBreakPoint !== -1) { 
-        toast({ title: "Pasted!", description: "Question text populated. Options/statements not auto-filled for this question type."});
+      } else if (questionText !== pastedText) { // Question was split, but type doesn't auto-populate items from question paste
+        toast({ title: "Pasted!", description: "Question text populated. Options/statements not auto-filled for this question type from main text paste."});
       }
-    } else if (questionText !== pastedText) { 
+    } else if (questionText !== pastedText) { // Only question text was changed due to splitting
         event.preventDefault();
         toast({ title: "Pasted!", description: "Question text populated."});
     }
+    // If questionText is the same as pastedText (no split occurred and no items populated), allow default paste.
   };
 
 
