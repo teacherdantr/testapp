@@ -113,11 +113,10 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     const pastedText = event.clipboardData.getData('text/plain');
     const lines = pastedText.split('\n').map(line => line.trim());
 
-    let questionText = pastedText; // Default to full pasted text
+    let questionText = pastedText; 
     let potentialOptionLines: string[] = [];
     let questionBreakPoint = -1;
 
-    // Find the last line that ends with '?' or ':'
     for (let i = lines.length - 1; i >= 0; i--) {
       if (lines[i].endsWith('?') || lines[i].endsWith(':')) {
         questionBreakPoint = i;
@@ -129,49 +128,42 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       questionText = lines.slice(0, questionBreakPoint + 1).join('\n');
       potentialOptionLines = lines.slice(questionBreakPoint + 1).filter(line => line.length > 0);
     } else if (lines.length > 1 && (lines[0].endsWith('?') || lines[0].endsWith(':'))) {
-        // If only the first line is a question, and there are subsequent lines
         questionText = lines[0];
         potentialOptionLines = lines.slice(1).filter(line => line.length > 0);
     }
-
 
     setValue(`questions.${questionIndex}.text`, questionText, { shouldValidate: true, shouldDirty: true });
     const questionType = getValues(`questions.${questionIndex}.type`);
 
     if (potentialOptionLines.length > 0) {
+      event.preventDefault(); // Prevent default paste only if we're handling options/statements
+
       if (questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer) {
         const newOptions = potentialOptionLines.map(line => ({ id: crypto.randomUUID(), text: line }));
         setValue(`questions.${questionIndex}.options`, newOptions, { shouldValidate: true, shouldDirty: true });
         if (questionType === QuestionType.MCQ) {
           setValue(`questions.${questionIndex}.correctAnswer`, newOptions.length > 0 ? newOptions[0].text : '', { shouldValidate: true, shouldDirty: true });
-        } else { // MCMA
+        } else { 
           setValue(`questions.${questionIndex}.correctAnswer`, [], { shouldValidate: true, shouldDirty: true });
         }
         toast({ title: "Pasted!", description: "Question and options populated."});
-        event.preventDefault();
       } else if (questionType === QuestionType.MultipleTrueFalse || questionType === QuestionType.MatrixChoice) {
         const newStatements = potentialOptionLines.map(line => ({ id: crypto.randomUUID(), text: line }));
         setValue(`questions.${questionIndex}.statements`, newStatements, { shouldValidate: true, shouldDirty: true });
         if (questionType === QuestionType.MultipleTrueFalse) {
           setValue(`questions.${questionIndex}.correctAnswer`, newStatements.map(() => 'false'), { shouldValidate: true, shouldDirty: true });
-        } else { // MatrixChoice
+        } else { 
           const firstCategoryText = getValues(`questions.${questionIndex}.categories.0.text`) || '';
           setValue(`questions.${questionIndex}.correctAnswer`, newStatements.map(() => firstCategoryText), { shouldValidate: true, shouldDirty: true });
         }
         toast({ title: "Pasted!", description: "Question and statements populated."});
-        event.preventDefault();
-      }
-      // For other types, only the question text is updated from the paste if no ? or : is found to split.
-      // If ? or : *is* found, then only the question part is used, and potentialOptionLines are ignored for those types.
-      else if (questionBreakPoint !== -1) { // if question was split but type is not MCQ/MCMA/MTF/Matrix
+      } else if (questionBreakPoint !== -1) { 
         toast({ title: "Pasted!", description: "Question text populated. Options/statements not auto-filled for this question type."});
-        event.preventDefault();
       }
-    } else if (questionText !== pastedText) { // If questionText was extracted but no option lines followed
-        toast({ title: "Pasted!", description: "Question text populated."});
+    } else if (questionText !== pastedText) { 
         event.preventDefault();
+        toast({ title: "Pasted!", description: "Question text populated."});
     }
-    // If no '?' or ':' found, and no lines were split, default paste behavior is allowed.
   };
 
 
@@ -435,4 +427,6 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     </div>
   );
 }
+    
+
     
