@@ -121,8 +121,10 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
                   width={parsed.width}
                   height={parsed.height}
                   className={cn(
-                    "fill-transparent stroke-2 cursor-pointer hover:fill-primary/20",
-                    isSelected ? "stroke-primary fill-primary/30" : "stroke-primary/50"
+                    "fill-transparent stroke-2 cursor-pointer",
+                    isSelected
+                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
+                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
                   )}
                   onClick={() => handleHotspotClick(hotspot.id)}
                   aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
@@ -136,8 +138,10 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
                   cy={parsed.cy}
                   r={parsed.r}
                   className={cn(
-                    "fill-transparent stroke-2 cursor-pointer hover:fill-primary/20",
-                    isSelected ? "stroke-primary fill-primary/30" : "stroke-primary/50"
+                    "fill-transparent stroke-2 cursor-pointer",
+                    isSelected
+                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
+                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
                   )}
                   onClick={() => handleHotspotClick(hotspot.id)}
                   aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
@@ -149,8 +153,10 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
                   key={hotspot.id}
                   points={parsed.points}
                   className={cn(
-                    "fill-transparent stroke-2 cursor-pointer hover:fill-primary/20",
-                    isSelected ? "stroke-primary fill-primary/30" : "stroke-primary/50"
+                    "fill-transparent stroke-2 cursor-pointer",
+                    isSelected
+                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
+                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
                   )}
                   onClick={() => handleHotspotClick(hotspot.id)}
                   aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
