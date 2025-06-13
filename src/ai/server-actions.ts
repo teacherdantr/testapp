@@ -6,6 +6,14 @@
  * to provide a clear boundary for client-side imports.
  */
 
-export { generateAnswerOptions } from './flows/prevent-bias';
+// Import the specific server action function
+import { generateAnswerOptions as _internalGenerateAnswerOptions } from './flows/prevent-bias';
+
+// Explicitly re-export it.
+// This makes it clear that only an async function (which is a server action) is being exported.
+export const generateAnswerOptions = _internalGenerateAnswerOptions;
+
 // If you have other server actions in other flow files, you can re-export them here too.
-// e.g., export { anotherAction } from './flows/another-flow';
+// e.g.:
+// import { anotherAction as _internalAnotherAction } from './flows/another-flow';
+// export const anotherAction = _internalAnotherAction;

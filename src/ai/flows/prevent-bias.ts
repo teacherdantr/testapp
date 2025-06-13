@@ -1,5 +1,5 @@
 // src/ai/flows/prevent-bias.ts
-'use server';
+// 'use server'; // Removed from top
 
 /**
  * @fileOverview A flow to generate answer options for a given question to prevent bias in test design.
@@ -32,6 +32,7 @@ const GenerateAnswerOptionsOutputSchema = z.object({
 export type GenerateAnswerOptionsOutput = z.infer<typeof GenerateAnswerOptionsOutputSchema>;
 
 export async function generateAnswerOptions(input: GenerateAnswerOptionsInput): Promise<GenerateAnswerOptionsOutput> {
+  'use server'; // Moved inside the async function
   return generateAnswerOptionsFlow(input);
 }
 
