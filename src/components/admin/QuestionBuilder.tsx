@@ -66,7 +66,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     const pastedText = event.clipboardData.getData('text/plain');
     const lines = pastedText.split('\n').map(line => line.trim());
 
-    let questionText = pastedText; 
+    let questionText = pastedText;
     let potentialItemLines: string[] = [];
     let questionBreakPoint = -1;
 
@@ -125,7 +125,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
 
   return (
     <div className="space-y-6">
-      <Accordion type="multiple" className="w-full">
+ <Accordion type="multiple" className="w-full">
         {fields.map((field, index) => {
           const questionType = watch(`questions.${index}.type`);
           const currentImageUrl = watch(`questions.${index}.imageUrl`);
@@ -349,7 +349,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       getValues={getValues}
                     />
                   )}
-                  
+
                   {questionType === QuestionType.MatchingDragAndDrop && (
                     <MatchingDragAndDropBuilder
                       questionIndex={index}
@@ -395,6 +395,3 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     </div>
   );
 }
-    
-
-    

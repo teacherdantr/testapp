@@ -41,7 +41,7 @@ export enum QuestionType {
   MatrixChoice = 'MatrixChoice',
   Hotspot = 'Hotspot',
   MatchingSelect = 'MatchingSelect',
-  MatchingDragAndDrop = 'matching-dnd',
+  MatchingDragAndDrop = 'MatchingDragAndDrop',
 }
 
 export interface Question {
@@ -57,16 +57,11 @@ export interface Question {
   multipleSelection?: boolean;
   prompts?: MatchingItem[];
   choices?: MatchingItem[];
-  correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | { [draggableIndex: number]: number };
-}
-
-export interface MatchingDragAndDropQuestion extends Question {
-  type: QuestionType.MatchingDragAndDrop;
-  draggableItems: string[]; // terms to drag
-  targetItems: string[];    // static answers
-  correctMatches?: { [draggableIndex: number]: number }; // Optional explicit match map
-  allowShuffle?: boolean;
-  explanation?: string;
+  draggableItems?: string[]; // New field for MatchingDragAndDrop
+  targetItems?: string[];    // New field for MatchingDragAndDrop
+  allowShuffle?: boolean;    // New field for MatchingDragAndDrop
+  explanation?: string; // Added explanation for all question types
+  correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | Array<{ draggableItemId: string, targetItemId: string }> | { [draggableIndex: number]: number };
 }
 
 export interface Test {

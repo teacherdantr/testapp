@@ -64,10 +64,20 @@ const questionSchema = z.object({
   multipleSelection: z.boolean().optional(), // For Hotspot
   prompts: z.array(matchingItemSchema).optional(), // For MatchingSelect
   choices: z.array(matchingItemSchema).optional(), // For MatchingSelect
+  draggableItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  targetItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  allowShuffle: z.boolean().optional(), // For MatchingDragAndDrop
+  explanation: z.string().optional(), // For all question types
+draggableItems: z.array(matchingItemSchema).optional(),
+  targetItems: z.array(matchingItemSchema).optional(),
+  allowShuffle: z.boolean().optional(),
+  explanation: z.string().optional(),
   correctAnswer: z.union([
     z.string(), // For MCQ, TrueFalse, ShortAnswer, Single Hotspot
     z.array(z.string()).min(1, 'At least one correct answer must be selected/provided.'), // For MCMA, MTF, Matrix, Multi-Hotspot
     z.array(correctMatchSchema).min(1, 'At least one match must be defined.'), // For MatchingSelect
+    z.array(z.object({ draggableItemId: z.string(), targetItemId: z.string() })).optional(), // For MatchingDragAndDrop
+ z.array(z.object({ draggableItemId: z.string(), targetItemId: z.string() })).optional(), // For MatchingDragAndDrop
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
@@ -105,6 +115,22 @@ const questionSchema = z.object({
              data.prompts?.some(p => p.id === match.promptId) &&
              data.choices?.some(c => c.id === match.choiceId)
            );
+  }
+  if (data.type === QuestionType.MatchingDragAndDrop) {
+    if (!data.draggableItems || data.draggableItems.length === 0 || !data.targetItems || data.targetItems.length === 0) {
+        return false; // Must have draggable and target items
+    }
+    if (data.draggableItems.length !== data.targetItems.length) {
+        return false; // Must have equal number of draggable and target items
+    }
+ // Require correctAnswer to be a non-empty array
+ if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length === 0 || data.correctAnswer.length !== data.draggableItems.length) {
+ return false; // Must have a non-empty array of correct matches, with a match for each draggable item
+    }
+ return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+ data.draggableItems!.some(item => item.id === match.draggableItemId) &&
+ data.targetItems!.some(item => item.id === match.targetItemId)
+ );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
     return typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '';
@@ -147,7 +173,10 @@ const questionSchema = z.object({
   if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
-  }
+    } else if (data.type === QuestionType.MatchingDragAndDrop) { // Add validation for MatchingDragAndDrop items
+        return data.draggableItems && data.draggableItems.length >= 1 && data.draggableItems.every(item => item.text.trim() !== '') &&
+               data.targetItems && data.targetItems.length >= 1 && data.targetItems.every(item => item.text.trim() !== '');
+    }
   return true;
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',

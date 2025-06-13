@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, PlusCircle, GripVertical } from 'lucide-react';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 
@@ -50,7 +51,7 @@ export function MatchingDragAndDropBuilder({
   getValues,
 }: MatchingDragAndDropBuilderProps) {
   const {
-    fields: draggableFields,
+ fields: draggableFields,
     append: appendDraggable,
     remove: removeDraggable,
     swap: swapDraggable,
@@ -60,7 +61,7 @@ export function MatchingDragAndDropBuilder({
   });
 
   const {
-    fields: targetFields,
+ fields: targetFields,
     append: appendTarget,
     remove: removeTarget,
     swap: swapTarget,
@@ -152,7 +153,7 @@ export function MatchingDragAndDropBuilder({
             variant="outline"
             size="sm"
             className="mt-4"
-            onClick={() => appendDraggable({ text: '' })}
+            onClick={() => appendDraggable({ text: '' }, { shouldFocus: false, shouldDirty: true })}
           >
             <PlusCircle className="mr-2 h-4 w-4" /> Add Draggable Item
           </Button>
@@ -235,7 +236,10 @@ export function MatchingDragAndDropBuilder({
         <div className="flex items-center space-x-2">
           <Checkbox
             id={`questions.${questionIndex}.allowShuffle`}
-            {...register(`questions.${questionIndex}.allowShuffle`)}
+            {...register(`questions.${questionIndex}.allowShuffle`, {
+              onChange: () => setValue(`questions.${questionIndex}.allowShuffle`, getValues(`questions.${questionIndex}.allowShuffle`), { shouldDirty: true }),
+            })}
+
           />
           <Label htmlFor={`questions.${questionIndex}.allowShuffle`}>Shuffle draggable items on display</Label>
         </div>
@@ -244,7 +248,9 @@ export function MatchingDragAndDropBuilder({
           <Label htmlFor={`questions.${questionIndex}.explanation`}>Explanation/Feedback (Optional)</Label>
           <Textarea
             id={`questions.${questionIndex}.explanation`}
-            {...register(`questions.${questionIndex}.explanation`)}
+            {...register(`questions.${questionIndex}.explanation`, {
+              onChange: () => setValue(`questions.${questionIndex}.explanation`, getValues(`questions.${questionIndex}.explanation`), { shouldDirty: true }),
+            })}
             placeholder="Provide an explanation shown after the test."
             className="mt-1"
           />
