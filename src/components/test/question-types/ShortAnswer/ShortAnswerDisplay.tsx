@@ -4,6 +4,7 @@
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 
 export function ShortAnswerDisplay({ question, userAnswer, onAnswerChange }: QuestionTypeDisplayProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

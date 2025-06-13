@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import type { Option } from '@/lib/types';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 
 export function McqDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
   const optionsToDisplay = useMemo(() => {

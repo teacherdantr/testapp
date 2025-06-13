@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
-import { CheckCircle2, Circle } from 'lucide-react'; // Import icons
+import { CheckCircle2, Circle } from 'lucide-react';
 
 export function MtfDisplay({ question, userAnswer, onAnswerChange }: QuestionTypeDisplayProps) {
   const [mtfAnswers, setMtfAnswers] = useState<string[]>([]);

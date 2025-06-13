@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import type { Option } from '@/lib/types';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 
 export function McmaDisplay({ question, userAnswer, onAnswerChange, testMode }: QuestionTypeDisplayProps) {
   const [selectedMcmaOptions, setSelectedMcmaOptions] = useState<string[]>([]);

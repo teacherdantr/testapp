@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { cn } from '@/lib/utils';
 import { CheckCircle2, Circle } from 'lucide-react';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 
 export function MatrixChoiceDisplay({ question, userAnswer, onAnswerChange }: QuestionTypeDisplayProps) {
   const [matrixAnswers, setMatrixAnswers] = useState<string[]>([]);

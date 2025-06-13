@@ -6,7 +6,7 @@ import NextImage from 'next/image';
 import { cn } from '@/lib/utils';
 import { HotspotShapeType } from '@/lib/types';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
-
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 // Helper function (can be moved to a utils file if used elsewhere)
 const parseCoords = (shape: HotspotShapeType, coordsStr: string, imgWidth: number, imgHeight: number) => {
   const c = coordsStr.split(',').map(Number);

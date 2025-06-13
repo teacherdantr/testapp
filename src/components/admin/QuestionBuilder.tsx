@@ -25,6 +25,8 @@ import { HotspotImageBuilder } from './QuestionBuilders/HotspotImageBuilder';
 import { MatchingSelectItemsBuilder } from './QuestionBuilders/MatchingSelectItemsBuilder';
 import { ShortAnswerBuilder } from './QuestionBuilders/ShortAnswerBuilder';
 import { TrueFalseSelector } from './QuestionBuilders/TrueFalseSelector';
+import { MatchingDragAndDropBuilder } from './QuestionBuilders/MatchingDragAndDropBuilder';
+import { handleGenerateAIOptions } from './questionUtils';
 
 
 interface QuestionBuilderProps {
@@ -58,55 +60,6 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       correctAnswer: '',
       points: 1,
     });
-  };
-
-  const handleGenerateAIOptions = async (questionIndex: number) => {
-    const questionText = getValues(`questions.${questionIndex}.text`);
-    const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`);
-    let correctAnswerForAI: string | undefined;
-
-    if (typeof currentCorrectAnswer === 'string') {
-      correctAnswerForAI = currentCorrectAnswer;
-    } else if (Array.isArray(currentCorrectAnswer) && currentCorrectAnswer.length > 0 && typeof currentCorrectAnswer[0] === 'string') {
-      correctAnswerForAI = currentCorrectAnswer[0];
-      toast({ title: "AI Hint", description: "For MCMA/MTF/Matrix, AI generates options based on the first correct answer/statement. Please adjust manually." });
-    } else if (Array.isArray(currentCorrectAnswer) && currentCorrectAnswer.length > 0 && typeof currentCorrectAnswer[0] === 'object') {
-      const firstMatch = currentCorrectAnswer[0] as { promptId: string, choiceId: string };
-      const choice = getValues(`questions.${questionIndex}.choices`)?.find((c: MatchingItem) => c.id === firstMatch.choiceId);
-      if (choice) correctAnswerForAI = choice.text;
-    }
-
-
-    if (!questionText || !correctAnswerForAI) {
-      toast({
-        title: "Missing Information",
-        description: "Please provide question text and at least one correct answer text (or first statement's answer for MTF/Matrix) before generating AI options.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({ title: "Generating AI Options...", description: "Please wait a moment." });
-    const result = await generateAnswerOptionsAI(questionText, correctAnswerForAI, 4);
-
-    if (result.error) {
-      toast({ title: "AI Generation Failed", description: result.error, variant: "destructive" });
-    } else if (result.options) {
-      const newOptions = result.options.map(optText => ({ id: crypto.randomUUID(), text: optText }));
-      setValue(`questions.${questionIndex}.options`, newOptions, { shouldValidate: true, shouldDirty: true });
-
-      const questionType = getValues(`questions.${questionIndex}.type`);
-      if (questionType === QuestionType.MCQ) {
-        const correctOptionIndex = newOptions.findIndex(opt => opt.text.toLowerCase() === correctAnswerForAI!.toLowerCase());
-        setValue(`questions.${questionIndex}.correctAnswer`, newOptions[correctOptionIndex !== -1 ? correctOptionIndex : 0]?.text || '', { shouldValidate: true, shouldDirty: true });
-      } else if (questionType === QuestionType.MultipleChoiceMultipleAnswer) {
-        const correctOptionTexts = newOptions
-          .filter(opt => opt.text.toLowerCase() === correctAnswerForAI!.toLowerCase())
-          .map(opt => opt.text);
-        setValue(`questions.${questionIndex}.correctAnswer`, correctOptionTexts.length > 0 ? correctOptionTexts : [], { shouldValidate: true, shouldDirty: true });
-      }
-      toast({ title: "AI Options Generated", description: "Review and adjust the options as needed." });
-    }
   };
 
   const handlePasteIntoQuestionText = (event: React.ClipboardEvent<HTMLTextAreaElement>, questionIndex: number) => {
@@ -273,7 +226,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                               setValue(`questions.${index}.hotspots`, newType === QuestionType.Hotspot ? [{ id: crypto.randomUUID(), shape: 'rect', coords: '', label: 'Hotspot 1' }] : []);
                               setValue(`questions.${index}.multipleSelection`, newType === QuestionType.Hotspot ? false : undefined);
                               setValue(`questions.${index}.prompts`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: '' }] : []);
-                              setValue(`questions.${index}.choices`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: '' }] : []);
+                              setValue(`questions.${index}.choices`, (newType === QuestionType.MatchingSelect || newType === QuestionType.MatchingDragAndDrop) ? [{ id: crypto.randomUUID(), text: '' }] : []);
 
 
                               if (newType === QuestionType.MultipleChoiceMultipleAnswer || (newType === QuestionType.Hotspot && getValues(`questions.${index}.multipleSelection`))) {
@@ -299,6 +252,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                               <SelectItem value={QuestionType.MatrixChoice}>Matrix Choice (Grid)</SelectItem>
                               <SelectItem value={QuestionType.Hotspot}>Hotspot (Clickable Image)</SelectItem>
                               <SelectItem value={QuestionType.MatchingSelect}>Matching (Select from Dropdown)</SelectItem>
+                              <SelectItem value={QuestionType.MatchingDragAndDrop}>Matching (Drag and Drop)</SelectItem>
                               <SelectItem value={QuestionType.ShortAnswer}>Short Answer</SelectItem>
                               <SelectItem value={QuestionType.TrueFalse}>True/False</SelectItem>
                             </SelectContent>
@@ -330,7 +284,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       errors={errors}
                       setValue={setValue}
                       getValues={getValues}
-                      handleGenerateAIOptions={handleGenerateAIOptions}
+                      handleGenerateAIOptions={() => handleGenerateAIOptions(questionIndex, getValues, setValue, toast)}
                       register={register}
                     />
                   )}
@@ -342,7 +296,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       errors={errors}
                       setValue={setValue}
                       getValues={getValues}
-                      handleGenerateAIOptions={handleGenerateAIOptions}
+                      handleGenerateAIOptions={() => handleGenerateAIOptions(questionIndex, getValues, setValue, toast)}
                       register={register}
                     />
                   )}
@@ -387,6 +341,17 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
 
                   {questionType === QuestionType.MatchingSelect && (
                     <MatchingSelectItemsBuilder
+                      questionIndex={index}
+                      control={control}
+                      register={register}
+                      errors={errors}
+                      setValue={setValue}
+                      getValues={getValues}
+                    />
+                  )}
+                  
+                  {questionType === QuestionType.MatchingDragAndDrop && (
+                    <MatchingDragAndDropBuilder
                       questionIndex={index}
                       control={control}
                       register={register}

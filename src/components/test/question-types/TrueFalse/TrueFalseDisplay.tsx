@@ -4,6 +4,7 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 
 export function TrueFalseDisplay({ question, userAnswer, onAnswerChange }: QuestionTypeDisplayProps) {
   const handleRadioChange = (value: string) => {

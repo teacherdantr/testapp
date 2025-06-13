@@ -4,7 +4,7 @@
 import { useMemo, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
+import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 import type { MatchingItem } from '@/lib/types';
 import { QuestionType } from '@/lib/types';
 
