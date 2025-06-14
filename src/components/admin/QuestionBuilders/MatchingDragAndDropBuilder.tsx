@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Control, FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
@@ -11,14 +12,14 @@ import { Trash2, PlusCircle, GripVertical } from 'lucide-react';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { CSS } from '@dnd-kit/utilities';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
 import {
-  Select, // Import Select
-  SelectContent, // Import SelectContent
-  SelectItem, // Import SelectItem
-  SelectTrigger, // Import SelectTrigger
-  SelectValue, // Import SelectValue
-} from '@/components/ui/select'; // Import the select components
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 
 interface MatchingDragAndDropBuilderProps {
@@ -41,7 +42,7 @@ const SortableItem = ({ id, children, className }: { id: string; children: React
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} className={`flex items-center ${className}`}>
+    <div ref={setNodeRef} style={style} {...attributes} className={`flex items-center ${className || ''}`}>
       <button type="button" {...listeners} className="cursor-grab mr-2 text-gray-500 hover:text-gray-700">
         <GripVertical className="h-4 w-4" />
       </button>
@@ -49,6 +50,8 @@ const SortableItem = ({ id, children, className }: { id: string; children: React
     </div>
   );
 };
+
+const NO_MATCH_PLACEHOLDER_VALUE = "__NO_MATCH_PLACEHOLDER__";
 
 export function MatchingDragAndDropBuilder({
   questionIndex,
@@ -62,7 +65,7 @@ export function MatchingDragAndDropBuilder({
     fields: draggableFields,
     append: appendDraggable,
     remove: removeDraggable,
-    // swap: swapDraggable, // Not used in this modified version for now
+    move: moveDraggable,
   } = useFieldArray({
     control,
     name: `questions.${questionIndex}.draggableItems`,
@@ -72,7 +75,7 @@ export function MatchingDragAndDropBuilder({
     fields: targetFields,
     append: appendTarget,
     remove: removeTarget,
-    // swap: swapTarget, // Not used in this modified version for now
+    move: moveTarget,
   } = useFieldArray({
     control,
     name: `questions.${questionIndex}.targetItems`,
@@ -82,7 +85,6 @@ export function MatchingDragAndDropBuilder({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: (event) => {
-        // Simple coordinate getter for keyboard sorting
         if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
           return {
             x: 0,
@@ -94,7 +96,7 @@ export function MatchingDragAndDropBuilder({
     })
   );
 
-  const handleDragEnd = (event: any, type: 'draggable' | 'target') => {
+  const handleDragEnd = (event: DragEndEvent, type: 'draggable' | 'target') => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
@@ -103,53 +105,44 @@ export function MatchingDragAndDropBuilder({
       const newIndex = items.findIndex((item) => item.id === over.id);
 
       if (oldIndex !== -1 && newIndex !== -1) {
-        // We are no longer using swap from useFieldArray directly after drag end
-        // We need to manually update the form state based on the new order
-        const currentItems = getValues(`questions.${questionIndex}.${type === 'draggable' ? 'draggableItems' : 'targetItems'}`);
-        const [movedItem] = currentItems.splice(oldIndex, 1);
-        currentItems.splice(newIndex, 0, movedItem);
-        setValue(`questions.${questionIndex}.${type === 'draggable' ? 'draggableItems' : 'targetItems'}`, currentItems, { shouldDirty: true });
-
-        // If draggable items were reordered, update the correctAnswer array to reflect the new order
         if (type === 'draggable') {
-            const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-             const newCorrectAnswer = currentItems.map((draggableItem: any) => {
-                 // Find the existing pairing for this draggable item's ID
-                 const existingMatch = currentCorrectAnswer.find((match: any) => match.promptId === draggableItem.id);
-                 // Return the existing match or a new object with empty choiceId if not found
-                 return existingMatch || { promptId: draggableItem.id, choiceId: '' };
-             });
-             setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldDirty: true });
+          moveDraggable(oldIndex, newIndex);
+          // Also re-order the correctAnswer array to match the new draggableItems order
+          const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
+          const reorderedDraggableItems = getValues(`questions.${questionIndex}.draggableItems`);
+          const newCorrectAnswer = reorderedDraggableItems.map((draggableItem: any) => {
+            return currentCorrectAnswer.find((match: any) => match.draggableItemId === draggableItem.id) || { draggableItemId: draggableItem.id, targetItemId: '' };
+          });
+          setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldDirty: true });
+
+        } else {
+          moveTarget(oldIndex, newIndex);
         }
       }
     }
   };
 
-  // Function to handle updating the correct answer when a pairing is selected
-  const handleCorrectAnswerChange = (draggableItemId: string, targetItemId: string) => {
+  const handleCorrectAnswerChange = (draggableItemId: string, targetItemIdToSet: string) => {
       const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-      const existingMatchIndex = currentCorrectAnswer.findIndex((match: any) => match.promptId === draggableItemId);
+      const existingMatchIndex = currentCorrectAnswer.findIndex((match: any) => match.draggableItemId === draggableItemId);
+      const finalTargetItemId = targetItemIdToSet === NO_MATCH_PLACEHOLDER_VALUE ? '' : targetItemIdToSet;
 
       const newCorrectAnswer = [...currentCorrectAnswer];
 
       if (existingMatchIndex > -1) {
-          // Update existing match
-          newCorrectAnswer[existingMatchIndex] = { promptId: draggableItemId, choiceId: targetItemId };
+          newCorrectAnswer[existingMatchIndex] = { draggableItemId: draggableItemId, targetItemId: finalTargetItemId };
       } else {
-          // Add new match
-          newCorrectAnswer.push({ promptId: draggableItemId, choiceId: targetItemId });
+          // This case should ideally not happen if draggable items are added correctly with corresponding correctAnswer entries
+          newCorrectAnswer.push({ draggableItemId: draggableItemId, targetItemId: finalTargetItemId });
       }
-
       setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldDirty: true });
   };
 
-  // Get the current correct answer for a given draggable item ID
-  const getCorrectAnswerForDraggable = (draggableItemId: string) => {
+  const getCorrectAnswerForDraggable = (draggableItemId: string): string => {
       const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-      const match = currentCorrectAnswer.find((match: any) => match.promptId === draggableItemId);
-      return match ? match.choiceId : '';
+      const match = currentCorrectAnswer.find((match: any) => match.draggableItemId === draggableItemId);
+      return match && match.targetItemId ? match.targetItemId : NO_MATCH_PLACEHOLDER_VALUE;
   };
-
 
   return (
     <div className="space-y-4">
@@ -158,7 +151,7 @@ export function MatchingDragAndDropBuilder({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Draggable Items Column */}
         <div>
-          <Label>Draggable Items (Left Column)</Label>
+          <Label>Draggable Items (Left Column - will be matched to targets)</Label>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -168,13 +161,12 @@ export function MatchingDragAndDropBuilder({
               <ul className="space-y-2 mt-1">
                 {draggableFields.map((field, index) => (
                   <SortableItem key={field.id} id={field.id}>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <Input
                         {...register(`questions.${questionIndex}.draggableItems.${index}.text`)}
                         placeholder={`Item ${index + 1}`}
                         className="flex-grow"
                       />
-                       {/* Select for choosing matching target */}
                        <Select
                           onValueChange={(value) => handleCorrectAnswerChange(field.id!, value)}
                           value={getCorrectAnswerForDraggable(field.id!)}
@@ -183,25 +175,27 @@ export function MatchingDragAndDropBuilder({
                               <SelectValue placeholder="Select Target" />
                           </SelectTrigger>
                           <SelectContent>
-                              {/* Option for no selection */}
-                              <SelectItem value="">No Match</SelectItem>
-                              {targetFields.map((targetField) => (
+                              <SelectItem value={NO_MATCH_PLACEHOLDER_VALUE}>No Match</SelectItem>
+                              {targetFields.map((targetField, targetIdx) => (
                                   <SelectItem key={targetField.id} value={targetField.id!}>
-                                      {targetField.text || `Target ${targetFields.findIndex(t => t.id === targetField.id) + 1}`}
+                                      {targetField.text || `Target ${targetIdx + 1}`}
                                   </SelectItem>
                               ))}
                           </SelectContent>
                        </Select>
                       <Button
                         type="button"
-                        variant="outline"\n                        size="icon"\n                        onClick={() => {
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                            const draggableItemIdToRemove = field.id;
                             removeDraggable(index);
-                            // Also remove this item's pairing from correctAnswer
                             const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-                            const newCorrectAnswer = currentCorrectAnswer.filter((match: any) => match.promptId !== field.id);
+                            const newCorrectAnswer = currentCorrectAnswer.filter((match: any) => match.draggableItemId !== draggableItemIdToRemove);
                             setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldDirty: true });
                         }}
-                        className="shrink-0"\n                      >
+                        className="shrink-0"
+                      >
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
@@ -211,16 +205,20 @@ export function MatchingDragAndDropBuilder({
                       </p>
                     )}
                   </SortableItem>
-                ))}\n              </ul>\n            </SortableContext>\n          </DndContext>\n          <Button
+                ))}
+              </ul>
+            </SortableContext>
+          </DndContext>
+          <Button
             type="button"
             variant="outline"
             size="sm"
             className="mt-4"
             onClick={() => {
-                appendDraggable({ id: crypto.randomUUID(), text: '' }, { shouldFocus: false, shouldDirty: true });
-                // Add a new entry to correctAnswer with the new draggable item ID and empty choiceId
+                const newDraggableId = crypto.randomUUID();
+                appendDraggable({ id: newDraggableId, text: '' }, { shouldFocus: false });
                 const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
-                setValue(`questions.${questionIndex}.correctAnswer`, [...currentCorrectAnswer, { promptId: crypto.randomUUID(), choiceId: '' }], { shouldDirty: true });
+                setValue(`questions.${questionIndex}.correctAnswer`, [...currentCorrectAnswer, { draggableItemId: newDraggableId, targetItemId: '' }], { shouldDirty: true });
             }}
           >
             <PlusCircle className="mr-2 h-4 w-4" /> Add Draggable Item
@@ -229,7 +227,7 @@ export function MatchingDragAndDropBuilder({
 
         {/* Target Items Column */}
         <div>
-          <Label>Target Items (Right Column)</Label>
+          <Label>Target Items (Right Column - where draggable items are matched to)</Label>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -239,7 +237,7 @@ export function MatchingDragAndDropBuilder({
               <ul className="space-y-2 mt-1">
                 {targetFields.map((field, index) => (
                    <SortableItem key={field.id} id={field.id}>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
                       <Input
                         {...register(`questions.${questionIndex}.targetItems.${index}.text`)}
                         placeholder={`Target ${index + 1}`}
@@ -250,80 +248,95 @@ export function MatchingDragAndDropBuilder({
                         variant="outline"
                         size="icon"
                         onClick={() => {
-                            removeTarget(index);
-                             // Also remove any pairings that used this target item
+                             const targetIdToRemove = field.id;
+                             removeTarget(index);
                              const currentCorrectAnswer = getValues(`questions.${questionIndex}.correctAnswer`) || [];
                              const newCorrectAnswer = currentCorrectAnswer.map((match: any) => {
-                                 if (match.choiceId === field.id) {
-                                     return { ...match, choiceId: '' }; // Set to empty if this target was selected
+                                 if (match.targetItemId === targetIdToRemove) {
+                                     return { ...match, targetItemId: '' };
                                  }
                                  return match;
                              });
                              setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldDirty: true });
                         }}
-                        className="shrink-0"\n                      >
+                        className="shrink-0"
+                      >
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
-                     {errors.questions?.[questionIndex]?.targetItems?.[index]?.text && (\n                      <p className=\"text-sm text-destructive mt-1\">
+                     {errors.questions?.[questionIndex]?.targetItems?.[index]?.text && (
+                      <p className="text-sm text-destructive mt-1">
                         {(errors.questions[questionIndex]?.targetItems?.[index]?.text as any)?.message}
                       </p>
                     )}
                    </SortableItem>
-                ))}\n              </ul>\n            </SortableContext>\n          </DndContext>\n          <Button
+                ))}
+              </ul>
+            </SortableContext>
+          </DndContext>
+          <Button
             type="button"
             variant="outline"
             size="sm"
             className="mt-4"
-            onClick={() => appendTarget({ id: crypto.randomUUID(), text: '' }, { shouldFocus: false, shouldDirty: true })}
+            onClick={() => appendTarget({ id: crypto.randomUUID(), text: '' }, { shouldFocus: false })}
           >
             <PlusCircle className="mr-2 h-4 w-4" /> Add Target Item
           </Button>
         </div>
       </div>
 
-      {/* Correct Pairings - This section will now be managed by the Select components */}
       <div className="mt-6">
-        <h4 className="text-lg font-medium mb-2">Correct Pairings</h4>
-        <p className="text-sm text-gray-600 mb-4">Use the dropdown next to each draggable item to select its matching target item.</p>
-         {/* Display current pairings for review */}
+        <h4 className="text-lg font-medium mb-2">Correct Pairings Review</h4>
+        <p className="text-sm text-gray-600 mb-4">Use the dropdown next to each draggable item to select its matching target item. This section helps review the pairings.</p>
         {draggableFields.length > 0 && (
-             <div className=\"grid grid-cols-2 gap-4 max-w-md\">
-                <div className=\"font-semibold\">Draggable Item</div>
-                <div className=\"font-semibold\">Matches Target Item</div>
+             <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-w-md border p-3 rounded-md">
+                <div className="font-semibold text-sm">Draggable Item</div>
+                <div className="font-semibold text-sm">Matches Target Item</div>
                 {draggableFields.map((draggableField, index) => {
                     const matchedTargetId = getCorrectAnswerForDraggable(draggableField.id!);
                     const matchedTarget = targetFields.find(tf => tf.id === matchedTargetId);
                     return (
-                        <div key={draggableField.id} className=\"contents\">
-                            <div>{draggableField.text || `Item ${index + 1}`}</div>
-                            <div>{matchedTarget ? matchedTarget.text || `Target ${targetFields.findIndex(t => t.id === matchedTargetId) + 1}` : 'No Match Selected'}</div>
-                        </div>
+                        <React.Fragment key={draggableField.id}>
+                            <div className="text-sm truncate" title={draggableField.text || `Item ${index + 1}`}>{draggableField.text || `Item ${index + 1}`}</div>
+                            <div className="text-sm truncate" title={matchedTarget ? matchedTarget.text || `Target ${targetFields.findIndex(t => t.id === matchedTargetId) + 1}` : 'No Match Selected'}>
+                                {matchedTarget ? matchedTarget.text || `Target ${targetFields.findIndex(t => t.id === matchedTargetId) + 1}` : <span className="italic text-muted-foreground">No Match Selected</span>}
+                            </div>
+                        </React.Fragment>
                     );
                 })}
              </div>
         )}
-         {draggableFields.length > 0 && targetFields.length > 0 && draggableFields.length !== targetFields.length && (
-            <p className="text-sm text-orange-600 mt-2">Warning: The number of draggable items ({draggableFields.length}) and target items ({targetFields.length}) do not match. Ensure you have a target for each draggable item if required.</p>
-         )}
-         {/* Add validation message if not all prompts are matched */}
          {errors.questions?.[questionIndex]?.correctAnswer && (
             <p className="text-sm text-destructive mt-1">
               {(errors.questions[questionIndex]?.correctAnswer as any)?.message || 'Please ensure all draggable items have a selected target.'}
             </p>
          )}
+         {errors.questions?.[questionIndex]?.draggableItems?.message && (
+            <p className="text-sm text-destructive mt-1">
+              Draggable Items: {(errors.questions[questionIndex]?.draggableItems as any)?.message}
+            </p>
+         )}
+          {errors.questions?.[questionIndex]?.targetItems?.message && (
+            <p className="text-sm text-destructive mt-1">
+              Target Items: {(errors.questions[questionIndex]?.targetItems as any)?.message}
+            </p>
+         )}
       </div>
 
-
-      {/* Optional Fields */}
       <div className="space-y-4 mt-6">
         <div className="flex items-center space-x-2">
-          <Checkbox
-            id={`questions.${questionIndex}.allowShuffle`}
-            {...register(`questions.${questionIndex}.allowShuffle`, {
-              onChange: () => setValue(`questions.${questionIndex}.allowShuffle`, getValues(`questions.${questionIndex}.allowShuffle`), { shouldDirty: true }),
-            })}
-
+          <Controller
+            name={`questions.${questionIndex}.allowShuffle`}
+            control={control}
+            defaultValue={false}
+            render={({ field }) => (
+              <Checkbox
+                id={`questions.${questionIndex}.allowShuffle`}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            )}
           />
           <Label htmlFor={`questions.${questionIndex}.allowShuffle`}>Shuffle draggable items on display</Label>
         </div>
@@ -332,9 +345,7 @@ export function MatchingDragAndDropBuilder({
           <Label htmlFor={`questions.${questionIndex}.explanation`}>Explanation/Feedback (Optional)</Label>
           <Textarea
             id={`questions.${questionIndex}.explanation`}
-            {...register(`questions.${questionIndex}.explanation`, {
-              onChange: () => setValue(`questions.${questionIndex}.explanation`, getValues(`questions.${questionIndex}.explanation`), { shouldDirty: true }),
-            })}
+            {...register(`questions.${questionIndex}.explanation`)}
             placeholder="Provide an explanation shown after the test."
             className="mt-1"
           />
@@ -346,3 +357,4 @@ export function MatchingDragAndDropBuilder({
     </div>
   );
 }
+    
