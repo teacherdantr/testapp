@@ -34,7 +34,7 @@ export function HomeHeader() {
               fill
               className="object-cover"
               data-ai-hint="digital learning"
-              priority
+              priority // Added priority prop
             />
           </div>
         </div>
