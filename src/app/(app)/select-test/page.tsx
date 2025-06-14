@@ -1,39 +1,34 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 import { getAllTests } from '@/lib/actions/testActions';
 import type { Test } from '@/lib/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, AlertTriangle, ListChecks, KeyRound, BookOpen } from 'lucide-react';
+import { Loader2, AlertTriangle, ListChecks } from 'lucide-react';
 import { TestSelectionItem } from '@/components/test/TestSelectionItem';
 
 export default function SelectTestPage() {
-  const [tests, setTests] = useState<Test[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: tests,
+    isLoading,
+    isError,
+    error: queryError,
+    refetch
+  } = useQuery<Test[], Error>({
+    queryKey: ['tests'],
+    queryFn: getAllTests,
+    // staleTime: 5 * 60 * 1000, // e.g., 5 minutes
+    // refetchOnWindowFocus: false,
+  });
 
-  useEffect(() => {
-    const loadTests = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const fetchedTests = await getAllTests();
-        setTests(fetchedTests);
-        if (fetchedTests.length === 0) {
-          setError('No tests are currently available. Please check back later.');
-        }
-      } catch (err) {
-        console.error('Failed to fetch tests:', err);
-        setError('Failed to load tests. Please try again.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadTests();
-  }, []);
+  let displayMessage: string | null = null;
+  if (isError && queryError) {
+    displayMessage = queryError.message || 'Failed to load tests. Please try again.';
+  } else if (!isLoading && tests && tests.length === 0) {
+    displayMessage = 'No tests are currently available. Please check back later.';
+  }
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -52,18 +47,22 @@ export default function SelectTestPage() {
         </div>
       )}
 
-      {error && !isLoading && (
+      {displayMessage && !isLoading && (
         <div className="flex flex-col items-center justify-center min-h-[300px]">
           <AlertTriangle className="h-12 w-12 text-destructive" />
-          <p className="mt-4 text-xl text-destructive">Error Loading Tests</p>
-          <p className="text-muted-foreground text-center">{error}</p>
-          <Button onClick={() => window.location.reload()} className="mt-6">
-            Try Again
-          </Button>
+          <p className="mt-4 text-xl text-destructive">
+            {isError ? 'Error Loading Tests' : 'Information'}
+          </p>
+          <p className="text-muted-foreground text-center">{displayMessage}</p>
+          {isError && (
+            <Button onClick={() => refetch()} className="mt-6">
+              Try Again
+            </Button>
+          )}
         </div>
       )}
 
-      {!isLoading && !error && tests.length > 0 && (
+      {!isLoading && !displayMessage && tests && tests.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tests.map((test) => (
             <TestSelectionItem key={test.id} test={test} />

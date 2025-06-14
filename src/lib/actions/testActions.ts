@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -621,7 +622,7 @@ export async function getAllTests(): Promise<Test[]> {
     }));
   } catch (e: any) {
     console.error("Prisma getAllTests error:", e);
-    return [];
+    throw new Error(`Failed to fetch tests from database: ${e.message}`);
   }
 }
 
