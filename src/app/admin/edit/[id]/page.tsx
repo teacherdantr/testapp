@@ -47,10 +47,16 @@ const matchingItemSchema = z.object({
   text: z.string().min(1, "Item text cannot be empty"),
 });
 
-const correctMatchSchema = z.object({
+const correctMatchSchema = z.object({ // For MatchingSelect
   promptId: z.string(),
-  choiceId: z.string(), // Allows empty string for "unselected" state during edit
+  choiceId: z.string(),
 });
+
+const correctDragDropMatchSchema = z.object({ // For MatchingDragAndDrop
+    draggableItemId: z.string(),
+    targetItemId: z.string(), // Can be empty if "no match"
+});
+
 
 const questionSchema = z.object({
   id: z.string().optional(),
@@ -64,15 +70,19 @@ const questionSchema = z.object({
   categories: z.array(categorySchema).optional(),
   hotspots: z.array(hotspotAreaSchema).optional(),
   multipleSelection: z.boolean().optional(),
-  prompts: z.array(matchingItemSchema).optional(),
-  choices: z.array(matchingItemSchema).optional(),
+  prompts: z.array(matchingItemSchema).optional(), // For MatchingSelect
+  choices: z.array(matchingItemSchema).optional(), // For MatchingSelect
+  draggableItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  targetItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  allowShuffle: z.boolean().optional(), // For MatchingDragAndDrop
   correctAnswer: z.union([
     z.string(),
     z.array(z.string()).min(1, 'At least one correct answer must be selected/provided for this type if it is an array of strings.'),
     z.array(correctMatchSchema).min(1, 'At least one match must be defined for MatchingSelect if it is an array of matches.'),
+    z.array(correctDragDropMatchSchema).optional(), // Added for MatchingDragAndDrop
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
-}).refine(data => {
+}).refine(data => { // Validation for MCQ and MCMA options
   if (data.type === QuestionType.MCQ || data.type === QuestionType.MultipleChoiceMultipleAnswer) {
     return data.options && data.options.length >= 2;
   }
@@ -80,7 +90,7 @@ const questionSchema = z.object({
 }, {
   message: 'MCQ and MCMA questions must have at least two options.',
   path: ['options'],
-}).refine(data => {
+}).refine(data => { // Validation for various correctAnswer formats
   if (data.type === QuestionType.MultipleChoiceMultipleAnswer || (data.type === QuestionType.Hotspot && data.multipleSelection)) {
     if (!(Array.isArray(data.correctAnswer) && data.correctAnswer.length > 0 && typeof data.correctAnswer[0] === 'string')) return false;
     if (data.type === QuestionType.Hotspot && data.hotspots) {
@@ -114,8 +124,7 @@ const questionSchema = z.object({
     }
     return (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match => {
       const promptExists = data.prompts!.some(p => p.id === match.promptId);
-      const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId); // Allow empty string for "unselected"
-      // Ensure all prompts are matched to a *non-empty* choice
+      const choiceIsValidIfSelected = match.choiceId === '' || data.choices!.some(c => c.id === match.choiceId);
       const allPromptsMatchedToNonEmptyChoice = (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(m => m.choiceId !== '');
       return promptExists && choiceIsValidIfSelected && allPromptsMatchedToNonEmptyChoice;
     });
@@ -130,7 +139,7 @@ const questionSchema = z.object({
 }, {
   message: 'Correct answer(s) must be provided, in the correct format, and reference existing items (options/hotspots/prompts/choices) for the question type. For MatchingSelect, ensure all prompts are matched to a valid, non-empty choice.',
   path: ['correctAnswer'],
-}).refine(data => {
+}).refine(data => { // Validation for MTF/Matrix statements
     if (data.type === QuestionType.MultipleTrueFalse || data.type === QuestionType.MatrixChoice) {
         return data.statements && data.statements.length > 0 && data.statements.every(st => st.text.trim() !== '');
     }
@@ -138,7 +147,7 @@ const questionSchema = z.object({
 }, {
     message: 'Multiple True/False or MatrixChoice questions must have at least one statement with text.',
     path: ['statements'],
-}).refine(data => {
+}).refine(data => { // Validation for Matrix categories
   if (data.type === QuestionType.MatrixChoice) {
     return data.categories && data.categories.length >= 1 && data.categories.every(cat => cat.text.trim() !== '');
   }
@@ -146,13 +155,13 @@ const questionSchema = z.object({
 }, {
   message: 'MatrixChoice questions must have at least one category with text.',
   path: ['categories'],
-}).refine(data => {
+}).refine(data => { // Validation for Hotspot image URL
   if (data.type === QuestionType.Hotspot) {
     return !!(data.imageUrl && data.imageUrl.trim() !== '' && (data.imageUrl.startsWith('https://') || data.imageUrl.startsWith('/images/')));
   }
   return true;
 }, { message: 'A valid HTTPS or local (/images/...) Image URL is required for Hotspot questions.', path: ['imageUrl']})
-.refine(data => {
+.refine(data => { // Validation for Hotspot areas
   if (data.type === QuestionType.Hotspot) {
     return data.hotspots && data.hotspots.length > 0 && data.hotspots.every(hs => hs.coords.trim() !== '');
   }
@@ -160,7 +169,7 @@ const questionSchema = z.object({
 }, {
   message: 'Hotspot questions must have at least one hotspot defined with coordinates.',
   path: ['hotspots'],
-}).refine(data => {
+}).refine(data => { // Validation for MatchingSelect prompts/choices
   if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
@@ -169,6 +178,27 @@ const questionSchema = z.object({
 }, {
   message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
   path: ['prompts'],
+}).refine(data => { // Validation for MatchingDragAndDrop
+  if (data.type === QuestionType.MatchingDragAndDrop) {
+    // Items must exist and have text
+    if (!data.draggableItems || data.draggableItems.length === 0 || !data.draggableItems.every(item => item.text.trim() !== '') ||
+        !data.targetItems || data.targetItems.length === 0 || !data.targetItems.every(item => item.text.trim() !== '')) {
+      return false;
+    }
+    // CorrectAnswer must be an array matching draggableItems length
+    if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
+      return false;
+    }
+    // Each match in correctAnswer must be valid
+    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+      data.draggableItems!.some(item => item.id === match.draggableItemId) &&
+      (match.targetItemId === '' || data.targetItems!.some(target => target.id === match.targetItemId))
+    );
+  }
+  return true;
+}, {
+  message: 'For Matching Drag & Drop: Draggable and Target items must exist and have text. All draggable items must have a corresponding correct answer pairing (target can be "No Match" by selecting nothing for it).',
+  path: ['correctAnswer'], // Or path: ['draggableItems'] / ['targetItems'] if more specific
 });
 
 
@@ -208,7 +238,7 @@ export default function EditTestPage() {
       password: '',
       questions: [],
     },
-    mode: 'onChange',
+    mode: 'onChange', // Important for live validation updates
   });
 
   useEffect(() => {
@@ -224,7 +254,10 @@ export default function EditTestPage() {
           const mappedQuestions = testData.questions.map(q => {
               try {
                 let correctAnswerValue: any;
-                const defaultPrompts = (q.prompts || []).map(p => ({ id: p.id || crypto.randomUUID(), text: p.text || ''}));
+                const ensureIds = <T extends { id?: string, text?: string }>(items: T[] = [], itemName: string = "item"): T[] =>
+                    items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
+
+                let processedQuestionData: Partial<TestEditFormValues['questions'][0]> = {};
 
                 switch (q.type) {
                   case QuestionType.MCQ:
@@ -237,10 +270,11 @@ export default function EditTestPage() {
                     break;
                   case QuestionType.MultipleTrueFalse:
                   case QuestionType.MatrixChoice:
-                    const defaultStatements = (q.statements || []).map(s => ({ id: s.id || crypto.randomUUID(), text: s.text || '' }));
+                    const defaultStatements = ensureIds(q.statements, 'statement');
                     correctAnswerValue = (Array.isArray(q.correctAnswer) && q.correctAnswer.length === defaultStatements.length)
                       ? q.correctAnswer
-                      : defaultStatements.map(() => (q.type === QuestionType.MultipleTrueFalse ? 'false' : ''));
+                      : defaultStatements.map(() => (q.type === QuestionType.MultipleTrueFalse ? 'false' : (ensureIds(q.categories, 'category')[0]?.text || '')));
+                    processedQuestionData = { statements: defaultStatements, categories: ensureIds(q.categories, 'category') };
                     break;
                   case QuestionType.Hotspot:
                     if (q.multipleSelection) {
@@ -250,6 +284,7 @@ export default function EditTestPage() {
                     }
                     break;
                   case QuestionType.MatchingSelect:
+                    const defaultPrompts = ensureIds(q.prompts, 'prompt');
                     const existingCorrectAnswers = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []) as Array<{promptId: string, choiceId: string}>;
                     correctAnswerValue = defaultPrompts.map(prompt => {
                       const existingMatch = existingCorrectAnswers.find(match => match.promptId === prompt.id);
@@ -258,13 +293,28 @@ export default function EditTestPage() {
                         choiceId: existingMatch ? (existingMatch.choiceId === null || existingMatch.choiceId === undefined ? '' : String(existingMatch.choiceId)) : '',
                       };
                     });
+                    processedQuestionData = { prompts: defaultPrompts, choices: ensureIds(q.choices, 'choice') };
+                    break;
+                  case QuestionType.MatchingDragAndDrop:
+                    const defaultDraggableItems = ensureIds(q.draggableItems, 'draggableItem');
+                    const existingDragDropCorrectAnswers = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []) as Array<{draggableItemId: string, targetItemId: string}>;
+                    correctAnswerValue = defaultDraggableItems.map(dItem => {
+                        const existingMatch = existingDragDropCorrectAnswers.find(match => match.draggableItemId === dItem.id);
+                        return {
+                            draggableItemId: dItem.id,
+                            targetItemId: existingMatch ? (existingMatch.targetItemId === null || existingMatch.targetItemId === undefined ? '' : String(existingMatch.targetItemId)) : '',
+                        };
+                    });
+                    processedQuestionData = {
+                        draggableItems: defaultDraggableItems,
+                        targetItems: ensureIds(q.targetItems, 'targetItem'),
+                        allowShuffle: q.allowShuffle === undefined ? false : q.allowShuffle,
+                    };
                     break;
                   default:
-                    correctAnswerValue = '';
+                    correctAnswerValue = Array.isArray(q.correctAnswer) ? q.correctAnswer : (q.correctAnswer || '');
                 }
-                const ensureIds = <T extends { id?: string, text?: string }>(items: T[] = [], itemName: string = "item"): T[] =>
-                    items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
-
+                
                 return {
                   id: q.id,
                   text: q.text || '',
@@ -277,8 +327,12 @@ export default function EditTestPage() {
                   multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
                   prompts: ensureIds(q.prompts, 'prompt'),
                   choices: ensureIds(q.choices, 'choice'),
+                  draggableItems: ensureIds(q.draggableItems, 'draggableItem'), // Ensure these are present for D&D
+                  targetItems: ensureIds(q.targetItems, 'targetItem'),       // Ensure these are present for D&D
+                  allowShuffle: q.allowShuffle === undefined ? false : q.allowShuffle,
                   correctAnswer: correctAnswerValue,
                   points: q.points || 1,
+                  ...processedQuestionData // Spread specific processed data like statements, categories for matrix
                 };
               } catch (mapError: any) {
                 console.error(`Error mapping question ID ${q.id || 'new'} ("${(q.text || '').substring(0,30)}...") for form:`, mapError.message, q);
@@ -290,7 +344,8 @@ export default function EditTestPage() {
                     imageUrl: q.imageUrl || '',
                     options: [{id: crypto.randomUUID(), text: 'Error Option 1'}, {id: crypto.randomUUID(), text: 'Error Option 2'}],
                     statements: [], categories: [], hotspots: [], multipleSelection: false, prompts: [], choices: [],
-                    correctAnswer: '',
+                    draggableItems: [], targetItems: [], allowShuffle: false,
+                    correctAnswer: '', // Fallback, might be invalid depending on type
                     points: 1,
                 };
               }
@@ -338,7 +393,7 @@ export default function EditTestPage() {
     if (data.passwordEnabled && data.password) {
         formData.append('password', data.password);
     } else {
-        formData.append('password', '');
+        formData.append('password', ''); // Send empty string to clear password
     }
 
     const processedQuestions = data.questions.map(q => {
@@ -347,46 +402,47 @@ export default function EditTestPage() {
 
       const questionToProcess: any = {
         ...q,
-        id: q.id,
+        id: q.id, // Existing question ID if present
         options: ensureClientIds(q.options),
         statements: ensureClientIds(q.statements),
         categories: ensureClientIds(q.categories),
         hotspots: (q.hotspots || []).map(hs => ({ ...hs, id: hs.id || crypto.randomUUID()})),
         prompts: ensureClientIds(q.prompts),
         choices: ensureClientIds(q.choices),
+        draggableItems: ensureClientIds(q.draggableItems),
+        targetItems: ensureClientIds(q.targetItems),
       };
 
-      if (questionToProcess.type === QuestionType.MatchingSelect && Array.isArray(questionToProcess.correctAnswer)) {
-        questionToProcess.correctAnswer = questionToProcess.correctAnswer
+      // Clean up correctAnswer based on type for storage
+      if (q.type === QuestionType.MatchingSelect && Array.isArray(q.correctAnswer)) {
+        questionToProcess.correctAnswer = q.correctAnswer
           .map((match: any) => ({
             promptId: match.promptId,
             choiceId: typeof match.choiceId === 'string' ? match.choiceId : '',
           }))
-          .filter((match: any) => match.choiceId !== '');
+          .filter((match: any) => match.choiceId !== ''); // Filter out "unselected"
+      } else if (q.type === QuestionType.MatchingDragAndDrop && Array.isArray(q.correctAnswer)) {
+        questionToProcess.correctAnswer = q.correctAnswer
+          .map((match: any) => ({
+            draggableItemId: match.draggableItemId,
+            targetItemId: typeof match.targetItemId === 'string' ? match.targetItemId : '',
+          }))
+          // No filter for empty targetItemId here, as it means "no match" which is valid.
       }
 
-      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
-        delete questionToProcess.options;
-      }
-      if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) {
-        delete questionToProcess.statements;
-      }
-      if (q.type !== QuestionType.MatrixChoice) {
-        delete questionToProcess.categories;
-      }
+
+      // Remove fields not relevant to the question type
+      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) delete questionToProcess.options;
+      if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) delete questionToProcess.statements;
+      if (q.type !== QuestionType.MatrixChoice) delete questionToProcess.categories;
       if (q.type !== QuestionType.Hotspot) {
         delete questionToProcess.hotspots;
-        if (questionToProcess.multipleSelection === undefined) {
-           delete questionToProcess.multipleSelection;
-        }
+        if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
       }
-      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
-         delete questionToProcess.imageUrl;
-      }
-      if (q.type !== QuestionType.MatchingSelect) {
-        delete questionToProcess.prompts;
-        delete questionToProcess.choices;
-      }
+      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) delete questionToProcess.imageUrl;
+      if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
+      if (q.type !== QuestionType.MatchingDragAndDrop) { delete questionToProcess.draggableItems; delete questionToProcess.targetItems; delete questionToProcess.allowShuffle;}
+
 
       return questionToProcess;
     });
@@ -407,11 +463,7 @@ export default function EditTestPage() {
         title: 'Test Updated Successfully!',
         description: `Test "${data.title}" has been updated.`,
       });
-      // router.push('/admin'); // Removed this line
-      // Optionally, you might want to re-fetch the test data here if server made further changes
-      // or reset the form's dirty state if appropriate.
-      // For now, just staying on the page.
-      reset(data); // Reset form with current data to clear dirty state
+      reset(data); // Reset form with current data to clear dirty state and reflect successful save
     }
   };
 
@@ -448,7 +500,7 @@ export default function EditTestPage() {
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">Edit Test</CardTitle>
-          {/* <CardDescription>Modify the details of your test below. Button enabled: {isDirty ? 'true' : 'false'} (dirty), {isValid ? 'true' : 'false'} (valid)</CardDescription> */}
+          {/* <CardDescription>Modify the details of your test below. Is Dirty: {isDirty ? 'true' : 'false'}, Is Valid: {isValid ? 'true' : 'false'}</CardDescription> */}
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-6">
@@ -537,25 +589,33 @@ export default function EditTestPage() {
                             if(optErr?.text?.message) errorMessages.push(`Q${i+1} Opt${optIdx+1} Text: ${optErr.text.message}`);
                         });
                     }
+                    
+                    if (qError?.draggableItems?.message) {
+                       errorMessages.push(`Q${i+1} Draggable Items: ${qError.draggableItems.message}`);
+                    }
+                    if (qError?.targetItems?.message) {
+                       errorMessages.push(`Q${i+1} Target Items: ${qError.targetItems.message}`);
+                    }
+
 
                     if (qError?.statements) {
                         if (qError.statements.message) {
                             errorMessages.push(`Q${i+1} Statements: ${qError.statements.message}`);
-                        } else if (Array.isArray(qError.statements) && qError.statements.some((s:any) => s && Object.keys(s).length > 0)) {
+                        } else if (Array.isArray(qError.statements) && qError.statements.some((s:any) => s && Object.keys(s).length > 0 && s.text?.message)) {
                             errorMessages.push(`Q${i+1} Statements: Contains invalid items. Check details within the question.`);
                         }
                     }
                     if (qError?.categories) {
                         if (qError.categories.message) {
                             errorMessages.push(`Q${i+1} Categories: ${qError.categories.message}`);
-                        } else if (Array.isArray(qError.categories) && qError.categories.some((c:any) => c && Object.keys(c).length > 0)) {
+                        } else if (Array.isArray(qError.categories) && qError.categories.some((c:any) => c && Object.keys(c).length > 0 && c.text?.message)) {
                             errorMessages.push(`Q${i+1} Categories: Contains invalid items. Check details within the question.`);
                         }
                     }
                     if (qError?.hotspots) {
                         if (qError.hotspots.message) {
                              errorMessages.push(`Q${i+1} Hotspots: ${qError.hotspots.message}`);
-                        } else if (Array.isArray(qError.hotspots) && qError.hotspots.some((h:any) => h && Object.keys(h).length > 0)) {
+                        } else if (Array.isArray(qError.hotspots) && qError.hotspots.some((h:any) => h && Object.keys(h).length > 0 && (h.coords?.message || h.label?.message))) {
                              errorMessages.push(`Q${i+1} Hotspots: Contains invalid items. Check details within the question.`);
                         }
                     }
@@ -584,3 +644,4 @@ export default function EditTestPage() {
     </div>
   );
 }
+

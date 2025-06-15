@@ -37,10 +37,16 @@ const matchingItemSchema = z.object({
   text: z.string().min(1, "Item text cannot be empty"),
 });
 
-const correctMatchSchema = z.object({
-  promptId: z.string(), // This ID must reference an ID from the 'prompts' array
-  choiceId: z.string().min(1, "Each prompt must be matched to a choice."), // This ID must reference an ID from the 'choices' array
+const correctMatchSchema = z.object({ // For MatchingSelect
+  promptId: z.string(), 
+  choiceId: z.string().min(1, "Each prompt must be matched to a choice."),
 });
+
+const correctDragDropMatchSchema = z.object({ // For MatchingDragAndDrop
+    draggableItemId: z.string(),
+    targetItemId: z.string(), // Allow empty string for "no match"
+});
+
 
 // This schema validates the structure coming from the form
 const formQuestionSchema = z.object({
@@ -55,12 +61,16 @@ const formQuestionSchema = z.object({
   categories: z.array(categorySchema).optional(),
   hotspots: z.array(hotspotAreaSchema).optional(),
   multipleSelection: z.boolean().optional(),
-  prompts: z.array(matchingItemSchema).optional(),
-  choices: z.array(matchingItemSchema).optional(),
+  prompts: z.array(matchingItemSchema).optional(), // For MatchingSelect
+  choices: z.array(matchingItemSchema).optional(), // For MatchingSelect
+  draggableItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  targetItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
+  allowShuffle: z.boolean().optional(), // For MatchingDragAndDrop
   correctAnswer: z.union([
     z.string(),
     z.array(z.string()),
     z.array(correctMatchSchema),
+    z.array(correctDragDropMatchSchema).optional(), // Added for D&D, optional because it might be empty during creation
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
@@ -72,10 +82,10 @@ const formQuestionSchema = z.object({
 .refine(data => {
   if (data.type === QuestionType.MultipleChoiceMultipleAnswer || (data.type === QuestionType.Hotspot && data.multipleSelection)) {
     if (!(Array.isArray(data.correctAnswer) && data.correctAnswer.length > 0 && typeof data.correctAnswer[0] === 'string')) return false;
-    if (data.type === QuestionType.Hotspot && data.hotspots) { // Check if correct hotspot IDs exist in hotspots array
+    if (data.type === QuestionType.Hotspot && data.hotspots) { 
         return (data.correctAnswer as string[]).every(caId => data.hotspots!.some(h => h.id === caId));
     }
-    if (data.type === QuestionType.MultipleChoiceMultipleAnswer && data.options) { // Check if correct option texts exist
+    if (data.type === QuestionType.MultipleChoiceMultipleAnswer && data.options) { 
         return (data.correctAnswer as string[]).every(caText => data.options!.some(o => o.text === caText));
     }
   }
@@ -90,7 +100,7 @@ const formQuestionSchema = z.object({
   }
   if (data.type === QuestionType.Hotspot && !data.multipleSelection) {
     if(!(typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '')) return false;
-    if (data.hotspots) { // Check if the single correct hotspot ID exists
+    if (data.hotspots) { 
         return data.hotspots.some(h => h.id === data.correctAnswer);
     }
   }
@@ -99,12 +109,26 @@ const formQuestionSchema = z.object({
            (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(match =>
              data.prompts?.some(p => p.id === match.promptId) &&
              data.choices?.some(c => c.id === match.choiceId) &&
-             match.choiceId.trim() !== '' // Ensures choiceId is not empty and references an actual choice
+             match.choiceId.trim() !== '' 
            );
+  }
+   if (data.type === QuestionType.MatchingDragAndDrop) {
+    if (!data.draggableItems || data.draggableItems.length === 0 || !data.draggableItems.every(item => item.text.trim() !== '') ||
+        !data.targetItems || data.targetItems.length === 0 || !data.targetItems.every(item => item.text.trim() !== '')) {
+      return false; // Items must exist and have text
+    }
+    if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
+      return false; // CorrectAnswer must be an array matching draggableItems length
+    }
+    // Each match in correctAnswer must be valid
+    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+      data.draggableItems!.some(item => item.id === match.draggableItemId) &&
+      (match.targetItemId === '' || data.targetItems!.some(target => target.id === match.targetItemId))
+    );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
     if (!(typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '')) return false;
-    if (data.type === QuestionType.MCQ && data.options) { // Check if MCQ correct answer is one of the options
+    if (data.type === QuestionType.MCQ && data.options) { 
         return data.options.some(o => o.text === data.correctAnswer);
     }
   }
@@ -134,13 +158,16 @@ const formQuestionSchema = z.object({
   }
   return true;
 }, { message: 'Hotspot questions must have at least one hotspot defined with coordinates.', path: ['hotspots']})
-.refine(data => {
+.refine(data => { // Validation for MatchingSelect prompts/choices
   if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
   }
   return true;
-}, { message: 'Matching questions must have at least one prompt item and one choice item, all with text.', path: ['prompts']});
+}, {
+  message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
+  path: ['prompts'], 
+});
 
 
 const testFormSchema = z.object({
@@ -160,8 +187,19 @@ function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuestionSchem
   if (q.categories) questionData.categories = q.categories;
   if (q.hotspots) questionData.hotspots = q.hotspots;
   if (q.multipleSelection !== undefined) questionData.multipleSelection = q.multipleSelection;
-  if (q.prompts) questionData.prompts = q.prompts;
-  if (q.choices) questionData.choices = q.choices;
+  
+  // Fields specific to MatchingSelect
+  if (q.type === QuestionType.MatchingSelect) {
+    if (q.prompts) questionData.prompts = q.prompts;
+    if (q.choices) questionData.choices = q.choices;
+  }
+  // Fields specific to MatchingDragAndDrop
+  if (q.type === QuestionType.MatchingDragAndDrop) {
+    if (q.draggableItems) questionData.draggableItems = q.draggableItems;
+    if (q.targetItems) questionData.targetItems = q.targetItems;
+    if (q.allowShuffle !== undefined) questionData.allowShuffle = q.allowShuffle;
+  }
+
 
   return questionData as Prisma.JsonObject;
 }
@@ -271,17 +309,16 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
 
 // Helper to ensure array items are valid objects with id and text
 const ensureValidItems = <T extends { id: string; text: string }>(
-  items: any, // input can be anything from JSONB
+  items: any, 
   itemTypeForLogging: string
 ): T[] | undefined => {
   if (!Array.isArray(items)) {
-    // console.warn(`[mapPrismaQuestionToViewQuestion] ${itemTypeForLogging} data is not an array.`);
     return undefined;
   }
   const validItems = items.filter(item =>
-    item && // check if item is not null/undefined
-    typeof item.id === 'string' && item.id.trim() !== '' && // id is a non-empty string
-    typeof item.text === 'string' // text is a string
+    item && 
+    typeof item.id === 'string' && item.id.trim() !== '' && 
+    typeof item.text === 'string' 
   );
 
   if (validItems.length !== items.length) {
@@ -290,11 +327,10 @@ const ensureValidItems = <T extends { id: string; text: string }>(
   return validItems.map(item => ({
     id: item.id as string,
     text: item.text as string,
-  })) as T[]; // Cast to the specific type T[]
+  })) as T[]; 
 };
 
 
-// Helper to ensure hotspot items are valid
 const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
     if (!Array.isArray(items)) return undefined;
     const validItems = items.filter(item =>
@@ -318,12 +354,18 @@ const ensureValidHotspotItems = (items: any): HotspotArea[] | undefined => {
 
 function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPayload<{}>): Question {
   const qData = prismaQuestion.questionData as Prisma.JsonObject || {};
-
   let typeValue = prismaQuestion.type;
 
   if (!Object.values(QuestionType).includes(typeValue as QuestionType)) {
-    console.error(`[mapPrismaQuestionToViewQuestion] Invalid or unknown question type from DB: '${typeValue}' for question ID ${prismaQuestion.id}. Defaulting to MCQ. This indicates a data problem.`);
-    typeValue = QuestionType.MCQ; // Default to MCQ if type is unrecognized
+    console.error(`[mapPrismaQuestionToViewQuestion] Invalid question type from DB: '${typeValue}' for Q_ID ${prismaQuestion.id}. Defaulting to MCQ.`);
+    typeValue = QuestionType.MCQ; 
+  }
+
+  let correctAnswerForView: Question['correctAnswer'];
+  if (typeValue === QuestionType.MatchingDragAndDrop) {
+      correctAnswerForView = Array.isArray(qData.correctAnswer) ? qData.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }> : [];
+  } else {
+      correctAnswerForView = qData.correctAnswer as any; 
   }
 
 
@@ -340,7 +382,10 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
     prompts: ensureValidItems<MatchingItem>(qData.prompts, 'Prompt'),
     choices: ensureValidItems<MatchingItem>(qData.choices, 'Choice'),
-    correctAnswer: qData.correctAnswer as any, // Correct answer structure varies, handled by consuming components/logic
+    draggableItems: ensureValidItems<MatchingItem>(qData.draggableItems, 'DraggableItem'), // Add this
+    targetItems: ensureValidItems<MatchingItem>(qData.targetItems, 'TargetItem'),       // Add this
+    allowShuffle: qData.allowShuffle !== undefined ? qData.allowShuffle as boolean : undefined, // Add this
+    correctAnswer: correctAnswerForView,
   };
 }
 
@@ -357,14 +402,13 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
     const processedQuestionsWithAnswers = test.questions.map(mapPrismaQuestionToViewQuestion);
 
     const studentViewQuestions = processedQuestionsWithAnswers.map(q => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { correctAnswer, ...studentQuestionFields } = q;
       return {
         ...studentQuestionFields,
          choices: (q.type === QuestionType.MatchingSelect && Array.isArray(q.choices))
           ? [...q.choices].sort(() => Math.random() - 0.5)
           : q.choices,
-        correctAnswer: '' as any, // Correct answer is stripped for student view
+        correctAnswer: '' as any, 
       };
     });
 
@@ -392,7 +436,7 @@ export async function fetchAdminTestById(testId: string): Promise<Test | null> {
 
     return {
       ...test,
-      questions: test.questions.map(mapPrismaQuestionToViewQuestion), // Returns questions with correct answers
+      questions: test.questions.map(mapPrismaQuestionToViewQuestion), 
       createdAt: test.createdAt.toISOString(),
       updatedAt: test.updatedAt.toISOString(),
     };
@@ -410,7 +454,6 @@ export async function verifyTestPassword(testId: string, passwordAttempt: string
       return { authorized: false, error: 'Test not found.' };
     }
     if (!test.password) {
-      // No password set for the test, so it's authorized
       return { authorized: true };
     }
     if (test.password === passwordAttempt) {
@@ -447,8 +490,8 @@ export async function submitTest(
     let totalPoints = 0;
 
     const questionResultsPromises = testWithQuestions.questions.map(async (originalQuestionFromDb) => {
-      const originalQuestion = mapPrismaQuestionToViewQuestion(originalQuestionFromDb); // Contains correct types and cleaned sub-arrays
-      const prismaQuestionData = originalQuestionFromDb.questionData as Prisma.JsonObject; // Still needed for raw correctAnswer if complex
+      const originalQuestion = mapPrismaQuestionToViewQuestion(originalQuestionFromDb); 
+      const prismaQuestionData = originalQuestionFromDb.questionData as Prisma.JsonObject; 
       const originalCorrectAnswer = prismaQuestionData.correctAnswer as Question['correctAnswer'];
 
 
@@ -484,7 +527,7 @@ export async function submitTest(
             {
               const userSelectedAnswers: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctAnswers = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
-              const statements = originalQuestion.statements || []; // Use cleaned statements
+              const statements = originalQuestion.statements || []; 
               if (userSelectedAnswers.length === correctAnswers.length && statements.length === correctAnswers.length) {
                   isCorrect = userSelectedAnswers.every((val, index) => val.toLowerCase() === correctAnswers[index]?.toLowerCase());
               } else { isCorrect = false; }
@@ -494,7 +537,7 @@ export async function submitTest(
             {
               const userSelectedCategories: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctCategories = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
-              const statements = originalQuestion.statements || []; // Use cleaned statements
+              const statements = originalQuestion.statements || []; 
               if (userSelectedCategories.length === correctCategories.length && statements.length === correctCategories.length) {
                   isCorrect = userSelectedCategories.every((val, index) => val === correctCategories[index]);
               } else { isCorrect = false; }
@@ -503,7 +546,7 @@ export async function submitTest(
           case QuestionType.Hotspot:
             {
               const userSelectedHotspotIds: string[] = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
-              const multipleSelection = originalQuestion.multipleSelection; // Use cleaned multipleSelection
+              const multipleSelection = originalQuestion.multipleSelection; 
               if (multipleSelection) {
                   const correctAnswers = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as string[];
                   const sortedUserSelected = [...userSelectedHotspotIds].sort();
@@ -520,17 +563,36 @@ export async function submitTest(
             {
               const userMatches: Array<{ promptId: string, choiceId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
               const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ promptId: string, choiceId: string }>;
-              const prompts = originalQuestion.prompts || []; // Use cleaned prompts
+              const prompts = originalQuestion.prompts || []; 
               if (userMatches.length === prompts.length && correctMatches.length === prompts.length ) {
                    isCorrect = correctMatches.every(correctMatch => {
                       const userMatch = userMatches.find(um => um.promptId === correctMatch.promptId);
                       return userMatch && userMatch.choiceId !== null && userMatch.choiceId === correctMatch.choiceId;
                   });
               } else if (userMatches.length === 0 && correctMatches.length === 0 && prompts.length === 0) {
-                  isCorrect = true; // Correct if there are no prompts and no answers given
+                  isCorrect = true; 
               } else { isCorrect = false; }
             }
             break;
+           case QuestionType.MatchingDragAndDrop:
+             {
+                const userMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
+                const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
+                const draggableItems = originalQuestion.draggableItems || [];
+                
+                if (userMatches.length === draggableItems.length && correctMatches.length === draggableItems.length) {
+                    isCorrect = correctMatches.every(correctMatch => {
+                        const userMatch = userMatches.find(um => um.draggableItemId === correctMatch.draggableItemId);
+                        // A correct match means user's targetItemId matches the defined correct targetItemId
+                        return userMatch && userMatch.targetItemId === correctMatch.targetItemId;
+                    });
+                } else if (userMatches.length === 0 && correctMatches.length === 0 && draggableItems.length === 0) {
+                    isCorrect = true; // Correct if no items and no answers
+                } else {
+                    isCorrect = false;
+                }
+             }
+             break;
           default:
             console.warn(`Grading encountered an unexpected question type: ${originalQuestion.type} for question ID ${originalQuestion.id}`);
             isCorrect = false;
@@ -548,14 +610,17 @@ export async function submitTest(
         questionId: originalQuestion.id,
         questionText: originalQuestion.text,
         questionType: originalQuestion.type,
-        imageUrl: originalQuestion.imageUrl, // Use cleaned imageUrl
-        options: originalQuestion.options, // Use cleaned options
-        statements: originalQuestion.statements, // Use cleaned statements
-        categories: originalQuestion.categories, // Use cleaned categories
-        hotspots: originalQuestion.hotspots, // Use cleaned hotspots
-        multipleSelection: originalQuestion.multipleSelection, // Use cleaned multipleSelection
-        prompts: originalQuestion.prompts, // Use cleaned prompts
-        choices: originalQuestion.choices, // Use cleaned choices
+        imageUrl: originalQuestion.imageUrl, 
+        options: originalQuestion.options, 
+        statements: originalQuestion.statements, 
+        categories: originalQuestion.categories, 
+        hotspots: originalQuestion.hotspots, 
+        multipleSelection: originalQuestion.multipleSelection, 
+        prompts: originalQuestion.prompts, 
+        choices: originalQuestion.choices, 
+        draggableItems: originalQuestion.draggableItems, // Add this
+        targetItems: originalQuestion.targetItems,       // Add this
+        allowShuffle: originalQuestion.allowShuffle,     // Add this
         userAnswer: rawUserAnswer,
         correctAnswer: originalCorrectAnswer,
         isCorrect,
@@ -575,7 +640,6 @@ export async function submitTest(
       testTitle: testWithQuestions.title,
     };
 
-    // Save to database
     await prisma.userScore.create({
       data: {
         userId: userId,
@@ -583,9 +647,9 @@ export async function submitTest(
         testTitle: testWithQuestions.title,
         score: score,
         totalPoints: totalPoints,
-        questionResultsDetails: resultForClient.questionResults as Prisma.JsonArray, // Cast to JsonArray as expected by Prisma
+        questionResultsDetails: resultForClient.questionResults as Prisma.JsonArray, 
         timeTakenSeconds: timeTaken,
-        testMode: testMode ?? undefined, // Store null if not provided, or use specific value
+        testMode: testMode ?? undefined, 
       }
     });
 
@@ -628,11 +692,6 @@ export async function getAllTests(): Promise<Test[]> {
 
 export async function deleteTestById(testId: string): Promise<{ success: boolean; error?: string }> {
   try {
-    // Need to delete related UserScore records first if there's a relation
-    // that would cause a conflict. Assuming UserScore.testId is just a string
-    // and not a foreign key with cascading deletes disabled.
-    // If UserScore.testId IS a foreign key, Prisma handles this, or you might need:
-    // await prisma.userScore.deleteMany({ where: { testId: testId } });
     await prisma.test.delete({ where: { id: testId } });
     return { success: true };
   } catch (e: any)
@@ -641,10 +700,10 @@ export async function deleteTestById(testId: string): Promise<{ success: boolean
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
       return { success: false, error: 'Test not found.' };
     }
-    // Check for foreign key constraint violation if UserScore deletion is needed and not automatic
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2003') {
          return { success: false, error: `Failed to delete test. Associated user scores might exist. (${e.message})` };
     }
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
 }
+
