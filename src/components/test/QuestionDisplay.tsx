@@ -8,14 +8,14 @@ import NextImage from 'next/image';
 import { cn } from '@/lib/utils';
 import { Maximize2 } from 'lucide-react';
 
-import { McqDisplay } from './question-types/McqDisplay';
-import { McmaDisplay } from './question-types/McmaDisplay';
-import { TrueFalseDisplay } from './question-types/TrueFalseDisplay';
-import { ShortAnswerDisplay } from './question-types/ShortAnswerDisplay';
-import { MtfDisplay } from './question-types/MtfDisplay';
-import { MatrixChoiceDisplay } from './question-types/MatrixChoiceDisplay';
-import { HotspotDisplay } from './question-types/HotspotDisplay';
-import { MatchingSelectDisplay } from './question-types/MatchingSelectDisplay';
+import { McqDisplay } from './question-types/MCQ/McqDisplay';
+import { McmaDisplay } from './question-types/MCMA/McmaDisplay';
+import { TrueFalseDisplay } from './question-types/TrueFalse/TrueFalseDisplay';
+import { ShortAnswerDisplay } from './question-types/ShortAnswer/ShortAnswerDisplay';
+import { MtfDisplay } from './question-types/MTF/MtfDisplay';
+import { MatrixChoiceDisplay } from './question-types/MatrixChoice/MatrixChoiceDisplay';
+import { HotspotDisplay } from './question-types/Hotspot/HotspotDisplay'; // Corrected import path
+import { MatchingSelectDisplay } from './question-types/Matching/MatchingSelectDisplay';
 import type { QuestionTypeDisplayProps } from './question-types/QuestionTypeDisplayProps';
 
 
