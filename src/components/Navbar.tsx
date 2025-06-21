@@ -53,7 +53,7 @@ export function Navbar() {
                       : "text-foreground/70 hover:text-foreground hover:bg-accent/50"
                   )}
                 >
-                  <Link href={item.href} className="flex items-center">
+                  <Link href={item.href}>
                     {item.icon && <item.icon className="mr-2 h-4 w-4" />}
                     {item.label}
                   </Link>
