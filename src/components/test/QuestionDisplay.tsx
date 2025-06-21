@@ -16,6 +16,7 @@ import { MtfDisplay } from './question-types/MTF/MtfDisplay';
 import { MatrixChoiceDisplay } from './question-types/MatrixChoice/MatrixChoiceDisplay';
 import { HotspotDisplay } from './question-types/Hotspot/HotspotDisplay'; // Corrected import path
 import { MatchingSelectDisplay } from './question-types/Matching/MatchingSelectDisplay';
+import { MatchingDragAndDropDisplay } from './question-types/Matching/MatchingDragAndDropDisplay';
 import type { QuestionTypeDisplayProps } from './question-types/QuestionTypeDisplayProps';
 
 
@@ -66,6 +67,8 @@ export function QuestionDisplay({
         return <HotspotDisplay {...commonProps} />; // HotspotDisplay handles its own image
       case QuestionType.MatchingSelect:
         return <MatchingSelectDisplay {...commonProps} />;
+      case QuestionType.MatchingDragAndDrop:
+        return <MatchingDragAndDropDisplay {...commonProps} />;
       default:
         return <p>Unsupported question type.</p>;
     }

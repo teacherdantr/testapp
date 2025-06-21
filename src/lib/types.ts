@@ -99,7 +99,7 @@ export interface TestResult {
     draggableItems?: MatchingItem[];
     targetItems?: MatchingItem[];
     allowShuffle?: boolean;
-    userAnswer: string | { [draggableIndex: number]: number }; // Update userAnswer to accommodate matching
+    userAnswer: string;
     correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | Array<{ draggableItemId: string, targetItemId: string }>;
     isCorrect: boolean;
     pointsEarned: number;
