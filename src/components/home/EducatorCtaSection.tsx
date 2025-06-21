@@ -24,7 +24,7 @@ export function EducatorCtaSection() {
                 <Link 
                   href="/admin" 
                   className={cn(
-                    buttonVariants({ variant: 'default', size: 'lg' }), // Use buttonVariants
+                    buttonVariants({ variant: 'default', size: 'lg' }), 
                     "inline-block text-center w-full md:w-auto text-lg px-8 py-5" // Keep custom padding if needed
                   )}
                 >

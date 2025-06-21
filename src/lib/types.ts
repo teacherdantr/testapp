@@ -57,12 +57,13 @@ export interface Question {
   multipleSelection?: boolean;
   prompts?: MatchingItem[];
   choices?: MatchingItem[];
-  draggableItems?: string[]; // New field for MatchingDragAndDrop
-  targetItems?: string[];    // New field for MatchingDragAndDrop
+  draggableItems?: MatchingItem[]; // Corrected type
+  targetItems?: MatchingItem[];    // Corrected type
   allowShuffle?: boolean;    // New field for MatchingDragAndDrop
   explanation?: string; // Added explanation for all question types
-  correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | Array<{ draggableItemId: string, targetItemId: string }> | { [draggableIndex: number]: number };
+  correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | Array<{ draggableItemId: string, targetItemId: string }>;
 }
+
 
 export interface Test {
   id:string;
@@ -95,8 +96,11 @@ export interface TestResult {
     multipleSelection?: boolean;
     prompts?: MatchingItem[];
     choices?: MatchingItem[];
+    draggableItems?: MatchingItem[];
+    targetItems?: MatchingItem[];
+    allowShuffle?: boolean;
     userAnswer: string | { [draggableIndex: number]: number }; // Update userAnswer to accommodate matching
-    correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }>;
+    correctAnswer: string | string[] | Array<{ promptId: string, choiceId: string }> | Array<{ draggableItemId: string, targetItemId: string }>;
     isCorrect: boolean;
     pointsEarned: number;
     pointsPossible: number;
@@ -104,9 +108,10 @@ export interface TestResult {
   testTitle: string;
 }
 
+
 export interface StoredTestResult extends TestResult {
   userId: string;
   submittedAt: string;
   timeTaken?: number;
-  testMode?: 'training' | 'testing'; // Added testMode
+  testMode?: 'training' | 'testing' | 'race'; // Added 'race'
 }

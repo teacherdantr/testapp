@@ -135,8 +135,6 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
                 <SelectValue placeholder="Select match..." />
               </SelectTrigger>
               <SelectContent>
-                {/* This is the placeholder item. Radix expects value="" for it when SelectValue has a placeholder. */}
-                <SelectItem  value="__placeholder__" disabled  className="text-base italic text-muted-foreground">-- Select --</SelectItem>
                 {validShuffledChoices
                   .filter(choice => {
                     if (!choice || choice.id == null) {
@@ -176,5 +174,3 @@ export function MatchingSelectDisplay({ question, userAnswer, onAnswerChange, te
     </div>
   );
 }
-
-    

@@ -31,38 +31,38 @@ const MatchingDragAndDrop: React.FC<MatchingDragAndDropProps> = ({
   const [draggableItems, setDraggableItems] = useState(initialDraggableItems);
   const [matches, setMatches] = useState<Match[]>([]);
 
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination, draggableId } = result;
+  // const onDragEnd = (result: DropResult) => {
+  //   const { source, destination, draggableId } = result;
 
-    // Dropped outside a droppable area
-    if (!destination) {
-      return;
-    }
+  //   // Dropped outside a droppable area
+  //   if (!destination) {
+  //     return;
+  //   }
 
-    // Check if the draggable item is already matched
-    if (matches.find((match) => match.draggableItemId === draggableId)) {
-      return;
-    }
+  //   // Check if the draggable item is already matched
+  //   if (matches.find((match) => match.draggableItemId === draggableId)) {
+  //     return;
+  //   }
 
-    // Check if the drop target is a valid static target
-    const staticTarget = staticTargets.find(
-      (target) => target.id === destination.droppableId
-    );
-    if (!staticTarget) {
-      return;
-    }
+  //   // Check if the drop target is a valid static target
+  //   const staticTarget = staticTargets.find(
+  //     (target) => target.id === destination.droppableId
+  //   );
+  //   if (!staticTarget) {
+  //     return;
+  //   }
 
-    // Add the new match
-    setMatches((prevMatches) => [
-      ...prevMatches,
-      { draggableItemId: draggableId, staticTargetId: staticTarget.id },
-    ]);
+  //   // Add the new match
+  //   setMatches((prevMatches) => [
+  //     ...prevMatches,
+  //     { draggableItemId: draggableId, staticTargetId: staticTarget.id },
+  //   ]);
 
-    // Remove the matched item from the draggable items list
-    setDraggableItems((prevItems) =>
-      prevItems.filter((item) => item.id !== draggableId)
-    );
-  };
+  //   // Remove the matched item from the draggable items list
+  //   setDraggableItems((prevItems) =>
+  //     prevItems.filter((item) => item.id !== draggableId)
+  //   );
+  // };
 
   const resetMatches = () => {
     setMatches([]);
@@ -78,7 +78,7 @@ const MatchingDragAndDrop: React.FC<MatchingDragAndDropProps> = ({
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={() => {}}> {/* Temporarily disable drag and drop */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
         {/* Left Column: Draggable Items */}
         <DraggableItemsColumn draggableItems={draggableItems} />
