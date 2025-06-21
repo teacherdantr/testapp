@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
-import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search, Eye, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search, Eye, Trash2, ChevronLeft, ChevronRight, Rocket } from 'lucide-react';
 import type { StoredTestResult } from '@/lib/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -381,4 +381,3 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
     </TooltipProvider>
   );
 }
-
