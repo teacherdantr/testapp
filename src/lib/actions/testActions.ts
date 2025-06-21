@@ -44,7 +44,7 @@ const correctMatchSchema = z.object({ // For MatchingSelect
 
 const correctDragDropMatchSchema = z.object({ // For MatchingDragAndDrop
     draggableItemId: z.string(),
-    targetItemId: z.string(), // Allow empty string for "no match"
+    targetItemId: z.string(),
 });
 
 
@@ -70,7 +70,7 @@ const formQuestionSchema = z.object({
     z.string(),
     z.array(z.string()),
     z.array(correctMatchSchema),
-    z.array(correctDragDropMatchSchema).optional(), // Added for D&D, optional because it might be empty during creation
+    z.array(correctDragDropMatchSchema),
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
@@ -113,17 +113,15 @@ const formQuestionSchema = z.object({
            );
   }
    if (data.type === QuestionType.MatchingDragAndDrop) {
-    if (!data.draggableItems || data.draggableItems.length === 0 || !data.draggableItems.every(item => item.text.trim() !== '') ||
-        !data.targetItems || data.targetItems.length === 0 || !data.targetItems.every(item => item.text.trim() !== '')) {
-      return false; // Items must exist and have text
+    if (!data.draggableItems || !data.targetItems || data.draggableItems.length !== data.targetItems.length) {
+        return false;
     }
     if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
-      return false; // CorrectAnswer must be an array matching draggableItems length
+        return false;
     }
-    // Each match in correctAnswer must be valid
-    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+     return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
       data.draggableItems!.some(item => item.id === match.draggableItemId) &&
-      (match.targetItemId === '' || data.targetItems!.some(target => target.id === match.targetItemId))
+      data.targetItems!.some(target => target.id === match.targetItemId)
     );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
@@ -158,14 +156,17 @@ const formQuestionSchema = z.object({
   }
   return true;
 }, { message: 'Hotspot questions must have at least one hotspot defined with coordinates.', path: ['hotspots']})
-.refine(data => { // Validation for MatchingSelect prompts/choices
+.refine(data => {
   if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
+  } else if (data.type === QuestionType.MatchingDragAndDrop) {
+    return data.draggableItems && data.draggableItems.length >= 1 && data.draggableItems.every(item => item.text.trim() !== '') &&
+           data.targetItems && data.targetItems.length >= 1 && data.targetItems.every(item => item.text.trim() !== '');
   }
   return true;
 }, {
-  message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
+  message: 'Matching questions must have at least one prompt/target item and one choice/draggable item, all with text.',
   path: ['prompts'], 
 });
 
@@ -382,9 +383,9 @@ function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionGetPaylo
     multipleSelection: qData.multipleSelection !== undefined ? qData.multipleSelection as boolean : undefined,
     prompts: ensureValidItems<MatchingItem>(qData.prompts, 'Prompt'),
     choices: ensureValidItems<MatchingItem>(qData.choices, 'Choice'),
-    draggableItems: ensureValidItems<MatchingItem>(qData.draggableItems, 'DraggableItem'), // Add this
-    targetItems: ensureValidItems<MatchingItem>(qData.targetItems, 'TargetItem'),       // Add this
-    allowShuffle: qData.allowShuffle !== undefined ? qData.allowShuffle as boolean : undefined, // Add this
+    draggableItems: ensureValidItems<MatchingItem>(qData.draggableItems, 'DraggableItem'),
+    targetItems: ensureValidItems<MatchingItem>(qData.targetItems, 'TargetItem'),
+    allowShuffle: qData.allowShuffle !== undefined ? qData.allowShuffle as boolean : undefined,
     correctAnswer: correctAnswerForView,
   };
 }
@@ -578,18 +579,12 @@ export async function submitTest(
              {
                 const userMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
                 const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
-                const draggableItems = originalQuestion.draggableItems || [];
                 
-                if (userMatches.length === draggableItems.length && correctMatches.length === draggableItems.length) {
-                    isCorrect = correctMatches.every(correctMatch => {
-                        const userMatch = userMatches.find(um => um.draggableItemId === correctMatch.draggableItemId);
-                        // A correct match means user's targetItemId matches the defined correct targetItemId
-                        return userMatch && userMatch.targetItemId === correctMatch.targetItemId;
-                    });
-                } else if (userMatches.length === 0 && correctMatches.length === 0 && draggableItems.length === 0) {
-                    isCorrect = true; // Correct if no items and no answers
+                if (userMatches.length === correctMatches.length) {
+                  const normalize = (arr: any[]) => arr.map(item => `${item.draggableItemId}-${item.targetItemId}`).sort().join(',');
+                  isCorrect = normalize(userMatches.filter(m => m.targetItemId)) === normalize(correctMatches);
                 } else {
-                    isCorrect = false;
+                  isCorrect = false;
                 }
              }
              break;
@@ -618,9 +613,9 @@ export async function submitTest(
         multipleSelection: originalQuestion.multipleSelection, 
         prompts: originalQuestion.prompts, 
         choices: originalQuestion.choices, 
-        draggableItems: originalQuestion.draggableItems, // Add this
-        targetItems: originalQuestion.targetItems,       // Add this
-        allowShuffle: originalQuestion.allowShuffle,     // Add this
+        draggableItems: originalQuestion.draggableItems,
+        targetItems: originalQuestion.targetItems,
+        allowShuffle: originalQuestion.allowShuffle,
         userAnswer: rawUserAnswer,
         correctAnswer: originalCorrectAnswer,
         isCorrect,
@@ -706,4 +701,3 @@ export async function deleteTestById(testId: string): Promise<{ success: boolean
     return { success: false, error: `Failed to delete test. ${e.message}` };
   }
 }
-

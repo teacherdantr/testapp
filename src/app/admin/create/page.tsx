@@ -51,6 +51,11 @@ const correctMatchSchema = z.object({
   choiceId: z.string().min(1, "Each prompt must be matched to a choice."),
 });
 
+const correctDragDropMatchSchema = z.object({
+    draggableItemId: z.string(),
+    targetItemId: z.string(),
+});
+
 const questionSchema = z.object({
   text: z.string().min(1, 'Question text cannot be empty'),
   type: z.nativeEnum(QuestionType),
@@ -68,16 +73,11 @@ const questionSchema = z.object({
   targetItems: z.array(matchingItemSchema).optional(), // For MatchingDragAndDrop
   allowShuffle: z.boolean().optional(), // For MatchingDragAndDrop
   explanation: z.string().optional(), // For all question types
-draggableItems: z.array(matchingItemSchema).optional(),
-  targetItems: z.array(matchingItemSchema).optional(),
-  allowShuffle: z.boolean().optional(),
-  explanation: z.string().optional(),
   correctAnswer: z.union([
     z.string(), // For MCQ, TrueFalse, ShortAnswer, Single Hotspot
     z.array(z.string()).min(1, 'At least one correct answer must be selected/provided.'), // For MCMA, MTF, Matrix, Multi-Hotspot
     z.array(correctMatchSchema).min(1, 'At least one match must be defined.'), // For MatchingSelect
-    z.array(z.object({ draggableItemId: z.string(), targetItemId: z.string() })).optional(), // For MatchingDragAndDrop
- z.array(z.object({ draggableItemId: z.string(), targetItemId: z.string() })).optional(), // For MatchingDragAndDrop
+    z.array(correctDragDropMatchSchema), // For MatchingDragAndDrop
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => {
@@ -116,21 +116,14 @@ draggableItems: z.array(matchingItemSchema).optional(),
              data.choices?.some(c => c.id === match.choiceId)
            );
   }
-  if (data.type === QuestionType.MatchingDragAndDrop) {
-    if (!data.draggableItems || data.draggableItems.length === 0 || !data.targetItems || data.targetItems.length === 0) {
-        return false; // Must have draggable and target items
-    }
-    if (data.draggableItems.length !== data.targetItems.length) {
+   if (data.type === QuestionType.MatchingDragAndDrop) {
+    if (!data.draggableItems || !data.targetItems || data.draggableItems.length !== data.targetItems.length) {
         return false; // Must have equal number of draggable and target items
     }
- // Require correctAnswer to be a non-empty array
- if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length === 0 || data.correctAnswer.length !== data.draggableItems.length) {
- return false; // Must have a non-empty array of correct matches, with a match for each draggable item
+    if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
+        return false; // correctAnswer must be an array of same length
     }
- return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
- data.draggableItems!.some(item => item.id === match.draggableItemId) &&
- data.targetItems!.some(item => item.id === match.targetItemId)
- );
+    return true; // Further checks happen in the builder
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
     return typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '';
@@ -173,14 +166,14 @@ draggableItems: z.array(matchingItemSchema).optional(),
   if (data.type === QuestionType.MatchingSelect) {
     return data.prompts && data.prompts.length >= 1 && data.prompts.every(p => p.text.trim() !== '') &&
            data.choices && data.choices.length >= 1 && data.choices.every(c => c.text.trim() !== '');
-    } else if (data.type === QuestionType.MatchingDragAndDrop) { // Add validation for MatchingDragAndDrop items
+  } else if (data.type === QuestionType.MatchingDragAndDrop) {
         return data.draggableItems && data.draggableItems.length >= 1 && data.draggableItems.every(item => item.text.trim() !== '') &&
                data.targetItems && data.targetItems.length >= 1 && data.targetItems.every(item => item.text.trim() !== '');
-    }
+  }
   return true;
 }, {
-  message: 'Matching questions must have at least one prompt item and one choice item, all with text.',
-  path: ['prompts'],
+  message: 'Matching questions must have at least one prompt/target item and one choice/draggable item, all with text.',
+  path: ['prompts'], // A generic path for this complex rule
 });
 
 
@@ -227,6 +220,9 @@ export default function CreateTestPage() {
           multipleSelection: false,
           prompts: [],
           choices: [],
+          draggableItems: [],
+          targetItems: [],
+          allowShuffle: true,
           correctAnswer: '',
           points: 1
         },
@@ -257,25 +253,18 @@ export default function CreateTestPage() {
     const processedQuestions = data.questions.map(q => {
       let processedQuestion: any = { ...q };
 
-      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) {
-        processedQuestion.options = undefined;
-      }
-      if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) {
-        processedQuestion.statements = undefined;
-      }
-      if (q.type !== QuestionType.MatrixChoice) {
-        processedQuestion.categories = undefined;
-      }
+      // Clean up fields not relevant to the question type
+      if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) delete processedQuestion.options;
+      if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) delete processedQuestion.statements;
+      if (q.type !== QuestionType.MatrixChoice) delete processedQuestion.categories;
       if (q.type !== QuestionType.Hotspot) {
-        processedQuestion.hotspots = undefined;
+        delete processedQuestion.hotspots;
+        if (processedQuestion.multipleSelection === undefined) delete processedQuestion.multipleSelection;
       }
-       if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) {
-         processedQuestion.imageUrl = undefined;
-      }
-      if (q.type !== QuestionType.MatchingSelect) {
-        processedQuestion.prompts = undefined;
-        processedQuestion.choices = undefined;
-      }
+      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) delete processedQuestion.imageUrl;
+      if (q.type !== QuestionType.MatchingSelect) { delete processedQuestion.prompts; delete processedQuestion.choices; }
+      if (q.type !== QuestionType.MatchingDragAndDrop) { delete processedQuestion.draggableItems; delete processedQuestion.targetItems; delete processedQuestion.allowShuffle;}
+
 
       if (q.type === QuestionType.MatchingSelect && Array.isArray(q.correctAnswer)) {
          processedQuestion.correctAnswer = q.correctAnswer.map(match => ({
@@ -448,4 +437,3 @@ export default function CreateTestPage() {
     </div>
   );
 }
-

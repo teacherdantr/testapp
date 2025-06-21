@@ -54,7 +54,7 @@ const correctMatchSchema = z.object({ // For MatchingSelect
 
 const correctDragDropMatchSchema = z.object({ // For MatchingDragAndDrop
     draggableItemId: z.string(),
-    targetItemId: z.string(), // Can be empty if "no match"
+    targetItemId: z.string(),
 });
 
 
@@ -79,7 +79,7 @@ const questionSchema = z.object({
     z.string(),
     z.array(z.string()).min(1, 'At least one correct answer must be selected/provided for this type if it is an array of strings.'),
     z.array(correctMatchSchema).min(1, 'At least one match must be defined for MatchingSelect if it is an array of matches.'),
-    z.array(correctDragDropMatchSchema).optional(), // Added for MatchingDragAndDrop
+    z.array(correctDragDropMatchSchema), // Added for MatchingDragAndDrop
   ]),
   points: z.number().min(1, 'Points must be at least 1'),
 }).refine(data => { // Validation for MCQ and MCMA options
@@ -128,6 +128,18 @@ const questionSchema = z.object({
       const allPromptsMatchedToNonEmptyChoice = (data.correctAnswer as z.infer<typeof correctMatchSchema>[]).every(m => m.choiceId !== '');
       return promptExists && choiceIsValidIfSelected && allPromptsMatchedToNonEmptyChoice;
     });
+  }
+  if (data.type === QuestionType.MatchingDragAndDrop) {
+    if (!data.draggableItems || !data.targetItems || data.draggableItems.length !== data.targetItems.length) {
+        return false;
+    }
+    if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
+        return false;
+    }
+    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+      data.draggableItems!.some(item => item.id === match.draggableItemId) &&
+      data.targetItems!.some(target => target.id === match.targetItemId)
+    );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
     if (!(typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '')) return false;
@@ -185,20 +197,15 @@ const questionSchema = z.object({
         !data.targetItems || data.targetItems.length === 0 || !data.targetItems.every(item => item.text.trim() !== '')) {
       return false;
     }
-    // CorrectAnswer must be an array matching draggableItems length
-    if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
-      return false;
+     if (data.draggableItems.length !== data.targetItems.length) {
+        return false;
     }
-    // Each match in correctAnswer must be valid
-    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
-      data.draggableItems!.some(item => item.id === match.draggableItemId) &&
-      (match.targetItemId === '' || data.targetItems!.some(target => target.id === match.targetItemId))
-    );
+    return true;
   }
   return true;
 }, {
-  message: 'For Matching Drag & Drop: Draggable and Target items must exist and have text. All draggable items must have a corresponding correct answer pairing (target can be "No Match" by selecting nothing for it).',
-  path: ['correctAnswer'], // Or path: ['draggableItems'] / ['targetItems'] if more specific
+  message: 'For Matching Drag & Drop: Draggable and Target items must exist, have text, and there must be an equal number of each.',
+  path: ['draggableItems'],
 });
 
 
@@ -296,21 +303,26 @@ export default function EditTestPage() {
                     processedQuestionData = { prompts: defaultPrompts, choices: ensureIds(q.choices, 'choice') };
                     break;
                   case QuestionType.MatchingDragAndDrop:
-                    const defaultDraggableItems = ensureIds(q.draggableItems, 'draggableItem');
-                    const existingDragDropCorrectAnswers = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []) as Array<{draggableItemId: string, targetItemId: string}>;
-                    correctAnswerValue = defaultDraggableItems.map(dItem => {
-                        const existingMatch = existingDragDropCorrectAnswers.find(match => match.draggableItemId === dItem.id);
-                        return {
-                            draggableItemId: dItem.id,
-                            targetItemId: existingMatch ? (existingMatch.targetItemId === null || existingMatch.targetItemId === undefined ? '' : String(existingMatch.targetItemId)) : '',
-                        };
-                    });
-                    processedQuestionData = {
-                        draggableItems: defaultDraggableItems,
-                        targetItems: ensureIds(q.targetItems, 'targetItem'),
-                        allowShuffle: q.allowShuffle === undefined ? false : q.allowShuffle,
-                    };
-                    break;
+                     const defaultDraggableItems = ensureIds(q.draggableItems, 'draggableItem');
+                     const defaultTargetItems = ensureIds(q.targetItems, 'targetItem');
+                     const existingDragDropCorrectAnswers = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []) as Array<{draggableItemId: string, targetItemId: string}>;
+                     
+                     // Ensure correct answer array length matches item arrays' length
+                     correctAnswerValue = defaultTargetItems.map((target, index) => {
+                         const draggable = defaultDraggableItems[index];
+                         const existingMatch = existingDragDropCorrectAnswers.find(m => m.targetItemId === target.id);
+                         return {
+                             draggableItemId: existingMatch ? existingMatch.draggableItemId : (draggable ? draggable.id : ''),
+                             targetItemId: target.id,
+                         };
+                     });
+
+                     processedQuestionData = {
+                         draggableItems: defaultDraggableItems,
+                         targetItems: defaultTargetItems,
+                         allowShuffle: q.allowShuffle === undefined ? true : q.allowShuffle,
+                     };
+                     break;
                   default:
                     correctAnswerValue = Array.isArray(q.correctAnswer) ? q.correctAnswer : (q.correctAnswer || '');
                 }
@@ -327,12 +339,12 @@ export default function EditTestPage() {
                   multipleSelection: q.multipleSelection === undefined ? false : q.multipleSelection,
                   prompts: ensureIds(q.prompts, 'prompt'),
                   choices: ensureIds(q.choices, 'choice'),
-                  draggableItems: ensureIds(q.draggableItems, 'draggableItem'), // Ensure these are present for D&D
-                  targetItems: ensureIds(q.targetItems, 'targetItem'),       // Ensure these are present for D&D
-                  allowShuffle: q.allowShuffle === undefined ? false : q.allowShuffle,
+                  draggableItems: ensureIds(q.draggableItems, 'draggableItem'),
+                  targetItems: ensureIds(q.targetItems, 'targetItem'),
+                  allowShuffle: q.allowShuffle === undefined ? true : q.allowShuffle,
                   correctAnswer: correctAnswerValue,
                   points: q.points || 1,
-                  ...processedQuestionData // Spread specific processed data like statements, categories for matrix
+                  ...processedQuestionData
                 };
               } catch (mapError: any) {
                 console.error(`Error mapping question ID ${q.id || 'new'} ("${(q.text || '').substring(0,30)}...") for form:`, mapError.message, q);
@@ -427,7 +439,6 @@ export default function EditTestPage() {
             draggableItemId: match.draggableItemId,
             targetItemId: typeof match.targetItemId === 'string' ? match.targetItemId : '',
           }))
-          // No filter for empty targetItemId here, as it means "no match" which is valid.
       }
 
 
@@ -644,4 +655,3 @@ export default function EditTestPage() {
     </div>
   );
 }
-
