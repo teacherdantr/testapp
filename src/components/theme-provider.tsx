@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { ReactNode } from 'react';
@@ -17,7 +18,7 @@ interface ThemeProviderState {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'light', // Default initial state, will be updated by provider
+  theme: 'light',
   setTheme: () => null,
 };
 
@@ -28,35 +29,34 @@ export function ThemeProvider({
   defaultTheme = 'light',
   storageKey = 'testwave-theme',
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') {
-      return defaultTheme; 
-    }
-    try {
-      const storedTheme = window.localStorage.getItem(storageKey) as Theme | null;
-      if (storedTheme) {
-        return storedTheme;
-      }
-      // To add system preference detection later:
-      // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      // if (prefersDark) return 'dark';
-      return defaultTheme;
-    } catch (e) {
-      console.error('Error reading theme from localStorage', e);
-      return defaultTheme;
-    }
-  });
+  // Initialize state to defaultTheme on both server and client to prevent mismatch.
+  const [theme, setThemeState] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const root = window.document.documentElement;
-      root.classList.remove('light', 'dark');
-      root.classList.add(theme);
-      try {
-        window.localStorage.setItem(storageKey, theme);
-      } catch (e) {
-        console.error('Error saving theme to localStorage', e);
-      }
+    // This effect runs only on the client, after hydration.
+    // It safely reads the theme from localStorage.
+    let storedTheme: Theme | null = null;
+    try {
+      storedTheme = window.localStorage.getItem(storageKey) as Theme | null;
+    } catch (e) {
+      console.error('Error reading theme from localStorage', e);
+    }
+    
+    if (storedTheme) {
+      setThemeState(storedTheme);
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    // This effect applies the theme to the DOM and saves it to localStorage when it changes.
+    // It runs only on the client.
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    try {
+      window.localStorage.setItem(storageKey, theme);
+    } catch (e) {
+      console.error('Error saving theme to localStorage', e);
     }
   }, [theme, storageKey]);
 
