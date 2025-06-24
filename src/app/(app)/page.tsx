@@ -1,3 +1,4 @@
+'use client';
 
 import { HomeHeader } from '@/components/home/HomeHeader';
 import dynamic from 'next/dynamic';
@@ -15,7 +16,7 @@ const EducatorCtaSection = dynamic(() => import('@/components/home/EducatorCtaSe
 });
 const NewsletterSection = dynamic(() => import('@/components/home/NewsletterSection').then(mod => mod.NewsletterSection), {
   loading: () => <div className="flex justify-center items-center py-10"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>,
-  // ssr: false removed - NewsletterSection is a Client Component, Next.js handles it.
+  ssr: false, // Disable SSR for this component to prevent hydration mismatch
 });
 
 export default function HomePage() {
@@ -29,4 +30,3 @@ export default function HomePage() {
     </div>
   );
 }
-
