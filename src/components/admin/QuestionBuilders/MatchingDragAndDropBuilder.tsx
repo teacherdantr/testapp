@@ -1,9 +1,9 @@
 
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import type { Control, FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { useFieldArray, Controller } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, PlusCircle, GripVertical } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
-import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 // Helper component for a single sortable pair
@@ -72,7 +72,6 @@ const SortablePair = ({ id, index, onRemove, register, errors, questionIndex }: 
   );
 };
 
-
 export function MatchingDragAndDropBuilder({ questionIndex, control, register, errors, setValue, getValues }: any) {
   
   const { fields: targetFields, append: appendTarget, remove: removeTarget, move: moveTarget } = useFieldArray({
@@ -81,24 +80,21 @@ export function MatchingDragAndDropBuilder({ questionIndex, control, register, e
   const { fields: draggableFields, append: appendDraggable, remove: removeDraggable, move: moveDraggable } = useFieldArray({
     control, name: `questions.${questionIndex}.draggableItems`
   });
-  const { fields: answerFields, append: appendAnswer, remove: removeAnswer, move: moveAnswer } = useFieldArray({
-    control, name: `questions.${questionIndex}.correctAnswer`
-  });
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
 
   const addPair = () => {
     const newTargetId = crypto.randomUUID();
     const newDraggableId = crypto.randomUUID();
+    // These updates will trigger the useEffect to sync the correctAnswer
     appendTarget({ id: newTargetId, text: '' });
     appendDraggable({ id: newDraggableId, text: '' });
-    appendAnswer({ draggableItemId: newDraggableId, targetItemId: newTargetId });
   };
 
   const removePair = (index: number) => {
+    // These updates will trigger the useEffect to sync the correctAnswer
     removeTarget(index);
     removeDraggable(index);
-    removeAnswer(index);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -107,22 +103,35 @@ export function MatchingDragAndDropBuilder({ questionIndex, control, register, e
       const oldIndex = targetFields.findIndex(field => field.id === active.id);
       const newIndex = targetFields.findIndex(field => field.id === over.id);
       
+      // These updates will trigger the useEffect to sync the correctAnswer
       moveTarget(oldIndex, newIndex);
       moveDraggable(oldIndex, newIndex);
-      moveAnswer(oldIndex, newIndex);
     }
   };
   
-  // This ensures the correctAnswer array is always in sync with the visual order of pairs.
+  // This useEffect is the single source of truth for synchronizing the correctAnswer array.
   useEffect(() => {
     const targets = getValues(`questions.${questionIndex}.targetItems`) || [];
     const draggables = getValues(`questions.${questionIndex}.draggableItems`) || [];
+    
+    // Only update if the arrays are in a consistent state
     if (targets.length === draggables.length) {
-      const newCorrectAnswer = targets.map((target: any, index: number) => ({
-        targetItemId: target.id,
-        draggableItemId: draggables[index].id
-      }));
-      setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldValidate: true, shouldDirty: true });
+      const newCorrectAnswer = targets.map((target: any, index: number) => {
+        const draggable = draggables[index];
+        // Ensure both items exist before creating a pair
+        if (target && draggable && target.id && draggable.id) {
+          return {
+            targetItemId: target.id,
+            draggableItemId: draggable.id,
+          };
+        }
+        return null; // Return null for invalid pairs
+      }).filter(Boolean); // Filter out any nulls
+
+      // Only set the value if the generated answer length matches, preventing partial updates
+      if (newCorrectAnswer.length === targets.length) {
+         setValue(`questions.${questionIndex}.correctAnswer`, newCorrectAnswer, { shouldValidate: true, shouldDirty: true });
+      }
     }
   }, [targetFields, draggableFields, questionIndex, getValues, setValue]);
 
@@ -165,19 +174,12 @@ export function MatchingDragAndDropBuilder({ questionIndex, control, register, e
       )}
 
       <div className="mt-4 space-y-4">
-        <div className="flex items-center space-x-2">
-          <Controller
-            name={`questions.${questionIndex}.allowShuffle`}
-            control={control}
-            defaultValue={true}
-            render={({ field }) => (
-              <Checkbox
-                id={`questions.${questionIndex}.allowShuffle`}
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            )}
-          />
+         <div className="flex items-center space-x-2">
+           <Checkbox
+            id={`questions.${questionIndex}.allowShuffle`}
+            {...register(`questions.${questionIndex}.allowShuffle`)}
+            defaultChecked={true}
+           />
           <Label htmlFor={`questions.${questionIndex}.allowShuffle`}>Shuffle draggable items for the student</Label>
         </div>
 
