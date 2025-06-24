@@ -118,19 +118,22 @@ const questionSchema = z.object({
   }
    if (data.type === QuestionType.MatchingDragAndDrop) {
     if (!data.draggableItems || !data.targetItems || data.draggableItems.length !== data.targetItems.length) {
-        return false; // Must have equal number of draggable and target items
+        return false;
     }
     if (!Array.isArray(data.correctAnswer) || data.correctAnswer.length !== data.draggableItems.length) {
-        return false; // correctAnswer must be an array of same length
+        return false;
     }
-    return true; // Further checks happen in the builder
+    return (data.correctAnswer as Array<{ draggableItemId: string, targetItemId: string }>).every(match =>
+      data.draggableItems!.some(item => item.id === match.draggableItemId) &&
+      data.targetItems!.some(target => target.id === match.targetItemId)
+    );
   }
   if ([QuestionType.MCQ, QuestionType.TrueFalse, QuestionType.ShortAnswer].includes(data.type)) {
     return typeof data.correctAnswer === 'string' && data.correctAnswer.trim() !== '';
   }
   return true;
 }, {
-  message: 'Correct answer(s) must be provided and in the correct format for the question type.',
+  message: 'Correct answer(s) must be provided and in the correct format for the question type. For MatchingDragAndDrop, check that all pairs are matched.',
   path: ['correctAnswer'],
 }).refine(data => {
     if (data.type === QuestionType.MultipleTrueFalse || data.type === QuestionType.MatrixChoice) {
@@ -173,7 +176,7 @@ const questionSchema = z.object({
   return true;
 }, {
   message: 'Matching questions must have at least one prompt/target item and one choice/draggable item, all with text.',
-  path: ['prompts'], // A generic path for this complex rule
+  path: ['draggableItems'],
 });
 
 
