@@ -2,9 +2,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 import { Edit3 } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button'; // Import buttonVariants
+import { Button } from '@/components/ui/button';
 
 export function EducatorCtaSection() {
   return (
@@ -21,15 +20,11 @@ export function EducatorCtaSection() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0">
-                <Link 
-                  href="/admin" 
-                  className={cn(
-                    buttonVariants({ variant: 'default', size: 'lg' }), 
-                    "inline-block text-center w-full md:w-auto text-lg px-8 py-5" // Keep custom padding if needed
-                  )}
-                >
-                  Go to Admin Dashboard
-                </Link>
+                <Button asChild size="lg" className="w-full md:w-auto text-lg px-8 py-5">
+                  <Link href="/admin">
+                    Go to Admin Dashboard
+                  </Link>
+                </Button>
               </CardContent>
             </div>
             <div className="relative h-64 md:h-full w-full hidden md:block">
