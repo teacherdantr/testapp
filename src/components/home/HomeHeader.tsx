@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Waves, PlayCircle } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function HomeHeader() {
@@ -18,12 +18,11 @@ export function HomeHeader() {
             The modern platform for creating, distributing, and taking online tests with ease and confidence.
           </p>
           <div className="mt-10 md:mt-12">
-            <Link
-              href="/select-test"
-              className={cn(buttonVariants({ variant: 'default', size: 'lg' }), "text-lg px-8 sm:px-10 py-5 sm:py-6")}
-            >
-              <PlayCircle className="mr-2 h-6 w-6" /> Take a Test Now
-            </Link>
+            <Button asChild size="lg" className="text-lg px-8 sm:px-10 py-5 sm:py-6">
+              <Link href="/select-test">
+                <PlayCircle className="mr-2 h-6 w-6" /> Take a Test Now
+              </Link>
+            </Button>
           </div>
         </div>
         <div className="md:w-1/2 mt-10 md:mt-0">
