@@ -3,15 +3,25 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Waves, ListChecks, ArchiveIcon, UserCog, Sun, Moon } from 'lucide-react';
+import { Waves, ListChecks, ArchiveIcon, UserCog, Sun, Moon, Palette } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/components/theme-provider';
+import { useUIVersion } from '@/components/ui-version-provider';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useEffect, useState } from 'react';
  
 export function Navbar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
+  const { uiVersion, setUIVersion } = useUIVersion();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -62,23 +72,39 @@ export function Navbar() {
             </div>
             
             {isMounted && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                className="ml-2"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="h-5 w-5 text-amber-500" />
-                ) : (
-                  <Moon className="h-5 w-5 text-primary" />
-                )}
-              </Button>
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" aria-label="Change UI Theme">
+                      <Palette className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>UI Version</DropdownMenuLabel>
+                    <DropdownMenuRadioGroup value={uiVersion} onValueChange={(v) => setUIVersion(v as 'v1' | 'v2')}>
+                      <DropdownMenuRadioItem value="v1">Default</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="v2">Modern</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                >
+                  {theme === 'dark' ? (
+                    <Sun className="h-5 w-5 text-amber-500" />
+                  ) : (
+                    <Moon className="h-5 w-5 text-primary" />
+                  )}
+                </Button>
+              </>
             )}
             {!isMounted && (
                  <Button variant="ghost" size="icon" className="ml-2" disabled>
-                    <Moon className="h-5 w-5 text-transparent" /> {/* Placeholder, or empty */}
+                    <Moon className="h-5 w-5 text-transparent" /> {/* Placeholder */}
                  </Button>
             )}
 
