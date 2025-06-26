@@ -4,7 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
-import Link from 'next/link'; // Added Link import
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,14 +12,15 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { QuestionBuilder } from '@/components/admin/QuestionBuilder';
 import { createTest } from '@/lib/actions/testActions';
-import { QuestionType, HotspotShapeType } from '@/lib/types';
+import { QuestionType, HotspotShapeType, type MatchingItem } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Switch } from "@/components/ui/switch";
-import { Eye, EyeOff, RefreshCw, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
-import { useState } from 'react';
+import { Eye, EyeOff, RefreshCw, ArrowLeft, Upload } from 'lucide-react';
+import { useState, useRef } from 'react';
 
 const optionSchema = z.object({
+  id: z.string().optional(),
   text: z.string().min(1, 'Option text cannot be empty'),
 });
 
@@ -57,6 +58,7 @@ const correctDragDropMatchSchema = z.object({
 });
 
 const questionSchema = z.object({
+  id: z.string().optional(),
   text: z.string().min(1, 'Question text cannot be empty'),
   type: z.nativeEnum(QuestionType),
   imageUrl: z.string().optional().refine(val => !val || val.startsWith('https://') || val.startsWith('/images/'), {
@@ -203,8 +205,10 @@ export default function CreateTestPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileName, setFileName] = useState('');
 
-  const { control, register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue, getValues } = useForm<TestCreationFormValues>({
+  const { control, register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue, getValues, reset } = useForm<TestCreationFormValues>({
     resolver: zodResolver(testCreationSchema),
     defaultValues: {
       title: '',
@@ -298,6 +302,106 @@ export default function CreateTestPage() {
     }
   };
 
+  const processUploadedData = (data: any) => {
+      const ensureClientIds = <T extends { id?: string }>(items: T[] = []): T[] =>
+        items.map(item => ({ ...item, id: item.id || crypto.randomUUID() }));
+
+      if (data.questions && Array.isArray(data.questions)) {
+          data.questions = data.questions.map((q: any) => {
+            const mappedQuestion = { ...q };
+            
+            // Assign UUIDs to nested array items if they don't have one
+            if (q.options) mappedQuestion.options = ensureClientIds(q.options);
+            if (q.statements) mappedQuestion.statements = ensureClientIds(q.statements);
+            if (q.categories) mappedQuestion.categories = ensureClientIds(q.categories);
+            if (q.hotspots) mappedQuestion.hotspots = ensureClientIds(q.hotspots);
+            if (q.prompts) mappedQuestion.prompts = ensureClientIds(q.prompts);
+            if (q.choices) mappedQuestion.choices = ensureClientIds(q.choices);
+            if (q.draggableItems) mappedQuestion.draggableItems = ensureClientIds(q.draggableItems);
+            if (q.targetItems) mappedQuestion.targetItems = ensureClientIds(q.targetItems);
+
+            // Re-create correctAnswer mapping for matching types based on new IDs
+            if (q.type === QuestionType.MatchingSelect && mappedQuestion.prompts) {
+              const existingCorrectAnswer = Array.isArray(q.correctAnswer) ? q.correctAnswer : [];
+              mappedQuestion.correctAnswer = mappedQuestion.prompts.map((prompt: MatchingItem) => {
+                  const oldMatch = existingCorrectAnswer.find((m: any) => m.promptId === prompt.id); // In case IDs were preserved
+                  return { promptId: prompt.id, choiceId: oldMatch ? oldMatch.choiceId : '' };
+              });
+            } else if (q.type === QuestionType.MatchingDragAndDrop && mappedQuestion.targetItems) {
+                const targets = mappedQuestion.targetItems || [];
+                const draggables = mappedQuestion.draggableItems || [];
+                if (targets.length === draggables.length) {
+                    mappedQuestion.correctAnswer = targets.map((target: any, index: number) => ({
+                        targetItemId: target.id,
+                        draggableItemId: draggables[index]?.id || '',
+                    }));
+                }
+            } else if (q.type === QuestionType.MultipleTrueFalse && mappedQuestion.statements) {
+                mappedQuestion.correctAnswer = Array(mappedQuestion.statements.length).fill('false');
+            }
+
+            return mappedQuestion;
+          });
+      }
+      return data;
+  };
+
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) {
+          return;
+      }
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+          const text = e.target?.result;
+          if (typeof text !== 'string') {
+              toast({ title: 'File Read Error', description: 'Could not read the file content.', variant: 'destructive' });
+              return;
+          }
+          try {
+              let data = JSON.parse(text);
+              data = processUploadedData(data); // Add necessary client-side IDs
+
+              const validatedData = testCreationSchema.safeParse(data);
+
+              if (!validatedData.success) {
+                  const errorIssues = validatedData.error.issues.map(issue => `${issue.path.join('.')} - ${issue.message}`).join('; ');
+                  console.error("Uploaded file validation error:", validatedData.error.flatten());
+                  toast({
+                      title: 'Validation Failed',
+                      description: `The uploaded file has invalid data. Please check the console for details. Issues: ${errorIssues}`,
+                      variant: 'destructive',
+                      duration: 10000
+                  });
+                  return;
+              }
+
+              reset({
+                ...validatedData.data,
+                passwordEnabled: !!validatedData.data.password,
+              });
+              
+              toast({ title: 'Success!', description: 'Test data has been loaded from the file.' });
+
+          } catch (error) {
+              console.error(error);
+              toast({ title: 'Invalid JSON', description: 'The uploaded file is not a valid JSON file.', variant: 'destructive' });
+          } finally {
+             // Reset file input to allow uploading the same file again after changes
+             if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+          }
+      };
+      reader.onerror = () => {
+          toast({ title: 'File Read Error', description: 'An error occurred while reading the file.', variant: 'destructive' });
+      };
+      reader.readAsText(file);
+  };
+
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-6 flex justify-start">
@@ -311,10 +415,41 @@ export default function CreateTestPage() {
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">Create New Test</CardTitle>
-          <CardDescription>Fill in the details below to create your new test.</CardDescription>
+          <CardDescription>Fill in the details below or upload a JSON file to create your new test.</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-6">
+           <CardContent className="pt-6 border-b">
+                <div className="space-y-2">
+                    <Label htmlFor="file-upload" className="text-lg">Import from File</Label>
+                    <div className="flex items-center gap-4 mt-2">
+                        <Input
+                            id="file-upload"
+                            type="file"
+                            accept=".json"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                            ref={fileInputRef}
+                        />
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="shrink-0"
+                        >
+                            <Upload className="mr-2 h-4 w-4" />
+                            Choose JSON File
+                        </Button>
+                        <p className="text-sm text-muted-foreground truncate" title={fileName}>
+                            {fileName || "No file selected."}
+                        </p>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                        Upload a JSON file to pre-fill all test fields.
+                    </p>
+                </div>
+            </CardContent>
+
+          <CardContent className="space-y-6 pt-6">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-lg">Test Title</Label>
               <Input id="title" {...register('title')} placeholder="e.g., European Capitals Quiz" className="text-base" />
