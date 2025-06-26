@@ -13,6 +13,12 @@ This platform provides a flexible way to conduct assessments and gather results.
 
 To explore the application code, start by looking at the main application layout in `src/app/(app)/layout.tsx` and the main page component in `src/app/(app)/page.tsx`.
 
+## Creating Tests via JSON Upload
+
+You can quickly create new tests by uploading a JSON file on the "Create Test" page in the admin dashboard. This is useful for migrating tests from other systems or for bulk creation.
+
+A template file named `example-upload-format.json` is located in the `/src/data/tests/` directory. You can use this file as a reference for the required data structure.
+
 ## Production Deployment
 
 Before deploying this application to a production environment, you must configure the necessary environment variables.

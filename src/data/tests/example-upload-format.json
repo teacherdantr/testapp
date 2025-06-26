@@ -1,0 +1,70 @@
+{
+  "title": "Example Test from Upload",
+  "description": "This is a sample test demonstrating the JSON upload format. You can create your own JSON file following this structure to quickly create new tests.",
+  "password": "secure123",
+  "questions": [
+    {
+      "text": "What is the capital of France?",
+      "type": "MCQ",
+      "points": 5,
+      "options": [
+        { "text": "Berlin" },
+        { "text": "Madrid" },
+        { "text": "Paris" },
+        { "text": "Rome" }
+      ],
+      "correctAnswer": "Paris"
+    },
+    {
+      "text": "Which of the following are primary colors? (Select all that apply)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        { "text": "Red" },
+        { "text": "Green" },
+        { "text": "Blue" },
+        { "text": "Yellow" }
+      ],
+      "correctAnswer": ["Red", "Blue", "Yellow"]
+    },
+    {
+      "text": "Match the animal to its sound. The correct answer is determined by the order of the items below.",
+      "type": "MatchingDragAndDrop",
+      "points": 15,
+      "allowShuffle": true,
+      "targetItems": [
+          { "text": "Dog" },
+          { "text": "Cat" },
+          { "text": "Cow" }
+      ],
+      "draggableItems": [
+          { "text": "Woof" },
+          { "text": "Meow" },
+          { "text": "Moo" }
+      ],
+      "correctAnswer": []
+    },
+    {
+        "text": "Indicate if the following statements are true or false.",
+        "type": "MultipleTrueFalse",
+        "points": 10,
+        "statements": [
+            { "text": "The earth is flat." },
+            { "text": "The sun is a star." }
+        ],
+        "correctAnswer": ["false", "true"]
+    },
+    {
+        "text": "A password is required to access this test.",
+        "type": "TrueFalse",
+        "points": 2,
+        "correctAnswer": "true"
+    },
+    {
+        "text": "What is the chemical symbol for water?",
+        "type": "ShortAnswer",
+        "points": 5,
+        "correctAnswer": "H2O"
+    }
+  ]
+}
