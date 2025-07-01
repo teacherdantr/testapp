@@ -81,9 +81,11 @@ export function Navbar() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>UI Version</DropdownMenuLabel>
-                    <DropdownMenuRadioGroup value={uiVersion} onValueChange={(v) => setUIVersion(v as 'v1' | 'v2')}>
+                    <DropdownMenuRadioGroup value={uiVersion} onValueChange={(v) => setUIVersion(v as 'v1' | 'v2' | 'v3' | 'v4')}>
                       <DropdownMenuRadioItem value="v1">Default</DropdownMenuRadioItem>
                       <DropdownMenuRadioItem value="v2">Modern</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="v3">Solarized</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="v4">Rosé Pine</DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

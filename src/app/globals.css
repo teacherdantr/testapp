@@ -149,6 +149,148 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 142.1 70.6% 45.3%;
   }
+
+  /* Solarized UI (v3) */
+  .ui-v3 {
+    --background: 48 100% 97%; /* #fdf6e3 */
+    --foreground: 211 25% 45%; /* #657b83 */
+    --card: 43 74% 96%; /* #eee8d5 */
+    --card-foreground: 211 25% 45%;
+    --popover: 43 74% 96%;
+    --popover-foreground: 211 25% 45%;
+    --primary: 197 37% 44%; /* blue */
+    --primary-foreground: 48 100% 97%;
+    --secondary: 207 15% 88%;
+    --secondary-foreground: 211 25% 45%;
+    --muted: 207 15% 92%;
+    --muted-foreground: 211 25% 55%;
+    --accent: 36 86% 59%; /* orange */
+    --accent-foreground: 48 100% 97%;
+    --destructive: 0 72% 51%; /* red */
+    --destructive-foreground: 48 100% 97%;
+    --border: 43 74% 88%;
+    --input: 43 74% 92%;
+    --ring: 197 37% 44%;
+    --radius: 0.5rem;
+    --chart-1: 170 45% 45%; /* cyan */
+    --chart-2: 36 86% 59%; /* orange */
+    --chart-3: 283 39% 53%; /* violet */
+    --chart-4: 95 38% 50%; /* green */
+    --chart-5: 0 72% 51%; /* red */
+    --sidebar-background: 43 74% 94%;
+    --sidebar-foreground: 211 25% 45%;
+    --sidebar-primary: 197 37% 44%;
+    --sidebar-primary-foreground: 48 100% 97%;
+    --sidebar-accent: 36 86% 59%;
+    --sidebar-accent-foreground: 48 100% 97%;
+    --sidebar-border: 43 74% 88%;
+    --sidebar-ring: 197 37% 44%;
+  }
+  .ui-v3.dark {
+    --background: 207 39% 12%; /* #002b36 */
+    --foreground: 211 25% 65%; /* #839496 */
+    --card: 207 40% 15%; /* #073642 */
+    --card-foreground: 211 25% 65%;
+    --popover: 207 40% 15%;
+    --popover-foreground: 211 25% 65%;
+    --primary: 197 37% 44%; /* blue */
+    --primary-foreground: 211 25% 75%;
+    --secondary: 207 40% 20%;
+    --secondary-foreground: 211 25% 65%;
+    --muted: 207 40% 18%;
+    --muted-foreground: 211 25% 55%;
+    --accent: 36 86% 59%; /* orange */
+    --accent-foreground: 207 39% 12%;
+    --destructive: 0 72% 51%; /* red */
+    --destructive-foreground: 207 39% 12%;
+    --border: 207 40% 20%;
+    --input: 207 40% 18%;
+    --ring: 197 37% 44%;
+    --chart-1: 170 45% 45%; /* cyan */
+    --chart-2: 36 86% 59%; /* orange */
+    --chart-3: 283 39% 53%; /* violet */
+    --chart-4: 95 38% 50%; /* green */
+    --chart-5: 0 72% 51%; /* red */
+    --sidebar-background: 207 40% 14%;
+    --sidebar-foreground: 211 25% 65%;
+    --sidebar-primary: 197 37% 44%;
+    --sidebar-primary-foreground: 211 25% 75%;
+    --sidebar-accent: 36 86% 59%;
+    --sidebar-accent-foreground: 207 39% 12%;
+    --sidebar-border: 207 40% 20%;
+    --sidebar-ring: 197 37% 44%;
+  }
+
+  /* Rosé Pine UI (v4) */
+  .ui-v4 {
+    --background: 330 25% 97%; /* #faf4ed */
+    --foreground: 258 12% 38%; /* #575279 */
+    --card: 330 25% 99%; /* #fbf7f4 */
+    --card-foreground: 258 12% 38%;
+    --popover: 330 25% 99%;
+    --popover-foreground: 258 12% 38%;
+    --primary: 304 22% 51%; /* #907aa9 */
+    --primary-foreground: 330 25% 97%;
+    --secondary: 330 15% 94%;
+    --secondary-foreground: 258 12% 38%;
+    --muted: 330 15% 95%;
+    --muted-foreground: 258 10% 55%;
+    --accent: 12 55% 63%; /* #d7827e */
+    --accent-foreground: 330 25% 97%;
+    --destructive: 12 55% 63%;
+    --destructive-foreground: 330 25% 97%;
+    --border: 330 15% 90%;
+    --input: 330 15% 92%;
+    --ring: 304 22% 51%;
+    --radius: 0.5rem;
+    --chart-1: 188 47% 65%; /* foam */
+    --chart-2: 247 24% 65%; /* iris */
+    --chart-3: 12 55% 63%;  /* rose */
+    --chart-4: 38 61% 69%; /* gold */
+    --chart-5: 304 22% 51%; /* love */
+    --sidebar-background: 330 25% 98%;
+    --sidebar-foreground: 258 12% 38%;
+    --sidebar-primary: 304 22% 51%;
+    --sidebar-primary-foreground: 330 25% 97%;
+    --sidebar-accent: 12 55% 63%;
+    --sidebar-accent-foreground: 330 25% 97%;
+    --sidebar-border: 330 15% 90%;
+    --sidebar-ring: 304 22% 51%;
+  }
+  .ui-v4.dark {
+    --background: 257 20% 12%; /* #191724 */
+    --foreground: 270 33% 89%; /* #e0def4 */
+    --card: 257 20% 15%; /* #1f1d2e */
+    --card-foreground: 270 33% 89%;
+    --popover: 257 20% 15%;
+    --popover-foreground: 270 33% 89%;
+    --primary: 304 32% 69%; /* #c4a7e7 */
+    --primary-foreground: 257 20% 12%;
+    --secondary: 257 20% 20%;
+    --secondary-foreground: 270 33% 89%;
+    --muted: 257 20% 25%;
+    --muted-foreground: 270 20% 60%;
+    --accent: 12 65% 73%; /* #ebbcba */
+    --accent-foreground: 257 20% 12%;
+    --destructive: 12 65% 73%;
+    --destructive-foreground: 257 20% 12%;
+    --border: 257 20% 25%;
+    --input: 257 20% 22%;
+    --ring: 304 32% 69%;
+    --chart-1: 188 57% 75%; /* foam */
+    --chart-2: 247 34% 75%; /* iris */
+    --chart-3: 12 65% 73%;  /* rose */
+    --chart-4: 38 71% 79%; /* gold */
+    --chart-5: 304 32% 69%; /* love */
+    --sidebar-background: 257 20% 14%;
+    --sidebar-foreground: 270 33% 89%;
+    --sidebar-primary: 304 32% 69%;
+    --sidebar-primary-foreground: 257 20% 12%;
+    --sidebar-accent: 12 65% 73%;
+    --sidebar-accent-foreground: 257 20% 12%;
+    --sidebar-border: 257 20% 25%;
+    --sidebar-ring: 304 32% 69%;
+  }
 }
 
 @layer base {

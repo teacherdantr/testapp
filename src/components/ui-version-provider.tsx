@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-type UIVersion = 'v1' | 'v2';
+type UIVersion = 'v1' | 'v2' | 'v3' | 'v4';
 
 interface UIVersionProviderProps {
   children: ReactNode;
@@ -46,8 +46,14 @@ export function UIVersionProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('ui-v1', 'ui-v2');
-    root.classList.add(uiVersion === 'v1' ? 'ui-v1' : 'ui-v2');
+    root.classList.remove('ui-v1', 'ui-v2', 'ui-v3', 'ui-v4');
+    
+    // Add the current version class
+    if (uiVersion === 'v1') root.classList.add('ui-v1');
+    else if (uiVersion === 'v2') root.classList.add('ui-v2');
+    else if (uiVersion === 'v3') root.classList.add('ui-v3');
+    else if (uiVersion === 'v4') root.classList.add('ui-v4');
+
     try {
       window.localStorage.setItem(storageKey, uiVersion);
     } catch (e) {
