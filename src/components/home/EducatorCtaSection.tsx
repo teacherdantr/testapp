@@ -32,6 +32,7 @@ export function EducatorCtaSection() {
                 src="https://placehold.co/600x800.png"
                 alt="Educator managing tests"
                 fill
+                sizes="(max-width: 768px) 0vw, 50vw"
                 className="object-cover"
                 data-ai-hint="teacher dashboard"
               />

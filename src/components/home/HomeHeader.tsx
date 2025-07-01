@@ -31,6 +31,7 @@ export function HomeHeader() {
               src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDE5ODJ8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwbGVhcm5pbmd8ZW58MHx8fHwxNzUyMjYzMzMyfDA&ixlib=rb-4.0.3&q=80&w=1080"
               alt="Online testing platform illustration"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
               data-ai-hint="digital learning"
               priority // Added priority prop

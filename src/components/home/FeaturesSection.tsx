@@ -47,6 +47,7 @@ export function FeaturesSection() {
                   src={feature.imageSrc}
                   alt={`${feature.title} illustrative image`}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover"
                   data-ai-hint={feature.dataAiHint}
                 />
