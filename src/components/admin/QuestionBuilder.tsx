@@ -57,6 +57,9 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       multipleSelection: false,
       prompts: [],
       choices: [],
+      draggableItems: [],
+      targetItems: [],
+      allowShuffle: true,
       correctAnswer: '',
       points: 1,
     });
@@ -219,25 +222,64 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                               const newType = value as QuestionType;
                               controllerField.onChange(newType);
 
-                              setValue(`questions.${index}.options`, newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer ? [{ id: crypto.randomUUID(), text: '' }, { id: crypto.randomUUID(), text: '' }] : []);
-                              setValue(`questions.${index}.statements`, newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice ? [{ id: crypto.randomUUID(), text: '' }] : []);
-                              setValue(`questions.${index}.categories`, newType === QuestionType.MatrixChoice ? [{ id: crypto.randomUUID(), text: 'Column 1' }, { id: crypto.randomUUID(), text: 'Column 2' }] : []);
-                              setValue(`questions.${index}.imageUrl`, (newType === QuestionType.Hotspot || newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer || newType === QuestionType.MatchingSelect) ? getValues(`questions.${index}.imageUrl`) || '' : undefined);
-                              setValue(`questions.${index}.hotspots`, newType === QuestionType.Hotspot ? [{ id: crypto.randomUUID(), shape: 'rect', coords: '', label: 'Hotspot 1' }] : []);
-                              setValue(`questions.${index}.multipleSelection`, newType === QuestionType.Hotspot ? false : undefined);
-                              setValue(`questions.${index}.prompts`, newType === QuestionType.MatchingSelect ? [{ id: crypto.randomUUID(), text: '' }] : []);
-                              setValue(`questions.${index}.choices`, (newType === QuestionType.MatchingSelect || newType === QuestionType.MatchingDragAndDrop) ? [{ id: crypto.randomUUID(), text: '' }] : []);
+                              // Clear all optional data fields first to prevent carrying over old data structures
+                              setValue(`questions.${index}.options`, []);
+                              setValue(`questions.${index}.statements`, []);
+                              setValue(`questions.${index}.categories`, []);
+                              setValue(`questions.${index}.hotspots`, []);
+                              setValue(`questions.${index}.prompts`, []);
+                              setValue(`questions.${index}.choices`, []);
+                              setValue(`questions.${index}.draggableItems`, []);
+                              setValue(`questions.${index}.targetItems`, []);
 
+                              // Set default values for the new type
+                              if (newType === QuestionType.MCQ || newType === QuestionType.MultipleChoiceMultipleAnswer) {
+                                setValue(`questions.${index}.options`, [{ id: crypto.randomUUID(), text: '' }, { id: crypto.randomUUID(), text: '' }]);
+                              } else if (newType === QuestionType.MultipleTrueFalse) {
+                                setValue(`questions.${index}.statements`, [{ id: crypto.randomUUID(), text: '' }]);
+                              } else if (newType === QuestionType.MatrixChoice) {
+                                setValue(`questions.${index}.statements`, [{ id: crypto.randomUUID(), text: '' }]);
+                                setValue(`questions.${index}.categories`, [{ id: crypto.randomUUID(), text: 'Column 1' }, { id: crypto.randomUUID(), text: 'Column 2' }]);
+                              } else if (newType === QuestionType.Hotspot) {
+                                setValue(`questions.${index}.hotspots`, [{ id: crypto.randomUUID(), shape: 'rect', coords: '', label: 'Hotspot 1' }]);
+                                setValue(`questions.${index}.multipleSelection`, false);
+                              } else if (newType === QuestionType.MatchingSelect) {
+                                setValue(`questions.${index}.prompts`, [{ id: crypto.randomUUID(), text: '' }]);
+                                setValue(`questions.${index}.choices`, [{ id: crypto.randomUUID(), text: '' }]);
+                              } else if (newType === QuestionType.MatchingDragAndDrop) {
+                                setValue(`questions.${index}.draggableItems`, [{ id: crypto.randomUUID(), text: '' }]);
+                                setValue(`questions.${index}.targetItems`, [{ id: crypto.randomUUID(), text: '' }]);
+                                setValue(`questions.${index}.allowShuffle`, true);
+                              }
 
+                              // Conditional cleanup for imageUrl
+                              if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect].includes(newType)) {
+                                setValue(`questions.${index}.imageUrl`, undefined);
+                              }
+                              
+                              // Reset correctAnswer based on the new type
                               if (newType === QuestionType.MultipleChoiceMultipleAnswer || (newType === QuestionType.Hotspot && getValues(`questions.${index}.multipleSelection`))) {
                                 setValue(`questions.${index}.correctAnswer`, []);
-                              } else if (newType === QuestionType.MultipleTrueFalse || newType === QuestionType.MatrixChoice) {
+                              } else if (newType === QuestionType.MultipleTrueFalse) {
                                 const stmts = getValues(`questions.${index}.statements`);
-                                setValue(`questions.${index}.correctAnswer`, stmts ? stmts.map(() => (newType === QuestionType.MultipleTrueFalse ? 'false' : '')) : []);
+                                setValue(`questions.${index}.correctAnswer`, stmts ? stmts.map(() => 'false') : []);
+                              } else if (newType === QuestionType.MatrixChoice) {
+                                const stmts = getValues(`questions.${index}.statements`);
+                                const firstCategory = getValues(`questions.${index}.categories.0.text`) || '';
+                                setValue(`questions.${index}.correctAnswer`, stmts ? stmts.map(() => firstCategory) : []);
                               } else if (newType === QuestionType.MatchingSelect) {
                                 const prompts = getValues(`questions.${index}.prompts`);
                                 setValue(`questions.${index}.correctAnswer`, prompts ? prompts.map((p: MatchingItem) => ({ promptId: p.id, choiceId: '' })) : []);
-                              } else {
+                              } else if (newType === QuestionType.MatchingDragAndDrop) {
+                                const draggables = getValues(`questions.${index}.draggableItems`) || [];
+                                const targets = getValues(`questions.${index}.targetItems`) || [];
+                                const correctAnswer = targets.map((target: any, idx: number) => ({
+                                  draggableItemId: draggables[idx]?.id || '',
+                                  targetItemId: target.id || ''
+                                }));
+                                setValue(`questions.${index}.correctAnswer`, correctAnswer);
+                              }
+                              else {
                                 setValue(`questions.${index}.correctAnswer`, '');
                               }
                             }}
