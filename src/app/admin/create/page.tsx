@@ -1,8 +1,7 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, type FieldErrors } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -177,7 +176,7 @@ const questionSchema = z.object({
   }
   return true;
 }, {
-  message: 'Matching questions must have at least one prompt/target item and one choice/draggable item, all with text.',
+  message: 'For Matching Drag & Drop: Draggable and Target items must exist, have text, and there must be an equal number of each.',
   path: ['draggableItems'],
 });
 
@@ -301,6 +300,16 @@ export default function CreateTestPage() {
       router.push('/admin');
     }
   };
+  
+  const onError = (errors: FieldErrors<TestCreationFormValues>) => {
+    console.error("Form validation errors:", JSON.stringify(errors, null, 2));
+    toast({
+      title: "Validation Error",
+      description: "Please check the form for errors. More details are in the browser console.",
+      variant: "destructive",
+      duration: 9000,
+    });
+  };
 
   const processUploadedData = (data: any) => {
       const ensureClientIds = <T extends { id?: string }>(items: T[] = []): T[] =>
@@ -417,7 +426,7 @@ export default function CreateTestPage() {
           <CardTitle className="text-3xl font-bold text-primary">Create New Test</CardTitle>
           <CardDescription>Fill in the details below or upload a JSON file to create your new test.</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
            <CardContent className="pt-6 border-b">
                 <div className="space-y-2">
                     <Label htmlFor="file-upload" className="text-lg">Import from File</Label>
