@@ -219,7 +219,7 @@ export default function CreateTestPage() {
           text: '',
           type: QuestionType.MCQ,
           imageUrl: '',
-          options: [{ text: '' }, { text: '' }],
+          options: [{ id: crypto.randomUUID(), text: '' }, { id: crypto.randomUUID(), text: '' }],
           statements: [],
           categories: [],
           hotspots: [],
@@ -229,6 +229,7 @@ export default function CreateTestPage() {
           draggableItems: [],
           targetItems: [],
           allowShuffle: true,
+          explanation: '',
           correctAnswer: '',
           points: 1
         },
@@ -267,7 +268,9 @@ export default function CreateTestPage() {
         delete processedQuestion.hotspots;
         if (processedQuestion.multipleSelection === undefined) delete processedQuestion.multipleSelection;
       }
-      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) delete processedQuestion.imageUrl;
+      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect].includes(q.type)) {
+        delete processedQuestion.imageUrl;
+      }
       if (q.type !== QuestionType.MatchingSelect) { delete processedQuestion.prompts; delete processedQuestion.choices; }
       if (q.type !== QuestionType.MatchingDragAndDrop) { delete processedQuestion.draggableItems; delete processedQuestion.targetItems; delete processedQuestion.allowShuffle;}
 
@@ -302,7 +305,7 @@ export default function CreateTestPage() {
   };
   
   const onError = (errors: FieldErrors<TestCreationFormValues>) => {
-    console.error("Form validation errors:", JSON.stringify(errors, null, 2));
+    console.error("Form validation errors:", errors);
     toast({
       title: "Validation Error",
       description: "Please check the form for errors. More details are in the browser console.",
