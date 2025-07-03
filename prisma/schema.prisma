@@ -1,6 +1,5 @@
-
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -8,62 +7,55 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum QuestionType {
-  MCQ
-  MultipleChoiceMultipleAnswer
-  MultipleTrueFalse
-  MatrixChoice
-  Hotspot
-  MatchingSelect
-  ShortAnswer
-  TrueFalse
-}
-
-enum HotspotShapeType {
-  Rectangle
-  Circle
-  Polygon
-}
-
 model Test {
-  id          String      @id @default(cuid())
+  id          String      @id @default(uuid())
   title       String
   description String?
   password    String?
   questions   Question[]
-  userScores  UserScore[] // Relation to UserScore
+  userScores  UserScore[] @relation("TestScores")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
 
 model Question {
-  id           String       @id @default(cuid())
+  id           String       @id @default(uuid())
   testId       String
   test         Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
   text         String
   type         QuestionType
-  imageUrl     String?
   points       Int
-  questionData Json // Stores options, statements, correctAnswer, hotspots, etc.
+  imageUrl     String?
+  questionData Json
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
-
-  @@index([testId])
 }
 
 model UserScore {
-  id                     String   @id @default(cuid())
-  userId                 String
-  testId                 String
-  test                   Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
-  testTitle              String   // Renamed from testTitleSnapshot
-  score                  Int
-  totalPoints            Int
-  questionResultsDetails Json // Stores the detailed TestResult.questionResults array
-  timeTakenSeconds       Int?
-  testMode               String? // e.g., 'training', 'testing', 'race'
-  submittedAt            DateTime @default(now())
+  id                      Int      @id @default(autoincrement())
+  userId                  String
+  testId                  String
+  testTitle               String
+  score                   Int
+  totalPoints             Int
+  submittedAt             DateTime @default(now())
+  questionResultsDetails  Json
+  timeTakenSeconds        Int?
+  testMode                String?
 
-  @@index([userId])
-  @@index([testId])
+  test Test @relation("TestScores", fields: [testId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, testId, submittedAt])
+}
+
+enum QuestionType {
+  MCQ
+  ShortAnswer
+  TrueFalse
+  MultipleChoiceMultipleAnswer
+  MultipleTrueFalse
+  MatrixChoice
+  Hotspot
+  MatchingSelect
+  MatchingDragAndDrop
 }
