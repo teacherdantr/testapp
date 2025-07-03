@@ -1,52 +1,53 @@
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 model Test {
-  id          String      @id @default(uuid())
+  id          String     @id @default(cuid())
   title       String
   description String?
   password    String?
   questions   Question[]
-  userScores  UserScore[] @relation("TestScores")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  userScores  UserScore[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Question {
-  id           String       @id @default(uuid())
+  id           String         @id @default(cuid())
+  test         Test           @relation(fields: [testId], references: [id], onDelete: Cascade)
   testId       String
-  test         Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
   text         String
   type         QuestionType
   points       Int
   imageUrl     String?
-  questionData Json
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  questionData Json // This will store options, statements, correct answers, etc.
 }
 
 model UserScore {
   id                      Int      @id @default(autoincrement())
   userId                  String
   testId                  String
+  test                    Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
   testTitle               String
   score                   Int
   totalPoints             Int
   submittedAt             DateTime @default(now())
   questionResultsDetails  Json
   timeTakenSeconds        Int?
-  testMode                String?
-
-  test Test @relation("TestScores", fields: [testId], references: [id], onDelete: Cascade)
+  testMode                String? // 'training' or 'testing' or 'race'
 
   @@unique([userId, testId, submittedAt])
 }
+
 
 enum QuestionType {
   MCQ
@@ -58,4 +59,10 @@ enum QuestionType {
   Hotspot
   MatchingSelect
   MatchingDragAndDrop
+}
+
+enum HotspotShapeType {
+  rect
+  circle
+  poly
 }
