@@ -40,17 +40,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   ];
 
   const SidebarSkeleton = () => (
-    <div className="hidden md:flex flex-col gap-4 p-2 border-r bg-sidebar" style={{ width: 'calc(var(--sidebar-width-icon) - 1px)'}}>
+    <div className="hidden md:block border-r bg-sidebar" style={{ width: 'var(--sidebar-width-icon)' }}>
       <div className="p-3 flex items-center justify-end h-14 border-b border-sidebar-border">
           <Skeleton className="h-7 w-7 rounded-md" />
       </div>
-      <div className="flex flex-col gap-2 px-2">
-        <Skeleton className="h-8 w-8 rounded-md" />
-        <Skeleton className="h-8 w-8 rounded-md" />
-        <Skeleton className="h-8 w-8 rounded-md" />
-        <Skeleton className="h-8 w-8 rounded-md" />
-        <Skeleton className="h-8 w-8 rounded-md opacity-50" />
-        <Skeleton className="h-8 w-8 rounded-md opacity-50" />
+      <div className="flex flex-col gap-2 p-2">
+        {[...Array(6)].map((_, i) => (
+          <Skeleton key={i} className="h-8 w-8 rounded-md" />
+        ))}
       </div>
     </div>
   );
