@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { QuestionBuilder } from '@/components/admin/QuestionBuilder';
-import { createTest } from '@/lib/actions/testActions';
+import { createTest } from '@/lib/actions/test/createTest';
 import { QuestionType, HotspotShapeType, type MatchingItem } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';

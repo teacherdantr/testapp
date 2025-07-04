@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
-import { getAllTests } from '@/lib/actions/testActions';
+import { getAllTests } from '@/lib/actions/test/getTests';
 import type { Test } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Loader2, AlertTriangle, ListChecks } from 'lucide-react';

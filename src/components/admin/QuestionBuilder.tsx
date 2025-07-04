@@ -13,6 +13,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Trash2, PlusCircle, Brain, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { QuestionType, type MatchingItem } from '@/lib/types';
 import { generateAnswerOptionsAI } from '@/lib/actions/testActions';
+import { generateAnswerOptionsAI as generateAnswerOptionsAINew } from '@/lib/actions/test/aiActions';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 
@@ -25,7 +26,6 @@ import { HotspotImageBuilder } from './QuestionBuilders/HotspotImageBuilder';
 import { MatchingSelectItemsBuilder } from './QuestionBuilders/MatchingSelectItemsBuilder';
 import { ShortAnswerBuilder } from './QuestionBuilders/ShortAnswerBuilder';
 import { TrueFalseSelector } from './QuestionBuilders/TrueFalseSelector';
-import { MatchingDragAndDropBuilder } from './QuestionBuilders/MatchingDragAndDropBuilder';
 import { handleGenerateAIOptions } from './questionUtils';
 
 

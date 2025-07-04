@@ -1,68 +1,69 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
-model Test {
-  id          String     @id @default(cuid())
-  title       String
-  description String?
-  password    String?
-  questions   Question[]
-  userScores  UserScore[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
-
-model Question {
-  id           String         @id @default(cuid())
-  test         Test           @relation(fields: [testId], references: [id], onDelete: Cascade)
-  testId       String
-  text         String
-  type         QuestionType
-  points       Int
-  imageUrl     String?
-  questionData Json // This will store options, statements, correct answers, etc.
-}
-
-model UserScore {
-  id                      Int      @id @default(autoincrement())
-  userId                  String
-  testId                  String
-  test                    Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
-  testTitle               String
-  score                   Int
-  totalPoints             Int
-  submittedAt             DateTime @default(now())
-  questionResultsDetails  Json
-  timeTakenSeconds        Int?
-  testMode                String? // 'training' or 'testing' or 'race'
-
-  @@unique([userId, testId, submittedAt])
-}
-
-
 enum QuestionType {
   MCQ
-  ShortAnswer
-  TrueFalse
   MultipleChoiceMultipleAnswer
   MultipleTrueFalse
   MatrixChoice
   Hotspot
   MatchingSelect
-  MatchingDragAndDrop
+  ShortAnswer
+  TrueFalse
 }
 
 enum HotspotShapeType {
-  rect
-  circle
-  poly
+  Rectangle
+  Circle
+  Polygon
+}
+
+model Test {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  password    String?
+  questions   Question[]
+  userScores  UserScore[] // Relation to UserScore
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Question {
+  id           String       @id @default(cuid())
+  testId       String
+  test         Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
+  text         String
+  type         QuestionType
+  imageUrl     String?
+  points       Int
+  questionData Json // Stores options, statements, correctAnswer, hotspots, etc.
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([testId])
+}
+
+model UserScore {
+  id                     String   @id @default(cuid())
+  userId                 String
+  testId                 String
+  test                   Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  testTitle              String   // Renamed from testTitleSnapshot
+  score                  Int
+  totalPoints            Int
+  questionResultsDetails Json // Stores the detailed TestResult.questionResults array
+  timeTakenSeconds       Int?
+  testMode               String? // e.g., 'training', 'testing', 'race'
+  submittedAt            DateTime @default(now())
+
+  @@index([userId])
+  @@index([testId])
 }

@@ -3,8 +3,9 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link'; // Added import
-import { fetchTestById, verifyTestPassword, submitTest, fetchAdminTestById } from '@/lib/actions/testActions';
+import Link from 'next/link';
+import { fetchTestById, fetchAdminTestById } from '@/lib/actions/test/getTests';
+import { verifyTestPassword, submitTest } from '@/lib/actions/test/submitTest';
 import type { Test, UserAnswer, TestResult, Question, Option as OptionType, TrueFalseStatement, Category, HotspotArea, MatchingItem } from '@/lib/types';
 import { PasswordPrompt } from '@/components/test/PasswordPrompt';
 import { UserIdPrompt } from '@/components/test/UserIdPrompt';
