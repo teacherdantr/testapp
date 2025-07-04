@@ -17,7 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, PlusCircle, ClipboardList, UsersIcon, Settings } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, ClipboardList, UsersIcon, Settings, Link as LinkIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -27,6 +27,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, disabled: false },
     { href: '/admin/create', label: 'Create Test', icon: PlusCircle, disabled: false },
     { href: '/admin/submissions', label: 'Submissions', icon: ClipboardList, disabled: false },
+    { href: '/admin/redirects', label: 'Redirect Links', icon: LinkIcon, disabled: false },
     { href: '#', label: 'Users', icon: UsersIcon, disabled: true },
     { href: '#', label: 'Settings', icon: Settings, disabled: true },
   ];
