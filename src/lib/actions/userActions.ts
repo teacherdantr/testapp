@@ -102,4 +102,3 @@ export async function deleteUserScoreByIds(
     return { success: false, error: `Failed to delete submission. ${e.message}` };
   }
 }
-
