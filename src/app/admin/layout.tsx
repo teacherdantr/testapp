@@ -19,9 +19,16 @@ import {
 } from '@/components/ui/sidebar';
 import { LayoutDashboard, PlusCircle, ClipboardList, UsersIcon, Settings, Link as LinkIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const adminNavItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, disabled: false },
@@ -32,45 +39,64 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '#', label: 'Settings', icon: Settings, disabled: true },
   ];
 
+  const SidebarSkeleton = () => (
+    <div className="hidden md:flex flex-col gap-4 p-2 border-r bg-sidebar" style={{ width: 'calc(var(--sidebar-width-icon) - 1px)'}}>
+      <div className="p-3 flex items-center justify-end h-14 border-b border-sidebar-border">
+          <Skeleton className="h-7 w-7 rounded-md" />
+      </div>
+      <div className="flex flex-col gap-2 px-2">
+        <Skeleton className="h-8 w-8 rounded-md" />
+        <Skeleton className="h-8 w-8 rounded-md" />
+        <Skeleton className="h-8 w-8 rounded-md" />
+        <Skeleton className="h-8 w-8 rounded-md" />
+        <Skeleton className="h-8 w-8 rounded-md opacity-50" />
+        <Skeleton className="h-8 w-8 rounded-md opacity-50" />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <SidebarProvider defaultOpen={true}>
-        <div className="flex flex-1 h-[calc(100vh-var(--navbar-height,4rem))]"> {/* Adjust height considering navbar */}
-          <Sidebar side="left" collapsible="icon" className="border-r bg-sidebar text-sidebar-foreground">
-            <SidebarHeader className="p-3 flex items-center justify-end h-14 border-b border-sidebar-border">
-              <SidebarTrigger />
-            </SidebarHeader>
-            <SidebarContent className="p-2">
-              <SidebarMenu>
-                {adminNavItems.map((item) => (
-                  <SidebarMenuItem key={item.label}>
-                    {item.disabled || item.href === '#' ? (
-                      <SidebarMenuButton
-                        tooltip={item.label}
-                        disabled={true}
-                      >
-                        <item.icon className="h-5 w-5" />
-                        <span>{item.label}</span>
-                      </SidebarMenuButton>
-                    ) : (
-                      <SidebarMenuButton
-                        asChild
-                        isActive={pathname === item.href}
-                        tooltip={item.label}
-                      >
-                        <Link href={item.href}>
+        <div className="flex flex-1 h-[calc(100vh-var(--navbar-height,4rem))]">
+          {isMounted ? (
+            <Sidebar side="left" collapsible="icon" className="border-r bg-sidebar text-sidebar-foreground">
+              <SidebarHeader className="p-3 flex items-center justify-end h-14 border-b border-sidebar-border">
+                <SidebarTrigger />
+              </SidebarHeader>
+              <SidebarContent className="p-2">
+                <SidebarMenu>
+                  {adminNavItems.map((item) => (
+                    <SidebarMenuItem key={item.label}>
+                      {item.disabled || item.href === '#' ? (
+                        <SidebarMenuButton
+                          tooltip={item.label}
+                          disabled={true}
+                        >
                           <item.icon className="h-5 w-5" />
                           <span>{item.label}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    )}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarContent>
-            {/* Optional: <SidebarFooter>...</SidebarFooter> */}
-          </Sidebar>
+                        </SidebarMenuButton>
+                      ) : (
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === item.href}
+                          tooltip={item.label}
+                        >
+                          <Link href={item.href}>
+                            <item.icon className="h-5 w-5" />
+                            <span>{item.label}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      )}
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarContent>
+            </Sidebar>
+          ) : (
+            <SidebarSkeleton />
+          )}
           <SidebarInset className="flex-1 overflow-y-auto bg-background">
             <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <AdminAuthGuard>
@@ -86,11 +112,3 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
-// Define navbar height as CSS variable if not already globally available
-// For example, in globals.css or a style tag here:
-// <style jsx global>{`
-//   :root {
-//     --navbar-height: 4rem; /* Or actual height of Navbar */
-//   }
-// `}</style>
