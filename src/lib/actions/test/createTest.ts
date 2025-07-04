@@ -1,3 +1,5 @@
+'use server';
+
 import { prisma } from "@/lib/prisma";
 import { testFormSchema } from "@/lib/validationSchemas";
 import { mapFormQuestionToPrismaQuestionData } from "@/lib/actions/test/mappers"; // Assuming you'll create this mappers file
