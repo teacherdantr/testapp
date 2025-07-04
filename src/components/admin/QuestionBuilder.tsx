@@ -24,6 +24,7 @@ import { MtfStatementsBuilder } from './QuestionBuilders/MtfStatementsBuilder';
 import { MatrixChoiceGridBuilder } from './QuestionBuilders/MatrixChoiceGridBuilder';
 import { HotspotImageBuilder } from './QuestionBuilders/HotspotImageBuilder';
 import { MatchingSelectItemsBuilder } from './QuestionBuilders/MatchingSelectItemsBuilder';
+import { MatchingDragAndDropBuilder } from './QuestionBuilders/MatchingDragAndDropBuilder';
 import { ShortAnswerBuilder } from './QuestionBuilders/ShortAnswerBuilder';
 import { TrueFalseSelector } from './QuestionBuilders/TrueFalseSelector';
 import { handleGenerateAIOptions } from './questionUtils';
@@ -326,7 +327,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       errors={errors}
                       setValue={setValue}
                       getValues={getValues}
-                      handleGenerateAIOptions={() => handleGenerateAIOptions(questionIndex, getValues, setValue, toast)}
+                      handleGenerateAIOptions={() => handleGenerateAIOptions(index, getValues, setValue, toast)}
                       register={register}
                     />
                   )}
@@ -338,7 +339,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       errors={errors}
                       setValue={setValue}
                       getValues={getValues}
-                      handleGenerateAIOptions={() => handleGenerateAIOptions(questionIndex, getValues, setValue, toast)}
+                      handleGenerateAIOptions={() => handleGenerateAIOptions(index, getValues, setValue, toast)}
                       register={register}
                     />
                   )}
