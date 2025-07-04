@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Trash2, PlusCircle } from 'lucide-react';
 import { type MatchingItem } from '@/lib/types';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 interface MatchingSelectItemsBuilderProps {
     questionIndex: number;
@@ -31,7 +31,11 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
     });
 
     const prompts = getValues(`questions.${questionIndex}.prompts`) || [];
-    const choices = getValues(`questions.${questionIndex}.choices`) || [];
+    const allChoices = getValues(`questions.${questionIndex}.choices`) || [];
+
+    const validChoices = useMemo(() => {
+        return allChoices.filter((choice: MatchingItem) => choice && choice.id && typeof choice.id === 'string' && choice.id.trim() !== '');
+    }, [allChoices]);
 
     useEffect(() => {
         const currentCorrectAnswers = getValues(`questions.${questionIndex}.correctAnswer`) || [];
@@ -127,7 +131,7 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                 )}
             </div>
 
-            {prompts.length > 0 && choices.length > 0 && (
+            {prompts.length > 0 && validChoices.length > 0 && (
                 <div className="space-y-3 p-3 border rounded-md">
                     <Label className="text-md font-semibold">Define Correct Matches</Label>
                     {prompts.map((prompt: MatchingItem, promptIdx: number) => (
@@ -147,8 +151,8 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="" disabled className="text-muted-foreground">-- Select --</SelectItem>
-                                            {choices.map((choice: MatchingItem) => (
-                                                <SelectItem key={choice.id} value={choice.id || ''}>{choice.text}</SelectItem>
+                                            {validChoices.map((choice: MatchingItem) => (
+                                                <SelectItem key={choice.id} value={choice.id}>{choice.text}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
