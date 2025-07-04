@@ -18,6 +18,7 @@ export async function fetchTestById(testId: string): Promise<Test | null> {
     const processedQuestionsWithAnswers = test.questions.map(mapPrismaQuestionToViewQuestion);
 
     const studentViewQuestions = processedQuestionsWithAnswers.map(q => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { correctAnswer, ...studentQuestionFields } = q;
       return {
         ...studentQuestionFields,

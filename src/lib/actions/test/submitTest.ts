@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import type { UserAnswer, TestResult, Test } from '@/lib/types';
+import type { UserAnswer, TestResult, Test, Question } from '@/lib/types';
 import { QuestionType } from '@/lib/types';
 import type { Prisma } from '@prisma/client';
 import { mapPrismaQuestionToViewQuestion } from './mappers'; // Assuming mappers are in a sibling file
@@ -137,7 +137,7 @@ export async function submitTest(
            case QuestionType.MatchingDragAndDrop:
              {
                 const userMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
-                const correctMatches = (Array<any>(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
+                const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
 
                 if (userMatches.length === correctMatches.length) {
                   const normalize = (arr: any[]) => arr.map(item => `${item.draggableItemId}-${item.targetItemId}`).sort().join(',');
@@ -152,7 +152,7 @@ export async function submitTest(
             isCorrect = false;
         }
       } catch (e) {
-        console.error("Error grading question during submission:", e, "Question ID:\", originalQuestion.id, \"User Answer:\", rawUserAnswer);
+        console.error("Error grading question during submission:", e, "Question ID:", originalQuestion.id, "User Answer:", rawUserAnswer);
         isCorrect = false;
       }
 
