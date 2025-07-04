@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Main Test and Question models
+model Test {
+  id           String      @id @default(cuid())
+  title        String
+  description  String?
+  password     String?
+  questions    Question[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  userScores   UserScore[]
+}
+
+model Question {
+  id           String       @id @default(cuid())
+  testId       String
+  test         Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
+  text         String
+  type         QuestionType
+  imageUrl     String?
+  points       Int
+  questionData Json
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+// Model for storing user scores
+model UserScore {
+  userId                 String
+  testId                 String
+  testTitle              String
+  score                  Int
+  totalPoints            Int
+  questionResultsDetails Json
+  submittedAt            DateTime @default(now())
+  timeTakenSeconds       Int?
+  testMode               String?
+
+  test Test @relation(fields: [testId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@id([userId, testId, submittedAt])
+}
+
+// Model for redirect links feature
+model RedirectLink {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  url       String
+  clicks    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+// Enum for question types
+enum QuestionType {
+  MCQ
+  ShortAnswer
+  TrueFalse
+  MultipleChoiceMultipleAnswer
+  MultipleTrueFalse
+  MatrixChoice
+  Hotspot
+  MatchingSelect
+  MatchingDragAndDrop
+}
