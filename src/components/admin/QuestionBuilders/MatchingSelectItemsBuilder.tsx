@@ -150,7 +150,6 @@ export function MatchingSelectItemsBuilder({ questionIndex, control, register, e
                                             <SelectValue placeholder="Select matching choice" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="" disabled className="text-muted-foreground">-- Select --</SelectItem>
                                             {validChoices.map((choice: MatchingItem) => (
                                                 // Ensure the value is not an empty string before rendering
                                                 choice.id !== '' && (
