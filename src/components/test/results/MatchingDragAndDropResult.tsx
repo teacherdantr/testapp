@@ -2,6 +2,7 @@ import React from 'react';
 import type { TestResult } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import ImageWithZoom from './ImageWithZoom';
 
 interface MatchingDragAndDropResultProps {
   qResult: TestResult['questionResults'][0];
@@ -26,6 +27,11 @@ const MatchingDragAndDropResult: React.FC<MatchingDragAndDropResultProps> = ({ q
 
   return (
     <div className="space-y-4">
+      {qResult.imageUrl && (
+        <div className="mb-3">
+           <ImageWithZoom imageUrl={qResult.imageUrl} altText={`Illustration for question ${qResult.questionText}`} />
+        </div>
+      )}
       {qResult.targetItems.map((targetItem) => {
         const userMatch = userAnswerMatches.find(match => match.targetItemId === targetItem.id);
         const userDraggableItem = userMatch?.draggableItemId

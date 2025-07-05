@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { mapFormQuestionToPrismaQuestionData } from './mappers';
 import { testFormSchema } from '@/lib/validationSchemas';
 import { Prisma } from '@prisma/client';
+import { QuestionType } from '@/lib/types';
 
 export async function updateTest(testId: string, formData: FormData): Promise<{ success?: boolean; error?: string; issues?: any; testId?: string; message?: string }> {
   const rawData = {
@@ -37,15 +38,30 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
           password: password || null,
           questions: {
             create: formQuestions.map(q => {
-              console.log('q.type:', q.type); // 👈 Add this here
-          
+              const questionToProcess: any = {
+                ...q,
+                id: q.id, // Existing question ID if present
+              };
+
+              // Remove fields not relevant to the question type
+              if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) delete questionToProcess.options;
+              if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) delete questionToProcess.statements;
+              if (q.type !== QuestionType.MatrixChoice) delete questionToProcess.categories;
+              if (q.type !== QuestionType.Hotspot) {
+                delete questionToProcess.hotspots;
+                if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
+              }
+              if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop].includes(q.type)) delete questionToProcess.imageUrl;
+              if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
+              if (q.type !== QuestionType.MatchingDragAndDrop) { delete questionToProcess.draggableItems; delete questionToProcess.targetItems; delete questionToProcess.allowShuffle;}
+
               return {
-                id: q.id,
-                text: q.text,
-                type: q.type as Prisma.QuestionType,
-                points: q.points,
-                imageUrl: q.imageUrl,
-                questionData: mapFormQuestionToPrismaQuestionData(q),
+                id: questionToProcess.id,
+                text: questionToProcess.text,
+                type: questionToProcess.type as Prisma.QuestionType,
+                points: questionToProcess.points,
+                imageUrl: questionToProcess.imageUrl,
+                questionData: mapFormQuestionToPrismaQuestionData(questionToProcess),
               };
             }),
           },

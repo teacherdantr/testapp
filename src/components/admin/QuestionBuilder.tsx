@@ -188,7 +188,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                     )}
                   </div>
 
-                  {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer || questionType === QuestionType.MatchingSelect) && (
+                  {(questionType === QuestionType.MCQ || questionType === QuestionType.MultipleChoiceMultipleAnswer || questionType === QuestionType.MatchingSelect || questionType === QuestionType.MatchingDragAndDrop) && (
                     <div className="space-y-2">
                       <Label htmlFor={`questions.${index}.imageUrl`}>Image URL (Optional)</Label>
                       <Input
@@ -254,7 +254,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                               }
 
                               // Conditional cleanup for imageUrl
-                              if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect].includes(newType)) {
+                              if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop].includes(newType)) {
                                 setValue(`questions.${index}.imageUrl`, undefined);
                               }
                               

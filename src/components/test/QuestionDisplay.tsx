@@ -79,7 +79,8 @@ export function QuestionDisplay({
   const shouldRenderGeneralImage =
     (question.type === QuestionType.MCQ ||
      question.type === QuestionType.MultipleChoiceMultipleAnswer ||
-     question.type === QuestionType.MatchingSelect) &&
+     question.type === QuestionType.MatchingSelect ||
+     question.type === QuestionType.MatchingDragAndDrop) &&
     question.imageUrl;
 
   return (
