@@ -21,48 +21,34 @@ export const parseCoords = (shape: HotspotShapeType, coordsStr: string, imgWidth
 };
 
 export const renderUserAnswer = (qResult: TestResult['questionResults'][0]) => {
-    if (qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer || (qResult.questionType === QuestionType.Hotspot && qResult.multipleSelection)) {
-        try {
-            const answers = JSON.parse(qResult.userAnswer || '[]');
-            if (Array.isArray(answers) && answers.length > 0) {
-                if (qResult.questionType === QuestionType.Hotspot) {
-                    return answers.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
-                }
-                return answers.join(', ');
+    if (!qResult.userAnswer) {
+        return <span className="italic text-muted-foreground">Not answered</span>;
+    }
+    try {
+        const answers = JSON.parse(qResult.userAnswer);
+        if (Array.isArray(answers)) {
+            if (answers.length === 0) {
+                return <span className="italic text-muted-foreground">Not answered</span>;
             }
-            return <span className="italic text-muted-foreground">Not answered</span>;
-        } catch {
-            return <span className="italic text-muted-foreground">Error displaying answer</span>;
-        }
-    }
-    if (qResult.questionType === QuestionType.Hotspot && !qResult.multipleSelection) {
-        try {
-            const answers = JSON.parse(qResult.userAnswer || '[]');
-            if (Array.isArray(answers) && answers.length === 1) {
-                return qResult.hotspots?.find(h => h.id === answers[0])?.label || answers[0];
+            if (qResult.questionType === QuestionType.Hotspot) {
+                return answers.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
             }
-            return <span className="italic text-muted-foreground">Not answered</span>;
-        } catch {
-            return <span className="italic text-muted-foreground">Error displaying answer</span>;
+            return answers.join(', ');
         }
+    } catch (e) {
+        // Not a JSON string, treat as plain text.
     }
-    if (qResult.questionType === QuestionType.MatchingSelect || qResult.questionType === QuestionType.MatchingDragAndDrop) {
-        return null; // Handled directly in the question-specific components
-    }
-    if (qResult.questionType === QuestionType.MatrixChoice || qResult.questionType === QuestionType.MultipleTrueFalse) return null;
-    return qResult.userAnswer || <span className="italic text-muted-foreground">Not answered</span>;
+    return qResult.userAnswer;
 };
 
 export const renderCorrectAnswer = (qResult: TestResult['questionResults'][0]) => {
-    if (qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer && Array.isArray(qResult.correctAnswer)) {
-        return qResult.correctAnswer.join(', ');
+    const { correctAnswer } = qResult;
+    if (Array.isArray(correctAnswer)) {
+        if (correctAnswer.length === 0) return null;
+        if (qResult.questionType === QuestionType.Hotspot) {
+            return correctAnswer.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
+        }
+        return correctAnswer.join(', ');
     }
-    if (qResult.questionType === QuestionType.Hotspot && Array.isArray(qResult.correctAnswer)) {
-        return qResult.correctAnswer.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
-    }
-    if (qResult.questionType === QuestionType.MatchingSelect || qResult.questionType === QuestionType.MatchingDragAndDrop) {
-        return null; // Handled directly in the question-specific components
-    }
-    if (qResult.questionType === QuestionType.MatrixChoice || qResult.questionType === QuestionType.MultipleTrueFalse) return null;
-    return qResult.correctAnswer as string;
+    return correctAnswer as string;
 };
