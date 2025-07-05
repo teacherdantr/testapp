@@ -15,7 +15,15 @@ const MatchingDragAndDropResult: React.FC<MatchingDragAndDropResultProps> = ({ q
 
   let userAnswerMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = [];
   try {
-    userAnswerMatches = JSON.parse(qResult.userAnswer || '[]');
+    const parsedAnswer = JSON.parse(qResult.userAnswer || '[]');
+    // The user answer could be an array of objects from the new DND builder, 
+    // or an older format. We normalize it.
+    if (Array.isArray(parsedAnswer)) {
+      userAnswerMatches = parsedAnswer.map(item => ({
+        draggableItemId: item.draggableItemId,
+        targetItemId: item.targetItemId,
+      }));
+    }
   } catch (e) {
     console.error("Failed to parse user answer for MatchingDragAndDrop:", e);
     return <p className="text-red-500">Error: Could not parse user answer.</p>;
@@ -46,30 +54,30 @@ const MatchingDragAndDropResult: React.FC<MatchingDragAndDropResultProps> = ({ q
         const isMatchCorrect = userMatch?.draggableItemId === correctMatch?.draggableItemId;
 
         return (
-          <div key={targetItem.id} className="border border-border rounded-lg p-4">
+          <div key={targetItem.id} className="border border-border rounded-lg p-3">
             <p className="font-medium text-sm mb-2 text-muted-foreground">Target: <span className="text-foreground">{targetItem.text}</span></p>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
               {/* User Match */}
               <div
                 className={cn(
-                  "flex items-center space-x-2 p-2 rounded-md min-w-[160px] justify-center",
+                  "flex items-center space-x-2 p-2 rounded-md min-w-[160px] justify-center text-sm",
                   isMatchCorrect
                     ? "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300"
                     : "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300"
                 )}
               >
-                {isMatchCorrect ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-                <span className="font-semibold text-sm">
+                {isMatchCorrect ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <XCircle className="w-4 h-4 shrink-0" />}
+                <span className="font-semibold">
                   {userDraggableItem?.text || <em className="text-xs italic">Not matched</em>}
                 </span>
               </div>
 
               {/* Correct Match (if needed) */}
               {!isMatchCorrect && (
-                <div className="flex items-center space-x-2 p-2 rounded-md bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300 min-w-[160px] justify-center">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span className="font-semibold text-sm">{correctDraggableItem?.text || "No correct match"}</span>
+                <div className="flex items-center space-x-2 p-2 rounded-md bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300 min-w-[160px] justify-center text-sm">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span className="font-semibold">{correctDraggableItem?.text || "No correct match"}</span>
                 </div>
               )}
             </div>
