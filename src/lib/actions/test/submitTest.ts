@@ -1,3 +1,4 @@
+
 'use server';
 
 import { prisma } from '@/lib/prisma';
@@ -138,12 +139,23 @@ export async function submitTest(
              {
                 const userMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
                 const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
-
-                if (userMatches.length === correctMatches.length) {
-                  const normalize = (arr: any[]) => arr.map(item => `${item.draggableItemId}-${item.targetItemId}`).sort().join(',');
-                  isCorrect = normalize(userMatches.filter(m => m.targetItemId)) === normalize(correctMatches);
+                
+                // Get pairs the user actually created (i.e., not left in the bank)
+                const userPlacedPairs = userMatches.filter(m => m.targetItemId !== null);
+                
+                // The submission is correct if the number of pairs created by the user
+                // is the same as the number of correct pairs required, AND every correct
+                // pair exists in the user's submission.
+                if (userPlacedPairs.length !== correctMatches.length) {
+                    isCorrect = false;
                 } else {
-                  isCorrect = false;
+                    // All or nothing: every correct match must be present.
+                    isCorrect = correctMatches.every(correctPair => 
+                        userPlacedPairs.some(userPair => 
+                            userPair.draggableItemId === correctPair.draggableItemId &&
+                            userPair.targetItemId === correctPair.targetItemId
+                        )
+                    );
                 }
              }
              break;

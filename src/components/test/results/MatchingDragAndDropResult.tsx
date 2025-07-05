@@ -12,7 +12,7 @@ const MatchingDragAndDropResult: React.FC<MatchingDragAndDropResultProps> = ({ q
     return <p className="text-red-500">Error: Missing draggable or target items for this question type.</p>;
   }
 
-  let userAnswerMatches: Array<{ draggableItemId: string | null, targetItemId: string }> = [];
+  let userAnswerMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = [];
   try {
     userAnswerMatches = JSON.parse(qResult.userAnswer || '[]');
   } catch (e) {
