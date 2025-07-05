@@ -4,15 +4,19 @@
 import type { TestResult, MatchingItem } from '@/lib/types';
 import { QuestionType, HotspotShapeType } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { CheckCircle2, XCircle, AlertCircle, RotateCcw, Maximize2 } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import NextImage from 'next/image';
-import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+
+import MatrixChoiceResult from './results/MatrixChoiceResult';
+import HotspotResult from './results/HotspotResult';
+import MatchingSelectResult from './results/MatchingSelectResult';
+import DefaultQuestionResult from './results/DefaultQuestionResult';
+import MatchingDragAndDropResult from './results/MatchingDragAndDropResult';
+import ImageWithZoom from './results/ImageWithZoom';
+import { renderUserAnswer, renderCorrectAnswer } from './results/resultUtils';
 
 
 interface ResultsDisplayProps {
@@ -27,153 +31,57 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
   const [imageDimensionsMap, setImageDimensionsMap] = useState<Record<string, { width: number, height: number }>>({});
   const imageRefs = useRef<Record<string, HTMLImageElement | null>>({});
 
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
-
-  const openImageModal = (url: string) => {
-    setModalImageUrl(url);
-    setIsImageModalOpen(true);
-  };
-
 
   useEffect(() => {
     results.questionResults.forEach(qResult => {
       if ((qResult.questionType === QuestionType.Hotspot || qResult.questionType === QuestionType.MCQ || qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer || qResult.questionType === QuestionType.MatchingSelect) && qResult.imageUrl && imageRefs.current[qResult.questionId]) {
         const imgElement = imageRefs.current[qResult.questionId];
         if (imgElement) {
-            const updateDimensions = () => {
-                 if(imgElement.offsetWidth > 0 && imgElement.offsetHeight > 0) {
-                    setImageDimensionsMap(prev => ({
-                        ...prev,
-                        [qResult.questionId]: { width: imgElement.offsetWidth, height: imgElement.offsetHeight }
-                    }));
-                 }
-            };
-             if (imgElement.complete && imgElement.naturalWidth > 0) {
-                updateDimensions();
-            } else {
-                imgElement.onload = updateDimensions;
-                 // Fallback for cached images not triggering onload sometimes
-                if (!imgElement.complete && imgElement.naturalWidth === 0) {
-                    setTimeout(updateDimensions, 100); 
-                }
+          const updateDimensions = () => {
+            if (imgElement.offsetWidth > 0 && imgElement.offsetHeight > 0) {
+              setImageDimensionsMap(prev => ({
+                ...prev,
+                [qResult.questionId]: { width: imgElement.offsetWidth, height: imgElement.offsetHeight }
+              }));
             }
-             const resizeObserver = new ResizeObserver(updateDimensions);
-             resizeObserver.observe(imgElement);
-            
-             return () => {
-                imgElement.onload = null;
-                resizeObserver.unobserve(imgElement);
-             };
+          };
+          if (imgElement.complete && imgElement.naturalWidth > 0) {
+            updateDimensions();
+          } else {
+            imgElement.onload = updateDimensions;
+            // Fallback for cached images not triggering onload sometimes
+            if (!imgElement.complete && imgElement.naturalWidth === 0) {
+              setTimeout(updateDimensions, 100);
+            }
+          }
+          const resizeObserver = new ResizeObserver(updateDimensions);
+          resizeObserver.observe(imgElement);
+
+          return () => {
+            imgElement.onload = null;
+            resizeObserver.unobserve(imgElement);
+          };
         }
       }
     });
   }, [results.questionResults]);
 
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
 
-  const parseCoords = (shape: HotspotShapeType, coordsStr: string, imgWidth: number, imgHeight: number) => {
-    const c = coordsStr.split(',').map(Number);
-    if (shape === HotspotShapeType.Rectangle && c.length === 4) {
-      return { x: c[0] * imgWidth, y: c[1] * imgHeight, width: c[2] * imgWidth, height: c[3] * imgHeight };
+  const renderQuestionResult = (qResult: TestResult['questionResults'][0], index: number) => {
+    switch (qResult.questionType) {
+ case QuestionType.MultipleTrueFalse:
+        return <MatrixChoiceResult qResult={qResult} />;
+      case QuestionType.Hotspot:
+        return <HotspotResult qResult={qResult} imageDimensionsMap={imageDimensionsMap} imageRefs={imageRefs} openImageModal={openImageModal} />;
+      case QuestionType.MatchingSelect:
+        return <MatchingSelectResult qResult={qResult} />;
+      case QuestionType.MatchingDragAndDrop:
+        return <MatchingDragAndDropResult qResult={qResult} />;
+      default:
+        return <DefaultQuestionResult qResult={qResult} />;
     }
-    if (shape === HotspotShapeType.Circle && c.length === 3) {
-      const avgDim = (imgWidth + imgHeight) / 2;
-      return { cx: c[0] * imgWidth, cy: c[1] * imgHeight, r: c[2] * avgDim };
-    }
-    if (shape === HotspotShapeType.Polygon && c.length >= 6 && c.length % 2 === 0) {
-      const points = [];
-      for (let i = 0; i < c.length; i += 2) {
-        points.push(`${c[i] * imgWidth},${c[i+1] * imgHeight}`);
-      }
-      return { points: points.join(' ') };
-    }
-    return null;
-  };
-
-  const renderUserAnswer = (qResult: TestResult['questionResults'][0]) => {
-    if (qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer || (qResult.questionType === QuestionType.Hotspot && qResult.multipleSelection)) {
-      try {
-        const answers = JSON.parse(qResult.userAnswer || '[]');
-        if (Array.isArray(answers) && answers.length > 0) {
-          if (qResult.questionType === QuestionType.Hotspot) {
-            return answers.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
-          }
-          return answers.join(', ');
-        }
-        return <span className="italic text-muted-foreground">Not answered</span>;
-      } catch {
-        return <span className="italic text-muted-foreground">Error displaying answer</span>;
-      }
-    }
-    if (qResult.questionType === QuestionType.Hotspot && !qResult.multipleSelection) {
-        try {
-            const answers = JSON.parse(qResult.userAnswer || '[]');
-            if (Array.isArray(answers) && answers.length === 1) {
-                 return qResult.hotspots?.find(h => h.id === answers[0])?.label || answers[0];
-            }
-            return <span className="italic text-muted-foreground">Not answered</span>;
-        } catch {
-             return <span className="italic text-muted-foreground">Error displaying answer</span>;
-        }
-    }
-    if (qResult.questionType === QuestionType.MatchingSelect) {
-      return null; // Handled directly in the JSX for MatchingSelect
-    }
-    if (qResult.questionType === QuestionType.MatrixChoice || qResult.questionType === QuestionType.MultipleTrueFalse) return null;
-    return qResult.userAnswer || <span className="italic text-muted-foreground">Not answered</span>;
-  };
-
-  const renderCorrectAnswer = (qResult: TestResult['questionResults'][0]) => {
-    if (qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer && Array.isArray(qResult.correctAnswer)) {
-      return qResult.correctAnswer.join(', ');
-    }
-    if (qResult.questionType === QuestionType.Hotspot && Array.isArray(qResult.correctAnswer)) {
-        return qResult.correctAnswer.map(id => qResult.hotspots?.find(h => h.id === id)?.label || id).join(', ');
-    }
-     if (qResult.questionType === QuestionType.MatchingSelect) {
-      return null; // Handled directly in the JSX for MatchingSelect
-    }
-    if (qResult.questionType === QuestionType.MatrixChoice || qResult.questionType === QuestionType.MultipleTrueFalse) return null;
-    return qResult.correctAnswer as string;
-  };
-
-  const renderImageWithZoom = (imageUrl: string | undefined, questionId: string, altText: string) => {
-    if (!imageUrl) return null;
-    
-    return (
-      <Dialog open={isImageModalOpen && modalImageUrl === imageUrl} onOpenChange={(isOpen) => { if (!isOpen) setModalImageUrl(null); setIsImageModalOpen(isOpen);}}>
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            onClick={() => openImageModal(imageUrl)}
-            className="mb-3 relative w-full max-w-xs mx-auto border rounded-md overflow-hidden group block cursor-pointer hover:ring-2 hover:ring-primary focus:outline-none focus:ring-2 focus:ring-primary"
-            aria-label={`Enlarge image for ${altText}`}
-          >
-            <NextImage
-              ref={el => imageRefs.current[questionId] = el}
-              src={imageUrl}
-              alt={altText}
-              width={400}
-              height={300}
-              className="w-full h-auto block object-contain"
-            />
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200">
-              <Maximize2 className="h-8 w-8 text-white" />
-            </div>
-          </button>
-        </DialogTrigger>
-        <DialogContent className="max-w-3xl p-2">
-          <NextImage
-            src={imageUrl}
-            alt={altText + " - Enlarged"}
-            width={1200}
-            height={800}
-            className="w-full h-auto object-contain rounded-md"
-          />
-          <DialogClose className="absolute right-2 top-2" />
-        </DialogContent>
-      </Dialog>
-    );
   };
 
 
@@ -205,8 +113,11 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
               <p className="text-base text-foreground pt-1">{qResult.questionText}</p>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
-              {(qResult.questionType === QuestionType.MCQ || qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer || qResult.questionType === QuestionType.MatchingSelect) && 
-                renderImageWithZoom(qResult.imageUrl, qResult.questionId, `Illustration for question ${index + 1} results`)}
+ {((qResult.questionType === QuestionType.MCQ || qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer || qResult.questionType === QuestionType.MatchingSelect || qResult.questionType === QuestionType.Hotspot) && qResult.imageUrl) && (
+ <ImageWithZoom
+ imageUrl={qResult.imageUrl}
+ alt={`${qResult.questionType === QuestionType.Hotspot ? 'Hotspot image' : 'Illustration'} for question ${index + 1} results`}
+ />)}
 
               {qResult.questionType === QuestionType.MultipleTrueFalse ? (
                 <div className="space-y-1 mt-1">
@@ -222,9 +133,8 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
                       <div key={stmt.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-1 border-b border-border/50 last:border-b-0">
                         <p className="flex-1 mr-2 text-muted-foreground">- {stmt.text}</p>
                         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-1 sm:mt-0 w-full sm:w-auto">
-                          <span className={`px-2 py-0.5 rounded text-xs mb-1 sm:mb-0 w-full sm:w-auto text-center ${
-                            isStatementCorrect ? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300' : 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300'
-                          }`}>
+                          <span className={`px-2 py-0.5 rounded text-xs mb-1 sm:mb-0 w-full sm:w-auto text-center ${isStatementCorrect ? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300' : 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300'
+                            }`}>
                             Your: <span className="font-semibold">{userAnswerForStatement === undefined || userAnswerForStatement === "" ? "N/A" : userAnswerForStatement}</span>
                           </span>
                           {!isStatementCorrect && (
@@ -277,22 +187,21 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
                       })}
                     </TableBody>
                   </Table>
-                  { !qResult.isCorrect && <p className="text-xs text-muted-foreground mt-2">For this question to be fully correct, all statements must be matched to their correct categories.</p>}
+                  {!qResult.isCorrect && <p className="text-xs text-muted-foreground mt-2">For this question to be fully correct, all statements must be matched to their correct categories.</p>}
                 </div>
               ) : qResult.questionType === QuestionType.Hotspot && qResult.imageUrl && qResult.hotspots ? (
                 <div className="space-y-2">
-                  {renderImageWithZoom(qResult.imageUrl, qResult.questionId, `Hotspot image for question ${index + 1} results`)}
                   {imageDimensionsMap[qResult.questionId] && (
                     <div className="relative w-full max-w-md mx-auto border rounded-md overflow-hidden" data-ai-hint="results map interactive-map-result">
                       {/* This div is just a container for the SVG if not using the zoom component directly for hotspot display */}
-                       <NextImage
-                         ref={el => imageRefs.current[qResult.questionId] = el} // Keep ref for initial measurement if needed for some reason
-                         src={qResult.imageUrl!} // Non-null assertion as we check imageUrl above
-                         alt={`Hotspot image for question ${index + 1} results`}
-                         width={600} // Example, adjust as needed
-                         height={450}
-                         className="w-full h-auto block object-contain opacity-50" // Show base image slightly faded
-                       />
+                      <NextImage
+                        ref={el => imageRefs.current[qResult.questionId] = el} // Keep ref for initial measurement if needed for some reason
+                        src={qResult.imageUrl!} // Non-null assertion as we check imageUrl above
+                        alt={`Hotspot image for question ${index + 1} results`}
+                        width={600} // Example, adjust as needed
+                        height={450}
+                        className="w-full h-auto block object-contain opacity-50" // Show base image slightly faded
+                      />
                       <svg
                         viewBox={`0 0 ${imageDimensionsMap[qResult.questionId].width} ${imageDimensionsMap[qResult.questionId].height}`}
                         className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none"
@@ -320,18 +229,18 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
 
 
                           if (hotspot.shape === HotspotShapeType.Rectangle) {
-                            return ( <rect key={hotspot.id} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} className={cn("stroke-2", strokeColor, fillColor)} />);
+                            return (<rect key={hotspot.id} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} className={cn("stroke-2", strokeColor, fillColor)} />);
                           } else if (hotspot.shape === HotspotShapeType.Circle) {
-                            return ( <circle key={hotspot.id} cx={parsed.cx} cy={parsed.cy} r={parsed.r} className={cn("stroke-2", strokeColor, fillColor)} />);
+                            return (<circle key={hotspot.id} cx={parsed.cx} cy={parsed.cy} r={parsed.r} className={cn("stroke-2", strokeColor, fillColor)} />);
                           } else if (hotspot.shape === HotspotShapeType.Polygon) {
-                            return ( <polygon key={hotspot.id} points={parsed.points} className={cn("stroke-2", strokeColor, fillColor)} />);
+                            return (<polygon key={hotspot.id} points={parsed.points} className={cn("stroke-2", strokeColor, fillColor)} />);
                           }
                           return null;
                         })}
                       </svg>
                     </div>
                   )}
-                   <div>
+                  <div>
                     <span className="font-semibold">Your selections: </span>
                     <span className={qResult.isCorrect ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}>
                       {renderUserAnswer(qResult) || <span className="italic text-muted-foreground">None</span>}
@@ -347,8 +256,8 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
               ) : qResult.questionType === QuestionType.MatchingSelect && qResult.prompts && qResult.choices ? (
                 <div className="space-y-2">
                   {qResult.prompts.map(prompt => {
-                    const userMatch = (JSON.parse(qResult.userAnswer || '[]') as Array<{promptId: string, choiceId: string | null}>).find(m => m.promptId === prompt.id);
-                    const correctMatch = (qResult.correctAnswer as Array<{promptId: string, choiceId: string}>).find(m => m.promptId === prompt.id);
+                    const userMatch = (JSON.parse(qResult.userAnswer || '[]') as Array<{ promptId: string, choiceId: string | null }>).find(m => m.promptId === prompt.id);
+                    const correctMatch = (qResult.correctAnswer as Array<{ promptId: string, choiceId: string }>).find(m => m.promptId === prompt.id);
 
                     const userChoiceText = userMatch && userMatch.choiceId ? qResult.choices?.find(c => c.id === userMatch.choiceId)?.text : "Not matched";
                     const correctChoiceText = correctMatch ? qResult.choices?.find(c => c.id === correctMatch.choiceId)?.text : "N/A";
@@ -366,7 +275,7 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
                             Your: <span className="font-semibold">{userChoiceText}</span>
                           </span>
                           {!isThisPairCorrect && (
-                             <span className="px-2 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300">
+                            <span className="px-2 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300">
                               Correct: <span className="font-semibold">{correctChoiceText}</span>
                             </span>
                           )}
@@ -377,23 +286,23 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
                   {!qResult.isCorrect && <p className="text-xs text-muted-foreground mt-2">For this question to be fully correct, all prompts must be matched correctly.</p>}
                 </div>
               ) : (
-                <>
+              <>
+                <div>
+                  <span className="font-semibold">Your Answer: </span>
+                  <span className={qResult.isCorrect ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}>
+                    {renderUserAnswer(qResult)}
+                  </span>
+                </div>
+                {!qResult.isCorrect && renderCorrectAnswer(qResult) && (
                   <div>
-                    <span className="font-semibold">Your Answer: </span>
-                    <span className={qResult.isCorrect ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}>
-                      {renderUserAnswer(qResult)}
-                    </span>
+                    <span className="font-semibold">Correct Answer: </span>
+                    <span className="text-green-700 dark:text-green-300">{renderCorrectAnswer(qResult)}</span>
                   </div>
-                  {!qResult.isCorrect && renderCorrectAnswer(qResult) && (
-                    <div>
-                      <span className="font-semibold">Correct Answer: </span>
-                      <span className="text-green-700 dark:text-green-300">{renderCorrectAnswer(qResult)}</span>
-                    </div>
-                  )}
-                </>
+                )}
+              </>
               )}
 
-               {(qResult.questionType === QuestionType.MCQ || qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer) && qResult.options && (
+              {(qResult.questionType === QuestionType.MCQ || qResult.questionType === QuestionType.MultipleChoiceMultipleAnswer) && qResult.options && (
                 <div className="pl-4 pt-2">
                   <p className="font-semibold text-xs text-muted-foreground mb-1">OPTIONS:</p>
                   <ul className="list-disc list-inside space-y-1">
@@ -409,7 +318,7 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
                       let className = '';
                       if (isCorrectOption) className = 'font-medium text-green-700 dark:text-green-300';
                       if (userSelectedThisOption && !isCorrectOption) className = 'line-through text-red-700 dark:text-red-300';
-                      if (!userSelectedThisOption && !isCorrectOption && !userSelectedThisOption ) className = 'text-muted-foreground';
+                      if (!userSelectedThisOption && !isCorrectOption && !userSelectedThisOption) className = 'text-muted-foreground';
 
 
                       return (
@@ -444,4 +353,3 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
   );
 }
 
-    

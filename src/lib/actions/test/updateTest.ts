@@ -36,14 +36,18 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
           description,
           password: password || null,
           questions: {
-            create: formQuestions.map(q => ({
-              id: q.id,
-              text: q.text,
-              type: String(q.type),
-              points: q.points,
-              imageUrl: q.imageUrl,
-              questionData: mapFormQuestionToPrismaQuestionData(q),
-            })),
+            create: formQuestions.map(q => {
+              console.log('q.type:', q.type); // 👈 Add this here
+          
+              return {
+                id: q.id,
+                text: q.text,
+                type: q.type as Prisma.QuestionType,
+                points: q.points,
+                imageUrl: q.imageUrl,
+                questionData: mapFormQuestionToPrismaQuestionData(q),
+              };
+            }),
           },
           updatedAt: new Date(),
         },
