@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { PlusCircle, FileText, AlertTriangle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Test } from '@/lib/types';
-import { getAllTests, deleteTestById } from '@/lib/actions/testActions';
+import { getAllTests, deleteTestById, cloneTest } from '@/lib/actions/testActions';
 import { TestListItem } from '@/components/admin/TestListItem';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -21,12 +21,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from '@/hooks/use-toast';
-
-// Removed metadata export as this is a client component
-// export const metadata: Metadata = {
-//   title: 'Admin Dashboard - TestWave',
-//   description: 'Manage tests, view results, and configure settings on the TestWave platform.',
-// };
+import { mapPrismaQuestionToViewQuestion } from '@/lib/actions/test/mappers';
 
 export default function AdminDashboardPage() {
   const [tests, setTests] = useState<Test[]>([]);
@@ -82,6 +77,37 @@ export default function AdminDashboardPage() {
     setTestToDelete(null);
   };
 
+  const handleCloneRequest = async (testId: string) => {
+    toast({
+      title: 'Cloning Test...',
+      description: 'Please wait a moment.',
+    });
+
+    const result = await cloneTest(testId);
+
+    if (result.success && result.newTest) {
+      const mappedNewTest: Test = {
+        ...result.newTest,
+        questions: result.newTest.questions.map(mapPrismaQuestionToViewQuestion),
+        createdAt: result.newTest.createdAt.toISOString(),
+        updatedAt: result.newTest.updatedAt.toISOString(),
+      };
+
+      setTests(prevTests => [mappedNewTest, ...prevTests]);
+
+      toast({
+        title: 'Test Cloned Successfully!',
+        description: `"${mappedNewTest.title}" has been created.`,
+      });
+    } else {
+      toast({
+        title: 'Error Cloning Test',
+        description: result.error || 'An unexpected error occurred.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -120,7 +146,7 @@ export default function AdminDashboardPage() {
         ) : tests.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tests.map((test) => (
-              <TestListItem key={test.id} test={test} onDeleteRequest={handleDeleteRequest} />
+              <TestListItem key={test.id} test={test} onDeleteRequest={handleDeleteRequest} onCloneRequest={handleCloneRequest} />
             ))}
           </div>
         ) : (

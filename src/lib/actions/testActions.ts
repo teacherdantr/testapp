@@ -1,3 +1,4 @@
+
 'use server';
 
 // This file serves as a central hub for re-exporting server actions
@@ -9,6 +10,7 @@ import { fetchTestById as _fetchTestById, fetchAdminTestById as _fetchAdminTestB
 import { deleteTestById as _deleteTestById } from './test/deleteTest';
 import { verifyTestPassword as _verifyTestPassword, submitTest as _submitTest } from './test/submitTest';
 import { generateAnswerOptionsAI as _generateAnswerOptionsAI } from './test/aiActions';
+import { cloneTest as _cloneTest } from './test/cloneTest';
 
 export const createTest = _createTest;
 export const updateTest = _updateTest;
@@ -19,6 +21,7 @@ export const deleteTestById = _deleteTestById;
 export const verifyTestPassword = _verifyTestPassword;
 export const submitTest = _submitTest;
 export const generateAnswerOptionsAI = _generateAnswerOptionsAI;
+export const cloneTest = _cloneTest;
 
 
 // Mappers and schemas are generally not client-facing actions,

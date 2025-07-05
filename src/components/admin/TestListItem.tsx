@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Test } from '@/lib/types';
-import { FileText, Edit, Share2, Trash2, KeyRound, Eye } from 'lucide-react';
+import { FileText, Edit, Share2, Trash2, KeyRound, Eye, Copy } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -13,9 +13,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 interface TestListItemProps {
   test: Test;
   onDeleteRequest: (test: Test) => void;
+  onCloneRequest: (testId: string) => void;
 }
 
-export function TestListItem({ test, onDeleteRequest }: TestListItemProps) {
+export function TestListItem({ test, onDeleteRequest, onCloneRequest }: TestListItemProps) {
   const { toast } = useToast();
   const shareLink = typeof window !== 'undefined' ? `${window.location.origin}/test/${test.id}` : '';
 
@@ -96,6 +97,23 @@ export function TestListItem({ test, onDeleteRequest }: TestListItemProps) {
             </TooltipTrigger>
             <TooltipContent>
               <p>Share Test</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={() => onCloneRequest(test.id)} 
+                aria-label={`Clone ${test.title}`}
+                className="transition-transform duration-150 hover:scale-110"
+              >
+                <Copy className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Clone Test</p>
             </TooltipContent>
           </Tooltip>
 
