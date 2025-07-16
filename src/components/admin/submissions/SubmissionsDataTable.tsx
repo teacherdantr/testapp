@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
-import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search, Eye, Trash2, ChevronLeft, ChevronRight, Rocket } from 'lucide-react';
+import { AlertTriangle, User, BookOpenText, CalendarDays, Percent, ArrowUp, ArrowDown, Timer, Zap, Users, Search, Eye, Trash2, ChevronLeft, ChevronRight, Rocket, ClipboardList } from 'lucide-react';
 import type { StoredTestResult } from '@/lib/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -35,8 +35,6 @@ interface SortConfig {
 
 interface SubmissionsDataTableProps {
   submissions: StoredTestResult[];
-  isLoading: boolean;
-  error: string | null;
   onSubmissionDeleted: (submission: StoredTestResult) => void;
 }
 
@@ -50,7 +48,7 @@ const formatTimeTaken = (seconds?: number): string => {
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
 
-export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissionDeleted }: SubmissionsDataTableProps) {
+export function SubmissionsDataTable({ submissions, onSubmissionDeleted }: SubmissionsDataTableProps) {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'submittedAt', direction: 'descending' });
   const [searchTerm, setSearchTerm] = useState('');
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -207,6 +205,135 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
     setSubmissionToDelete(null);
   };
 
+  const renderContent = () => {
+    if (submissions.length === 0) {
+      return (
+        <Alert variant="default" className="mt-0">
+          <ClipboardList className="h-5 w-5" />
+          <AlertTitle>No Submissions Yet</AlertTitle>
+          <AlertDescription>There are no test submissions recorded on the platform.</AlertDescription>
+        </Alert>
+      );
+    }
+
+    if (sortedAndFilteredSubmissions.length === 0 && searchTerm.trim() !== '') {
+      return (
+        <Alert variant="default" className="mt-0">
+          <Search className="h-5 w-5" />
+          <AlertTitle>No Matching Records</AlertTitle>
+          <AlertDescription>Your search for "{searchTerm}" did not match any test submissions.</AlertDescription>
+        </Alert>
+      );
+    }
+
+    return (
+      <>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[25%] min-w-[200px]">
+                  <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                    <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title / Mode
+                    {getSortIcon('testTitle')}
+                  </Button>
+                </TableHead>
+                <TableHead className="w-[15%] min-w-[120px]">
+                  <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
+                    <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
+                    {getSortIcon('userId')}
+                  </Button>
+                </TableHead>
+                <TableHead className="text-right w-[15%] min-w-[150px]">
+                   <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                    <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
+                    {getSortIcon('percentage')}
+                  </Button>
+                </TableHead>
+                <TableHead className="text-right w-[12%] min-w-[120px]">
+                  <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                    <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time
+                    {getSortIcon('timeTaken')}
+                  </Button>
+                </TableHead>
+                <TableHead className="text-right w-[18%] min-w-[180px]">
+                  <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
+                    <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted
+                    {getSortIcon('submittedAt')}
+                  </Button>
+                </TableHead>
+                <TableHead className="text-center w-[15%] min-w-[120px]">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentItemsToDisplay.map((result) => (
+                <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
+                  <TableCell className="font-medium text-primary">
+                    {result.testTitle}
+                    {getModeDisplay(result.testMode)}
+                  </TableCell>
+                  <TableCell>{result.userId}</TableCell>
+                  <TableCell
+                    className={cn(
+                      "text-right font-semibold",
+                      getScoreColorClass(result.score, result.totalPoints)
+                    )}
+                  >
+                    {result.score} / {result.totalPoints}
+                    <span className="ml-2 text-muted-foreground text-xs font-normal">
+                      ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
+                  <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
+                  <TableCell className="text-center">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={() => handleViewDetails(result)} className="hover:text-primary">
+                          <Eye className="h-4 w-4" />
+                          <span className="sr-only">View Details</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>View Details</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={() => handleDeleteRequest(result)} className="hover:text-destructive">
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only">Delete Submission</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>Delete Submission</p></TooltipContent>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex items-center justify-between mt-6">
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages || totalPages === 0}
+          >
+            Next <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </>
+    );
+  }
+
   return (
     <TooltipProvider delayDuration={100}>
       <div>
@@ -218,140 +345,12 @@ export function SubmissionsDataTable({ submissions, isLoading, error, onSubmissi
               value={searchTerm}
               onChange={handleSearchChange}
               className="w-full max-w-md pl-10 h-11"
+              disabled={submissions.length === 0}
             />
           </div>
         </div>
-
-        {error && submissions.length === 0 && !isLoading && (
-          <Alert variant={error === 'No test submissions found yet.' ? 'default' : 'destructive'} className="mt-0">
-            <AlertTriangle className="h-5 w-5" />
-            <AlertTitle>{error === 'No test submissions found yet.' ? 'Information' : 'Error'}</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {!isLoading && submissions.length > 0 && sortedAndFilteredSubmissions.length === 0 && searchTerm.trim() !== '' && (
-          <Alert variant="default" className="mt-0">
-            <Search className="h-5 w-5" />
-            <AlertTitle>No Matching Records</AlertTitle>
-            <AlertDescription>Your search for "{searchTerm}" did not match any test submissions.</AlertDescription>
-          </Alert>
-        )}
         
-        {!isLoading && submissions.length > 0 && sortedAndFilteredSubmissions.length === 0 && searchTerm.trim() === '' && error && (
-           <Alert variant="default" className="mt-0">
-            <AlertTriangle className="h-5 w-5" />
-            <AlertTitle>Information</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {currentItemsToDisplay.length > 0 && !isLoading && (
-          <>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[25%] min-w-[200px]">
-                      <Button variant="ghost" onClick={() => requestSort('testTitle')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                        <BookOpenText className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Test Title / Mode
-                        {getSortIcon('testTitle')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="w-[15%] min-w-[120px]">
-                      <Button variant="ghost" onClick={() => requestSort('userId')} className="px-1 py-0.5 h-auto hover:bg-accent/80">
-                        <User className="inline-block mr-2 h-5 w-5 text-muted-foreground" />User ID
-                        {getSortIcon('userId')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="text-right w-[15%] min-w-[150px]">
-                       <Button variant="ghost" onClick={() => requestSort('percentage')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                        <Percent className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Score / %
-                        {getSortIcon('percentage')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="text-right w-[12%] min-w-[120px]">
-                      <Button variant="ghost" onClick={() => requestSort('timeTaken')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                        <Timer className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Time
-                        {getSortIcon('timeTaken')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="text-right w-[18%] min-w-[180px]">
-                      <Button variant="ghost" onClick={() => requestSort('submittedAt')} className="px-1 py-0.5 h-auto hover:bg-accent/80 float-right">
-                        <CalendarDays className="inline-block mr-2 h-5 w-5 text-muted-foreground" />Submitted
-                        {getSortIcon('submittedAt')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="text-center w-[15%] min-w-[120px]">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {currentItemsToDisplay.map((result) => (
-                    <TableRow key={`${result.testId}-${result.userId}-${result.submittedAt}`}>
-                      <TableCell className="font-medium text-primary">
-                        {result.testTitle}
-                        {getModeDisplay(result.testMode)}
-                      </TableCell>
-                      <TableCell>{result.userId}</TableCell>
-                      <TableCell
-                        className={cn(
-                          "text-right font-semibold",
-                          getScoreColorClass(result.score, result.totalPoints)
-                        )}
-                      >
-                        {result.score} / {result.totalPoints}
-                        <span className="ml-2 text-muted-foreground text-xs font-normal">
-                          ({result.totalPoints > 0 ? ((result.score / result.totalPoints) * 100).toFixed(0) : 0}%)
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right">{formatTimeTaken(result.timeTaken)}</TableCell>
-                      <TableCell className="text-right">{format(new Date(result.submittedAt), 'PPp')}</TableCell>
-                      <TableCell className="text-center">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={() => handleViewDetails(result)} className="hover:text-primary">
-                              <Eye className="h-4 w-4" />
-                              <span className="sr-only">View Details</span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent><p>View Details</p></TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={() => handleDeleteRequest(result)} className="hover:text-destructive">
-                              <Trash2 className="h-4 w-4" />
-                              <span className="sr-only">Delete Submission</span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent><p>Delete Submission</p></TooltipContent>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            <div className="flex items-center justify-between mt-6">
-              <Button
-                variant="outline"
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="mr-2 h-4 w-4" /> Previous
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                disabled={currentPage === totalPages || totalPages === 0}
-              >
-                Next <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </>
-        )}
+        {renderContent()}
 
         {submissionToDelete && (
           <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

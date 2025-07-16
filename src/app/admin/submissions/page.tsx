@@ -3,13 +3,15 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle } from 'lucide-react';
 import { fetchAllPublicTestSubmissions } from '@/lib/actions/userActions';
 import type { StoredTestResult } from '@/lib/types';
 import { SubmissionsPageHeader } from '@/components/admin/submissions/SubmissionsPageHeader';
 import { SubmissionChartsSection } from '@/components/admin/submissions/SubmissionChartsSection';
 import { SubmissionsDataTable } from '@/components/admin/submissions/SubmissionsDataTable';
 import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 
 export default function AdminSubmissionsPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +29,8 @@ export default function AdminSubmissionsPage() {
     } else {
       setSubmissions(result);
       if (result.length === 0) {
-         setError('No test submissions found yet.');
+         // This is not an error, just an empty state. The DataTable will handle the message.
+         setError(null);
       }
     }
     setIsLoading(false);
@@ -67,13 +70,23 @@ export default function AdminSubmissionsPage() {
       <Card className="shadow-xl">
         <SubmissionsPageHeader />
         <CardContent className="pt-8 space-y-8">
-          <SubmissionChartsSection submissions={submissions} />
-          <SubmissionsDataTable
-            submissions={submissions}
-            isLoading={isLoading} // isLoading here is for the overall page, DataTable might have its own internal state if needed for row-level ops
-            error={error} // Pass down initial error
-            onSubmissionDeleted={handleSubmissionDeleted}
-          />
+          {error && (
+            <Alert variant="destructive">
+              <AlertTriangle className="h-5 w-5" />
+              <AlertTitle>Error Loading Submissions</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {!error && (
+            <>
+              <SubmissionChartsSection submissions={submissions} />
+              <SubmissionsDataTable
+                submissions={submissions}
+                onSubmissionDeleted={handleSubmissionDeleted}
+              />
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -137,11 +137,12 @@ export async function submitTest(
             break;
            case QuestionType.MatchingDragAndDrop:
              {
-                const userMatches: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
-                const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
+                // The answer from the client is an array of all draggable items and where they were dropped.
+                // We only care about the ones that were dropped on a target.
+                const userAnswer: Array<{ draggableItemId: string, targetItemId: string | null }> = rawUserAnswer ? JSON.parse(rawUserAnswer) : [];
+                const userPlacedPairs = userAnswer.filter(a => a.targetItemId !== null) as Array<{ draggableItemId: string, targetItemId: string }>;
                 
-                // Get pairs the user actually created (i.e., not left in the bank)
-                const userPlacedPairs = userMatches.filter(m => m.targetItemId !== null);
+                const correctMatches = (Array.isArray(originalCorrectAnswer) ? originalCorrectAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
                 
                 // The submission is correct if the number of pairs created by the user
                 // is the same as the number of correct pairs required, AND every correct
