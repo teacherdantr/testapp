@@ -1,3 +1,4 @@
+
 'use server';
 
 import { prisma } from '@/lib/prisma';
@@ -41,9 +42,17 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
               const questionToProcess: any = {
                 ...q,
                 id: q.id, // Existing question ID if present
+                options: q.options,
+                statements: q.statements,
+                categories: q.categories,
+                hotspots: q.hotspots,
+                prompts: q.prompts,
+                choices: q.choices,
+                draggableItems: q.draggableItems,
+                targetItems: q.targetItems,
               };
 
-              // Remove fields not relevant to the question type
+              // Clean up fields not relevant to the question type
               if (q.type !== QuestionType.MCQ && q.type !== QuestionType.MultipleChoiceMultipleAnswer) delete questionToProcess.options;
               if (q.type !== QuestionType.MultipleTrueFalse && q.type !== QuestionType.MatrixChoice) delete questionToProcess.statements;
               if (q.type !== QuestionType.MatrixChoice) delete questionToProcess.categories;
@@ -51,7 +60,9 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
                 delete questionToProcess.hotspots;
                 if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
               }
-              if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop].includes(q.type)) delete questionToProcess.imageUrl;
+              if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop].includes(q.type)) {
+                delete questionToProcess.imageUrl;
+              }
               if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
               if (q.type !== QuestionType.MatchingDragAndDrop) { delete questionToProcess.draggableItems; delete questionToProcess.targetItems; delete questionToProcess.allowShuffle;}
 
