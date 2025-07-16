@@ -37,8 +37,7 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(null);
   const [currentRect, setCurrentRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
-  const [naturalImageSize, setNaturalImageSize] = useState<{ width: number; height: number } | null>(null);
-
+  
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
 
@@ -90,11 +89,7 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
     }
 
     const img = imageElementRef.current;
-    if (!naturalImageSize || naturalImageSize.width === 0 || naturalImageSize.height === 0) {
-      toast({ title: "Image error", description: "Cannot determine natural image dimensions. Ensure image is loaded.", variant: "destructive" });
-      return;
-    }
-
+    
     const displayedWidth = img.offsetWidth;
     const displayedHeight = img.offsetHeight;
 
@@ -147,7 +142,6 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
     setCurrentRect(null);
     setStartPoint(null);
     setIsDrawing(false);
-    setNaturalImageSize(null);
   }, [imageUrl]);
 
   return (
@@ -170,7 +164,7 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
           <Label>Draw Hotspot (Rectangles Only)</Label>
           <div
             ref={imageContainerRef}
-            className="relative w-full max-w-md mx-auto aspect-video border rounded-md overflow-hidden cursor-crosshair bg-muted/20"
+            className="relative w-full max-w-lg mx-auto aspect-[4/3] border rounded-md overflow-hidden cursor-crosshair bg-muted/20"
             onMouseDown={handleImageMouseDown}
             onMouseMove={handleImageMouseMove}
             onMouseUp={handleImageMouseUpOrLeave}
@@ -182,14 +176,11 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
               src={imageUrl}
               alt="Hotspot image preview for drawing"
               fill
+              sizes="(max-width: 768px) 100vw, 512px"
               style={{ objectFit: 'contain' }}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               className="pointer-events-none"
-              onLoad={(e) => {
-                const imgTarget = e.target as HTMLImageElement;
-                setNaturalImageSize({ width: imgTarget.naturalWidth, height: imgTarget.naturalHeight });
-              }}
             />
             {currentRect && imageContainerRef.current && (
               <svg

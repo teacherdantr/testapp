@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -49,56 +50,54 @@ export default function HotspotResult({ qResult }: HotspotResultProps) {
 
   return (
     <div className="space-y-2">
-      <ImageWithZoom imageUrl={qResult.imageUrl} altText={`Hotspot image for question results`} />
+      <div className="relative w-full max-w-lg mx-auto aspect-[4/3] border rounded-md overflow-hidden" data-ai-hint="results map interactive-map-result">
+         <NextImage
+           ref={imageRef}
+           src={qResult.imageUrl!}
+           alt={`Hotspot image for question results`}
+           fill
+           sizes="(max-width: 768px) 100vw, 512px"
+           className="w-full h-auto block object-contain opacity-50"
+         />
+        {imageDimensions && (
+        <svg
+          viewBox={`0 0 ${imageDimensions.width} ${imageDimensions.height}`}
+          className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none"
+        >
+          {qResult.hotspots.map((hotspot) => {
+            const imgDims = imageDimensions;
+            if (!imgDims) return null;
+            const parsed = parseCoords(hotspot.shape, hotspot.coords, imgDims.width, imgDims.height);
+            if (!parsed) return null;
 
-      {imageDimensions && (
-        <div className="relative w-full max-w-md mx-auto border rounded-md overflow-hidden" data-ai-hint="results map interactive-map-result">
-           <NextImage
-             ref={imageRef}
-             src={qResult.imageUrl!}
-             alt={`Hotspot image for question results`}
-             width={600}
-             height={450}
-             className="w-full h-auto block object-contain opacity-50"
-           />
-          <svg
-            viewBox={`0 0 ${imageDimensions.width} ${imageDimensions.height}`}
-            className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none"
-          >
-            {qResult.hotspots.map((hotspot) => {
-              const imgDims = imageDimensions;
-              if (!imgDims) return null;
-              const parsed = parseCoords(hotspot.shape, hotspot.coords, imgDims.width, imgDims.height);
-              if (!parsed) return null;
+            const userSelectedThis = (JSON.parse(qResult.userAnswer || '[]') as string[]).includes(hotspot.id);
+            const correctAnswers = Array.isArray(qResult.correctAnswer) ? qResult.correctAnswer : [qResult.correctAnswer];
+            const isThisCorrectHotspot = correctAnswers.includes(hotspot.id);
 
-              const userSelectedThis = (JSON.parse(qResult.userAnswer || '[]') as string[]).includes(hotspot.id);
-              const correctAnswers = Array.isArray(qResult.correctAnswer) ? qResult.correctAnswer : [qResult.correctAnswer];
-              const isThisCorrectHotspot = correctAnswers.includes(hotspot.id);
+            let strokeColor = "stroke-gray-400/70";
+            let fillColor = "fill-transparent";
 
-              let strokeColor = "stroke-gray-400/70";
-              let fillColor = "fill-transparent";
+            if (isThisCorrectHotspot) {
+              strokeColor = "stroke-green-500";
+              fillColor = userSelectedThis ? "fill-green-500/30" : "fill-green-500/20";
+            }
+            if (userSelectedThis && !isThisCorrectHotspot) {
+              strokeColor = "stroke-red-500";
+              fillColor = "fill-red-500/30";
+            }
 
-              if (isThisCorrectHotspot) {
-                strokeColor = "stroke-green-500";
-                fillColor = userSelectedThis ? "fill-green-500/30" : "fill-green-500/20";
-              }
-              if (userSelectedThis && !isThisCorrectHotspot) {
-                strokeColor = "stroke-red-500";
-                fillColor = "fill-red-500/30";
-              }
-
-              if (hotspot.shape === HotspotShapeType.Rectangle) {
-                return (<rect key={hotspot.id} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} className={cn("stroke-2", strokeColor, fillColor)} />);
-              } else if (hotspot.shape === HotspotShapeType.Circle) {
-                return (<circle key={hotspot.id} cx={parsed.cx} cy={parsed.cy} r={parsed.r} className={cn("stroke-2", strokeColor, fillColor)} />);
-              } else if (hotspot.shape === HotspotShapeType.Polygon) {
-                return (<polygon key={hotspot.id} points={parsed.points} className={cn("stroke-2", strokeColor, fillColor)} />);
-              }
-              return null;
-            })}
-          </svg>
-        </div>
-      )}
+            if (hotspot.shape === HotspotShapeType.Rectangle) {
+              return (<rect key={hotspot.id} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} className={cn("stroke-2", strokeColor, fillColor)} />);
+            } else if (hotspot.shape === HotspotShapeType.Circle) {
+              return (<circle key={hotspot.id} cx={parsed.cx} cy={parsed.cy} r={parsed.r} className={cn("stroke-2", strokeColor, fillColor)} />);
+            } else if (hotspot.shape === HotspotShapeType.Polygon) {
+              return (<polygon key={hotspot.id} points={parsed.points} className={cn("stroke-2", strokeColor, fillColor)} />);
+            }
+            return null;
+          })}
+        </svg>
+        )}
+      </div>
        <div>
         <span className="font-semibold">Your selections: </span>
         <span className={qResult.isCorrect ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}>

@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import NextImage from 'next/image';
 import { cn } from '@/lib/utils';
 import { HotspotShapeType } from '@/lib/types';
-import type { QuestionTypeDisplayProps } from './QuestionTypeDisplayProps';
 import type { QuestionTypeDisplayProps } from '../QuestionTypeDisplayProps';
 // Helper function (can be moved to a utils file if used elsewhere)
 const parseCoords = (shape: HotspotShapeType, coordsStr: string, imgWidth: number, imgHeight: number) => {
@@ -41,33 +40,30 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
   }, [userAnswer]);
 
   useEffect(() => {
-    if (question.imageUrl && imageRef.current) {
-      const updateDimensions = () => {
-        if (imageRef.current) {
-          setImageDimensions({
-            width: imageRef.current.offsetWidth,
-            height: imageRef.current.offsetHeight,
-          });
+    const imgElement = imageRef.current;
+    if (!imgElement) return;
+
+    const updateDimensions = () => {
+        if(imgElement.offsetWidth > 0 && imgElement.offsetHeight > 0) {
+            setImageDimensions({ width: imgElement.offsetWidth, height: imgElement.offsetHeight });
         }
-      };
-
-      const imgElement = imageRef.current;
-      if (imgElement.complete && imgElement.naturalWidth > 0) {
+    };
+    
+    if (imgElement.complete && imgElement.naturalWidth > 0) {
         updateDimensions();
-      } else {
+    } else {
         imgElement.onload = updateDimensions;
-      }
+    }
 
-      const resizeObserver = new ResizeObserver(updateDimensions);
-      resizeObserver.observe(imgElement);
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    resizeObserver.observe(imgElement);
 
-      return () => {
+    return () => {
         if (imgElement) {
           imgElement.onload = null;
           resizeObserver.unobserve(imgElement);
         }
-      };
-    }
+    };
   }, [question.imageUrl]);
 
   const handleHotspotClick = (hotspotId: string) => {
@@ -86,21 +82,15 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
   if (!question.imageUrl || !question.hotspots) return null;
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto border rounded-md overflow-hidden" data-ai-hint="interactive map">
+    <div className="relative w-full max-w-lg mx-auto aspect-[4/3] border rounded-md overflow-hidden" data-ai-hint="interactive map">
       <NextImage
         ref={imageRef}
         src={question.imageUrl}
         alt="Hotspot question image"
-        width={800} // Intrinsic width, will be overridden by CSS/container
-        height={600} // Intrinsic height
-        className="w-full h-auto block"
-        onLoad={(e) => {
-          const target = e.target as HTMLImageElement;
-          // Ensure naturalWidth is available for accurate dimensions
-          if (target.naturalWidth > 0) {
-            setImageDimensions({ width: target.offsetWidth, height: target.offsetHeight });
-          }
-        }}
+        fill
+        sizes="(max-width: 768px) 100vw, 512px"
+        style={{ objectFit: 'contain' }}
+        priority // Prioritize loading the main question image
       />
       {imageDimensions && (
         <svg
@@ -112,56 +102,24 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
             if (!parsed) return null;
             const isSelected = selectedHotspotIds.includes(hotspot.id);
 
+            const shapeProps = {
+                key: hotspot.id,
+                className: cn(
+                    "fill-transparent stroke-2 cursor-pointer transition-all",
+                    isSelected
+                      ? "stroke-green-500 fill-green-500/40 hover:fill-green-500/30" // Selected state
+                      : "stroke-red-500/90 hover:fill-red-500/30" // Default (unselected) state
+                  ),
+                  onClick: () => handleHotspotClick(hotspot.id),
+                  'aria-label': hotspot.label || `Hotspot area ${hotspot.id}`,
+            };
+
             if (hotspot.shape === HotspotShapeType.Rectangle) {
-              return (
-                <rect
-                  key={hotspot.id}
-                  x={parsed.x}
-                  y={parsed.y}
-                  width={parsed.width}
-                  height={parsed.height}
-                  className={cn(
-                    "fill-transparent stroke-2 cursor-pointer",
-                    isSelected
-                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
-                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
-                  )}
-                  onClick={() => handleHotspotClick(hotspot.id)}
-                  aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
-                />
-              );
+              return <rect {...shapeProps} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} />;
             } else if (hotspot.shape === HotspotShapeType.Circle) {
-              return (
-                <circle
-                  key={hotspot.id}
-                  cx={parsed.cx}
-                  cy={parsed.cy}
-                  r={parsed.r}
-                  className={cn(
-                    "fill-transparent stroke-2 cursor-pointer",
-                    isSelected
-                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
-                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
-                  )}
-                  onClick={() => handleHotspotClick(hotspot.id)}
-                  aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
-                />
-              );
+              return <circle {...shapeProps} cx={parsed.cx} cy={parsed.cy} r={parsed.r} />;
             } else if (hotspot.shape === HotspotShapeType.Polygon) {
-              return (
-                <polygon
-                  key={hotspot.id}
-                  points={parsed.points}
-                  className={cn(
-                    "fill-transparent stroke-2 cursor-pointer",
-                    isSelected
-                      ? "stroke-green-500 fill-green-500/30 hover:fill-green-500/20" // Selected state
-                      : "stroke-red-500 hover:fill-red-500/20" // Default (unselected) state
-                  )}
-                  onClick={() => handleHotspotClick(hotspot.id)}
-                  aria-label={hotspot.label || `Hotspot area ${hotspot.id}`}
-                />
-              );
+              return <polygon {...shapeProps} points={parsed.points} />;
             }
             return null;
           })}
