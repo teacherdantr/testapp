@@ -177,10 +177,9 @@ export function HotspotImageBuilder({ questionIndex, control, register, errors, 
               alt="Hotspot image preview for drawing"
               fill
               sizes="(max-width: 768px) 100vw, 512px"
-              style={{ objectFit: 'contain' }}
+              className="object-contain pointer-events-none"
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
-              className="pointer-events-none"
             />
             {currentRect && imageContainerRef.current && (
               <svg

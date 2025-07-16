@@ -89,7 +89,7 @@ export function HotspotDisplay({ question, userAnswer, onAnswerChange }: Questio
         alt="Hotspot question image"
         fill
         sizes="(max-width: 768px) 100vw, 512px"
-        style={{ objectFit: 'contain' }}
+        className="object-contain"
         priority // Prioritize loading the main question image
       />
       {imageDimensions && (
