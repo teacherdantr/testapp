@@ -154,6 +154,7 @@ export function SubmissionsDataTable({ submissions, onSubmissionDeleted }: Submi
     );
   };
 
+
   const handleViewDetails = (submission: StoredTestResult) => {
     console.log("[SubmissionsDataTable] View Details clicked for:", submission);
     toast({
