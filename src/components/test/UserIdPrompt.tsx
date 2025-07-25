@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { UserCircle, RefreshCw, PlusCircle } from 'lucide-react';
+import { UserCircle, RefreshCw, PlusCircle, AlertTriangle } from 'lucide-react';
 
 interface UserIdPromptProps {
   open: boolean;
@@ -17,6 +17,7 @@ interface UserIdPromptProps {
 
 const MAX_RECENT_IDS = 5;
 const LOCAL_STORAGE_KEY = 'testwave_recentUserIds';
+const IDENTIFIER_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9_ -]{1,19}$/;
 
 export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdPromptProps) {
   const [identifierInput, setIdentifierInput] = useState('');
@@ -24,6 +25,7 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
   const [recentIdentifiers, setRecentIdentifiers] = useState<string[]>([]);
   const [showInputField, setShowInputField] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -38,6 +40,7 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
           setShowInputField(true); // No recent IDs, show input field directly
         }
         setIdentifierInput(''); // Clear input field when dialog opens
+        setValidationError(null); // Clear validation error
       } catch (error) {
         console.error("Error loading recent identifiers from localStorage:", error);
         setRecentIdentifiers([]);
@@ -59,22 +62,44 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
     }
   };
 
+  const validateIdentifier = (id: string): boolean => {
+    if (!IDENTIFIER_REGEX.test(id)) {
+      setValidationError("Must be 2-20 characters, start with a letter/number, and contain only letters, numbers, spaces, hyphens, or underscores.");
+      return false;
+    }
+    setValidationError(null);
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const finalIdentifier = showInputField ? identifierInput.trim() : selectedIdentifier;
 
-    if (!finalIdentifier || finalIdentifier.trim() === '') {
-      alert("Please enter or select an identifier.");
+    if (!finalIdentifier) {
+      setValidationError("Please enter or select an identifier.");
       return;
     }
+
+    if (showInputField && !validateIdentifier(finalIdentifier)) {
+      return;
+    }
+
     setIsLoading(true);
     await onIdentifierSubmit(finalIdentifier);
     saveIdentifier(finalIdentifier);
     setIsLoading(false);
-    // Dialog should be closed by parent component by changing 'open' prop
   };
 
-  const canSubmit = showInputField ? identifierInput.trim() !== '' : !!selectedIdentifier;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setIdentifierInput(value);
+    if (validationError) {
+      validateIdentifier(value);
+    }
+  };
+  
+  const canSubmit = showInputField ? identifierInput.trim() !== '' && !validationError : !!selectedIdentifier;
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -127,7 +152,8 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
                   id="identifier-input"
                   type="text"
                   value={identifierInput}
-                  onChange={(e) => setIdentifierInput(e.target.value)}
+                  onChange={handleInputChange}
+                  onBlur={() => validateIdentifier(identifierInput)}
                   placeholder="e.g., AlexP"
                   autoFocus={showInputField}
                   required={showInputField}
@@ -140,12 +166,19 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
                     onClick={() => {
                       setShowInputField(false);
                       setIdentifierInput(''); // Clear input when switching
+                      setValidationError(null);
                       if (recentIdentifiers.length > 0) setSelectedIdentifier(recentIdentifiers[0]);
                     }}
                   >
                     <RefreshCw className="mr-1 h-4 w-4" /> Select from recent names
                   </Button>
                 )}
+              </div>
+            )}
+             {validationError && (
+              <div className="flex items-start text-destructive text-sm p-3 bg-destructive/10 rounded-md">
+                <AlertTriangle className="h-5 w-5 mr-2 shrink-0 mt-0.5" />
+                <p>{validationError}</p>
               </div>
             )}
           </div>
