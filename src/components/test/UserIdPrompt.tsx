@@ -17,7 +17,9 @@ interface UserIdPromptProps {
 
 const MAX_RECENT_IDS = 5;
 const LOCAL_STORAGE_KEY = 'testwave_recentUserIds';
-const IDENTIFIER_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9_ -]{1,19}$/;
+// Regex to validate a name with at least two words, supporting Unicode letters (including Vietnamese).
+const IDENTIFIER_REGEX = /^\p{L}+(?:\s\p{L}+)+$/u;
+
 
 export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdPromptProps) {
   const [identifierInput, setIdentifierInput] = useState('');
@@ -64,7 +66,7 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
 
   const validateIdentifier = (id: string): boolean => {
     if (!IDENTIFIER_REGEX.test(id)) {
-      setValidationError("Must be 2-20 characters, start with a letter/number, and contain only letters, numbers, spaces, hyphens, or underscores.");
+      setValidationError("Please enter a full name with at least two words (e.g., 'An Nguyễn'). Special characters and numbers are not allowed.");
       return false;
     }
     setValidationError(null);
@@ -147,14 +149,14 @@ export function UserIdPrompt({ open, onOpenChange, onIdentifierSubmit }: UserIdP
 
             {(showInputField || recentIdentifiers.length === 0) && (
               <div className="space-y-2">
-                <Label htmlFor="identifier-input">Your Identifier (Name/Nickname)</Label>
+                <Label htmlFor="identifier-input">Your Full Name</Label>
                 <Input
                   id="identifier-input"
                   type="text"
                   value={identifierInput}
                   onChange={handleInputChange}
                   onBlur={() => validateIdentifier(identifierInput)}
-                  placeholder="e.g., AlexP"
+                  placeholder="e.g., An Nguyễn"
                   autoFocus={showInputField}
                   required={showInputField}
                 />
