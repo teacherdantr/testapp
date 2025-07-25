@@ -143,7 +143,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                       Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0, 30) || 'New Question'}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""}
                     </span>
                     <Badge variant="secondary" className="hidden sm:inline-block">{getValues(`questions.${index}.type`)}</Badge>
-                     <span className="text-sm text-muted-foreground hidden md:inline-block">(Points: {getValues(`questions.${index}.points`) || 0})</span>
+                     <Badge variant="outline" className="hidden md:inline-block text-sm">{getValues(`questions.${index}.points`) || 0}</Badge>
                   </div>
                 </AccordionTrigger>
                 <Button
