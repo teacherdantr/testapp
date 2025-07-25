@@ -26,6 +26,7 @@ export function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuesti
     if (q.draggableItems) questionData.draggableItems = q.draggableItems;
     if (q.targetItems) questionData.targetItems = q.targetItems;
     if (q.allowShuffle !== undefined) questionData.allowShuffle = q.allowShuffle;
+    if (q.imageUrl) questionData.imageUrl = q.imageUrl; // Ensure imageUrl is included
   }
 
 
