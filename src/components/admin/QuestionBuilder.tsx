@@ -16,6 +16,7 @@ import { generateAnswerOptionsAI } from '@/lib/actions/testActions';
 import { generateAnswerOptionsAI as generateAnswerOptionsAINew } from '@/lib/actions/test/aiActions';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
 
 // Import the new question type builders
 import { McqOptionsBuilder } from './QuestionBuilders/McqOptionsBuilder';
@@ -137,7 +138,13 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
             <AccordionItem key={field.id} value={field.id}>
               <div className="flex items-center w-full border-b">
                 <AccordionTrigger className="flex-grow hover:no-underline text-left justify-start px-2 py-4 text-lg font-medium">
-                  Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0, 30) || getValues(`questions.${index}.type`)}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""} (Points: {getValues(`questions.${index}.points`) || 0})
+                  <div className="flex items-center gap-3">
+                    <span className="truncate">
+                      Question {index + 1}: {getValues(`questions.${index}.text`)?.substring(0, 30) || 'New Question'}{getValues(`questions.${index}.text`)?.length > 30 ? "..." : ""}
+                    </span>
+                    <Badge variant="secondary" className="hidden sm:inline-block">{getValues(`questions.${index}.type`)}</Badge>
+                     <span className="text-sm text-muted-foreground hidden md:inline-block">(Points: {getValues(`questions.${index}.points`) || 0})</span>
+                  </div>
                 </AccordionTrigger>
                 <Button
                   type="button"
