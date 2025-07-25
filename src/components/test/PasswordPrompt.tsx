@@ -16,7 +16,8 @@ interface PasswordPromptProps {
 }
 
 const MAX_ATTEMPTS = 3;
-const LOCKOUT_DURATION_SECONDS = 30;
+const LOCKOUT_DURATION_SECONDS_DISPLAY = 30; // What the user sees
+const LOCKOUT_INTERVAL_MS = 1500; // 1.5 seconds per tick
 
 export function PasswordPrompt({ open, onVerify, error: initialError }: PasswordPromptProps) {
   const [password, setPassword] = useState('');
@@ -32,7 +33,7 @@ export function PasswordPrompt({ open, onVerify, error: initialError }: Password
     if (lockoutTimeLeft > 0) {
       const timer = setTimeout(() => {
         setLockoutTimeLeft(lockoutTimeLeft - 1);
-      }, 1000);
+      }, LOCKOUT_INTERVAL_MS); // Use the 1.5s interval
       return () => clearTimeout(timer);
     } else {
       setFailedAttempts(0); // Reset attempts after lockout period ends
@@ -55,8 +56,8 @@ export function PasswordPrompt({ open, onVerify, error: initialError }: Password
       setCurrentError(initialError || "Incorrect password. Please try again.");
 
       if (newAttemptCount >= MAX_ATTEMPTS) {
-        setLockoutTimeLeft(LOCKOUT_DURATION_SECONDS);
-        setCurrentError(`Too many failed attempts. Please wait ${LOCKOUT_DURATION_SECONDS} seconds.`);
+        setLockoutTimeLeft(LOCKOUT_DURATION_SECONDS_DISPLAY); // Start the 30-second countdown
+        setCurrentError(`Too many failed attempts. Please wait ${LOCKOUT_DURATION_SECONDS_DISPLAY} seconds.`);
       }
     }
     setIsLoading(false);
