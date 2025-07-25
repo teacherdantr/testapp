@@ -7,6 +7,7 @@ import { Loader2, AlertTriangle } from 'lucide-react';
 import { fetchAllPublicTestSubmissions } from '@/lib/actions/userActions';
 import type { StoredTestResult } from '@/lib/types';
 import { SubmissionsPageHeader } from '@/components/admin/submissions/SubmissionsPageHeader';
+import { SubmissionsStatsCards } from '@/components/admin/submissions/SubmissionsStatsCards';
 import { SubmissionChartsSection } from '@/components/admin/submissions/SubmissionChartsSection';
 import { SubmissionsDataTable } from '@/components/admin/submissions/SubmissionsDataTable';
 import { useToast } from '@/hooks/use-toast';
@@ -80,6 +81,7 @@ export default function AdminSubmissionsPage() {
 
           {!error && (
             <>
+              <SubmissionsStatsCards submissions={submissions} />
               <SubmissionChartsSection submissions={submissions} />
               <SubmissionsDataTable
                 submissions={submissions}
