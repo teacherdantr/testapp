@@ -4,7 +4,7 @@
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma'; // Import Prisma client
 import type { StoredTestResult, TestResult } from '@/lib/types';
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 const userIdSchema = z.string().min(1, 'User identifier cannot be empty.');
 
