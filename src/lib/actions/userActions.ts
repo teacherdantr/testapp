@@ -83,6 +83,7 @@ export async function deleteUserScoreByIds(
   const { userId, testId, submittedAt } = validatedParams.data;
 
   try {
+    // Use `delete` for a single record identified by its unique composite key.
     const result = await prisma.userScore.delete({
       where: {
         userId_testId_submittedAt: {
