@@ -13,19 +13,19 @@ interface PasswordPromptProps {
   open: boolean;
   onVerify: (password: string) => Promise<boolean>;
   error?: string | null;
+  onOpenChange: (open: boolean) => void;
 }
 
 const MAX_ATTEMPTS = 3;
 const LOCKOUT_DURATION_SECONDS_DISPLAY = 30; // What the user sees
 const LOCKOUT_INTERVAL_MS = 1500; // 1.5 seconds per tick
 
-export function PasswordPrompt({ open, onVerify, error: initialError }: PasswordPromptProps) {
+export function PasswordPrompt({ open, onVerify, error: initialError, onOpenChange }: PasswordPromptProps) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentError, setCurrentError] = useState<string | null>(initialError || null);
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [lockoutTimeLeft, setLockoutTimeLeft] = useState(0);
-  const router = useRouter();
 
   const isLockedOut = lockoutTimeLeft > 0;
 
@@ -63,14 +63,8 @@ export function PasswordPrompt({ open, onVerify, error: initialError }: Password
     setIsLoading(false);
   };
 
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
-      router.push('/');
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center text-2xl">
