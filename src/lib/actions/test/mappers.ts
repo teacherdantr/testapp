@@ -10,6 +10,11 @@ export function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuesti
     correctAnswer: q.correctAnswer,
   };
 
+  // Add imageUrl if it exists for any relevant type
+  if (q.imageUrl) {
+    questionData.imageUrl = q.imageUrl;
+  }
+
   if (q.options) questionData.options = q.options;
   if (q.statements) questionData.statements = q.statements;
   if (q.categories) questionData.categories = q.categories;
@@ -26,7 +31,6 @@ export function mapFormQuestionToPrismaQuestionData(q: z.infer<typeof formQuesti
     if (q.draggableItems) questionData.draggableItems = q.draggableItems;
     if (q.targetItems) questionData.targetItems = q.targetItems;
     if (q.allowShuffle !== undefined) questionData.allowShuffle = q.allowShuffle;
-    if (q.imageUrl) questionData.imageUrl = q.imageUrl; // Ensure imageUrl is included
   }
 
 
@@ -99,7 +103,7 @@ export function mapPrismaQuestionToViewQuestion(prismaQuestion: Prisma.QuestionG
     id: prismaQuestion.id,
     text: prismaQuestion.text,
     type: typeValue as QuestionType,
-    imageUrl: prismaQuestion.imageUrl || undefined,
+    imageUrl: (qData.imageUrl as string) || prismaQuestion.imageUrl || undefined,
     points: prismaQuestion.points,
     options: ensureValidItems<OptionType>(qData.options, 'Option'),
     statements: ensureValidItems<TrueFalseStatement>(qData.statements, 'Statement'),
