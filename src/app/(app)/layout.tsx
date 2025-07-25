@@ -4,12 +4,19 @@
 import { Navbar } from '@/components/Navbar';
 import type { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const [currentYear, setCurrentYear] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out-cubic',
+    });
     setIsMounted(true);
     setCurrentYear(new Date().getFullYear());
   }, []);

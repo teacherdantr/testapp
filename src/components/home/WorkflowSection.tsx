@@ -6,34 +6,43 @@ const workflowSteps = [
     icon: FilePlus2,
     title: 'Create Tests',
     description: 'Educators design tests with various question types using our intuitive admin interface.',
+    aosDelay: '0',
   },
   {
     icon: Share2,
     title: 'Share Links',
     description: 'Distribute unique test links or IDs to students easily and securely.',
+    aosDelay: '100',
   },
   {
     icon: Users,
     title: 'Students Take Tests',
     description: 'Test-takers complete assessments online, from any device with internet access.',
+    aosDelay: '200',
   },
   {
     icon: BarChart3,
     title: 'View Results',
     description: 'Get instant scores and detailed answer breakdowns upon test completion.',
+    aosDelay: '300',
   },
 ];
 
 export function WorkflowSection() {
   return (
-    <section className="py-16 md:py-24 bg-background w-full">
+    <section className="py-16 md:py-24 bg-background w-full overflow-hidden">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-16 md:mb-20">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-16 md:mb-20" data-aos="fade-up">
           How TestWave Works
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
           {workflowSteps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
+            <div 
+              key={index} 
+              className="flex flex-col items-center text-center" 
+              data-aos="fade-up" 
+              data-aos-delay={step.aosDelay}
+            >
               <div className="bg-primary/10 p-4 rounded-full mb-6">
                 <step.icon className="h-12 w-12 text-primary" />
               </div>

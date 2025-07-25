@@ -7,19 +7,19 @@ import { Button } from '@/components/ui/button';
 
 export function EducatorCtaSection() {
   return (
-    <section className="w-full py-16 md:py-24 bg-card">
+    <section className="w-full py-16 md:py-24 bg-card overflow-hidden">
       <div className="container mx-auto px-4 flex justify-center">
-        <Card className="w-full max-w-2xl shadow-xl overflow-hidden">
+        <Card className="w-full max-w-4xl shadow-xl overflow-hidden" data-aos="fade-up">
           <div className="grid md:grid-cols-2 items-center">
-            <div className="p-8 md:p-10">
-              <CardHeader className="p-0 mb-6">
+            <div className="p-8 md:p-10 order-2 md:order-1">
+              <CardHeader className="p-0 mb-6" data-aos="fade-right" data-aos-delay="200">
                 <Edit3 className="h-12 w-12 text-primary mb-4" />
                 <CardTitle className="text-3xl font-bold text-primary">Empowering Educators</CardTitle>
                 <CardDescription className="text-lg text-muted-foreground pt-2">
                   Create, manage, and analyze tests effortlessly. TestWave provides all the tools you need to design effective assessments.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0" data-aos="fade-up" data-aos-delay="300">
                 <Button asChild size="lg" className="w-full md:w-auto text-lg px-8 py-5">
                   <Link href="/admin">
                     Go to Admin Dashboard
@@ -27,7 +27,7 @@ export function EducatorCtaSection() {
                 </Button>
               </CardContent>
             </div>
-            <div className="relative h-64 md:h-full w-full hidden md:block">
+            <div className="relative h-64 md:h-full w-full order-1 md:order-2" data-aos="fade-left" data-aos-delay="200">
               <Image
                 src="https://placehold.co/600x800.png"
                 alt="Educator managing tests"
