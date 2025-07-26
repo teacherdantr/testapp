@@ -1,6 +1,12 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  
+  experimental: {
+    // @ts-ignore
+
+    allowedDevOrigins: ['https://9000-firebase-studio-1748305557128.cluster-73qgvk7hjjadkrjeyexca5ivva.cloudworkstations.dev']
+  },
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
