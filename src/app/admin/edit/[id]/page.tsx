@@ -451,7 +451,7 @@ export default function EditTestPage() {
         delete questionToProcess.hotspots;
         if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
       }
-      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect].includes(q.type)) delete questionToProcess.imageUrl;
+      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MultipleTrueFalse].includes(q.type)) delete questionToProcess.imageUrl;
       if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
       if (q.type !== QuestionType.MatchingDragAndDrop) { delete questionToProcess.draggableItems; delete questionToProcess.targetItems; delete questionToProcess.allowShuffle;}
 
@@ -509,13 +509,23 @@ export default function EditTestPage() {
           </Link>
         </Button>
       </div>
-      <Card className="shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-primary">Edit Test</CardTitle>
-          {/* <CardDescription>Modify the details of your test below. Is Dirty: {isDirty ? 'true' : 'false'}, Is Valid: {isValid ? 'true' : 'false'}</CardDescription> */}
-        </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card className="shadow-xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b sticky top-0 bg-card/95 backdrop-blur-sm z-10">
+            <div>
+              <CardTitle className="text-3xl font-bold text-primary">Edit Test</CardTitle>
+              <CardDescription>Modify the details of your test below.</CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+                <Button type="button" variant="outline" onClick={() => router.push('/admin')}>
+                    Cancel
+                </Button>
+                <Button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
+                    {isSubmitting ? 'Saving...' : 'Save Changes'}
+                </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6 p-6">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-lg">Test Title</Label>
               <Input id="title" {...register('title')} placeholder="e.g., European Capitals Quiz" className="text-base" />
@@ -643,16 +653,10 @@ export default function EditTestPage() {
                 })}
             </div>
           </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full md:w-auto text-lg py-3 px-6" size="lg" disabled={!isDirty || !isValid || isSubmitting}>
-              {isSubmitting ? 'Saving Changes...' : 'Save Changes'}
-            </Button>
-            <Button type="button" variant="outline" onClick={() => router.push('/admin')} className="ml-4">
-                Cancel
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
+          {/* Footer is now empty as buttons are moved to the header */}
+          <CardFooter />
+        </Card>
+      </form>
     </div>
   );
 }
