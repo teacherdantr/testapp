@@ -1,14 +1,23 @@
 
 'use client';
 
-import Link from 'next/link';
+import Link from 'link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Test } from '@/lib/types';
-import { FileText, Edit, Share2, Trash2, KeyRound, Eye, Copy } from 'lucide-react';
+import { FileText, Edit, Share2, Trash2, KeyRound, Eye, Copy, Download } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { fetchAdminTestById } from '@/lib/actions/testActions';
 
 interface TestListItemProps {
   test: Test;
@@ -47,6 +56,43 @@ export function TestListItem({ test, onDeleteRequest, onCloneRequest }: TestList
       }
     }
   };
+
+  const handleExport = async (format: 'json' | 'txt' | 'pdf') => {
+    if (format === 'json') {
+      try {
+        const fullTestData = await fetchAdminTestById(test.id);
+        if (!fullTestData) {
+          throw new Error("Could not fetch full test data.");
+        }
+
+        // Clean up data for export, removing server-side fields
+        const { id, createdAt, updatedAt, ...exportableData } = fullTestData;
+        
+        // Ensure questions are clean for export
+        exportableData.questions = exportableData.questions.map(q => {
+          const { id, ...rest } = q;
+          return rest;
+        })
+
+        const jsonString = JSON.stringify(exportableData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${test.title.replace(/ /g, '_')}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        toast({ title: "Exported!", description: `Test "${test.title}" has been exported as a JSON file.` });
+      } catch (error) {
+        console.error("JSON Export error:", error);
+        toast({ title: "Error", description: "Could not export test as JSON.", variant: "destructive" });
+      }
+    } else {
+      toast({ title: "Coming Soon!", description: `Export to ${format.toUpperCase()} is not yet implemented.`, variant: "default" });
+    }
+  };
   
   return (
     <Card className="shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
@@ -83,6 +129,26 @@ export function TestListItem({ test, onDeleteRequest, onCloneRequest }: TestList
       
       <TooltipProvider delayDuration={100}>
         <CardFooter className="flex flex-wrap justify-end gap-2 pt-3 border-t border-border/50 mt-auto">
+          <DropdownMenu>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" aria-label={`Export ${test.title}`} className="transition-transform duration-150 hover:scale-110">
+                    <Download className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+              </TooltipTrigger>
+              <TooltipContent><p>Export Test</p></TooltipContent>
+            </Tooltip>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Export As</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleExport('json')}>JSON</DropdownMenuItem>
+              <DropdownMenuItem disabled>PDF (coming soon)</DropdownMenuItem>
+              <DropdownMenuItem disabled>Plain Text (coming soon)</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
