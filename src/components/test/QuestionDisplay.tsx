@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { Question } from '@/lib/types';
@@ -80,7 +79,8 @@ export function QuestionDisplay({
     (question.type === QuestionType.MCQ ||
      question.type === QuestionType.MultipleChoiceMultipleAnswer ||
      question.type === QuestionType.MatchingSelect ||
-     question.type === QuestionType.MatchingDragAndDrop) &&
+     question.type === QuestionType.MatchingDragAndDrop ||
+     question.type === QuestionType.MultipleTrueFalse) &&
     question.imageUrl;
 
   return (
