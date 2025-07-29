@@ -76,8 +76,10 @@ export function TestInterface({
         question={currentQuestion}
         questionNumber={currentQuestionIndex + 1}
         totalQuestions={activeQuestions.length}
-        userAnswer={actions.getIsQuestionAnswered(currentQuestion.id) ? userAnswers.find(ans => ans.questionId === currentQuestion.id)?.answer : undefined}
+        userAnswer={userAnswers.find(ans => ans.questionId === currentQuestion.id)?.answer}
         onAnswerChange={actions.handleAnswerChange}
+        onResetAnswer={actions.handleResetAnswer}
+        isAnswered={actions.getIsQuestionAnswered(currentQuestion.id)}
         testMode={testMode}
         onImageClick={actions.openImageModal}
       />

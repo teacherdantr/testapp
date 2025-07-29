@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Question } from '@/lib/types';
@@ -5,7 +6,19 @@ import { QuestionType } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import NextImage from 'next/image';
 import { cn } from '@/lib/utils';
-import { Maximize2 } from 'lucide-react';
+import { Maximize2, RefreshCcw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import { McqDisplay } from './question-types/MCQ/McqDisplay';
 import { McmaDisplay } from './question-types/MCMA/McmaDisplay';
@@ -24,7 +37,9 @@ interface QuestionDisplayProps {
   questionNumber: number;
   totalQuestions: number;
   userAnswer: string | undefined;
+  isAnswered: boolean;
   onAnswerChange: (questionId: string, answer: string) => void;
+  onResetAnswer: (questionId: string) => void;
   testMode: 'training' | 'testing' | 'race' | null;
   onImageClick?: (imageUrl: string) => void;
 }
@@ -34,7 +49,9 @@ export function QuestionDisplay({
   questionNumber,
   // totalQuestions, // totalQuestions prop is available but not used in this snippet. Re-add if needed.
   userAnswer,
+  isAnswered,
   onAnswerChange,
+  onResetAnswer,
   testMode,
   onImageClick,
 }: QuestionDisplayProps) {
@@ -86,11 +103,35 @@ export function QuestionDisplay({
   return (
     <Card className="mb-6 shadow-lg" data-ai-hint="quiz education">
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-xl md:text-2xl">Question {questionNumber}</CardTitle>
-          <span className="text-sm text-muted-foreground">
-            {question.points} point{question.points !== 1 ? 's' : ''}
-          </span>
+        <div className="flex justify-between items-start">
+            <CardTitle className="text-xl md:text-2xl flex-1">Question {questionNumber}</CardTitle>
+            <div className="flex items-center space-x-2 shrink-0">
+                <span className="text-sm text-muted-foreground">
+                    {question.points} point{question.points !== 1 ? 's' : ''}
+                </span>
+                {isAnswered && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-auto px-2 py-1 text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10">
+                        <RefreshCcw className="mr-1 h-3 w-3" />
+                        Reset
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will clear your answer for this question. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => onResetAnswer(question.id)}>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+            </div>
         </div>
         <CardDescription className="pt-2 text-base md:text-lg text-foreground">
           {question.text}

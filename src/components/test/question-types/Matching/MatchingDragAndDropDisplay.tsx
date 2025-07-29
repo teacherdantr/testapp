@@ -76,7 +76,7 @@ export function MatchingDragAndDropDisplay({ question, userAnswer, onAnswerChang
 
   // Initialize state from userAnswer or question data
   useEffect(() => {
-    let initialSlots = Array(allTargetItems.length).fill(null);
+    let initialSlots: Array<MatchingItem | null> = Array(allTargetItems.length).fill(null);
     const usedDraggableIds = new Set<string>();
 
     if (userAnswer) {
@@ -193,7 +193,7 @@ export function MatchingDragAndDropDisplay({ question, userAnswer, onAnswerChang
 
       </div>
       <DragOverlay>
-        {activeId && activeItem ? <Draggable id={activeId} item={activeItem} /> : null}
+        {activeId && activeItem ? <div className="flex items-center p-2 bg-card border rounded-md shadow-lg cursor-grabbing"><GripVertical className="h-5 w-5 text-muted-foreground mr-2" /><span>{activeItem.text}</span></div> : null}
       </DragOverlay>
     </DndContext>
   );

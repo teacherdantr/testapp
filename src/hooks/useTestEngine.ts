@@ -198,6 +198,14 @@ export function useTestEngine() {
     });
   };
 
+  const handleResetAnswer = (questionId: string) => {
+    setUserAnswers(prevAnswers => prevAnswers.filter(a => a.questionId !== questionId));
+    toast({
+        title: 'Answer Cleared',
+        description: 'Your answer for this question has been reset.',
+    });
+  };
+
   const countUnansweredQuestions = () => {
     // ... (rest of the function is the same)
     if (activeQuestions.length === 0) return 0;
@@ -257,9 +265,13 @@ export function useTestEngine() {
                 const userSelectedHotspotIds: string[] = currentAnswerString ? JSON.parse(currentAnswerString) : [];
                 if (originalQuestion.multipleSelection) {
                     const correctAnswers = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as string[];
-                    return userSelectedHotspotIds.length === correctAnswers.length && [...userSelectedHotspotIds].sort().every((id, index) => id === [...correctAnswers].sort()[index]);
+                    const sortedUserSelected = [...userSelectedHotspotIds].sort();
+                    const sortedCorrect = [...correctAnswers].sort();
+                    isCorrect = sortedUserSelected.length === sortedCorrect.length &&
+                              sortedUserSelected.every((id, index) => id === sortedCorrect[index]);
                 } else {
-                    return userSelectedHotspotIds.length === 1 && originalQuestion.correctAnswer === userSelectedHotspotIds[0];
+                    const correctAnswerString = (typeof originalQuestion.correctAnswer === 'string' ? originalQuestion.correctAnswer : null);
+                    isCorrect = userSelectedHotspotIds.length === 1 && correctAnswerString !== null && userSelectedHotspotIds[0] === correctAnswerString;
                 }
             }
             case QuestionType.MatchingSelect: {
@@ -368,6 +380,7 @@ export function useTestEngine() {
             case QuestionType.MultipleChoiceMultipleAnswer: case QuestionType.Hotspot: const parsedArray = JSON.parse(answer); return Array.isArray(parsedArray) && parsedArray.length > 0;
             case QuestionType.MultipleTrueFalse: case QuestionType.MatrixChoice: const parsedTFMatrixArray = JSON.parse(answer); const statementsCount = question.statements?.length || 0; if (!Array.isArray(parsedTFMatrixArray) || parsedTFMatrixArray.length !== statementsCount) return false; return parsedTFMatrixArray.every(ans => typeof ans === 'string' && ans.trim() !== '');
             case QuestionType.MatchingSelect: const parsedMatchingArray = JSON.parse(answer) as Array<{ promptId: string, choiceId: string | null }>; if (!Array.isArray(parsedMatchingArray) || parsedMatchingArray.length !== (question.prompts?.length || 0)) return false; return parsedMatchingArray.every(match => match.choiceId !== null && match.choiceId.trim() !== '');
+            case QuestionType.MatchingDragAndDrop: const parsedDragDrop = JSON.parse(answer) as Array<{ draggableItemId: string, targetItemId: string | null }>; return parsedDragDrop.some(match => match.targetItemId !== null);
             default: return false;
         }
     } catch { return false; }
@@ -414,6 +427,7 @@ export function useTestEngine() {
       getIsQuestionAnswered,
       setShowUnansweredWarningDialog,
       handleClosePrompt,
+      handleResetAnswer,
     },
   };
 }
