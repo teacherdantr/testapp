@@ -372,6 +372,25 @@ export default function TestPage() {
             else { isCorrect = false; }
             }
             break;
+        case QuestionType.MatchingDragAndDrop:
+            {
+                const userAnswer: Array<{ draggableItemId: string, targetItemId: string | null }> = currentAnswerString ? JSON.parse(currentAnswerString) : [];
+                const userPlacedPairs = userAnswer.filter(a => a.targetItemId !== null) as Array<{ draggableItemId: string, targetItemId: string }>;
+                
+                const correctMatches = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
+                
+                if (userPlacedPairs.length !== correctMatches.length) {
+                    isCorrect = false;
+                } else {
+                    isCorrect = correctMatches.every(correctPair => 
+                        userPlacedPairs.some(userPair => 
+                            userPair.draggableItemId === correctPair.draggableItemId &&
+                            userPair.targetItemId === correctPair.targetItemId
+                        )
+                    );
+                }
+            }
+            break;
         default:
             isCorrect = false;
         }

@@ -3,7 +3,7 @@
 import type { TestResult } from '@/lib/types';
 import { QuestionType } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { CheckCircle2, XCircle, RotateCcw } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
@@ -14,6 +14,13 @@ import MatchingSelectResult from './results/MatchingSelectResult';
 import DefaultQuestionResult from './results/DefaultQuestionResult';
 import MatchingDragAndDropResult from './results/MatchingDragAndDropResult';
 import MultipleTrueFalseResult from './results/MultipleTrueFalseResult';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 interface ResultsDisplayProps {
   results: TestResult;
@@ -71,6 +78,20 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               {renderQuestionResultDetails(qResult)}
+              {qResult.explanation && (
+                 <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                        <span className="flex items-center text-xs text-muted-foreground">
+                            <Info className="mr-2 h-4 w-4"/> View Explanation
+                        </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-sm text-foreground/80">
+                      {qResult.explanation}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              )}
               <p className="text-right text-muted-foreground mt-2">
                 Points: {qResult.pointsEarned} / {qResult.pointsPossible}
               </p>

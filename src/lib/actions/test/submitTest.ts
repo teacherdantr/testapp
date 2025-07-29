@@ -193,6 +193,7 @@ export async function submitTest(
         isCorrect,
         pointsEarned,
         pointsPossible: originalQuestion.points,
+        explanation: originalQuestion.explanation,
       };
     });
 

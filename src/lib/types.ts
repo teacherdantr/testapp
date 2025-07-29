@@ -104,6 +104,7 @@ export interface TestResult {
     isCorrect: boolean;
     pointsEarned: number;
     pointsPossible: number;
+    explanation?: string;
   }>;
   testTitle: string;
 }

@@ -62,6 +62,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       draggableItems: [],
       targetItems: [],
       allowShuffle: true,
+      explanation: '',
       correctAnswer: '',
       points: 10,
     });
