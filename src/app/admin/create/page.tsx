@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -231,7 +232,7 @@ export default function CreateTestPage() {
           allowShuffle: true,
           explanation: '',
           correctAnswer: '',
-          points: 1
+          points: 10
         },
       ],
     },
@@ -268,7 +269,7 @@ export default function CreateTestPage() {
         delete processedQuestion.hotspots;
         if (processedQuestion.multipleSelection === undefined) delete processedQuestion.multipleSelection;
       }
-      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect].includes(q.type)) {
+      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MultipleTrueFalse].includes(q.type)) {
         delete processedQuestion.imageUrl;
       }
       if (q.type !== QuestionType.MatchingSelect) { delete processedQuestion.prompts; delete processedQuestion.choices; }

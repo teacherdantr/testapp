@@ -63,7 +63,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
       targetItems: [],
       allowShuffle: true,
       correctAnswer: '',
-      points: 1,
+      points: 10,
     });
   };
 
@@ -316,7 +316,7 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
                         id={`questions.${index}.points`}
                         type="number"
                         {...register(`questions.${index}.points`, { valueAsNumber: true })}
-                        defaultValue={1}
+                        defaultValue={10}
                         min="1"
                         className="mt-1"
                       />

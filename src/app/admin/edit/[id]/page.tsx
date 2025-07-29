@@ -344,7 +344,7 @@ export default function EditTestPage() {
                   targetItems: ensureIds(q.targetItems, 'targetItem'),
                   allowShuffle: q.allowShuffle === undefined ? true : q.allowShuffle,
                   correctAnswer: correctAnswerValue,
-                  points: q.points || 1,
+                  points: q.points || 10,
                   ...processedQuestionData
                 };
               } catch (mapError: any) {
@@ -359,7 +359,7 @@ export default function EditTestPage() {
                     statements: [], categories: [], hotspots: [], multipleSelection: false, prompts: [], choices: [],
                     draggableItems: [], targetItems: [], allowShuffle: false,
                     correctAnswer: '', // Fallback, might be invalid depending on type
-                    points: 1,
+                    points: 10,
                 };
               }
             });
