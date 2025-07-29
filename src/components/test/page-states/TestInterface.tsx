@@ -33,6 +33,7 @@ interface TestInterfaceProps {
 export function TestInterface({
   testData,
   activeQuestions,
+  userAnswers,
   currentQuestionIndex,
   timeLeft,
   userId,
@@ -75,7 +76,7 @@ export function TestInterface({
         question={currentQuestion}
         questionNumber={currentQuestionIndex + 1}
         totalQuestions={activeQuestions.length}
-        userAnswer={actions.getIsQuestionAnswered(currentQuestion.id) ? actions.userAnswers.find(ans => ans.questionId === currentQuestion.id)?.answer : undefined}
+        userAnswer={actions.getIsQuestionAnswered(currentQuestion.id) ? userAnswers.find(ans => ans.questionId === currentQuestion.id)?.answer : undefined}
         onAnswerChange={actions.handleAnswerChange}
         testMode={testMode}
         onImageClick={actions.openImageModal}
