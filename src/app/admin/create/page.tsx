@@ -269,7 +269,7 @@ export default function CreateTestPage() {
         delete processedQuestion.hotspots;
         if (processedQuestion.multipleSelection === undefined) delete processedQuestion.multipleSelection;
       }
-      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MultipleTrueFalse].includes(q.type)) {
+      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop, QuestionType.MultipleTrueFalse].includes(q.type)) {
         delete processedQuestion.imageUrl;
       }
       if (q.type !== QuestionType.MatchingSelect) { delete processedQuestion.prompts; delete processedQuestion.choices; }

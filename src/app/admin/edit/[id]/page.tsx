@@ -451,7 +451,9 @@ export default function EditTestPage() {
         delete questionToProcess.hotspots;
         if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
       }
-      if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MultipleTrueFalse].includes(q.type)) delete questionToProcess.imageUrl;
+      if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop, QuestionType.MultipleTrueFalse].includes(q.type)) {
+        delete questionToProcess.imageUrl;
+      }
       if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
       if (q.type !== QuestionType.MatchingDragAndDrop) { delete questionToProcess.draggableItems; delete questionToProcess.targetItems; delete questionToProcess.allowShuffle;}
 

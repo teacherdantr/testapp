@@ -60,7 +60,7 @@ export async function updateTest(testId: string, formData: FormData): Promise<{ 
                 delete questionToProcess.hotspots;
                 if (questionToProcess.multipleSelection === undefined) delete questionToProcess.multipleSelection;
               }
-              if (![QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.Hotspot, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop, QuestionType.MultipleTrueFalse].includes(q.type)) {
+              if (![QuestionType.Hotspot, QuestionType.MCQ, QuestionType.MultipleChoiceMultipleAnswer, QuestionType.MatchingSelect, QuestionType.MatchingDragAndDrop, QuestionType.MultipleTrueFalse].includes(q.type)) {
                 delete questionToProcess.imageUrl;
               }
               if (q.type !== QuestionType.MatchingSelect) { delete questionToProcess.prompts; delete questionToProcess.choices; }
