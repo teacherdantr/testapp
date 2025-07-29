@@ -53,7 +53,7 @@ function Droppable({ id, children, promptText }: { id: string; children?: React.
       <div
         ref={setNodeRef}
         className={cn(
-          "h-14 border-2 border-dashed rounded-md flex items-center justify-center p-2 text-muted-foreground",
+          "min-h-14 border-2 border-dashed rounded-md flex items-center justify-center p-2 text-muted-foreground",
           isOver ? "border-primary bg-primary/10" : "border-input"
         )}
       >
