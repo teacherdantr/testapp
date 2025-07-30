@@ -10,7 +10,7 @@ import { TestInterfaceImageModal } from './TestInterfaceImageModal';
 import { UnansweredWarningDialog } from './UnansweredWarningDialog';
 import type { Test, Question, UserAnswer } from '@/lib/types';
 import type { useTestEngine } from '@/hooks/useTestEngine';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 type TestEngineActions = ReturnType<typeof useTestEngine>['actions'];
 
@@ -49,6 +49,20 @@ export function TestInterface({
   const [showUnansweredWarning, setShowUnansweredWarning] = useState(false);
   const currentQuestion = activeQuestions[currentQuestionIndex];
   
+  const countUnansweredQuestions = useCallback(() => {
+    if (activeQuestions.length === 0) return 0;
+    return activeQuestions.filter(q => !actions.getIsQuestionAnswered(q.id)).length;
+  }, [activeQuestions, actions]);
+
+  const handleSubmitTest = async () => {
+    const unansweredCount = countUnansweredQuestions();
+    if (unansweredCount > 0 && testMode !== 'race') {
+      setShowUnansweredWarning(true);
+    } else {
+      await actions.proceedWithSubmission();
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto relative pb-24 md:pb-0">
       <TestInterfaceFeedbackOverlay show={showFeedback} type={feedbackType} />
@@ -90,14 +104,14 @@ export function TestInterface({
         testMode={testMode}
         onNext={actions.goToNextQuestion}
         onPrevious={actions.goToPreviousQuestion}
-        onSubmit={() => actions.handleSubmitTest()}
+        onSubmit={handleSubmitTest}
       />
 
       <UnansweredWarningDialog
         isOpen={showUnansweredWarning}
         setIsOpen={setShowUnansweredWarning}
         onConfirm={actions.proceedWithSubmission}
-        unansweredCount={actions.getIsQuestionAnswered(currentQuestion.id) ? 0 : 1}
+        unansweredCount={countUnansweredQuestions()}
       />
       
       <TestInterfaceImageModal

@@ -1335,7 +1335,7 @@
     {
       "text": "\n Bạn đang soạn một sơ đồ để đi kèm với một tập hợp các hướng dẫn. Tham khảo hình ảnh bên dưới và hoàn thành các câu bằng cách chọn tùy chọn đúng từ mỗi danh sách thả xuống.\nKhi chọn lưu đồ, một quyết định (decision) như Có so với Không hoặc Đúng so với Sai được biểu thị bằng . . . . . (1).\n. . . . . . (2) . . . . . có thể được sử dụng để biểu diễn đầu vào (input) hoặc đầu ra (output) trong một lưu đồ.\n. . . . . . (3) . . . . . đánh dấu phần đầu và phần cuối của một sơ đồ.\nCác quy trình trong một lưu đồ được biểu diễn bằng . . . . . (4).\n",
       "type": "MatchingSelect",
-      "imageUrl": "/images/LV3GM1C40.png",
+      "imageUrl": "/images/LV3GM1C40.jpg",
       "points": 10,
       "multipleSelection": false,
       "prompts": [

@@ -38,7 +38,6 @@ export function useTestEngine() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [showUnansweredWarningDialog, setShowUnansweredWarningDialog] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [isTocOpen, setIsTocOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(TEST_DURATION_SECONDS);
@@ -206,83 +205,58 @@ export function useTestEngine() {
     });
   };
 
-  const countUnansweredQuestions = () => {
-    // ... (rest of the function is the same)
-    if (activeQuestions.length === 0) return 0;
-    return activeQuestions.filter(q => {
-        const userAnswer = userAnswers.find(ua => ua.questionId === q.id);
-        if (!userAnswer || userAnswer.answer.trim() === '') return true;
-        if (q.type === QuestionType.MultipleChoiceMultipleAnswer || (q.type === QuestionType.Hotspot && q.multipleSelection)) {
-            try { const parsed = JSON.parse(userAnswer.answer); return !Array.isArray(parsed) || parsed.length === 0; } catch { return true; }
-        }
-        if (q.type === QuestionType.Hotspot && !q.multipleSelection) {
-             try { const parsed = JSON.parse(userAnswer.answer); return !Array.isArray(parsed) || parsed.length !== 1 || !parsed[0]; } catch { return true; }
-        }
-        if (q.type === QuestionType.MultipleTrueFalse || q.type === QuestionType.MatrixChoice) {
-            try { const parsed = JSON.parse(userAnswer.answer); if (!Array.isArray(parsed) || !q.statements || parsed.length !== q.statements.length) return true; return parsed.some(a => typeof a !== 'string' || a.trim() === ""); } catch { return true; }
-        }
-         if (q.type === QuestionType.MatchingSelect) {
-            try { const parsed = JSON.parse(userAnswer.answer) as Array<{ promptId: string, choiceId: string | null }>; if (!Array.isArray(parsed) || parsed.length !== (q.prompts?.length || 0)) return true; return parsed.some(match => match.choiceId === null || match.choiceId === ''); } catch { return true; }
-        }
-        return false;
-    }).length;
-  };
-
-  const handleSubmitTest = async () => {
-    const unansweredCount = countUnansweredQuestions();
-    if (unansweredCount > 0) {
-      setShowUnansweredWarningDialog(true);
-    } else {
-      await proceedWithSubmission();
-    }
-  };
-
   const checkCurrentAnswerIsCorrect = (currentQDisplay: Question, currentAnswerString: string | undefined): boolean => {
     if (!testData) return false;
     const originalQuestion = testData.questions.find(q => q.id === currentQDisplay.id);
     if (!originalQuestion || currentAnswerString === undefined) return false;
+    
+    // For shuffled MCQ, we need to compare against the original correct answer text, not shuffled options.
+    const correctAnswer = originalQuestion.correctAnswer;
+    
     try {
         switch (originalQuestion.type) {
-            case QuestionType.MCQ: return currentAnswerString === originalQuestion.correctAnswer;
-            case QuestionType.TrueFalse: return currentAnswerString.toLowerCase() === (originalQuestion.correctAnswer as string).toLowerCase();
-            case QuestionType.ShortAnswer: return currentAnswerString.toLowerCase().trim() === (originalQuestion.correctAnswer as string).toLowerCase().trim();
+            case QuestionType.MCQ: return currentAnswerString === correctAnswer;
+            case QuestionType.TrueFalse: return currentAnswerString.toLowerCase() === (correctAnswer as string).toLowerCase();
+            case QuestionType.ShortAnswer: return currentAnswerString.toLowerCase().trim() === (correctAnswer as string).toLowerCase().trim();
             case QuestionType.MultipleChoiceMultipleAnswer: {
                 const userSelectedOptions: string[] = currentAnswerString ? JSON.parse(currentAnswerString) : [];
-                const correctOptions = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as string[];
+                const correctOptions = (Array.isArray(correctAnswer) ? correctAnswer : []) as string[];
                 return userSelectedOptions.length === correctOptions.length && [...userSelectedOptions].sort().every((val, index) => val === [...correctOptions].sort()[index]);
             }
             case QuestionType.MultipleTrueFalse: {
                 const userSelectedAnswers: string[] = currentAnswerString ? JSON.parse(currentAnswerString) : [];
-                const correctAnswers = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as string[];
+                const correctAnswers = (Array.isArray(correctAnswer) ? correctAnswer : []) as string[];
                 return userSelectedAnswers.length === correctAnswers.length && userSelectedAnswers.every((val, index) => val.toLowerCase() === correctAnswers[index]?.toLowerCase());
             }
             case QuestionType.MatrixChoice: {
                 const userSelectedCategories: string[] = currentAnswerString ? JSON.parse(currentAnswerString) : [];
-                const correctCategories = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as string[];
+                const correctCategories = (Array.isArray(correctAnswer) ? correctAnswer : []) as string[];
                 return userSelectedCategories.length === correctCategories.length && userSelectedCategories.every((val, index) => val === correctCategories[index]);
             }
             case QuestionType.Hotspot: {
                 const userSelectedHotspotIds: string[] = currentAnswerString ? JSON.parse(currentAnswerString) : [];
+                let isCorrect = false;
                 if (originalQuestion.multipleSelection) {
-                    const correctAnswers = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as string[];
+                    const correctAnswers = (Array.isArray(correctAnswer) ? correctAnswer : []) as string[];
                     const sortedUserSelected = [...userSelectedHotspotIds].sort();
                     const sortedCorrect = [...correctAnswers].sort();
                     isCorrect = sortedUserSelected.length === sortedCorrect.length &&
                               sortedUserSelected.every((id, index) => id === sortedCorrect[index]);
                 } else {
-                    const correctAnswerString = (typeof originalQuestion.correctAnswer === 'string' ? originalQuestion.correctAnswer : null);
+                    const correctAnswerString = (typeof correctAnswer === 'string' ? correctAnswer : null);
                     isCorrect = userSelectedHotspotIds.length === 1 && correctAnswerString !== null && userSelectedHotspotIds[0] === correctAnswerString;
                 }
+                return isCorrect;
             }
             case QuestionType.MatchingSelect: {
                 const userMatches: Array<{ promptId: string, choiceId: string | null }> = currentAnswerString ? JSON.parse(currentAnswerString) : [];
-                const correctMatches = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as Array<{ promptId: string, choiceId: string }>;
+                const correctMatches = (Array.isArray(correctAnswer) ? correctAnswer : []) as Array<{ promptId: string, choiceId: string }>;
                 return correctMatches.length === (originalQuestion.prompts?.length || 0) && correctMatches.every(correctMatch => userMatches.some(um => um.promptId === correctMatch.promptId && um.choiceId === correctMatch.choiceId));
             }
             case QuestionType.MatchingDragAndDrop: {
                 const userAnswer: Array<{ draggableItemId: string, targetItemId: string | null }> = currentAnswerString ? JSON.parse(currentAnswerString) : [];
                 const userPlacedPairs = userAnswer.filter(a => a.targetItemId !== null) as Array<{ draggableItemId: string, targetItemId: string }>;
-                const correctMatches = (Array.isArray(originalQuestion.correctAnswer) ? originalQuestion.correctAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
+                const correctMatches = (Array.isArray(correctAnswer) ? correctAnswer : []) as Array<{ draggableItemId: string, targetItemId: string }>;
                 if (userPlacedPairs.length !== correctMatches.length) return false;
                 return correctMatches.every(correctPair => userPlacedPairs.some(userPair => userPair.draggableItemId === correctPair.draggableItemId && userPair.targetItemId === correctPair.targetItemId));
             }
@@ -331,7 +305,7 @@ export function useTestEngine() {
 
   const goToPreviousQuestion = () => {
     if (testMode !== 'race' && currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex(prev => prev + 1);
     }
   };
 
@@ -415,7 +389,6 @@ export function useTestEngine() {
       handleUserIdSubmit,
       handleModeSelect,
       handleAnswerChange,
-      handleSubmitTest,
       proceedWithSubmission,
       goToNextQuestion,
       goToPreviousQuestion,
@@ -425,7 +398,6 @@ export function useTestEngine() {
       setIsTocOpen,
       setCurrentQuestionIndex,
       getIsQuestionAnswered,
-      setShowUnansweredWarningDialog,
       handleClosePrompt,
       handleResetAnswer,
     },
