@@ -17,7 +17,7 @@ import { QuestionType, type Test, type Category, type HotspotArea, HotspotShapeT
 import { useRouter, useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
-import { Loader2, AlertTriangle, Eye, EyeOff, RefreshCw, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
+import { Loader2, AlertTriangle, Eye, EyeOff, RefreshCw, ArrowLeft, Search } from 'lucide-react'; // Added ArrowLeft and Search
 import { Switch } from "@/components/ui/switch";
 
 const optionSchema = z.object({
@@ -236,6 +236,7 @@ export default function EditTestPage() {
   const [isLoadingTest, setIsLoadingTest] = useState(true);
   const [testNotFound, setTestNotFound] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { control, register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid }, watch, setValue, getValues, reset } = useForm<TestEditFormValues>({
     resolver: zodResolver(testEditSchema),
@@ -594,10 +595,28 @@ export default function EditTestPage() {
                     </div>
                 )}
             </div>
+            
+            <div className="border-t pt-6 space-y-4">
+              <Label className="text-lg block">Questions</Label>
+              <div className="relative">
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                 <Input 
+                   placeholder="Search questions by text or answer..."
+                   value={searchTerm}
+                   onChange={(e) => setSearchTerm(e.target.value)}
+                   className="w-full max-w-md pl-10 h-11"
+                 />
+              </div>
 
-            <div>
-              <Label className="text-lg mb-2 block">Questions</Label>
-              <QuestionBuilder control={control} register={register} errors={errors} getValues={getValues} setValue={setValue} watch={watch} />
+              <QuestionBuilder
+                control={control}
+                register={register}
+                errors={errors}
+                getValues={getValues}
+                setValue={setValue}
+                watch={watch}
+                searchTerm={searchTerm}
+              />
               {errors.questions && typeof errors.questions.message === 'string' && (
                 <p className="text-sm text-destructive mt-2">{errors.questions.message}</p>
               )}
@@ -662,3 +681,4 @@ export default function EditTestPage() {
     </div>
   );
 }
+

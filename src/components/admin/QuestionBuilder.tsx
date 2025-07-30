@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Trash2, PlusCircle, Brain, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { Trash2, PlusCircle, Brain, ArrowUpCircle, ArrowDownCircle, AlertCircle } from 'lucide-react';
 import { QuestionType, type MatchingItem } from '@/lib/types';
 import { generateAnswerOptionsAI } from '@/lib/actions/testActions';
 import { generateAnswerOptionsAI as generateAnswerOptionsAINew } from '@/lib/actions/test/aiActions';
@@ -29,6 +29,7 @@ import { MatchingDragAndDropBuilder } from './QuestionBuilders/MatchingDragAndDr
 import { ShortAnswerBuilder } from './QuestionBuilders/ShortAnswerBuilder';
 import { TrueFalseSelector } from './QuestionBuilders/TrueFalseSelector';
 import { handleGenerateAIOptions } from './questionUtils';
+import { useMemo } from 'react';
 
 
 interface QuestionBuilderProps {
@@ -38,9 +39,10 @@ interface QuestionBuilderProps {
   getValues: UseFormGetValues<any>;
   setValue: UseFormSetValue<any>;
   watch: (name: string | string[]) => any;
+  searchTerm?: string;
 }
 
-export function QuestionBuilder({ control, register, errors, getValues, setValue, watch }: QuestionBuilderProps) {
+export function QuestionBuilder({ control, register, errors, getValues, setValue, watch, searchTerm = '' }: QuestionBuilderProps) {
   const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'questions',
@@ -128,11 +130,49 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
     // If questionText is the same as pastedText (no split occurred and no items populated), allow default paste.
   };
 
+  const filteredFields = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return fields.map((field, index) => ({ ...field, originalIndex: index }));
+    }
+    
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+    return fields
+      .map((field, index) => ({ ...field, originalIndex: index }))
+      .filter((fieldWithIndex) => {
+        const question = getValues(`questions.${fieldWithIndex.originalIndex}`);
+        if (!question) return false;
+
+        // Check question text
+        if (question.text?.toLowerCase().includes(lowercasedSearchTerm)) {
+          return true;
+        }
+
+        // Check options
+        if (question.options?.some(opt => opt.text.toLowerCase().includes(lowercasedSearchTerm))) {
+          return true;
+        }
+        
+        // Check statements
+        if (question.statements?.some(stmt => stmt.text.toLowerCase().includes(lowercasedSearchTerm))) {
+          return true;
+        }
+
+        // Check correct answer if it's a simple string
+        if (typeof question.correctAnswer === 'string' && question.correctAnswer.toLowerCase().includes(lowercasedSearchTerm)) {
+          return true;
+        }
+
+        return false;
+      });
+  }, [searchTerm, fields, getValues]);
+
 
   return (
     <div className="space-y-6">
  <Accordion type="multiple" className="w-full">
-        {fields.map((field, index) => {
+        {filteredFields.map((field, filteredIndex) => {
+          const index = field.originalIndex; // Use originalIndex to access form state
           const questionType = watch(`questions.${index}.type`);
           const currentImageUrl = watch(`questions.${index}.imageUrl`);
           return (
@@ -439,6 +479,13 @@ export function QuestionBuilder({ control, register, errors, getValues, setValue
           );
         })}
       </Accordion>
+      
+      {searchTerm.trim() && filteredFields.length === 0 && (
+          <div className="text-center py-6 text-muted-foreground">
+              <AlertCircle className="mx-auto h-8 w-8 mb-2"/>
+              <p>No questions match your search for "{searchTerm}".</p>
+          </div>
+      )}
 
       <Button type="button" onClick={addQuestion} variant="outline" className="w-full">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Question

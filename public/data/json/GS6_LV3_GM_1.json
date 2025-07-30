@@ -1,0 +1,1397 @@
+{
+  "title": "GS6 LV3 - GM 1",
+  "description": "LV3 - GM - TEST 1 (40C)",
+  "password": "GMGMGM",
+  "questions": [
+    {
+      "text": " Văn bản thay thế (Alt Text) là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "5d05e709-83ff-4241-9d0a-059e8a906460",
+          "text": "Mô tả chức năng của hình ảnh"
+        },
+        {
+          "id": "fdf4f4f0-7efc-45fa-a0d4-ac0a7fc5d878",
+          "text": "Cho phép các kết thúc thay thế trong một câu chuyện"
+        },
+        {
+          "id": "5b124325-9218-40bd-a544-8e96eb18bf75",
+          "text": "Cung cấp cho người dùng các ngôn ngữ thay thế để xem các trang web"
+        },
+        {
+          "id": "208b24fc-f501-44e5-81e7-640f74e3a129",
+          "text": "Thay đổi nội dung trên một trang web"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Mô tả chức năng của hình ảnh"
+    },
+    {
+      "text": " Hai công cụ phần mềm nào sẽ tốt nhất để tạo ra đồ họa trực quan trong kinh doanh? (chọn 2).",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "42e87a9e-1b74-4969-9a19-05d5c7c706c8",
+          "text": "Affinity Designer"
+        },
+        {
+          "id": "fbd9d673-c647-42c8-93e8-c10afe362882",
+          "text": "Adobe Illustrator"
+        },
+        {
+          "id": "93e59fca-5ee4-4034-8858-602661fc0506",
+          "text": "Google Sheets"
+        },
+        {
+          "id": "dbbe4035-3744-44cd-924d-5cbeb371ae3b",
+          "text": "Microsoft Excel"
+        },
+        {
+          "id": "c19c1a6c-197a-42f7-9cbb-fa9526f0924c",
+          "text": "Intuit QuickBooks"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Google Sheets",
+        "Microsoft Excel"
+      ]
+    },
+    {
+      "text": " Loại chất thải phát triển nhanh nhất trên toàn thế giới là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "dfe1be3b-53fd-46f2-858b-53225a88f607",
+          "text": "Kim loại quý tái chế"
+        },
+        {
+          "id": "3ec2680c-37a3-406d-a7db-f0f6358f390b",
+          "text": "Trí tuệ nhân tạo"
+        },
+        {
+          "id": "c97ffe80-3285-41cc-9fdd-2c36805eb1ff",
+          "text": "Rác thải điện tử (E-waste)"
+        },
+        {
+          "id": "752371d2-6ee5-41d3-a803-c777d3aa28c3",
+          "text": "Giấy phép phần mềm không sử dụng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Rác thải điện tử (E-waste)"
+    },
+    {
+      "text": " Hai trường hợp nào sẽ tạo ra một phiên bản mới trên đám mây trong Google Drive? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "9e351ca3-fc44-4424-bdfa-e0026dc568a2",
+          "text": "Hiệu đính với Google Docs"
+        },
+        {
+          "id": "0e20cac1-a2e6-41ab-9e4d-73a976624155",
+          "text": "Tải xuống tập tin"
+        },
+        {
+          "id": "64152bab-6c59-4aba-9161-377b06db95d3",
+          "text": "Xem nội dung của một thư mục"
+        },
+        {
+          "id": "14d09954-74f0-4702-a722-23dff9e901b9",
+          "text": "Đổi tên thư mục"
+        },
+        {
+          "id": "e9b45962-36ac-4db3-959f-ccd9f25ce718",
+          "text": "Sao chép một thư mục"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Hiệu đính với Google Docs",
+        "Đổi tên thư mục"
+      ]
+    },
+    {
+      "text": " Độ phân giải màn hình cao nhất là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "d8cffb58-d2c1-41d9-bd1d-ae4346498cea",
+          "text": "1366x768"
+        },
+        {
+          "id": "a2c7976a-1687-4430-8262-20a61eb60915",
+          "text": "1920x1080"
+        },
+        {
+          "id": "4f6bdf2d-9c4c-4ef2-82b4-5c72c69cf6c4",
+          "text": "1440x900"
+        },
+        {
+          "id": "3ccfd686-1374-4373-a9e5-1fe119bb5322",
+          "text": "1536x864"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "1920x1080"
+    },
+    {
+      "text": " Hai điều chỉnh nào sẽ giúp trang web dễ tiếp cận hơn với người dùng bị khiếm thị? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "d7cd6f96-de30-4760-a0a8-9b0bea3c27c2",
+          "text": "Sử dụng nền tối với phông chữ có màu xanh nước biển, nâu hoặc đen"
+        },
+        {
+          "id": "ab3057dc-cba0-433e-81d4-b6d43d8ed549",
+          "text": "Tránh phối màu đơn sắc"
+        },
+        {
+          "id": "83c8adb8-0330-4e65-a3b2-0d5ecee3e9b3",
+          "text": "Sử dụng màu sắc tương phản"
+        },
+        {
+          "id": "74c5a4ce-9312-4348-a2be-e62ca42d77e9",
+          "text": "Sử dụng màu sắc để truyền tải thông tin"
+        },
+        {
+          "id": "fefd1cff-d849-41d8-a902-dce432441c7c",
+          "text": "Sử dụng chất liệu (textures) và hoa văn (patterns)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Sử dụng màu sắc tương phản",
+        "Sử dụng chất liệu (textures) và hoa văn (patterns)"
+      ]
+    },
+    {
+      "text": " Hai cách phổ biến nhất để phân biệt giữa tiêu đề đoạn (paragraph headings) và nội dung (body text) trên trang web là gì? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "f94dede6-2a49-4737-b1f1-b15782223f7b",
+          "text": "Sử dụng cùng một phông chữ cho cả tiêu đề và nội dung"
+        },
+        {
+          "id": "571d1ed7-3309-40b6-b5b9-1ec6554df80b",
+          "text": "Chỉ sử dụng phông chữ Serif"
+        },
+        {
+          "id": "ff8a4a08-d6ed-43a1-96dc-2ca1979cfb24",
+          "text": "Sử dụng cùng một kích thước phông chữ cho cả tiêu đề và nội dung"
+        },
+        {
+          "id": "99d1be3c-1ebb-4966-925b-9f174c3e8dc7",
+          "text": "Sử dụng một phông chữ cho tiêu đề và một phông chữ khác cho văn bản nội dung"
+        },
+        {
+          "id": "e1ead525-158a-40d2-9f52-25b2607ad965",
+          "text": "Sử dụng phông chữ lớn hơn cho tiêu đề so với văn bản nội dung"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Sử dụng một phông chữ cho tiêu đề và một phông chữ khác cho văn bản nội dung",
+        "Sử dụng phông chữ lớn hơn cho tiêu đề so với văn bản nội dung"
+      ]
+    },
+    {
+      "text": " Khả năng đọc là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "9c2b7e67-68db-4c95-8f81-361e4c5ac168",
+          "text": "Phông chữ màu đỏ"
+        },
+        {
+          "id": "c3f2b203-63e8-468c-bc45-01fccca2a36c",
+          "text": "Văn bản tràn trang"
+        },
+        {
+          "id": "8b1868a2-7826-4f58-be14-0ace15dddee8",
+          "text": "Chất lượng văn bản được rõ ràng hoặc có thể đọc ra"
+        },
+        {
+          "id": "9375f0ac-c8e1-4ecb-94e1-78d732a21d35",
+          "text": "Kích thước phông chữ rất lớn để có thể nhìn rõ"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Chất lượng văn bản được rõ ràng hoặc có thể đọc ra"
+    },
+    {
+      "text": " Các tranh chấp về bản quyền sử dụng hợp lý (Fair Use copyright) được giải quyết bằng cách xem xét các yếu tố về tác phẩm bị sao chép bất hợp pháp. Thẩm phán sẽ sử dụng những yếu tố nào để xác định xem sử dụng hợp lý (Fair Use copyright) có bị vi phạm hay không? Đối với mỗi câu lệnh, hãy chọn Đúng nếu nó là một yếu tố hoặc Sai nếu nó không phải là một yếu tố. \n",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "2cbbca7f-ccff-440e-9104-188a77eb74b9",
+          "text": "Mục đích và công dụng của bản sao \n"
+        },
+        {
+          "id": "f29c064a-7612-4f53-a361-64fbc704ccfd",
+          "text": "Bản chất của công việc được sao chép \n"
+        },
+        {
+          "id": "2f40a30d-376b-4528-948f-4c480d3b36bb",
+          "text": "Số lượng và tính chất của phần được lấy \n"
+        },
+        {
+          "id": "0870b400-b2ec-48ee-bae6-87849e1c8548",
+          "text": "Cho dù bản sao được sử dụng bởi học sinh hay giáo viên\n\n"
+        },
+        {
+          "id": "90a96020-e4c6-4810-a539-e72ddbc1dc43",
+          "text": "Ảnh hưởng của bản sao đối với thị trường tiềm năng của tác phẩm gốc"
+        }
+      ],
+      "categories": [
+        {
+          "id": "36fd7993-32d2-4c19-8a26-79aae8004ac1",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "8cc79561-9fb9-4be2-b315-bd0049701810",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "ĐÚNG",
+        "ĐÚNG",
+        "ĐÚNG",
+        "SAI",
+        "ĐÚNG"
+      ]
+    },
+    {
+      "text": " Điều gì được tạo ra từ ý tưởng của con người, được quốc tế bảo vệ bằng bản quyền, bằng sáng chế, nhãn hiệu hoặc bí mật thương mại?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "aa9f9c07-b366-4855-babb-4cbdd6fc7e2b",
+          "text": "Sở hữu trí tuệ"
+        },
+        {
+          "id": "0f32e998-b5da-4e08-965c-64ec301c86b3",
+          "text": "Bất động sản"
+        },
+        {
+          "id": "1e7db062-1c8c-4754-88e3-5965dd50f573",
+          "text": "Thuộc tính tưởng tượng"
+        },
+        {
+          "id": "80936380-5a03-4075-8ec8-8f215987df37",
+          "text": "Tài sản hữu hình"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Sở hữu trí tuệ"
+    },
+    {
+      "text": " Bạn đang phát triển một trang web chấp nhận các đơn đặt hàng trực tuyến được đóng gói và vận chuyển bởi khách hàng của bạn. Bạn đã quyết định tạo một nguyên mẫu (prototype) của trang web trước khi công bố rộng rãi. Chọn Đúng nếu nguyên mẫu đạt được mục tiêu đã nêu hoặc Sai nếu không đạt được mục tiêu. ",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "bb2e4873-a1f3-4a79-aa7d-17dc9f59b4a9",
+          "text": "Bạn muốn một người dùng được chọn để kiểm tra khả năng điều hướng và dễ dàng đặt hàng trên web\n\n"
+        },
+        {
+          "id": "6e52536c-2872-4b9d-9aea-066af233f45f",
+          "text": "Bạn muốn thu thập thông tin phản hồi từ khách hàng về các sản phẩm được bán trên website \n\n"
+        },
+        {
+          "id": "82036f49-fda6-4bc1-aacf-f350e14b72e0",
+          "text": "Bạn muốn kiểm tra độ chính xác của quy trình từ đặt hàng đến vận chuyển\n\n"
+        }
+      ],
+      "categories": [
+        {
+          "id": "15a3728b-eefe-4b00-a6e3-a2ac9b133623",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "5691466a-d6db-4c52-ac0f-62b6c32ff0ad",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "ĐÚNG",
+        "SAI",
+        "ĐÚNG"
+      ]
+    },
+    {
+      "text": " Bạn muốn trở thành một công dân kỹ thuật số tốt bằng cách báo cáo hành vi nguy hiểm, bất hợp pháp hoặc có hại một cách có trách nhiệm. Đối sánh (đối chiếu và so sánh) từng loại hoạt động trực tuyến bất hợp pháp với một ví dụ về hành vi của nó. Để trả lời, hãy chuyển từng hoạt động bất hợp pháp từ danh sách bên phải sang một ví dụ về hành vi của nó ở bên trái.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "9a345e19-e57f-4e0d-9222-4ff467e4bf7d",
+          "text": "Giả mạo (Spoofing)"
+        },
+        {
+          "id": "e66706bf-bf15-42d4-b2e1-42508c165e84",
+          "text": " Lừa đảo (Phishing)"
+        },
+        {
+          "id": "5ae7b266-5716-45d0-a5ac-324ff92c71e6",
+          "text": "Gian lận trên Internet (Internet Fraud)"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "d511359b-8e2b-4ecd-a43e-9568b0f9a0bd",
+          "text": "Bạn nhận được một yêu cầu kết bạn trùng lặp trên Facebook từ một người đã là bạn của bạn"
+        },
+        {
+          "id": "a2468153-6ca7-4395-b7bd-7e119c4149d5",
+          "text": "Bạn nhận được một email thông báo rằng tài khoản ngân hàng của bạn đã bị xâm phạm và hướng dẫn bạn nhấp vào một liên kết trong email để đăng nhập và chứng minh đó là tài khoản của bạn"
+        },
+        {
+          "id": "596e9152-d4c1-45c1-9d86-2bd05733a0b3",
+          "text": "Người bán ô tô trực tuyến tuyên bố họ đang trong quân đội, nhưng sẽ giao xe cho bạn sau khi bạn thanh toán"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "d511359b-8e2b-4ecd-a43e-9568b0f9a0bd",
+          "draggableItemId": "9a345e19-e57f-4e0d-9222-4ff467e4bf7d"
+        },
+        {
+          "targetItemId": "a2468153-6ca7-4395-b7bd-7e119c4149d5",
+          "draggableItemId": "e66706bf-bf15-42d4-b2e1-42508c165e84"
+        },
+        {
+          "targetItemId": "596e9152-d4c1-45c1-9d86-2bd05733a0b3",
+          "draggableItemId": "5ae7b266-5716-45d0-a5ac-324ff92c71e6"
+        }
+      ]
+    },
+    {
+      "text": " Bạn làm việc tại một tổng đài. Công việc của bạn là giải quyết các vấn đề của khách hàng và duy trì hoạt động kinh doanh của họ. Đối với mỗi tuyên bố, hãy chọn Đúng nếu nó xây dựng lòng tin của khách hàng đối với việc giải quyết vấn đề hoặc Sai nếu không\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "4c219068-1fa5-42c8-9030-ac5d19107555",
+          "text": "Sau khi khách hàng trình bày vấn đề, hãy diễn giải lại những gì khách hàng đã nói \n\n"
+        },
+        {
+          "id": "4221c01b-074d-4561-9a82-0cc1bf9acd87",
+          "text": "Cho khách hàng biết công ty đánh giá cao doanh nghiệp của họ thế nào\n\n"
+        },
+        {
+          "id": "e4fb4f27-99fa-4cb8-8904-3c3c722afbf7",
+          "text": "Nếu khách hàng có vẻ tức giận hoặc thất vọng, hãy đề nghị họ đưa doanh nghiệp của mình đi nơi khác\n\n"
+        },
+        {
+          "id": "ffc42bec-25c5-4229-846c-f410c328e5b5",
+          "text": "Trả lời bằng cùng một ngôn ngữ mà khách hàng sử dụng để cho thấy rằng bạn có thể liên quan đến họ, ngay cả khi ngôn ngữ đó thô tục \n\n"
+        },
+        {
+          "id": "319458b9-3528-4d1a-b0ce-1c249bc520f1",
+          "text": "Đảm bảo với khách hàng rằng bạn sẽ giải quyết vấn đề\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": " Bạn đang thiết kế bảo mật cho một trang web. Ghép nối nào với mật khẩu để tạo ra xác thực đa yếu tố?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "c937ec15-5200-4a83-97f5-92ebf5e155fe",
+          "text": "Tên thời con gái của mẹ"
+        },
+        {
+          "id": "3c65ea2e-5302-4b24-b9a9-971d5cc2dfec",
+          "text": "Số điện thoại"
+        },
+        {
+          "id": "2a67c8db-822c-4b9c-bc23-f8ba4784047a",
+          "text": "Vân tay"
+        },
+        {
+          "id": "a4f8433e-5f8e-4ceb-b0cc-3085412c9a34",
+          "text": "ID người dùng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Vân tay"
+    },
+    {
+      "text": " Kỹ năng nào đang bị mất đi trong xã hội vì phụ thuộc vào công nghệ?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "3622bfdd-ba6e-4aae-96e8-60bce6f195ad",
+          "text": "Điều hướng bản đồ"
+        },
+        {
+          "id": "ec5b553b-bae2-41cb-9668-8df050c90444",
+          "text": "Nhận thức sâu sắc"
+        },
+        {
+          "id": "3dee62ea-6a49-4465-ba6e-0940ede34e38",
+          "text": "Tổ chức"
+        },
+        {
+          "id": "62f30865-c2b2-46dd-9ebb-00d940253abb",
+          "text": "Khéo léo"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Điều hướng bản đồ"
+    },
+    {
+      "text": " Phù hợp với yêu cầu cụ thể với thiết bị kỹ thuật số thích hợp nhất. Để trả lời, hãy chuyển từng nhu cầu từ danh sách ở bên trái sang thiết bị kỹ thuật số ở bên phải.\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "27888a96-6cec-42c8-896d-0f0fe22549fb",
+          "text": "Máy tính để bàn (Desktop Computer)"
+        },
+        {
+          "id": "06f4322e-dcd0-4135-bf64-0f34941a9d96",
+          "text": "Máy tính bảng(Tablet)"
+        },
+        {
+          "id": "7c9f09df-1db5-4ebc-af1f-978d73d14dd8",
+          "text": "Điện thoại thông minh(Smartphone)"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "bc44d0bb-9ef1-4fb9-aaee-0ba93d4d8265",
+          "text": "Có khả năng hợp nhất và chỉnh sửa các video lớn cho trang web của khách hàng"
+        },
+        {
+          "id": "9cfa1c9b-f138-4e15-87cf-ecc297c17d71",
+          "text": "Di động để sử dụng trong lớp học, hỗ trợ ghi chú vào đám mây và chạy hầu hết các ứng dụng văn phòng"
+        },
+        {
+          "id": "dd0b97ba-50d5-48cd-aca7-bde8c3e47cd2",
+          "text": "Di động để sử dụng trong lớp học, hỗ trợ ghi chú vào đám mây và chạy hầu hết các ứng dụng văn phòng"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "bc44d0bb-9ef1-4fb9-aaee-0ba93d4d8265",
+          "draggableItemId": "27888a96-6cec-42c8-896d-0f0fe22549fb"
+        },
+        {
+          "targetItemId": "9cfa1c9b-f138-4e15-87cf-ecc297c17d71",
+          "draggableItemId": "06f4322e-dcd0-4135-bf64-0f34941a9d96"
+        },
+        {
+          "targetItemId": "dd0b97ba-50d5-48cd-aca7-bde8c3e47cd2",
+          "draggableItemId": "7c9f09df-1db5-4ebc-af1f-978d73d14dd8"
+        }
+      ]
+    },
+    {
+      "text": " Lớp học lịch sử của bạn đang tham gia một chuyến đi thực tế đến một viện bảo tàng. Một số bạn cùng lớp của bạn không thể tham dự. Giáo viên của bạn đã yêu cầu một tình nguyện viên phát trên web về chuyến đi thực tế.\nỨng dụng phần mềm nào sẽ thích hợp để tạo webcast?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "10b27cc7-05df-4868-b75b-30d0fabd5336",
+          "text": "Google Chrome"
+        },
+        {
+          "id": "319111bf-4751-4df2-80b6-2160f7388add",
+          "text": "Zoom"
+        },
+        {
+          "id": "bdf04c4a-3bd5-4583-815c-72b94d1cb4fe",
+          "text": "Adobe InDesign"
+        },
+        {
+          "id": "f8a105fd-f01b-4d1f-ae73-8c0b750a4e6f",
+          "text": "Microsoft PowerPoint"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Zoom"
+    },
+    {
+      "text": " Bạn làm việc trong phòng máy của trường học với tư cách là trợ lý cho quản trị viên mạng. Bạn đến phòng thí nghiệm sớm trước bất kỳ ai khác và nhận thấy rằng bạn không thể truy cập Internet. Bạn bắt đầu khắc phục sự cố. Đặt các bước khắc phục sự cố theo đúng thứ tự.\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "f1fea543-0d07-4fa8-8565-598479d28c6e",
+          "text": "Kiểm tra phần cứng"
+        },
+        {
+          "id": "ef54d0d4-ce99-4737-a8af-24bf46fe8ff4",
+          "text": "Sử dụng lệnh ipconfig "
+        },
+        {
+          "id": "67ca1e7b-aa59-421f-9f48-05b62a95db2f",
+          "text": "Sử dụng ping/tracert "
+        },
+        {
+          "id": "1a6b79b9-d63c-4e95-a5d8-b06d404b3a21",
+          "text": "Thực hiện kiểm tra DNS"
+        },
+        {
+          "id": "47ce54d1-1540-4cf3-ae65-87f9cedf994f",
+          "text": "Liên hệ ISP của bạn"
+        },
+        {
+          "id": "d8948f77-a0c6-4ea6-a6f3-c8e432ff3b28",
+          "text": "Kiểm tra bảo vệ chống virus và phần mềm độc hại"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "e08ffe81-eb15-4f83-8b44-ef1245c4fbeb",
+          "text": "BƯỚC 1"
+        },
+        {
+          "id": "cfec3121-99f9-4fbc-959d-4df23d1f88fd",
+          "text": "BƯỚC 2"
+        },
+        {
+          "id": "bc19b5d3-265b-4b6a-b448-f3e1e0349ac5",
+          "text": "BƯỚC 3"
+        },
+        {
+          "id": "0f29cfdc-d1ec-4bcb-9b96-a32efd9c0511",
+          "text": "BƯỚC 4"
+        },
+        {
+          "id": "ab971323-8066-4a46-ba04-7dbabd442407",
+          "text": "BƯỚC 5"
+        },
+        {
+          "id": "49770795-bed5-459e-a9d7-b2e0e8860a3e",
+          "text": "BƯỚC 6"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "e08ffe81-eb15-4f83-8b44-ef1245c4fbeb",
+          "draggableItemId": "f1fea543-0d07-4fa8-8565-598479d28c6e"
+        },
+        {
+          "targetItemId": "cfec3121-99f9-4fbc-959d-4df23d1f88fd",
+          "draggableItemId": "ef54d0d4-ce99-4737-a8af-24bf46fe8ff4"
+        },
+        {
+          "targetItemId": "bc19b5d3-265b-4b6a-b448-f3e1e0349ac5",
+          "draggableItemId": "67ca1e7b-aa59-421f-9f48-05b62a95db2f"
+        },
+        {
+          "targetItemId": "0f29cfdc-d1ec-4bcb-9b96-a32efd9c0511",
+          "draggableItemId": "1a6b79b9-d63c-4e95-a5d8-b06d404b3a21"
+        },
+        {
+          "targetItemId": "ab971323-8066-4a46-ba04-7dbabd442407",
+          "draggableItemId": "47ce54d1-1540-4cf3-ae65-87f9cedf994f"
+        },
+        {
+          "targetItemId": "49770795-bed5-459e-a9d7-b2e0e8860a3e",
+          "draggableItemId": "d8948f77-a0c6-4ea6-a6f3-c8e432ff3b28"
+        }
+      ]
+    },
+    {
+      "text": " Bạn đang gặp sự cố với máy tính xách tay Windows của mình. Trước khi liên hệ với bộ phận hỗ trợ, bạn phải thu thập thông tin về thiết bị của mình, bộ xử lý, dung lượng RAM, và phiên bản hệ điều hành. Trên máy tính Windows, bạn có thể tìm thấy thiết bị và thông tin hệ thống ở đâu?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "363dad7b-ece9-4d8b-9973-225400be6365",
+          "text": "File > Info"
+        },
+        {
+          "id": "520dc297-eace-43bf-abfa-f7a164d9e99f",
+          "text": "Settings > About"
+        },
+        {
+          "id": "08c3024c-8758-4687-9aa2-cfa4afb32c3d",
+          "text": "Settings > System Info"
+        },
+        {
+          "id": "44d4769c-e5fd-4da5-ad84-c440b7a5ec91",
+          "text": "Desktop > System Info"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Settings > About"
+    },
+    {
+      "text": " Hai loại giấy phép kỹ thuật số nào thường cho phép sử dụng miễn phí? Chọn 2",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "e755151f-2940-46ca-b0b7-755624c755ca",
+          "text": "Per-user"
+        },
+        {
+          "id": "00b9557d-f9ba-46fb-811d-45f2e23d5d59",
+          "text": "Creative Commons"
+        },
+        {
+          "id": "421f6830-4de1-40d5-be02-19767825fc1e",
+          "text": "Per-seat"
+        },
+        {
+          "id": "d6170dc4-8f4b-4b0e-9253-811851fd093d",
+          "text": "Public Domain"
+        },
+        {
+          "id": "ffff8262-22bf-4bc3-945e-f8092a48967b",
+          "text": "Site"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Creative Commons",
+        "Public Domain"
+      ]
+    },
+    {
+      "text": " Hai lý do cho việc tạo phiên bản phần mềm là gì? Chọn 2?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "7d2f27d6-d2f4-4619-bbe8-7bc54db1cc99",
+          "text": "Cho phép các thiết bị máy tính sử dụng ít bộ nhớ hơn"
+        },
+        {
+          "id": "707f051e-b90a-4521-8870-21df628c031b",
+          "text": "Cho phép khách hàng nhận ra các phiên bản cập nhật"
+        },
+        {
+          "id": "e74be633-c19d-48b3-ae1a-d435efdb316d",
+          "text": "Cho phép các nhà bán lẻ tính thêm tiền"
+        },
+        {
+          "id": "0cb41e96-113a-44de-a314-be56f23f71ae",
+          "text": "Cho phép lập trình viên theo dõi các thay đổi"
+        },
+        {
+          "id": "8ec4bae1-d0b4-4f89-bef2-390ea030e63a",
+          "text": "Cho phép các nhà xuất bản phần mềm theo dõi doanh số bán hàng hiệu quả hơn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Cho phép khách hàng nhận ra các phiên bản cập nhật",
+        "Cho phép lập trình viên theo dõi các thay đổi"
+      ]
+    },
+    {
+      "text": " Máy tính xách tay Windows 10 của bạn đã được cài đặt một số ứng dụng, bao gồm Mozilla FireFox và Zoom Meetings. Bạn muốn tất cả các ứng dụng sử dụng âm lượng tối đa khi phát âm thanh.\nBạn có thể định cấu hình âm lượng âm thanh mặc định được tất cả các ứng\ndụng sử dụng ở đâu?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "f60892b3-be9a-4d91-b3f9-85ebd08aef4b",
+          "text": "Apps"
+        },
+        {
+          "id": "0d5b5221-fcf5-464b-89a8-e58b704d4c7b",
+          "text": "Video Playback"
+        },
+        {
+          "id": "37af1bd3-a079-4360-a382-c693d84b9025",
+          "text": "Advanced Sound Options"
+        },
+        {
+          "id": "43431f4f-6e64-4459-b6f9-9731d64d49bf",
+          "text": "System > Sound > Device Properties"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Advanced Sound Options"
+    },
+    {
+      "text": " Microsoft Office được biết đến với việc giúp bạn dễ dàng sử dụng các tính năng phổ biến trên các ứng dụng tương tự như Word, Excel và PowerPoint. Giao diện người dùng nào giúp bạn dễ dàng sử dụng các tính năng chung trên các ứng dụng Microsoft Office tương tự?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "8a1b8972-9957-42fd-9107-aab2581ebea3",
+          "text": "The Ribbon"
+        },
+        {
+          "id": "8d1aa52c-3a7f-4650-b216-53ddb104a6fa",
+          "text": "Options Menu"
+        },
+        {
+          "id": "83d14818-9b5b-48ad-a0cc-1384db8d902e",
+          "text": "Taskbar"
+        },
+        {
+          "id": "a5e01bcb-fae3-4003-904b-002995cd8aed",
+          "text": "Panels"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "The Ribbon"
+    },
+    {
+      "text": " Ba hành động nào có thể xâm phạm quyền riêng tư trực tuyến của bạn? (chọn 3)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "2eb311d2-77e3-47c8-a2b7-cbbf8b306b51",
+          "text": "Sử dụng cùng một thông tin đăng nhập và mật khẩu cho nhiều tài khoản"
+        },
+        {
+          "id": "964c10b0-6eba-49e8-ab3c-52d5893bdc74",
+          "text": "Mở tập tin đính kèm email"
+        },
+        {
+          "id": "7146d99e-f35f-4c5d-bf35-8c6625866bb1",
+          "text": "Tải tập tin"
+        },
+        {
+          "id": "dad56621-ac13-4e47-9cc0-3f87577b4b74",
+          "text": "Đăng trong một diễn đàn"
+        },
+        {
+          "id": "821a913e-2987-4c63-a003-821a4e2faefb",
+          "text": "Luôn đăng nhập vào các trang web (mà không đăng xuất)"
+        },
+        {
+          "id": "a15bc225-755d-4c7b-a92d-4eb4c3650a2d",
+          "text": "Cho phép và giữ cookie của trình duyệt"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Sử dụng cùng một thông tin đăng nhập và mật khẩu cho nhiều tài khoản",
+        "Luôn đăng nhập vào các trang web (mà không đăng xuất)",
+        "Cho phép và giữ cookie của trình duyệt"
+      ]
+    },
+    {
+      "text": " Ba tình huống nào sẽ làm tổn hại đến quyền riêng tư của bạn khi cho phép email của bạn có sẵn cho nhà tuyển dụng hoặc ban quản lý trường học? (Chọn 3)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "f38c87bc-e0bd-4c1b-8ac6-dd601f38ac3d",
+          "text": "Gửi email từ điện thoại thông minh bằng tài khoản công việc"
+        },
+        {
+          "id": "f9fdb7ae-bfe4-4d9a-adbc-fa0a29735954",
+          "text": "Gửi email từ máy tính làm việc bằng tài khoản cá nhân"
+        },
+        {
+          "id": "81689488-6a00-41cc-bccc-f8c087569b36",
+          "text": "Gửi email từ máy tính làm việc bằng tài khoản công việc"
+        },
+        {
+          "id": "dc3f7eb8-43c2-4b4a-8581-d26d8f3ee70c",
+          "text": "Gửi email từ máy tính của trường bằng tài khoản cá nhân"
+        },
+        {
+          "id": "2d135db6-872d-4508-bc73-116280a85ed2",
+          "text": "Gửi email từ máy tính ở cơ quan bằng tài khoản của trường"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Gửi email từ điện thoại thông minh bằng tài khoản công việc",
+        "Gửi email từ máy tính làm việc bằng tài khoản công việc",
+        "Gửi email từ máy tính ở cơ quan bằng tài khoản của trường"
+      ]
+    },
+    {
+      "text": " Bạn thân của bạn cảm thấy bạn nên trao đổi mật khẩu với các tài khoản trực tuyến của trường. Người hướng dẫn của bạn đã hướng dẫn lớp học của bạn rằng việc cho phép người khác biết mật khẩu của bạn có những rủi ro liên quan đến nó. Chọn Đúng nếu biết mật khẩu là một rủi ro có thể chấp nhận được hoặc Sai nếu không.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "376126b4-35ce-4723-99bd-2cd175698357",
+          "text": "Mẹ của bạn đang ở trong bệnh viện và yêu cầu bạn thanh toán hóa đơn điện tử cho bà ấy. Cô ấy cung cấp cho bạn thông tin đăng nhập và mật khẩu của mình cho công ty điện lực.\n\n"
+        },
+        {
+          "id": "77c9b4b2-35d2-41c0-9a3d-3c7391e34d21",
+          "text": "Bạn của bạn có thông tin đăng nhập và mật khẩu vào tài khoản Facebook của bạn\n\n"
+        },
+        {
+          "id": "ddb55152-bcfe-4c19-9272-a18b19379828",
+          "text": "Bạn của bạn có thông tin đăng nhập và mật khẩu vào tài khoản PayPal của bạn\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "text": " Hai loại khiếu nại pháp lý nào liên quan đến việc công bố trái phép thông tin cá nhân và riêng tư? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "f13087cc-8f19-44fd-b69a-1a4172880b06",
+          "text": "Thói quen duyệt web do Cookie thu thập"
+        },
+        {
+          "id": "99b63e92-14d4-4bde-8464-5cd35d148aad",
+          "text": "Công bố thông tin cá nhân"
+        },
+        {
+          "id": "bda1dfee-68bc-4dff-bc85-4370cdf5928a",
+          "text": "Sử dụng tên hoặc chân dung như của người khác"
+        },
+        {
+          "id": "8ec6e789-2a3d-4206-a17f-1e383970cf3b",
+          "text": "Đăng các đánh giá về hiệu quả hoạt động của nhà thầu"
+        },
+        {
+          "id": "dfaa41f7-f3c5-4a93-b287-af9ff6d71c23",
+          "text": "Chia sẻ địa chỉ IP"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Công bố thông tin cá nhân",
+        "Sử dụng tên hoặc chân dung như của người khác"
+      ]
+    },
+    {
+      "text": " Bạn vừa tốt nghiệp chuyên ngành Công nghệ thông tin và được thuê làm thành viên của phòng CNTT trong một tập đoàn lớn. Làm thế nào bạn có thể cập nhật kiến thức kỹ thuật số của mình? Chọn Đúng nếu hành động sẽ giúp cập nhật kiến thức kỹ thuật số của bạn hoặc Sai nếu không. ",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "a3e92cd8-5aeb-43e7-9535-da8604144194",
+          "text": "Tình nguyện ngồi vào ban cố vấn của một tổ chức phi lợi nhuận\n\n"
+        },
+        {
+          "id": "07a7bfbd-9d97-4768-85ec-6eac8e87995a",
+          "text": "Đọc nguồn cung cấp tin tức công nghệ hàng tuần liên quan đến lĩnh vực của bạn "
+        },
+        {
+          "id": "c88bff92-333b-4e66-83c5-c0a0940acdab",
+          "text": "Nói chuyện với các đồng nghiệp có kinh nghiệm về các công nghệ mới \n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": " Bạn phải tìm kiếm nguồn của nhiều loại thông tin. Kết hợp từng loại tìm kiếm với công cụ tìm kiếm để sử dụng. Để trả lời, hãy di chuyển công cụ tìm kiếm từ danh sách ở bên phải sang loại tìm kiếm ở bên trái. \n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "4a7f13dd-9189-4ca5-aa2a-a1692664fb03",
+          "text": "Google"
+        },
+        {
+          "id": "6bd8998f-7308-4191-aab1-56800dc880f0",
+          "text": "Tineye"
+        },
+        {
+          "id": "3ad60e52-bfdd-4122-a8e7-e9885613be30",
+          "text": "Shazam"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "8a959c2a-6107-421e-a604-d87f1a6be1ca",
+          "text": "Liệt kê các vị trí trang web phù hợp với từ khóa "
+        },
+        {
+          "id": "c6f85c70-f594-48b2-9ba7-cba9080b6ca6",
+          "text": "Báo cáo lần xuất hiện đầu tiên và lần xuất hiện tiếp theo của một hình ảnh trực tuyến"
+        },
+        {
+          "id": "5b2cda3a-753b-41da-a41d-497c5c11792e",
+          "text": "Xác định nhạc, phim, quảng cáo và chương trình truyền hình, dựa trên một mẫu ngắn được phát và sử dụng micro trên thiết bị"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "8a959c2a-6107-421e-a604-d87f1a6be1ca",
+          "draggableItemId": "4a7f13dd-9189-4ca5-aa2a-a1692664fb03"
+        },
+        {
+          "targetItemId": "c6f85c70-f594-48b2-9ba7-cba9080b6ca6",
+          "draggableItemId": "6bd8998f-7308-4191-aab1-56800dc880f0"
+        },
+        {
+          "targetItemId": "5b2cda3a-753b-41da-a41d-497c5c11792e",
+          "draggableItemId": "3ad60e52-bfdd-4122-a8e7-e9885613be30"
+        }
+      ]
+    },
+    {
+      "text": " Bạn đang tiến hành nghiên cứu trực tuyến bằng cách sử dụng tìm kiếm Boolean. Chọn Đúng nếu tìm kiếm Boolean sẽ đạt được kết quả mong muốn hoặc Sai nếu không đạt được kết quả mong muốn.",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "45f0e45a-ef01-4a11-9a75-b332074d41ae",
+          "text": "Để thu hẹp kết quả, hãy kết hợp các cụm từ tìm kiếm bằng toán tử AND"
+        },
+        {
+          "id": "0db3346e-e97e-4e92-b205-4ec25d6e8de6",
+          "text": "Để mở rộng kết quả, hãy loại trừ các từ sử dụng toán tử NOT"
+        },
+        {
+          "id": "5d8cb284-9db6-41fa-9a49-55dbe8607668",
+          "text": "Để mở rộng kết quả tìm kiếm, hãy kết hợp các cụm từ tìm kiếm thay thế bằng toán tử OR"
+        }
+      ],
+      "categories": [
+        {
+          "id": "13b2cf36-1241-4ac3-a01a-9ab6312d9e36",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "86a87105-2ebc-4d3f-a7c2-506c1b763a48",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "ĐÚNG",
+        "SAI",
+        "ĐÚNG"
+      ]
+    },
+    {
+      "text": " Bạn đã được giao một nhiệm vụ để xác nhận quan điểm của kết quả tìm kiếm và tạo tác kỹ thuật số. Đối với mỗi tuyên bố về quan điểm xác thực, hãy chọn nó theo Đúng hoặc Sai. ",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "5282d196-81fa-4a75-8ea4-07f049123f8c",
+          "text": "Một khuynh hướng cánh tả ủng hộ bình đẳng xã hội, Chủ nghĩa tự do và các ý tưởng cách mạng\n"
+        },
+        {
+          "id": "5a6efc76-66eb-4a92-a4cd-a070effbde08",
+          "text": "Khuynh hướng cánh hữu ủng hộ doanh nghiệp tự do, quyền sở hữu tư nhân  và các ý tưởng  bảo thủ về mặt xã hội"
+        },
+        {
+          "id": "45c2ae87-22c7-41c0-afa9-30124c9a68d0",
+          "text": "Những câu chuyện được đăng tải bởi một mạng lưới truyền thông lớn luôn thể hiện cả hai mặt và một góc nhìn bình đẳng "
+        },
+        {
+          "id": "9084d559-7966-46bf-9e18-e33f22a0a66f",
+          "text": "Tất cả các câu chuyện đăng trên Internet đều có quan điểm trung lập "
+        }
+      ],
+      "categories": [
+        {
+          "id": "d6130539-9ea3-405b-8657-993aab336a41",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "f40036de-6caa-44dd-b404-df6650204c42",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "ĐÚNG",
+        "ĐÚNG",
+        "SAI",
+        "SAI"
+      ]
+    },
+    {
+      "text": " Để trả lời, hãy kéo từng công cụ từ cột bên phải sang chức năng của nó ở bên trái.",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "b3e23896-bbda-4e7d-a6d6-58ebcc13d174",
+          "text": "Có sẵn dưới dạng một ứng dụng di động có tên là Newstrition®, nó được cung cấp một nhãn dinh dưỡng tương tác được đính kèm với tất cả các tin bài trực tuyến\n\n"
+        },
+        {
+          "id": "3f7cbd03-5001-4dfe-8ff9-61f5717fc0f9",
+          "text": "Tìm kiếm hình ảnh đã tải lên và cung cấp kết quả hiển thị các bài báo cáo và ngày hình ảnh xuất hiện\n"
+        },
+        {
+          "id": "f58503aa-d11f-4e30-aff4-bac56955d9ad",
+          "text": "Một mạng lưới các nhà khoa học trên toàn thế giới phân loại thực tế từ hư cấu trong việc đưa tin về biến đổi khí hậu. Mục đích là giúp người đọc biết nên tin tưởng vào tin tức nào"
+        },
+        {
+          "id": "58f98324-daea-4219-a70e-5ef8753ccfcb",
+          "text": "Tìm kiếm các câu chuyện thịnh hành, hình ảnh, video và bài đăng có chứa thông tin sai lệch để xác minh thực tế chúng nhanh nhất có thể"
+        }
+      ],
+      "categories": [
+        {
+          "id": "5bb9f965-c4c8-46d9-bed0-50f3706546be",
+          "text": "ClimateFeedback.org"
+        },
+        {
+          "id": "06985cdb-242e-47c2-a076-59044f4f0b84",
+          "text": "Leadstories.com"
+        },
+        {
+          "id": "a1aec147-488d-4fe2-a18e-5a7af76d4a94",
+          "text": "Our.news"
+        },
+        {
+          "id": "264c5ef9-b3a4-4d20-8793-ae42b8db86ac",
+          "text": "Tineye.com"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Our.news",
+        "Tineye.com",
+        "ClimateFeedback.org",
+        "Leadstories.com"
+      ]
+    },
+    {
+      "text": " Bạn đã được giao nhiệm vụ tạo một video trình chiếu về ý nghĩa lịch sử của các di tích. Đối với mỗi tuyên bố về chỉnh sửa nội dung video và âm thanh, hãy chọn Đúng hoặc Sai.?",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "4b06cd6d-6d2d-43eb-b409-94b1d1611eb9",
+          "text": "Bạn có thể sử dụng hình ảnh tĩnh và một số kỹ thuật chỉnh sửa đơn giản để tạo ra một video trực quan hấp dẫn"
+        },
+        {
+          "id": "ae15b941-06f7-455a-ba0f-6c4a83836dc2",
+          "text": "Bạn có thể tạo một video trau chuốt chỉ bằng cách sử dụng các cảnh quay có sẵn\n\n"
+        },
+        {
+          "id": "c71322b4-7a90-408b-9292-8e608ddac238",
+          "text": "Nói chung việc lồng tiếng một video cũ hơn để sử dụng lại là không khả thi"
+        }
+      ],
+      "categories": [
+        {
+          "id": "ac65e10c-526d-4dd5-8362-6d4a709c3708",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "0835f155-33e4-4b86-b242-5efb9c58a0a5",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "ĐÚNG",
+        "ĐÚNG",
+        "SAI"
+      ]
+    },
+    {
+      "text": " Định dạng tập tin nào trong số các định dạng tập tin này có khả năng chứa âm thanh, video và các phương tiện khác bởi có chứa dữ liệu chứ không phải mã (code)?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "bdf3a029-c0d7-45e7-8e3f-35ffd63302f3",
+          "text": "MP3"
+        },
+        {
+          "id": "f044ea13-2994-489f-a894-baebd89f98d8",
+          "text": "MP4"
+        },
+        {
+          "id": "1e19fcc7-8205-4675-8a93-15ab062ee632",
+          "text": "WAV"
+        },
+        {
+          "id": "018cf7d1-5742-4152-a526-554c7819f611",
+          "text": "WMA"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "MP4"
+    },
+    {
+      "text": " Khi chọn cách tốt nhất để phân phối thông tin, bạn nên xem xét đối tượng và hình thức truyền thông có sẵn. Đối với mỗi tuyên bố, hãy sắp xếp chúng theo cách liệu nó có thể hiện hình thức giao tiếp tốt nhất cho khán giả hay không?",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "f82140e8-da6d-4e21-86c1-d23e3431fce4",
+          "text": "Một giám đốc tiếp thị chọn video để giới thiệu cho người dùng sự dễ dàng khi vận hành một máy may mới\n\n"
+        },
+        {
+          "id": "78f60bd1-7254-42c1-85e1-8f913dbc745b",
+          "text": "Một người hướng dẫn thiền tạo podcast âm thanh cho những người muốn học các phương pháp của cô ấy\n\n"
+        },
+        {
+          "id": "ad4dd2e2-25fa-4b85-9775-e54bc4b089f7",
+          "text": "Tác giả của một bản tin dựa trên đăng ký hàng tuần về các lựa chọn của thị trường chứng khoán quyết định đăng thông tin cho công chúng trên phương tiện truyền thông xã hội"
+        }
+      ],
+      "categories": [
+        {
+          "id": "b76ec80b-93b1-4a97-98be-ae3b619cdc6e",
+          "text": "Hình thức giao tiếp tốt nhất"
+        },
+        {
+          "id": "2a0a3036-2813-4cbf-9c56-80f42cbecb1f",
+          "text": "Không phải là hình thức giao tiếp tốt nhất"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Hình thức giao tiếp tốt nhất",
+        "Hình thức giao tiếp tốt nhất",
+        "Không phải là hình thức giao tiếp tốt nhất"
+      ]
+    },
+    {
+      "text": " Hai công cụ phần mềm nào sẽ tốt nhất để xây dựng bảng, biểu đồ và trình bày trực quan dữ liệu thô? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "1e660e06-9986-49f9-84d1-ed2b19e5c502",
+          "text": "Intuit QuickBooks"
+        },
+        {
+          "id": "8f0fd3c5-362b-4cb5-a3a5-f548bf9916d0",
+          "text": "Google Sheets"
+        },
+        {
+          "id": "3f64735f-2f4b-4b71-ac64-b357d13e359f",
+          "text": "Adobe Illustrator"
+        },
+        {
+          "id": "b52420ee-d091-46cb-8ce5-79da123542be",
+          "text": "Affinity Designer"
+        },
+        {
+          "id": "65163383-cbc5-4b1d-9237-55b3ebd5bde1",
+          "text": "Microsoft Excel"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Google Sheets",
+        "Microsoft Excel"
+      ]
+    },
+    {
+      "text": " Lớp khoa học của bạn đã được chia thành các đội. Mỗi đội phải xây dựng một bài thuyết trình trực tuyến cho một trường tiểu học. Nhóm của bạn đã được chỉ định xây dựng một bài thuyết trình cho học sinh từ 5 đến 6 tuổi. Nhóm của bạn cần đảm bảo khán giả sẽ xem và nghe bài thuyết trình của bạn. Hành động nào sẽ tăng mức độ tương tác của khán giả này trong buổi thuyết trình của bạn?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "ae3fbb7b-94de-47be-be4d-a552e582b84e",
+          "text": "Đặt toàn bộ kịch bản cho bản trình bày của bạn trên các trang trình bày để khán giả có thể đọc nó"
+        },
+        {
+          "id": "20c68fe3-553f-4bb3-a324-df3854c2b8d3",
+          "text": "Chỉ sử dụng hình ảnh trong bài thuyết trình của bạn mà không nói chuyện"
+        },
+        {
+          "id": "6613b41a-edc2-4596-a86e-166a492dcaae",
+          "text": "Hỏi học sinh những gì họ muốn học, sau đó trình bày một cách ngẫu hứng"
+        },
+        {
+          "id": "79291b9b-a99b-45fc-ad9c-6497e081dd9d",
+          "text": "Đặt một hình ảnh trên mỗi trang chiếu. Giữ câu chuyện cho mỗi slide thật ngắn gọn và thú vị"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Đặt một hình ảnh trên mỗi trang chiếu. Giữ câu chuyện cho mỗi slide thật ngắn gọn và thú vị"
+    },
+    {
+      "text": " Bạn đã được chỉ định lãnh đạo nhóm dịch vụ khách hàng cho một sản phẩm cụ thể trong công ty của bạn. Các thành viên trong nhóm của bạn ở các múi giờ khác nhau. Mục tiêu của bạn là xác định và hiểu các vấn đề với sản phẩm để bạn có thể đề xuất các giải pháp cho công ty. Đối với mỗi tuyên bố, hãy chọn Đúng nếu nó sẽ đạt được thành công trong một nhóm ảo hoặc Sai nếu nó không đạt được.",
+      "type": "MatrixChoice",
+      "points": 10,
+      "statements": [
+        {
+          "id": "e5822d0e-9366-4858-ae71-014e44b7c601",
+          "text": "Nhấn mạnh rằng tất cả các giao tiếp của nhóm đều sử dụng video trực tiếp, ngay cả khi nó yêu cầu một số thành viên tham gia vào ban đêm \n\n"
+        },
+        {
+          "id": "da02ed8a-7864-4ebd-a96e-643a621969a7",
+          "text": "Thiết lập vị trí lưu trữ dùng chung để các thành viên trong nhóm có thể truy cập và cộng tác trên các tập tin "
+        },
+        {
+          "id": "b126cc1d-3574-4145-ad85-a3b804226c13",
+          "text": "Yêu cầu mỗi thành viên trong nhóm xác định quỹ du lịch để gặp nhau hàng tháng để họ có thể hình thành mối quan hệ thân thiết hơn\n\n"
+        },
+        {
+          "id": "dd871a53-1e63-432a-8ff5-9976dc206804",
+          "text": "Chỉ sử dụng các hình thức giao tiếp không đồng bộ càng nhiều càng tốt"
+        }
+      ],
+      "categories": [
+        {
+          "id": "588ce471-ed91-4bcd-9374-8066d32db71d",
+          "text": "ĐÚNG"
+        },
+        {
+          "id": "a376c416-10fb-46c3-a035-841206f27d7c",
+          "text": "SAI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "SAI",
+        "ĐÚNG",
+        "SAI",
+        "ĐÚNG"
+      ]
+    },
+    {
+      "text": "\n Xác định định dạng trực quan thích hợp để thể hiện tập dữ liệu được mô tả. Hoàn thành các câu bằng cách chọn tùy chọn đúng từ mỗi danh sách thả xuống.\nMột . .(1). . sẽ là tốt nhất để minh họa các mối quan hệ đơn giản giữa một phần và toàn bộ trong một tập dữ liệu nhỏ. \nĐể hiển thị cách một hoặc nhiều chuỗi dữ liệu thay đổi theo thời gian, bạn nên sử dụng . . (2). . \nHiển thị khối lượng bán hàng của các sản phẩm khác nhau được minh họa rõ nhất với một . . (3). .\n",
+      "type": "MatchingSelect",
+      "points": 10,
+      "multipleSelection": false,
+      "prompts": [
+        {
+          "id": "ce445b10-354d-4c44-a808-f61a5358711b",
+          "text": "LỰA CHỌN 1"
+        },
+        {
+          "id": "1c766989-06ae-418e-8f5d-7afff7630b6a",
+          "text": "LỰA CHỌN 2"
+        },
+        {
+          "id": "80d4e04f-e40b-4b6f-8737-0df5b30fc410",
+          "text": "LỰA CHỌN 3"
+        }
+      ],
+      "choices": [
+        {
+          "id": "e9d69616-175e-4c97-b0c9-fcdd1f8f0e2b",
+          "text": "Pie Chart"
+        },
+        {
+          "id": "60d3f5a6-7ba3-47b8-ab83-a8db11ac9d0e",
+          "text": " Line Graph "
+        },
+        {
+          "id": "59ebbd42-11fe-4c8d-ba24-ee49094943fd",
+          "text": " Column Char"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "choiceId": "e9d69616-175e-4c97-b0c9-fcdd1f8f0e2b",
+          "promptId": "ce445b10-354d-4c44-a808-f61a5358711b"
+        },
+        {
+          "choiceId": "60d3f5a6-7ba3-47b8-ab83-a8db11ac9d0e",
+          "promptId": "1c766989-06ae-418e-8f5d-7afff7630b6a"
+        },
+        {
+          "choiceId": "59ebbd42-11fe-4c8d-ba24-ee49094943fd",
+          "promptId": "80d4e04f-e40b-4b6f-8737-0df5b30fc410"
+        }
+      ]
+    },
+    {
+      "text": "\n Bạn đang soạn một sơ đồ để đi kèm với một tập hợp các hướng dẫn. Tham khảo hình ảnh bên dưới và hoàn thành các câu bằng cách chọn tùy chọn đúng từ mỗi danh sách thả xuống.\nKhi chọn lưu đồ, một quyết định (decision) như Có so với Không hoặc Đúng so với Sai được biểu thị bằng . . . . . (1).\n. . . . . . (2) . . . . . có thể được sử dụng để biểu diễn đầu vào (input) hoặc đầu ra (output) trong một lưu đồ.\n. . . . . . (3) . . . . . đánh dấu phần đầu và phần cuối của một sơ đồ.\nCác quy trình trong một lưu đồ được biểu diễn bằng . . . . . (4).\n",
+      "type": "MatchingSelect",
+      "imageUrl": "/images/LV3GM1C40.png",
+      "points": 10,
+      "multipleSelection": false,
+      "prompts": [
+        {
+          "id": "996b5d5c-7bac-4b22-9001-85e25215f3b9",
+          "text": "Lựa chọn 1"
+        },
+        {
+          "id": "5d964cbe-e9a3-455e-8017-d0405840dd8d",
+          "text": "Lựa chọn 2"
+        },
+        {
+          "id": "b8202e87-62f7-47ed-9aad-eaaad7938805",
+          "text": "Lựa chọn 3"
+        },
+        {
+          "id": "41df4d07-27b5-4f69-8377-81f1d2e8f655",
+          "text": "Lựa chọn 4"
+        }
+      ],
+      "choices": [
+        {
+          "id": "bda2d4f6-4db3-4db8-ae93-27ac65fdb974",
+          "text": "A"
+        },
+        {
+          "id": "5f7db856-0bad-4c91-a3dc-0df906fd456a",
+          "text": "B"
+        },
+        {
+          "id": "718e7c6b-c9d8-447d-9901-db262dfbed86",
+          "text": "C"
+        },
+        {
+          "id": "97fc6434-1cf3-4fb8-81f0-bc4e65fc0380",
+          "text": "D"
+        }
+      ],
+      "correctAnswer": [
+        {
+          "choiceId": "5f7db856-0bad-4c91-a3dc-0df906fd456a",
+          "promptId": "996b5d5c-7bac-4b22-9001-85e25215f3b9"
+        },
+        {
+          "choiceId": "718e7c6b-c9d8-447d-9901-db262dfbed86",
+          "promptId": "5d964cbe-e9a3-455e-8017-d0405840dd8d"
+        },
+        {
+          "choiceId": "bda2d4f6-4db3-4db8-ae93-27ac65fdb974",
+          "promptId": "b8202e87-62f7-47ed-9aad-eaaad7938805"
+        },
+        {
+          "choiceId": "97fc6434-1cf3-4fb8-81f0-bc4e65fc0380",
+          "promptId": "41df4d07-27b5-4f69-8377-81f1d2e8f655"
+        }
+      ]
+    }
+  ]
+}
