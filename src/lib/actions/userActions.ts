@@ -83,17 +83,22 @@ export async function deleteUserScoreByIds(
   const { userId, testId, submittedAt } = validatedParams.data;
 
   try {
-    // Use `delete` for a single record identified by its unique composite key.
-    const result = await prisma.userScore.delete({
+    // Use `deleteMany` because there's no single unique ID to target directly.
+    // The combination of fields acts as the unique identifier.
+    const result = await prisma.userScore.deleteMany({
       where: {
-        userId_testId_submittedAt: {
-          userId: userId,
-          testId: testId,
-          submittedAt: new Date(submittedAt), // Convert ISO string to Date object
-        },
+        userId: userId,
+        testId: testId,
+        submittedAt: new Date(submittedAt), // Convert ISO string to Date object
       },
     });
-    console.log("[deleteUserScoreByIds Action] Deletion successful, result:", result);
+
+    if (result.count === 0) {
+      console.warn("[deleteUserScoreByIds Action] No records found to delete for:", params);
+      return { success: false, error: 'Submission record not found for deletion.' };
+    }
+
+    console.log(`[deleteUserScoreByIds Action] Deletion successful, ${result.count} record(s) deleted.`);
     return { success: true };
   } catch (e: any) {
     console.error('[deleteUserScoreByIds Action] Error deleting user score with Prisma:', e);
