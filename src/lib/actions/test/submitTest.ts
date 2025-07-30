@@ -202,6 +202,7 @@ export async function submitTest(
 
     const resultForClient: TestResult = {
       testId: testIdString,
+      userId: userId,
       score,
       totalPoints,
       questionResults: resolvedQuestionResults,

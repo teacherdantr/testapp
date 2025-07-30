@@ -1,9 +1,10 @@
+
 'use client';
 
 import type { TestResult } from '@/lib/types';
 import { QuestionType } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { CheckCircle2, XCircle, RotateCcw, Info } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Info, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
@@ -56,6 +57,14 @@ export function ResultsDisplay({ results, testId, onRetry }: ResultsDisplayProps
         <CardDescription className="text-xl text-foreground">
           You scored <span className="font-bold text-primary">{results.score}</span> out of <span className="font-bold text-primary">{results.totalPoints}</span> points.
         </CardDescription>
+        
+        {results.userId && (
+          <p className="flex items-center justify-center text-lg text-muted-foreground mt-2">
+            <UserCircle className="mr-2 h-5 w-5" />
+            Results for: <span className="font-semibold ml-1">{results.userId}</span>
+          </p>
+        )}
+
         <div className="w-full max-w-sm mx-auto pt-4">
           <Progress value={scorePercentage} className="h-4" />
           <p className="text-center text-lg font-semibold mt-2">{scorePercentage.toFixed(0)}%</p>

@@ -82,6 +82,7 @@ export interface UserAnswer {
 
 export interface TestResult {
   testId: string;
+  userId: string;
   score: number;
   totalPoints: number;
   questionResults: Array<{
@@ -111,7 +112,6 @@ export interface TestResult {
 
 
 export interface StoredTestResult extends TestResult {
-  userId: string;
   submittedAt: string;
   timeTaken?: number;
   testMode?: 'training' | 'testing' | 'race'; // Added 'race'
