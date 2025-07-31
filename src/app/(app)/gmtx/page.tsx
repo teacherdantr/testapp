@@ -19,22 +19,22 @@ import Image from 'next/image';
 const gs6Category = {
     name: 'IC3 GS6',
     tests: [
-        { name: 'Digital Literacy Level 1', image: '/images/ic3-digital-literacy-1.png', hint: 'ic3 digital literacy' },
-        { name: 'Digital Literacy Level 2', image: '/images/ic3-digital-literacy-2.png', hint: 'ic3 digital literacy' },
-        { name: 'Digital Literacy Level 3', image: '/images/ic3-digital-literacy-3.png', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 1', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level1.svg', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 2', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 3', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg', hint: 'ic3 digital literacy' },
     ]
 };
 
 const mosCategory = {
     name: 'Microsoft Office Specialist',
     tests: [
-        { name: 'Word 2016', image: '/images/mos-word-2016.png', hint: 'mos logo word' },
-        { name: 'Excel 2016', image: '/images/mos-excel-2016.png', hint: 'mos logo excel' },
-        { name: 'PowerPoint 2016', image: '/images/mos-powerpoint-2016.png', hint: 'mos logo powerpoint' },
-        { name: 'Access 2016', image: '/images/mos-access-2016.png', hint: 'mos logo access' },
-        { name: 'Outlook 2016', image: '/images/mos-outlook-2016.png', hint: 'mos logo outlook' },
-        { name: 'Word 2016 Expert', image: '/images/mos-word-expert-2016.png', hint: 'mos logo word expert' },
-        { name: 'Excel 2016 Expert', image: '/images/mos-excel-expert-2016.png', hint: 'mos logo excel expert' },
+        { name: 'Word 2016', image: 'https://images.credly.com/images/fd092703-61db-4e9f-9c7c-2211d44ca87d/MOS_Word.png', hint: 'mos logo word' },
+        { name: 'Excel 2016', image: 'https://images.credly.com/images/9d2bcbe6-519f-4ed0-ad34-aca077421568/MOS_Excel.png', hint: 'mos logo excel' },
+        { name: 'PowerPoint 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo powerpoint' },
+        { name: 'Access 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo access' },
+        { name: 'Outlook 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo outlook' },
+        { name: 'Word 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo word expert' },
+        { name: 'Excel 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo excel expert' },
     ]
 };
 
