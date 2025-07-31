@@ -1,62 +1,70 @@
 
-'use client';
-
-import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PracticeExamItem } from '@/components/gmtx/PracticeExamItem';
-import { ChevronLeft, ListChecks, MoreVertical } from 'lucide-react';
+import { ChevronLeft, ListChecks } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
+import Link from 'next/link';
 
 const testDataMap: { [key: string]: any } = {
   'digital-literacy-level-1': {
     title: 'Digital Literacy Level 1',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level1.svg',
-    practiceExams: [
-      { name: 'Digital Literacy Level 1 Test 1', passed: true },
-      { name: 'Digital Literacy Level 1 Test 2', passed: true },
-    ],
     studyGuide: 'Digital Literacy Level 1 Study Guide',
+    dbFilter: 'LV01',
   },
   'digital-literacy-level-2': {
     title: 'Digital Literacy Level 2',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg',
-    practiceExams: [
-      { name: 'Digital Literacy Level 2 Test 1', passed: false },
-      { name: 'Digital Literacy Level 2 Test 2', passed: false },
-    ],
     studyGuide: 'Digital Literacy Level 2 Study Guide',
+    dbFilter: null, // No filter for now
   },
   'digital-literacy-level-3': {
     title: 'Digital Literacy Level 3',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg',
-    practiceExams: [
-      { name: 'Digital Literacy Level 3 Test 1', passed: false },
-      { name: 'Digital Literacy Level 3 Test 2', passed: false },
-    ],
     studyGuide: 'Digital Literacy Level 3 Study Guide',
+    dbFilter: null, // No filter for now
   },
 };
 
-export default function GmtxTestDetailsPage() {
-  const router = useRouter();
-  const params = useParams();
-  const testName = params.testName as string;
-
+export default async function GmtxTestDetailsPage({ params }: { params: { testName: string } }) {
+  const { testName } = params;
   const data = testDataMap[testName];
 
   if (!data) {
-    // In a real app, you might fetch data and show a loading state,
-    // or redirect to a 404 page if not found.
     return notFound();
+  }
+
+  let practiceExams: Array<{ name: string; passed: boolean }> = [];
+  if (data.dbFilter) {
+    const testsFromDb = await prisma.test.findMany({
+      where: {
+        title: {
+          contains: data.dbFilter,
+        },
+      },
+      select: {
+        title: true,
+      },
+      orderBy: {
+        title: 'asc',
+      }
+    });
+    practiceExams = testsFromDb.map(test => ({
+      name: test.title,
+      passed: false, // Defaulting to not passed
+    }));
   }
 
   return (
     <main className="flex-1 flex flex-col bg-gray-50 p-6">
       <header className="flex items-center gap-4 mb-8">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} aria-label="Go back">
-          <ChevronLeft className="h-6 w-6" />
+        <Button variant="ghost" size="icon" asChild>
+          <Link href="/gmtx" aria-label="Go back">
+            <ChevronLeft className="h-6 w-6" />
+          </Link>
         </Button>
         <Image src={data.icon} alt={data.title} width={40} height={40} data-ai-hint="logo" />
         <h1 className="text-2xl font-bold text-gray-800">{data.title}</h1>
@@ -66,12 +74,12 @@ export default function GmtxTestDetailsPage() {
         <section>
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Practice Exams</h2>
           <div className="space-y-4">
-            {data.practiceExams.length > 0 ? (
-              data.practiceExams.map((exam: any) => (
+            {practiceExams.length > 0 ? (
+              practiceExams.map((exam) => (
                 <PracticeExamItem key={exam.name} name={exam.name} passed={exam.passed} />
               ))
             ) : (
-              <p className="text-sm text-gray-500">No practice exams available for this level.</p>
+              <p className="text-sm text-gray-500">No practice exams available for this level yet.</p>
             )}
           </div>
         </section>
