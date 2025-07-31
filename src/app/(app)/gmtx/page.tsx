@@ -2,10 +2,6 @@
 'use client';
 
 import {
-  Card,
-  CardContent,
-} from '@/components/ui/card';
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -19,22 +15,22 @@ import { TestCard } from '@/components/gmtx/TestCard';
 const gs6Category = {
     name: 'IC3 GS6',
     tests: [
-        { name: 'Digital Literacy Level 1', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level1.svg', hint: 'ic3 digital literacy' },
-        { name: 'Digital Literacy Level 2', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg', hint: 'ic3 digital literacy' },
-        { name: 'Digital Literacy Level 3', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 1', href: '/gmtx/tests/digital-literacy-level-1', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level1.svg', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 2', href: '/gmtx/tests/digital-literacy-level-2', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 3', href: '/gmtx/tests/digital-literacy-level-3', image: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg', hint: 'ic3 digital literacy' },
     ]
 };
 
 const mosCategory = {
     name: 'Microsoft Office Specialist',
     tests: [
-        { name: 'Word 2016', image: 'https://images.credly.com/images/fd092703-61db-4e9f-9c7c-2211d44ca87d/MOS_Word.png', hint: 'mos logo word' },
-        { name: 'Excel 2016', image: 'https://images.credly.com/images/9d2bcbe6-519f-4ed0-ad34-aca077421568/MOS_Excel.png', hint: 'mos logo excel' },
-        { name: 'PowerPoint 2016', image: 'https://images.credly.com/images/ccfeac51-f472-404a-abf1-97ed89dda03b/twitter_thumb_201604_MOS_PowerPoint.png', hint: 'mos logo powerpoint' },
-        { name: 'Access 2016', image: 'https://images.credly.com/images/cbcee0cb-3281-4c8d-b402-7dc8bcf81426/MOS_Access.png', hint: 'mos logo access' },
-        { name: 'Outlook 2016', image: 'https://images.credly.com/images/20bcb721-dd1c-482d-832e-02ee7e72fbd0/MOS_Outlook.png', hint: 'mos logo outlook' },
-        { name: 'Word 2016 Expert', image: 'https://images.credly.com/images/c9ab0811-5167-49b4-9459-7dd2e3d0a192/image.png', hint: 'mos logo word expert' },
-        { name: 'Excel 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo excel expert' },
+        { name: 'Word 2016', href: '#', image: 'https://images.credly.com/images/fd092703-61db-4e9f-9c7c-2211d44ca87d/MOS_Word.png', hint: 'mos logo word' },
+        { name: 'Excel 2016', href: '#', image: 'https://images.credly.com/images/9d2bcbe6-519f-4ed0-ad34-aca077421568/MOS_Excel.png', hint: 'mos logo excel' },
+        { name: 'PowerPoint 2016', href: '#', image: 'https://images.credly.com/images/ccfeac51-f472-404a-abf1-97ed89dda03b/twitter_thumb_201604_MOS_PowerPoint.png', hint: 'mos logo powerpoint' },
+        { name: 'Access 2016', href: '#', image: 'https://images.credly.com/images/cbcee0cb-3281-4c8d-b402-7dc8bcf81426/MOS_Access.png', hint: 'mos logo access' },
+        { name: 'Outlook 2016', href: '#', image: 'https://images.credly.com/images/20bcb721-dd1c-482d-832e-02ee7e72fbd0/MOS_Outlook.png', hint: 'mos logo outlook' },
+        { name: 'Word 2016 Expert', href: '#', image: 'https://images.credly.com/images/c9ab0811-5167-49b4-9459-7dd2e3d0a192/image.png', hint: 'mos logo word expert' },
+        { name: 'Excel 2016 Expert', href: '#', image: 'https://www.mousetraining.london/wp-content/uploads/2023/10/MOS-MO-211-Excel-365-Expert-apps.png', hint: 'mos logo excel expert' },
     ]
 };
 
@@ -66,7 +62,7 @@ export default function GmtxPage() {
             <h2 className="text-xl font-bold text-gray-800 mb-4">{gs6Category.name}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                 {gs6Category.tests.map(test => (
-                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} />
+                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} href={test.href} />
                 ))}
             </div>
         </section>
@@ -75,7 +71,7 @@ export default function GmtxPage() {
             <h2 className="text-xl font-bold text-gray-800 mb-4">{mosCategory.name}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                 {mosCategory.tests.map(test => (
-                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} />
+                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} href={test.href} />
                 ))}
             </div>
         </section>
