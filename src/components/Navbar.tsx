@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Waves, ListChecks, ArchiveIcon, UserCog, Sun, Moon, Palette } from 'lucide-react';
+import { Waves, ListChecks, ArchiveIcon, UserCog, Sun, Moon, Palette, Shapes } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/components/theme-provider';
@@ -31,6 +31,7 @@ export function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/select-test', label: 'Take a Test', icon: ListChecks },
     { href: '/public-records', label: 'Test History', icon: ArchiveIcon },
+    { href: '/gmtx', label: 'GMTX', icon: Shapes },
     { href: '/admin', label: 'Admin', icon: UserCog },
   ];
 
