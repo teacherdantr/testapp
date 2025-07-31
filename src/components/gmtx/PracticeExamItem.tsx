@@ -35,7 +35,7 @@ export function PracticeExamItem({ name, passed }: PracticeExamItemProps) {
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs text-gray-500">Ngày hết hạn</span>
-          <span>4 thg 11, 2025</span>
+          <span>25 thg 25, 2525</span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs text-gray-500">Last Activity</span>

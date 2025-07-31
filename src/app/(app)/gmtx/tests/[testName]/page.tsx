@@ -19,13 +19,13 @@ const testDataMap: { [key: string]: any } = {
     title: 'Digital Literacy Level 2',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg',
     studyGuide: 'Digital Literacy Level 2 Study Guide',
-    dbFilter: null, // No filter for now
+    dbFilter: 'LV02', // No filter for now
   },
   'digital-literacy-level-3': {
     title: 'Digital Literacy Level 3',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg',
     studyGuide: 'Digital Literacy Level 3 Study Guide',
-    dbFilter: null, // No filter for now
+    dbFilter: 'LV03', // No filter for now
   },
 };
 
