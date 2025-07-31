@@ -24,13 +24,17 @@ const testDataMap: { [key: string]: any } = {
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level2.svg',
     practiceExams: [
       { name: 'Digital Literacy Level 2 Test 1', passed: false },
+      { name: 'Digital Literacy Level 2 Test 2', passed: false },
     ],
     studyGuide: 'Digital Literacy Level 2 Study Guide',
   },
   'digital-literacy-level-3': {
     title: 'Digital Literacy Level 3',
     icon: 'https://content.gmetrix.net/images/ColorSVGIcons/IconIC3Level3.svg',
-    practiceExams: [],
+    practiceExams: [
+      { name: 'Digital Literacy Level 3 Test 1', passed: false },
+      { name: 'Digital Literacy Level 3 Test 2', passed: false },
+    ],
     studyGuide: 'Digital Literacy Level 3 Study Guide',
   },
 };
