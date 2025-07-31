@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { TestCard } from '@/components/test/TestCard';
+import { TestCard } from '@/components/gmtx/TestCard';
 
 const gs6Category = {
     name: 'IC3 GS6',
