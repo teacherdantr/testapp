@@ -7,6 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { SessionCard } from '@/components/gmtx/SessionCard';
+import Link from 'next/link';
 
 const testDataMap: { [key: string]: any } = {
   'digital-literacy-level-1': {
@@ -49,6 +50,8 @@ export default function GmtxExamSessionsPage() {
   const testName = params.testName as string;
   const examName = decodeURIComponent(params.examName as string);
 
+  const configureLink = `/gmtx/tests/${testName}/${params.examName}/configure`;
+
   const categoryData = testDataMap[testName];
   const sessions = (examData as any)[examName] || [];
 
@@ -69,7 +72,9 @@ export default function GmtxExamSessionsPage() {
       
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-600">Start a new test or resume one below</p>
-        <Button>New Test</Button>
+        <Button asChild>
+          <Link href={configureLink}>New Test</Link>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

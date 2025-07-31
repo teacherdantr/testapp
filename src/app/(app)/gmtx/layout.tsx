@@ -34,7 +34,7 @@ function GmtxSidebar() {
   return (
     <aside className="w-64 flex-shrink-0 bg-blue-800 text-white flex flex-col">
       <div className="h-16 flex items-center px-6 border-b border-blue-700">
-        <h1 className="text-xl font-bold">PHUOC BINH</h1>
+        <h1 className="text-xl font-bold">D.TRUONG</h1>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1">
         {sidebarNavItems.filter(item => !item.isBottom).map(item => (
