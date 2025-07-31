@@ -16,34 +16,23 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 
-const categories = [
-    {
-        name: 'IC3 GS4',
-        tests: [
-            { name: 'Computing Fundamentals (GS4)', image: '/images/gmetrix-in-development.png', hint: 'gmetrix logo' },
-            { name: 'Key Applications (GS4)', image: '/images/ic3-key-applications.png', hint: 'ic3 logo key' },
-            { name: 'Living Online (GS4)', image: '/images/ic3-living-online.png', hint: 'ic3 logo online' },
-        ]
-    },
-    {
-        name: 'IC3 GS5',
-        tests: [
-            { name: 'Computing Fundamentals', image: '/images/ic3-computing-fundamentals-2013.png', hint: 'ic3 logo 2013' },
-            { name: 'Computing Fundamentals (Office 2016)', image: '/images/ic3-computing-fundamentals-2016.png', hint: 'ic3 logo 2016' },
-            { name: 'IC3 Fast Track', image: '/images/ic3-fast-track.png', hint: 'ic3 logo fasttrack' },
-            { name: 'IC3 GS5 Spark', image: '/images/ic3-spark.png', hint: 'ic3 logo spark' },
-        ]
-    },
-     {
-        name: 'Microsoft Office Specialist',
-        tests: [
-            { name: 'MOS Access 2016', image: '/images/mos-access-2016.png', hint: 'mos logo access' },
-            { name: 'MOS Excel 2016', image: '/images/mos-excel-2016.png', hint: 'mos logo excel' },
-            { name: 'MOS Outlook 2016', image: '/images/mos-outlook-2016.png', hint: 'mos logo outlook' },
-            { name: 'MOS PowerPoint 2016', image: '/images/mos-powerpoint-2016.png', hint: 'mos logo powerpoint' },
-        ]
-    }
+const topCategories = [
+    { name: 'Computing Fundamentals', image: '/images/ic3-computing-fundamentals-2013.png', hint: 'ic3 logo 2013' },
+    { name: 'Computing Fundamentals (Office 2016)', image: '/images/ic3-computing-fundamentals-2016.png', hint: 'ic3 logo 2016' },
+    { name: 'IC3 Fast Track', image: '/images/ic3-fast-track.png', hint: 'ic3 logo fasttrack' },
+    { name: 'IC3 GS5 Spark', image: '/images/ic3-spark.png', hint: 'ic3 logo spark' },
+    { name: 'Key Applications', image: '/images/ic3-key-applications.png', hint: 'ic3 logo key' },
+    { name: 'Living Online', image: '/images/ic3-living-online.png', hint: 'ic3 logo online' },
 ];
+
+const gs6Category = {
+    name: 'IC3 GS6',
+    tests: [
+        { name: 'Digital Literacy Level 1', image: '/images/ic3-digital-literacy-1.png', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 2', image: '/images/ic3-digital-literacy-2.png', hint: 'ic3 digital literacy' },
+        { name: 'Digital Literacy Level 3', image: '/images/ic3-digital-literacy-3.png', hint: 'ic3 digital literacy' },
+    ]
+};
 
 const TestCard = ({ name, image, hint }: { name: string, image: string, hint: string }) => (
     <div className="flex flex-col items-center gap-2 cursor-pointer group">
@@ -81,16 +70,22 @@ export default function GmtxPage() {
       </header>
       
       <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-        {categories.map((category) => (
-            <section key={category.name}>
-                <h2 className="text-xl font-bold text-gray-800 mb-4">{category.name}</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                   {category.tests.map(test => (
-                       <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} />
-                   ))}
-                </div>
-            </section>
-        ))}
+        <section>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                {topCategories.map(test => (
+                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} />
+                ))}
+            </div>
+        </section>
+        
+        <section>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">{gs6Category.name}</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                {gs6Category.tests.map(test => (
+                    <TestCard key={test.name} name={test.name} image={test.image} hint={test.hint} />
+                ))}
+            </div>
+        </section>
       </main>
     </div>
   );
