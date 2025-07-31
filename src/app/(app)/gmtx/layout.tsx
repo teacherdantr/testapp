@@ -39,7 +39,7 @@ function GmtxSidebar() {
       <nav className="flex-1 px-4 py-4 space-y-1">
         {sidebarNavItems.filter(item => !item.isBottom).map(item => (
           <Link
-            key={item.href}
+            key={item.label}
             href={item.href}
             className={cn(
               'flex items-center px-4 py-2.5 text-sm font-medium rounded-md hover:bg-blue-700 transition-colors relative',
