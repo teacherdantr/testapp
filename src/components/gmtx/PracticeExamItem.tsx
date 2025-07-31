@@ -4,6 +4,8 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FilePenLine, MoreVertical, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 interface PracticeExamItemProps {
   name: string;
@@ -11,6 +13,10 @@ interface PracticeExamItemProps {
 }
 
 export function PracticeExamItem({ name, passed }: PracticeExamItemProps) {
+  const params = useParams();
+  const testName = params.testName as string;
+  const examLink = `/gmtx/tests/${testName}/${encodeURIComponent(name)}`;
+
   return (
     <Card className="p-4 flex items-center justify-between shadow-sm">
       <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -38,7 +44,9 @@ export function PracticeExamItem({ name, passed }: PracticeExamItemProps) {
       </div>
 
       <div className="flex items-center gap-2 ml-4">
-        <Button>Bắt đầu</Button>
+        <Button asChild>
+            <Link href={examLink}>Bắt đầu</Link>
+        </Button>
         <Button variant="ghost" size="icon">
           <MoreVertical className="h-5 w-5" />
         </Button>
