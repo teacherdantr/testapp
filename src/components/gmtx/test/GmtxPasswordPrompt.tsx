@@ -31,7 +31,7 @@ export function GmtxPasswordPrompt({ onVerify, onClose, error: initialError }: G
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-50">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
           <ShieldAlert className="h-12 w-12 text-blue-600 mx-auto mb-4" />
