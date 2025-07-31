@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import Image from 'next/image';
+import { TestCard } from '@/components/test/TestCard';
 
 const gs6Category = {
     name: 'IC3 GS6',
@@ -37,18 +37,6 @@ const mosCategory = {
         { name: 'Excel 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo excel expert' },
     ]
 };
-
-const TestCard = ({ name, image, hint }: { name: string, image: string, hint: string }) => (
-    <div className="flex flex-col items-center gap-2 cursor-pointer group">
-        <Card className="w-full aspect-[16/10] flex items-center justify-center p-4 shadow-md hover:shadow-lg hover:border-primary transition-all duration-200">
-             <div className="relative w-full h-full">
-                <Image src={image} alt={name} fill style={{ objectFit: 'contain' }} data-ai-hint={hint} />
-             </div>
-        </Card>
-        <p className="text-sm font-medium text-center text-gray-600 group-hover:text-primary transition-colors">{name}</p>
-    </div>
-);
-
 
 export default function GmtxPage() {
   return (
