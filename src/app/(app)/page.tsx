@@ -1,8 +1,10 @@
+
 'use client';
 
 import { HomeHeader } from '@/components/home/HomeHeader';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
+import ClientOnly from '@/components/home/ClientOnly';
 
 // Dynamically import sections that are likely below the fold
 const FeaturesSection = dynamic(() => import('@/components/home/FeaturesSection').then(mod => mod.FeaturesSection), { 
@@ -22,10 +24,12 @@ const NewsletterSection = dynamic(() => import('@/components/home/NewsletterSect
 export default function HomePage() {
   return (
     <div className="flex flex-col items-center">
-      <HomeHeader />
-      <FeaturesSection />
-      <WorkflowSection />
-      <EducatorCtaSection />
+      <ClientOnly>
+        <HomeHeader />
+        <FeaturesSection />
+        <WorkflowSection />
+        <EducatorCtaSection />
+      </ClientOnly>
       <NewsletterSection />
     </div>
   );
