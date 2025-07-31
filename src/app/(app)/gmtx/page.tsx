@@ -30,10 +30,10 @@ const mosCategory = {
     tests: [
         { name: 'Word 2016', image: 'https://images.credly.com/images/fd092703-61db-4e9f-9c7c-2211d44ca87d/MOS_Word.png', hint: 'mos logo word' },
         { name: 'Excel 2016', image: 'https://images.credly.com/images/9d2bcbe6-519f-4ed0-ad34-aca077421568/MOS_Excel.png', hint: 'mos logo excel' },
-        { name: 'PowerPoint 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo powerpoint' },
-        { name: 'Access 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo access' },
-        { name: 'Outlook 2016', image: 'https://placehold.co/100x100.png', hint: 'mos logo outlook' },
-        { name: 'Word 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo word expert' },
+        { name: 'PowerPoint 2016', image: 'https://images.credly.com/images/ccfeac51-f472-404a-abf1-97ed89dda03b/twitter_thumb_201604_MOS_PowerPoint.png', hint: 'mos logo powerpoint' },
+        { name: 'Access 2016', image: 'https://images.credly.com/images/cbcee0cb-3281-4c8d-b402-7dc8bcf81426/MOS_Access.png', hint: 'mos logo access' },
+        { name: 'Outlook 2016', image: 'https://images.credly.com/images/20bcb721-dd1c-482d-832e-02ee7e72fbd0/MOS_Outlook.png', hint: 'mos logo outlook' },
+        { name: 'Word 2016 Expert', image: 'https://images.credly.com/images/c9ab0811-5167-49b4-9459-7dd2e3d0a192/image.png', hint: 'mos logo word expert' },
         { name: 'Excel 2016 Expert', image: 'https://placehold.co/100x100.png', hint: 'mos logo excel expert' },
     ]
 };
