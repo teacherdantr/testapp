@@ -8,6 +8,7 @@ import type { Test } from '@/lib/types';
 import { Loader2, ShieldCheck, FileText } from 'lucide-react';
 import { GmtxPasswordPrompt } from '@/components/gmtx/test/GmtxPasswordPrompt';
 import { verifyGmtxTestPassword } from '@/lib/actions/gmtxActions';
+import { GmtxTestInterface } from './GmtxTestInterface';
 
 
 export default function GmtxTestPage() {
@@ -51,7 +52,7 @@ export default function GmtxTestPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
         <p className="mt-4 text-lg text-gray-600">Loading Test...</p>
       </div>
@@ -76,19 +77,17 @@ export default function GmtxTestPage() {
         />
     );
   }
+  
+  if (test && isPasswordVerified) {
+    return <GmtxTestInterface test={test} />;
+  }
 
+  // Fallback for when test is null after loading but password is not required (e.g. test not found)
+  // Or when verification is stuck somehow.
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="text-center p-8 bg-white shadow-lg rounded-xl">
-        <ShieldCheck className="mx-auto h-16 w-16 text-green-500 mb-4" />
-        <h1 className="text-3xl font-bold text-gray-800">Test Ready!</h1>
-        <p className="text-gray-600 mt-2">The test-taking interface will be implemented here.</p>
-        <div className="mt-4 text-left bg-gray-100 p-4 rounded-md text-sm text-gray-700">
-            <h3 className="font-semibold flex items-center"><FileText className="h-4 w-4 mr-2"/>Test Details</h3>
-            <p><strong>ID:</strong> {test?.id}</p>
-            <p><strong>Title:</strong> {test?.title}</p>
-        </div>
+     <div className="flex flex-col items-center justify-center min-h-screen text-center">
+        <h2 className="text-2xl font-bold text-red-600">Error</h2>
+        <p className="text-gray-700">Could not display the test. Please try again.</p>
       </div>
-    </div>
-  );
+  )
 }
