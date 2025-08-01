@@ -231,12 +231,14 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
     );
   }
 
+  // The Results Page will now render inside the main content area, next to the sidebar.
   if (pageState === TestPageState.Results && testResult) {
       return (
           <GmtxResultsPage result={testResult} />
       )
   }
-
+  
+  // The test-taking interface remains full-width to provide a focused experience.
   return (
     <div className="flex-1 flex flex-col" style={{ backgroundImage: 'url(/images/gmtx/bg_gm.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
        <GmtxTestTocSheet
