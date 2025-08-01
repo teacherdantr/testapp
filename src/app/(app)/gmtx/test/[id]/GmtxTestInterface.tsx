@@ -17,6 +17,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaDisplay';
 import { GmtxMtfDisplay } from '@/components/gmtx/test/question-types/GmtxMtfDisplay';
+import { GmtxDragDropDisplay } from '@/components/gmtx/test/question-types/GmtxDragDropDisplay';
 import { QuestionType } from '@/lib/types';
 
 interface GmtxTestInterfaceProps {
@@ -86,6 +87,14 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
                         })
                     }}
                  />
+            );
+        case QuestionType.MatchingDragAndDrop:
+            return (
+                <GmtxDragDropDisplay
+                    question={question}
+                    currentAnswers={selectedAnswers[question.id] || {}}
+                    onAnswerChange={(matches) => handleSelectAnswer(question.id, matches)}
+                />
             );
         default:
             return (
