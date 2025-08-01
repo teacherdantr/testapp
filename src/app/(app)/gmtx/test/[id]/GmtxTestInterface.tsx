@@ -1,8 +1,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import type { Test, Question, Option } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import type { Test, Question, Option, TestResult } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import {
@@ -25,6 +25,7 @@ import { QuestionType } from '@/lib/types';
 import Image from 'next/image';
 import { GmtxReviewPage } from '@/components/gmtx/test/GmtxReviewPage';
 import { GmtxTestTocSheet } from '@/components/gmtx/test/GmtxTestTocSheet';
+import { GmtxResultsPage } from '@/components/gmtx/test/GmtxResultsPage';
 
 
 interface GmtxTestInterfaceProps {
@@ -43,6 +44,8 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, any>>({});
   const [isTocOpen, setIsTocOpen] = useState(false);
+  const [testResult, setTestResult] = useState<TestResult | null>(null);
+  const [startTime] = useState(Date.now());
 
 
   const totalQuestions = test.questions.length;
@@ -52,6 +55,10 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
     if (answer === undefined || answer === null) return false;
     if (Array.isArray(answer) && answer.length === 0) return false;
     if (typeof answer === 'string' && answer.trim() === '') return false;
+    if (typeof answer === 'object' && Object.keys(answer).length === 0) return false;
+     // For MTF/Matrix which could be object with number keys
+    if (typeof answer === 'object' && Object.values(answer).every(val => val === null || val === undefined || val === '')) return false;
+
     return true;
   };
 
@@ -88,11 +95,55 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   
   const submitTest = () => {
       setPageState(TestPageState.Submitting);
-      // Here you would typically send data to a server
-      console.log("Submitting test with answers:", selectedAnswers);
-      // For now, we'll just log and maybe go to a "results" state later
-      // For this example, let's just stay on the submitting state
-      // setPageState(TestPageState.Results);
+
+      // --- Result Calculation Logic ---
+      let score = 0;
+      const totalPoints = test.questions.reduce((sum, q) => sum + q.points, 0);
+
+      const questionResults = test.questions.map(q => {
+          const userAnswer = selectedAnswers[q.id];
+          let isCorrect = false;
+
+          // Simple equality check for now, can be expanded
+          if (JSON.stringify(userAnswer) === JSON.stringify(q.correctAnswer)) {
+              isCorrect = true;
+          }
+
+          const pointsEarned = isCorrect ? q.points : 0;
+          if (isCorrect) {
+              score += q.points;
+          }
+
+          return {
+              questionId: q.id,
+              questionText: q.text,
+              questionType: q.type,
+              userAnswer: userAnswer || null,
+              correctAnswer: q.correctAnswer,
+              isCorrect: isCorrect,
+              pointsEarned: pointsEarned,
+              pointsPossible: q.points,
+          };
+      });
+      // --- End Result Calculation ---
+
+      const timeTaken = Math.round((Date.now() - startTime) / 1000);
+
+      const result: TestResult = {
+        testId: test.id,
+        userId: 'Phuoc Binh', // Hardcoded for now
+        testTitle: test.title,
+        score: score,
+        totalPoints: totalPoints,
+        questionResults: questionResults as any, // Cast for simplicity
+        timeTaken: timeTaken,
+      }
+      setTestResult(result);
+
+      // Simulate submission delay then show results
+      setTimeout(() => {
+        setPageState(TestPageState.Results);
+      }, 1000);
   };
 
 
@@ -178,6 +229,12 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
             isSubmitting={pageState === TestPageState.Submitting}
         />
     );
+  }
+
+  if (pageState === TestPageState.Results && testResult) {
+      return (
+          <GmtxResultsPage result={testResult} />
+      )
   }
 
   return (
