@@ -25,30 +25,51 @@ interface GmtxTestInterfaceProps {
 
 export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[] | Record<number, 'true' | 'false'>>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, any>>({});
 
-
-  const currentQuestion = test.questions[currentQuestionIndex];
   const totalQuestions = test.questions.length;
-
+  const currentQuestion = test.questions[currentQuestionIndex];
+  
   const handleSelectAnswer = (questionId: string, answer: any) => {
     setSelectedAnswers(prev => ({ ...prev, [questionId]: answer }));
+  };
+
+  const goToNextQuestion = () => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    }
+  };
+
+  const goToPreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
+    }
+  };
+
+  const resetCurrentAnswer = () => {
+    const newSelectedAnswers = { ...selectedAnswers };
+    delete newSelectedAnswers[currentQuestion.id];
+    setSelectedAnswers(newSelectedAnswers);
   };
 
   const renderQuestionContent = (question: Question) => {
     switch (question.type) {
         case QuestionType.MultipleChoiceMultipleAnswer:
-        case QuestionType.MCQ: // For now, we treat single-choice like multi-choice
+        case QuestionType.MCQ:
             return (
                 <GmtxMcmaDisplay
                     question={question}
-                    selectedOptions={(selectedAnswers[question.id] as string[]) || []}
+                    selectedOptions={selectedAnswers[question.id] || []}
                     onSelectOption={(optionId) => {
-                       const currentSelection = (selectedAnswers[question.id] as string[]) || [];
-                       const newSelection = currentSelection.includes(optionId)
-                         ? currentSelection.filter(id => id !== optionId)
-                         : [...currentSelection, optionId];
-                       handleSelectAnswer(question.id, newSelection)
+                       if (question.type === QuestionType.MCQ) {
+                           handleSelectAnswer(question.id, [optionId]);
+                       } else { // MCMA
+                           const currentSelection = (selectedAnswers[question.id] as string[]) || [];
+                           const newSelection = currentSelection.includes(optionId)
+                             ? currentSelection.filter(id => id !== optionId)
+                             : [...currentSelection, optionId];
+                           handleSelectAnswer(question.id, newSelection);
+                       }
                     }}
                 />
             );
@@ -66,9 +87,16 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
                     }}
                  />
             );
-        // Add cases for other question types here later
         default:
-            return <p>This question type ({question.type}) is not yet supported.</p>;
+            return (
+              <Card className="bg-muted p-4">
+                <p className="font-semibold text-destructive">This question type ({question.type}) is not yet supported in the UI.</p>
+                <p className="text-sm mt-2">Raw Question Data:</p>
+                <pre className="text-xs bg-background p-2 rounded-md overflow-x-auto mt-1">
+                  {JSON.stringify(question, null, 2)}
+                </pre>
+              </Card>
+            )
     }
   };
 
@@ -80,8 +108,12 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
         <header className="bg-white p-3 rounded-t-lg border-b shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-y-2">
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" /> Trước</Button>
-              <Button variant="secondary" size="sm"><RotateCcw className="h-4 w-4 mr-1" /> Đặt lại</Button>
+              <Button variant="ghost" size="sm" onClick={goToPreviousQuestion} disabled={currentQuestionIndex === 0}>
+                <ArrowLeft className="h-4 w-4 mr-1" /> Trước
+              </Button>
+              <Button variant="secondary" size="sm" onClick={resetCurrentAnswer}>
+                <RotateCcw className="h-4 w-4 mr-1" /> Đặt lại
+              </Button>
               <span className="text-sm text-muted-foreground font-medium">
                 {currentQuestionIndex + 1}/{totalQuestions} (ID: {currentQuestion.id.slice(0, 6)})
               </span>
@@ -102,8 +134,12 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
             </div>
             <div className="flex items-center gap-2">
               <Button variant="outline">Mark ...</Button>
-              <Button variant="outline">Bỏ qua <ChevronRight className="h-4 w-4 ml-1" /></Button>
-              <Button>Tiếp <ChevronRight className="h-4 w-4 ml-1" /></Button>
+              <Button variant="outline" onClick={goToNextQuestion} disabled={currentQuestionIndex === totalQuestions - 1}>
+                Bỏ qua <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+              <Button onClick={goToNextQuestion} disabled={currentQuestionIndex === totalQuestions - 1}>
+                Tiếp <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
             </div>
           </div>
         </header>
