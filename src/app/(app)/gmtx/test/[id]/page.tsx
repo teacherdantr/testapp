@@ -8,7 +8,8 @@ import type { Test } from '@/lib/types';
 import { Loader2, ShieldCheck, FileText } from 'lucide-react';
 import { GmtxPasswordPrompt } from '@/components/gmtx/test/GmtxPasswordPrompt';
 import { verifyGmtxTestPassword } from '@/lib/actions/gmtxActions';
-import { GmtxTestInterface } from './GmtxTestInterface';
+import { GmtxTestInterface, TestPageState } from './GmtxTestInterface';
+import { GmtxReviewPage } from '@/components/gmtx/test/GmtxReviewPage';
 
 
 export default function GmtxTestPage() {

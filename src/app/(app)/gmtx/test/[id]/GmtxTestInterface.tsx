@@ -13,6 +13,7 @@ import {
   CaseSensitive,
   Check,
   ChevronRight,
+  Send,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaDisplay';
@@ -22,16 +23,34 @@ import { GmtxHotspotDisplay } from '@/components/gmtx/test/question-types/GmtxHo
 import { GmtxMatchingSelectDisplay } from '@/components/gmtx/test/question-types/GmtxMatchingSelectDisplay';
 import { QuestionType } from '@/lib/types';
 import Image from 'next/image';
+import { GmtxReviewPage } from '@/components/gmtx/test/GmtxReviewPage';
 
 interface GmtxTestInterfaceProps {
   test: Test;
 }
 
+export enum TestPageState {
+  TakingTest,
+  Review,
+  Submitting,
+  Results,
+}
+
 export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
+  const [pageState, setPageState] = useState<TestPageState>(TestPageState.TakingTest);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, any>>({});
 
   const totalQuestions = test.questions.length;
+  
+  const getIsQuestionAnswered = (questionId: string): boolean => {
+    const answer = selectedAnswers[questionId];
+    if (answer === undefined || answer === null) return false;
+    if (Array.isArray(answer) && answer.length === 0) return false;
+    if (typeof answer === 'string' && answer.trim() === '') return false;
+    return true;
+  };
+
   const currentQuestion = test.questions[currentQuestionIndex];
   
   const handleSelectAnswer = (questionId: string, answer: any) => {
@@ -41,6 +60,8 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const goToNextQuestion = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
+    } else {
+      setPageState(TestPageState.Review);
     }
   };
 
@@ -55,6 +76,21 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
     delete newSelectedAnswers[currentQuestion.id];
     setSelectedAnswers(newSelectedAnswers);
   };
+  
+  const navigateToQuestion = (index: number) => {
+    setCurrentQuestionIndex(index);
+    setPageState(TestPageState.TakingTest);
+  };
+  
+  const submitTest = () => {
+      setPageState(TestPageState.Submitting);
+      // Here you would typically send data to a server
+      console.log("Submitting test with answers:", selectedAnswers);
+      // For now, we'll just log and maybe go to a "results" state later
+      // For this example, let's just stay on the submitting state
+      // setPageState(TestPageState.Results);
+  };
+
 
   const renderQuestionContent = (question: Question) => {
     switch (question.type) {
@@ -128,6 +164,17 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
     }
   };
 
+  if (pageState === TestPageState.Review || pageState === TestPageState.Submitting) {
+    return (
+        <GmtxReviewPage
+            test={test}
+            getIsQuestionAnswered={getIsQuestionAnswered}
+            onNavigateToQuestion={navigateToQuestion}
+            onSubmitTest={submitTest}
+            isSubmitting={pageState === TestPageState.Submitting}
+        />
+    );
+  }
 
   return (
     <div className="flex-1 flex flex-col" style={{ backgroundImage: 'url(/images/gmtx/bg_gm.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -163,12 +210,15 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Button variant="outline">Mark ...</Button>
-                <Button variant="outline" onClick={goToNextQuestion} disabled={currentQuestionIndex === totalQuestions - 1}>
-                  Bỏ qua <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
-                <Button onClick={goToNextQuestion} disabled={currentQuestionIndex === totalQuestions - 1}>
-                  Tiếp <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
+                 {currentQuestionIndex === totalQuestions - 1 ? (
+                    <Button onClick={goToNextQuestion}>
+                        Xem lại & Nộp bài <Send className="h-4 w-4 ml-2" />
+                    </Button>
+                ) : (
+                    <Button onClick={goToNextQuestion}>
+                        Tiếp <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                )}
               </div>
             </div>
           </header>
@@ -182,7 +232,7 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
           <Card className="rounded-t-none shadow-sm">
             <CardContent className="p-6 space-y-6">
               <p className="text-lg font-medium">{currentQuestion.text}</p>
-              {currentQuestion.imageUrl && ![QuestionType.Hotspot].includes(currentQuestion.type) && (
+              {currentQuestion.imageUrl && ![QuestionType.Hotspot, QuestionType.MultipleTrueFalse].includes(currentQuestion.type) && (
                 <div className="relative w-full max-w-lg mx-auto aspect-video border rounded-md overflow-hidden">
                   <Image
                     src={currentQuestion.imageUrl}
