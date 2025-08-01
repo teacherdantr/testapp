@@ -206,7 +206,7 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
         </div>
       </main>
       <footer className="p-4 flex justify-center">
-        <Image src="/images/gmtx/LOGOGMETRNG_rmbg.png" alt="GMTX Logo" width={150} height={40} data-ai-hint="logo" />
+        <Image src="/images/gmtx/LOGOGMETRNG_rmbg.png" alt="GMTX Logo" width={195} height={52} data-ai-hint="logo" />
       </footer>
     </div>
   );
