@@ -13,7 +13,9 @@ interface GmtxHotspotDisplayProps {
 }
 
 const parseCoords = (shape: HotspotShapeType, coordsStr: string, imgWidth: number, imgHeight: number) => {
-  const c = coordsStr.split(',').map(Number);
+  if (!coordsStr || typeof coordsStr !== 'string') return null;
+  const c = coordsStr.split(',').map(Number).filter(n => !isNaN(n));
+  
   if (shape === HotspotShapeType.Rectangle && c.length === 4) {
     return { x: c[0] * imgWidth, y: c[1] * imgHeight, width: c[2] * imgWidth, height: c[3] * imgHeight };
   }
@@ -80,7 +82,13 @@ export function GmtxHotspotDisplay({ question, currentAnswer, onAnswerChange }: 
     onAnswerChange(newSelectedIds);
   };
 
-  if (!question.imageUrl || !question.hotspots) return null;
+  if (!question.imageUrl || !question.hotspots || question.hotspots.length === 0) {
+    return (
+        <div className="bg-muted p-4 rounded-md text-center text-muted-foreground">
+            This Hotspot question is missing an image or defined hotspot areas.
+        </div>
+    );
+  }
 
   return (
     <div className="relative w-full max-w-lg mx-auto aspect-[4/3] border rounded-md overflow-hidden bg-gray-200">
