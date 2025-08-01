@@ -24,6 +24,8 @@ import { GmtxMatchingSelectDisplay } from '@/components/gmtx/test/question-types
 import { QuestionType } from '@/lib/types';
 import Image from 'next/image';
 import { GmtxReviewPage } from '@/components/gmtx/test/GmtxReviewPage';
+import { GmtxTestTocSheet } from '@/components/gmtx/test/GmtxTestTocSheet';
+
 
 interface GmtxTestInterfaceProps {
   test: Test;
@@ -40,6 +42,8 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const [pageState, setPageState] = useState<TestPageState>(TestPageState.TakingTest);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, any>>({});
+  const [isTocOpen, setIsTocOpen] = useState(false);
+
 
   const totalQuestions = test.questions.length;
   
@@ -178,6 +182,17 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
 
   return (
     <div className="flex-1 flex flex-col" style={{ backgroundImage: 'url(/images/gmtx/bg_gm.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+       <GmtxTestTocSheet
+        isOpen={isTocOpen}
+        setIsOpen={setIsTocOpen}
+        questions={test.questions}
+        currentQuestionIndex={currentQuestionIndex}
+        getIsQuestionAnswered={getIsQuestionAnswered}
+        onNavigate={(index) => {
+            setCurrentQuestionIndex(index);
+            setIsTocOpen(false);
+        }}
+      />
       <main className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8">
         <div className="w-full max-w-4xl mx-auto">
           {/* Header */}
@@ -196,7 +211,7 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
               </div>
               <div className="flex items-center gap-2 border-l border-r px-3 mx-2">
                  <Button variant="ghost" size="icon" className="h-8 w-8"><ListOrdered className="h-5 w-5"/></Button>
-                 <Button variant="ghost" size="icon" className="h-8 w-8"><List className="h-5 w-5"/></Button>
+                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsTocOpen(true)}><List className="h-5 w-5"/></Button>
                  <Button variant="ghost" size="icon" className="h-8 w-8"><CaseSensitive className="h-5 w-5"/></Button>
               </div>
                <div className="flex items-center gap-2 text-blue-600 font-bold">
