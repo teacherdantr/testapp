@@ -19,6 +19,7 @@ import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaD
 import { GmtxMtfDisplay } from '@/components/gmtx/test/question-types/GmtxMtfDisplay';
 import { GmtxDragDropDisplay } from '@/components/gmtx/test/question-types/GmtxDragDropDisplay';
 import { GmtxHotspotDisplay } from '@/components/gmtx/test/question-types/GmtxHotspotDisplay';
+import { GmtxMatchingSelectDisplay } from '@/components/gmtx/test/question-types/GmtxMatchingSelectDisplay';
 import { QuestionType } from '@/lib/types';
 import Image from 'next/image';
 
@@ -104,6 +105,14 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
                     question={question}
                     currentAnswer={selectedAnswers[question.id] || []}
                     onAnswerChange={(answer) => handleSelectAnswer(question.id, answer)}
+                />
+            );
+        case QuestionType.MatchingSelect:
+            return (
+                <GmtxMatchingSelectDisplay
+                    question={question}
+                    currentAnswers={selectedAnswers[question.id] || {}}
+                    onAnswerChange={(matches) => handleSelectAnswer(question.id, matches)}
                 />
             );
         default:
