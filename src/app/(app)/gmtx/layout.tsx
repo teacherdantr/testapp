@@ -71,11 +71,21 @@ function GmtxSidebar() {
 
 
 export default function GmtxLayout({ children }: { children: ReactNode }) {
-  // Hide default navbar for this specific layout
+  const pathname = usePathname();
+  const isTestPage = pathname.startsWith('/gmtx/test/');
+
+  // If it's a test-taking page, render children directly without the sidebar for a focused view.
+  if (isTestPage) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        {children}
+      </div>
+    );
+  }
+
+  // Otherwise, render the standard GMTX layout with the sidebar.
   return (
     <div className="min-h-screen flex flex-col">
-       {/* The default Navbar can be hidden if this layout is meant to be completely standalone */}
-       {/* <Navbar /> */}
       <div className="flex flex-1">
         <GmtxSidebar />
         {children}
