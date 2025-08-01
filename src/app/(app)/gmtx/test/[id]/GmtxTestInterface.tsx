@@ -5,42 +5,21 @@ import { useState } from 'react';
 import type { Test, Question, Option } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   ArrowLeft,
   RotateCcw,
   ListOrdered,
   List,
   CaseSensitive,
-  MoreVertical,
   Check,
   ChevronRight,
-  ChevronLeft,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaDisplay';
+import { QuestionType } from '@/lib/types';
 
 interface GmtxTestInterfaceProps {
   test: Test;
-}
-
-function McmaOption({ option, isSelected, onSelect }: { option: Option, isSelected: boolean, onSelect: (optionId: string) => void }) {
-  return (
-    <div
-      onClick={() => onSelect(option.id)}
-      className={cn(
-        'flex items-center p-4 rounded-md border cursor-pointer transition-colors',
-        isSelected
-          ? 'bg-blue-600 text-white border-blue-700'
-          : 'bg-gray-200 hover:bg-gray-300 border-gray-300'
-      )}
-    >
-      <div className="flex items-center justify-center h-6 w-6 rounded-full border border-current mr-4">
-        {isSelected && <div className="h-3 w-3 rounded-full bg-current" />}
-      </div>
-      <span className="flex-1">{option.text}</span>
-    </div>
-  );
 }
 
 export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
@@ -50,14 +29,32 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const currentQuestion = test.questions[currentQuestionIndex];
   const totalQuestions = test.questions.length;
 
-  const handleSelectAnswer = (optionId: string) => {
-    const currentSelection = selectedAnswers[currentQuestion.id] || [];
+  const handleSelectAnswer = (questionId: string, optionId: string) => {
+    const currentSelection = selectedAnswers[questionId] || [];
     const newSelection = currentSelection.includes(optionId)
       ? currentSelection.filter(id => id !== optionId)
       : [...currentSelection, optionId];
     
-    setSelectedAnswers(prev => ({ ...prev, [currentQuestion.id]: newSelection }));
+    setSelectedAnswers(prev => ({ ...prev, [questionId]: newSelection }));
   };
+
+  const renderQuestionContent = (question: Question) => {
+    switch (question.type) {
+        case QuestionType.MultipleChoiceMultipleAnswer:
+        case QuestionType.MCQ: // For now, we treat single-choice like multi-choice
+            return (
+                <GmtxMcmaDisplay
+                    question={question}
+                    selectedOptions={selectedAnswers[question.id] || []}
+                    onSelectOption={(optionId) => handleSelectAnswer(question.id, optionId)}
+                />
+            );
+        // Add cases for other question types here later
+        default:
+            return <p>This question type ({question.type}) is not yet supported.</p>;
+    }
+  };
+
 
   return (
     <main className="flex-1 flex flex-col bg-gray-100 p-4 sm:p-6 lg:p-8">
@@ -103,16 +100,7 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
         <Card className="rounded-t-none shadow-sm">
           <CardContent className="p-6 space-y-6">
             <p className="text-lg font-medium">{currentQuestion.text}</p>
-            <div className="space-y-3">
-              {(currentQuestion.options || []).map(option => (
-                <McmaOption
-                  key={option.id}
-                  option={option}
-                  isSelected={(selectedAnswers[currentQuestion.id] || []).includes(option.id)}
-                  onSelect={() => handleSelectAnswer(option.id)}
-                />
-              ))}
-            </div>
+             {renderQuestionContent(currentQuestion)}
           </CardContent>
         </Card>
       </div>
