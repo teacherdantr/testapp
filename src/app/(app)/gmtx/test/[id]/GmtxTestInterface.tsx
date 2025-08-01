@@ -100,13 +100,6 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
                 />
             );
         case QuestionType.Hotspot:
-            if (!question.imageUrl || !question.hotspots || question.hotspots.length === 0) {
-              return (
-                <Card className="bg-muted p-4">
-                  <p className="font-semibold text-destructive">This Hotspot question is missing required image or coordinate data.</p>
-                </Card>
-              )
-            }
             return (
                 <GmtxHotspotDisplay
                     question={question}
@@ -189,7 +182,7 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
           <Card className="rounded-t-none shadow-sm">
             <CardContent className="p-6 space-y-6">
               <p className="text-lg font-medium">{currentQuestion.text}</p>
-              {currentQuestion.imageUrl && (
+              {currentQuestion.imageUrl && ![QuestionType.Hotspot].includes(currentQuestion.type) && (
                 <div className="relative w-full max-w-lg mx-auto aspect-video border rounded-md overflow-hidden">
                   <Image
                     src={currentQuestion.imageUrl}
