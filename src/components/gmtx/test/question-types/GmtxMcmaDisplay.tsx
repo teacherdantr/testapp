@@ -21,7 +21,7 @@ function McmaOption({ option, isSelected, isSingleChoice, onSelect }: { option: 
     <div
       onClick={() => onSelect(option.id)}
       className={cn(
-        'flex items-center justify-center text-center p-3 rounded-md border cursor-pointer transition-colors min-h-[56px]',
+        'flex items-center justify-start text-left p-3 rounded-md border cursor-pointer transition-colors min-h-[56px]',
         isSelected
           ? 'bg-blue-600 text-white border-blue-700'
           : 'bg-gray-200 hover:bg-gray-300 border-gray-300'
@@ -38,7 +38,7 @@ export function GmtxMcmaDisplay({ question, selectedOptions, onSelectOption }: G
     const isSingleChoice = question.type === QuestionType.MCQ;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           {(question.options || []).map(option => (
             <McmaOption
               key={option.id}
