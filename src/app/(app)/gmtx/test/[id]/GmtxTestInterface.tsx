@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaDisplay';
+import { GmtxMtfDisplay } from '@/components/gmtx/test/question-types/GmtxMtfDisplay';
 import { QuestionType } from '@/lib/types';
 
 interface GmtxTestInterfaceProps {
@@ -24,18 +25,14 @@ interface GmtxTestInterfaceProps {
 
 export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[] | Record<number, 'true' | 'false'>>>({});
+
 
   const currentQuestion = test.questions[currentQuestionIndex];
   const totalQuestions = test.questions.length;
 
-  const handleSelectAnswer = (questionId: string, optionId: string) => {
-    const currentSelection = selectedAnswers[questionId] || [];
-    const newSelection = currentSelection.includes(optionId)
-      ? currentSelection.filter(id => id !== optionId)
-      : [...currentSelection, optionId];
-    
-    setSelectedAnswers(prev => ({ ...prev, [questionId]: newSelection }));
+  const handleSelectAnswer = (questionId: string, answer: any) => {
+    setSelectedAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
   const renderQuestionContent = (question: Question) => {
@@ -45,9 +42,29 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
             return (
                 <GmtxMcmaDisplay
                     question={question}
-                    selectedOptions={selectedAnswers[question.id] || []}
-                    onSelectOption={(optionId) => handleSelectAnswer(question.id, optionId)}
+                    selectedOptions={(selectedAnswers[question.id] as string[]) || []}
+                    onSelectOption={(optionId) => {
+                       const currentSelection = (selectedAnswers[question.id] as string[]) || [];
+                       const newSelection = currentSelection.includes(optionId)
+                         ? currentSelection.filter(id => id !== optionId)
+                         : [...currentSelection, optionId];
+                       handleSelectAnswer(question.id, newSelection)
+                    }}
                 />
+            );
+        case QuestionType.MultipleTrueFalse:
+            return (
+                <GmtxMtfDisplay
+                    question={question}
+                    currentAnswers={selectedAnswers[question.id] as Record<number, 'true' | 'false'> || {}}
+                    onAnswerChange={(statementIndex, value) => {
+                        const currentAns = (selectedAnswers[question.id] as Record<number, 'true'|'false'>) || {};
+                        handleSelectAnswer(question.id, {
+                            ...currentAns,
+                            [statementIndex]: value,
+                        })
+                    }}
+                 />
             );
         // Add cases for other question types here later
         default:
