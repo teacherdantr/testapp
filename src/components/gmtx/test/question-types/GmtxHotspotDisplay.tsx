@@ -112,7 +112,6 @@ export function GmtxHotspotDisplay({ question, currentAnswer, onAnswerChange }: 
             const isSelected = selectedHotspotIds.includes(hotspot.id);
 
             const shapeProps = {
-                key: hotspot.id,
                 className: cn(
                     "fill-blue-500/20 stroke-blue-600 stroke-2 cursor-pointer transition-all",
                     isSelected
@@ -124,11 +123,11 @@ export function GmtxHotspotDisplay({ question, currentAnswer, onAnswerChange }: 
             };
 
             if (hotspot.shape === HotspotShapeType.Rectangle) {
-              return <rect {...shapeProps} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} />;
+              return <rect key={hotspot.id} {...shapeProps} x={parsed.x} y={parsed.y} width={parsed.width} height={parsed.height} />;
             } else if (hotspot.shape === HotspotShapeType.Circle) {
-              return <circle {...shapeProps} cx={parsed.cx} cy={parsed.cy} r={parsed.r} />;
+              return <circle key={hotspot.id} {...shapeProps} cx={parsed.cx} cy={parsed.cy} r={parsed.r} />;
             } else if (hotspot.shape === HotspotShapeType.Polygon) {
-              return <polygon {...shapeProps} points={parsed.points} />;
+              return <polygon key={hotspot.id} {...shapeProps} points={parsed.points} />;
             }
             return null;
           })}
