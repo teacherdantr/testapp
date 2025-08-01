@@ -1,0 +1,3243 @@
+{
+  "title": "Level 1 - Gmetrix Test ",
+  "description": "Level 1 - Gmetrix Test 1 & 2 (90c)\r\n\r\n\r\n\r\n\r\n\r\n",
+  "password": "GMGMGM",
+  "questions": [
+    {
+      "text": "Chọn đúng hoặc sai cho mỗi phát biểu",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "f7d3d9a3-33af-4f33-9341-391c6c54879c",
+          "text": "Trình duyệt web là Internet\n\n"
+        },
+        {
+          "id": "6e148710-0696-41a4-b7df-8beda5306452",
+          "text": "Trình duyệt web là công cụ tìm kiếm (Search Engines)\n\n"
+        },
+        {
+          "id": "58da90ee-9e26-48a0-b17b-9d27f7e7edc9",
+          "text": "Trình duyệt web là các ứng dụng phần mềm lấy và trình bày thông tin từ World Wide Web (www)\n\n"
+        },
+        {
+          "id": "6066f443-7bb0-4a53-82e5-6bc000b96bf4",
+          "text": "Trình duyệt web sử dụng URL để kết nối tới các tài nguyên như trang web, hình ảnh video\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Đối với mỗi tuyên bố về bản quyền, hãy chọn Đúng nếu bạn có thể sử dụng hợp pháp tác phẩm sáng tạo mà không được cấp phép hoặc Sai nếu không thể.\n\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "c3fcd806-491f-4c6e-b780-3b914f3daceb",
+          "text": "Hình ảnh từ một cuốn sách bạn muốn sử dụng đã được xuất bản vào năm 1992\n\n"
+        },
+        {
+          "id": "11818717-6e4b-4b32-943d-f218b1419dd8",
+          "text": "Một bức ảnh bạn muốn sử dụng đã được tạo ra cách đây 100 năm bởi một nhiếp ảnh gia đã qua đời 10 năm sau đó\n\n"
+        },
+        {
+          "id": "66cb6952-981c-49f6-af8a-2215e6e2e371",
+          "text": "Lời bài hát bạn muốn sử dụng chưa được đăng ký bản quyền\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Tại sao bạn nên tránh đăng ảnh hạ nhục, quấy rối mọi người hoặc ủng hộ những ý tưởng tiêu cực như tự sát hoặc khủng bố trực tuyến?\n",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "5fa25379-ab68-4506-968d-b1ac793d1b68",
+          "text": "Bạn có thể bị phạt"
+        },
+        {
+          "id": "8a1af472-6752-4e08-8ba6-e015edafd539",
+          "text": "Bạn có thể chọc giận nhầm người"
+        },
+        {
+          "id": "529e6b82-3dd8-4a08-85d5-87c62996b8ae",
+          "text": "Không hợp pháp"
+        },
+        {
+          "id": "4f21f830-9976-40a3-ab9b-b3ebaa00014c",
+          "text": "Danh tính trực tuyến của bạn được hình thành bởi những gì bạn đăng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Danh tính trực tuyến của bạn được hình thành bởi những gì bạn đăng"
+    },
+    {
+      "text": "Bạn đang phân vân để quyết định kết nối internet với máy tính xách tay của mình bằng Wifi hay kết nối có dây.Hai ưu điểm của mạng có dây so với mạng Wi-Fi là gì (Chọn hai)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "68e96bb6-34ef-44fc-93cc-c85c10c9f7f1",
+          "text": "Tốn ít tiền hơn để truyền dữ liệu"
+        },
+        {
+          "id": "804021c2-a87f-4ad7-a3b9-0c2943453372",
+          "text": "Cài đặt (Installation)"
+        },
+        {
+          "id": "dcd4e6b3-e8fd-4ad0-ba28-1c517a7e61ea",
+          "text": "Tốc độ nhanh hơn"
+        },
+        {
+          "id": "ccc9c352-74fd-4515-bed2-f671dee8f6f9",
+          "text": "Bảo mật (Security)"
+        },
+        {
+          "id": "0d5169cc-0931-41a7-af7f-38023731214a",
+          "text": "Tính di động (Mobility)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tốc độ nhanh hơn",
+        "Bảo mật (Security)"
+      ]
+    },
+    {
+      "text": "Câu nào sau đây chứng tỏ việc sử dụng ngôn ngữ hòa nhập (không phân biệt giới tính)?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "28ba6188-c62c-4e2a-835d-2e1a5e3f9a96",
+          "text": "Hey, bros! Where are we meeting? Này, anh em (bros)! Chúng ta gặp \tnhau ở đâu?"
+        },
+        {
+          "id": "11273258-5241-4a15-bfbf-97cf2170e192",
+          "text": "Này, các bạn gái! Chúng ta gặp nhau ở đâu?"
+        },
+        {
+          "id": "0843848f-daf6-4b4c-8456-ad677d330a0f",
+          "text": "Xin chào mọi người! Chúng ta gặp nhau ở đâu?"
+        },
+        {
+          "id": "066d924b-8614-43ef-813f-9456c977b227",
+          "text": "Chào các cậu (guys)! Chúng ta gặp nhau ở đâu?"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Xin chào mọi người! Chúng ta gặp nhau ở đâu?"
+    },
+    {
+      "text": "Bạn đang tạo bài thuyết trình PowerPoint về cách sử dụng Excel.\nBạn muốn thay đổi kích thước trang trình chiếu trước khi in trên giấy khổ Letter. Bạn cần chọn Tab nào?",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM2C22.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "c2404c2f-3bd9-4c07-bdb4-3459fbd5c56b",
+          "shape": "rect",
+          "coords": "0.1075,0.1835,0.0365,0.0244",
+          "label": "Design"
+        },
+        {
+          "id": "48f6d77b-244b-40ce-ad24-a692d1e6432c",
+          "shape": "rect",
+          "coords": "0.1968,0.1851,0.0507,0.0217",
+          "label": "Animation"
+        },
+        {
+          "id": "3977a593-a139-4a59-89e3-654f40d51cc7",
+          "shape": "rect",
+          "coords": "0.3002,0.1823,0.0385,0.0244",
+          "label": "Review"
+        },
+        {
+          "id": "d8dc348f-1758-4cc3-827e-954b50cd650c",
+          "shape": "rect",
+          "coords": "0.6755,0.2071,0.0284,0.0650",
+          "label": "Arrange"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "c2404c2f-3bd9-4c07-bdb4-3459fbd5c56b"
+    },
+    {
+      "text": "Bạn đã thu thập thông tin từ trang web để trích dẫn, nhưng nó thiếu một số thông tin.\nBạn cần thêm thông tin gì vào cuối trích dẫn sau trang web sau?\n\tTrích dẫn: Dịch vụ Công viên Quốc gia, tháng 3 năm 2020, Công viên Quốc gia Yellowstone: Động đất, truy cập ngày 1 tháng 7 năm 2020 từ trang web Công viên Quốc gia Yellowstone:\n",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM1C15.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "3a1ea70d-0516-40eb-ba94-bef88d54c4d4",
+          "shape": "rect",
+          "coords": "0.0565,0.0093,0.7353,0.0340",
+          "label": "URL"
+        },
+        {
+          "id": "2a909cc1-1cf1-4148-8be4-9f321ade1dd4",
+          "shape": "rect",
+          "coords": "0.8722,0.0141,0.0314,0.0314",
+          "label": "..."
+        },
+        {
+          "id": "79cdd678-f95b-4a71-b705-b8c68b74ae9a",
+          "shape": "rect",
+          "coords": "0.5879,0.3273,0.0451,0.0550",
+          "label": "info"
+        },
+        {
+          "id": "58d664d4-576a-4df7-b7ea-260a87ac5751",
+          "shape": "rect",
+          "coords": "0.7252,0.0857,0.0725,0.0445",
+          "label": "search"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "3a1ea70d-0516-40eb-ba94-bef88d54c4d4"
+    },
+    {
+      "text": "Hãy chọn Đúng hoặc Sai cho mỗi phát biểu sau\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "69947d94-2c1a-4e71-9335-9ee358199469",
+          "text": "Hộp tìm kiếm ở góc trên bên phải của Windows Explorer (PC) hoặc Finder (MacOS) có thể tìm thấy nội dung bên trong tập tin \n"
+        },
+        {
+          "id": "93176c76-5bf7-4d8f-9bf6-6a4fa86b2f33",
+          "text": "Internet Explorer (PC) hoặc Safari (MacOS) có thể tìm kiếm nội dung trong tập tin chưa được mở trên ổ cứng của bạn\n"
+        },
+        {
+          "id": "86feb01b-ab99-43c4-a062-2d476962f0df",
+          "text": "Bất kỳ người dùng nào trên internet đều có thể định vị thông tin nội dung trong tập tin lưu trữ trên máy tính của bạn \n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Cơ sở hạ tầng mạng là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "5e74908e-d223-4347-b169-b6839fdeab5f",
+          "text": "Nơi đặt các máy chủ"
+        },
+        {
+          "id": "25585683-4e32-4830-b979-bcce08e58221",
+          "text": "Phần cứng và phần mềm di chuyển dữ liệu cùng một mạng"
+        },
+        {
+          "id": "85311bc1-4600-4630-82fc-2068d03ea418",
+          "text": "Một loạt các loại cáp"
+        },
+        {
+          "id": "c70c524f-3abf-4707-b478-06407cd409a6",
+          "text": "Chi phí của việc cấp phép một mạng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Phần cứng và phần mềm di chuyển dữ liệu cùng một mạng"
+    },
+    {
+      "text": "Bạn đang chỉnh sửa một tài liệu mà bạn đã viết trước đó. Bây giờ bạn muốn lưu các thay đổi của mình. Nhấp vào tính năng sẽ lưu các thay đổi bạn đã thực hiện đối với tài liệu này.",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM1C17.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "fb6f3adc-b3c7-4fac-808d-a93ba407ffe2",
+          "shape": "rect",
+          "coords": "0.0093,0.1476,0.0176,0.0157",
+          "label": "save"
+        },
+        {
+          "id": "e25370e9-ecc3-480c-ad6c-cf759c6a4c3c",
+          "shape": "rect",
+          "coords": "0.0720,0.1440,0.0137,0.0183",
+          "label": "Sai"
+        },
+        {
+          "id": "68e8853b-aba8-400a-833b-8afc15c4a2ad",
+          "shape": "rect",
+          "coords": "0.0034,0.1743,0.0314,0.0236",
+          "label": "File"
+        },
+        {
+          "id": "a89f8129-4085-43f6-bc9a-67e62de0ac16",
+          "shape": "rect",
+          "coords": "0.8857,0.1455,0.0235,0.0209",
+          "label": "Sai"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "fb6f3adc-b3c7-4fac-808d-a93ba407ffe2"
+    },
+    {
+      "text": "Dấu chân kỹ thuật số của bạn là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "56beccbb-21c3-4096-9e92-35a02a2c2c7b",
+          "text": "Chữ ký số"
+        },
+        {
+          "id": "3e67209b-9998-4409-a636-fe6362204e37",
+          "text": "Nhận xét, hình ảnh và thông tin khác mà bạn đăng trực tuyến"
+        },
+        {
+          "id": "59681c53-e726-4791-91b1-6bb1890d7b4a",
+          "text": "Sinh trắc học được sử dụng để đăng nhập vào tài khoản"
+        },
+        {
+          "id": "7a675ae2-16ce-4523-83c5-5bdf0d47fc9b",
+          "text": "Thông tin cá nhân về bạn, chẳng hạn như tên, ngày sinh và số điện thoạ"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Nhận xét, hình ảnh và thông tin khác mà bạn đăng trực tuyến"
+    },
+    {
+      "text": "Bạn đang gặp khó khăn khi gửi và nhận thông tin. Làm cách nào có thể xác định xem thiết bị của mình có kết nối internet hay không?\n",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "ec56f106-34bc-44fc-9300-6d1049f9a589",
+          "text": "Mở trình duyệt"
+        },
+        {
+          "id": "ccb563b6-ba5c-47ce-9e45-3ac9a7b1ace6",
+          "text": "Hãy thử gửi một tin nhắn"
+        },
+        {
+          "id": "fa2ab791-b17f-4630-941d-148e181a7009",
+          "text": "Tải xuống ứng dụng SpeedTest"
+        },
+        {
+          "id": "09aaaf0b-5e4a-4fb0-a757-c18a3e3c70e6",
+          "text": "Thử lưu một tập tin"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Mở trình duyệt"
+    },
+    {
+      "text": "Ghép nối tên và các định nghĩa:\n",
+      "type": "MatchingSelect",
+      "points": 10,
+      "multipleSelection": false,
+      "prompts": [
+        {
+          "id": "1a85e8d2-d24f-454a-914e-37e6c12d395a",
+          "text": "Driver"
+        },
+        {
+          "id": "47f5085c-ee06-403a-82e3-be6c1c2fbbe2",
+          "text": "Boot"
+        },
+        {
+          "id": "0f187fc5-6065-4b8a-912d-49a8bf0b3196",
+          "text": "Access Token"
+        },
+        {
+          "id": "580d1481-a38e-4a46-a379-c1c49e5c1a71",
+          "text": "Daemon"
+        },
+        {
+          "id": "095c6be7-0054-49db-9ba0-16ace2de5e70",
+          "text": "Open Source"
+        }
+      ],
+      "choices": [
+        {
+          "id": "8772cdc1-3c52-4f99-b41a-f2b8d49a6c3b",
+          "text": "Một chương trình phần mềm nho nhỏ cho phép hệ điều hành và thiết bị giao tiếp với nhau"
+        },
+        {
+          "id": "528e2fc7-c11b-4eb9-b83a-cc49f08aec3b",
+          "text": "Quá trình khởi động của một hệ điều hành. Trong quá trình này hệ điều hành tải tất cả các trình điều khiển phần mềm cho phép các thành phần phần cứng của máy tính giao tiếp với nhau"
+        },
+        {
+          "id": "42cd02c4-d0e3-4eaa-922a-3eb7a8a1daaf",
+          "text": "Chứa thông tin xác thực bảo mật cho một phiên đăng nhập và xác định người dung và các đặc quyền của người dùng"
+        },
+        {
+          "id": "0788cc95-84b7-4f99-a67f-fb5fb2f55b25",
+          "text": "Bắt đầu thời gian khởi động và chạy như một quy trình nền để hỗ trợ đa nhiệm"
+        },
+        {
+          "id": "251d9d0e-61a3-4426-b94c-11457ee8f153",
+          "text": "Bất kì ai cũng có thể lấy mã nguồn và sửa đổi phần mềm miễn phí."
+        }
+      ],
+      "correctAnswer": [
+        {
+          "choiceId": "8772cdc1-3c52-4f99-b41a-f2b8d49a6c3b",
+          "promptId": "1a85e8d2-d24f-454a-914e-37e6c12d395a"
+        },
+        {
+          "choiceId": "528e2fc7-c11b-4eb9-b83a-cc49f08aec3b",
+          "promptId": "47f5085c-ee06-403a-82e3-be6c1c2fbbe2"
+        },
+        {
+          "choiceId": "42cd02c4-d0e3-4eaa-922a-3eb7a8a1daaf",
+          "promptId": "0f187fc5-6065-4b8a-912d-49a8bf0b3196"
+        },
+        {
+          "choiceId": "0788cc95-84b7-4f99-a67f-fb5fb2f55b25",
+          "promptId": "580d1481-a38e-4a46-a379-c1c49e5c1a71"
+        },
+        {
+          "choiceId": "251d9d0e-61a3-4426-b94c-11457ee8f153",
+          "promptId": "095c6be7-0054-49db-9ba0-16ace2de5e70"
+        }
+      ]
+    },
+    {
+      "text": "Các bước khắc phục sự cố Internet\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "8ca1167a-f5e8-456b-8968-c4a951aeec75",
+          "text": "Kiểm tra phần cứng"
+        },
+        {
+          "id": "3f0dcc6a-23ef-4c0c-83d6-91ae4af66f09",
+          "text": "Sử dụng ipconfig"
+        },
+        {
+          "id": "05f5175c-ecce-4714-aafd-c9df46d6f9ff",
+          "text": "Sử dụng ping hay tracert"
+        },
+        {
+          "id": "2e1fa22c-559f-48e2-ad6e-20492425d632",
+          "text": "Thực hiện kiểm tra DNS"
+        },
+        {
+          "id": "b7cd366a-e994-43c8-ac29-bc5b2e63cea8",
+          "text": "Liên hệ với ISP"
+        },
+        {
+          "id": "eabe63f3-3e0c-4f1d-bd4e-3e36a25067c9",
+          "text": "Kiểm tra tính năng bảo vệ chống virus và Phần mềm độc hại"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "941f24c7-3289-4944-97b6-29bc626a9c32",
+          "text": "Bước 1"
+        },
+        {
+          "id": "f46e33a8-e05f-45b7-a2cd-669c2b2a8525",
+          "text": "Bước 2"
+        },
+        {
+          "id": "4d36c0f6-5e12-4074-99e2-bf612ece59d9",
+          "text": "Bước 3"
+        },
+        {
+          "id": "ffde7ebd-37f6-4f91-b379-8733e70ec0b0",
+          "text": "Bước 4"
+        },
+        {
+          "id": "00486332-ca2b-44bb-b6fb-fcdc28f5fe20",
+          "text": "Bước 5"
+        },
+        {
+          "id": "4d917967-d201-4bd1-94ef-906bf97985c7",
+          "text": "Bước 6"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "941f24c7-3289-4944-97b6-29bc626a9c32",
+          "draggableItemId": "8ca1167a-f5e8-456b-8968-c4a951aeec75"
+        },
+        {
+          "targetItemId": "f46e33a8-e05f-45b7-a2cd-669c2b2a8525",
+          "draggableItemId": "3f0dcc6a-23ef-4c0c-83d6-91ae4af66f09"
+        },
+        {
+          "targetItemId": "4d36c0f6-5e12-4074-99e2-bf612ece59d9",
+          "draggableItemId": "05f5175c-ecce-4714-aafd-c9df46d6f9ff"
+        },
+        {
+          "targetItemId": "ffde7ebd-37f6-4f91-b379-8733e70ec0b0",
+          "draggableItemId": "2e1fa22c-559f-48e2-ad6e-20492425d632"
+        },
+        {
+          "targetItemId": "00486332-ca2b-44bb-b6fb-fcdc28f5fe20",
+          "draggableItemId": "b7cd366a-e994-43c8-ac29-bc5b2e63cea8"
+        },
+        {
+          "targetItemId": "4d917967-d201-4bd1-94ef-906bf97985c7",
+          "draggableItemId": "eabe63f3-3e0c-4f1d-bd4e-3e36a25067c9"
+        }
+      ]
+    },
+    {
+      "text": "Cách tốt nhất để xác định vị trí tham khảo và ghi công các nguồn trực tuyến là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "c6b8d567-1645-4bed-a88b-7105ebf13818",
+          "text": "Tài liệu nghiên cứu của người khác"
+        },
+        {
+          "id": "c3ae30d3-12e3-43f2-b5ad-c25fc1bfb0c7",
+          "text": "Thư viện trường học (School library)"
+        },
+        {
+          "id": "38d72161-e991-441a-89bb-f82393195255",
+          "text": "Các trang mạng xã hội"
+        },
+        {
+          "id": "46dcc1f8-545a-40b6-9c69-fccf4a1848b3",
+          "text": "Công cụ tìm kiếm (Search engines)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Công cụ tìm kiếm (Search engines)"
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "c0a7399d-c420-4be1-8f0e-0e89aaa968a7",
+          "text": "Headphone là một thiết bị xuất\n"
+        },
+        {
+          "id": "b97e547b-3ad9-4c32-962d-9bf060fde41f",
+          "text": "Bàn phím là một thiết bị xuất\n"
+        },
+        {
+          "id": "3297a96d-593a-4a65-a661-e76898b04290",
+          "text": "Máy in là một thiết bị xuất\n"
+        },
+        {
+          "id": "450855f0-128e-4976-9e9a-184613f9d897",
+          "text": "Máy quét là một thiết bị xuất\n"
+        },
+        {
+          "id": "bc7dade4-05dd-4a26-ab09-8259a8785d34",
+          "text": "Headset là một thiết bị xuất"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Ghép phản hồi email với phát biểu thích hợp\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "5e4e3468-9e03-45cd-85b6-768ee71cfefc",
+          "text": "Reply"
+        },
+        {
+          "id": "9e498763-0d4f-4881-9867-3dca198548b3",
+          "text": "Bcc"
+        },
+        {
+          "id": "fb411537-c1ee-4936-bf62-b5154b6b3905",
+          "text": "Forward"
+        },
+        {
+          "id": "b1a741e3-d637-4722-b9f7-f33f1f26cd16",
+          "text": "Reply All"
+        },
+        {
+          "id": "ffedc379-a221-46db-8c77-d4c3d57e19d5",
+          "text": "To"
+        },
+        {
+          "id": "79e2f75f-553a-4607-9f33-2ffb970ff628",
+          "text": "Cc"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "3ed1b692-8273-456a-a1f2-9d395b93ba97",
+          "text": " Được sử dụng khi bạn chỉ trả lời người gửi email."
+        },
+        {
+          "id": "25183709-d918-4f16-8daa-2a9febdb7f4e",
+          "text": "Được sử dụng khi bạn muốn gửi cho ai đó một bản sao của email nhưng không muốn những người nhận khác thấy chúng đã được bao gồm."
+        },
+        {
+          "id": "23a54136-874b-4021-8899-1f028c9cfaab",
+          "text": "Được sử dụng khi bạn muốn gửi một email bạn đã nhận được cho người khác."
+        },
+        {
+          "id": "7e561f25-b5bb-40af-a1d4-1efdc0f181c4",
+          "text": "Được sử dụng khi tất cả người nhận email gốc cần xem phản hồi của bạn."
+        },
+        {
+          "id": "5771718c-ef01-4086-8af8-99e9031d409c",
+          "text": "Được sử dụng khi bạn soạn email và gửi email đến người nhận."
+        },
+        {
+          "id": "c17b72f4-6c6c-43bc-919b-bce486429d40",
+          "text": "Được sử dụng khi bạn muốn đưa sếp của mình vào phản hồi email của đồng nghiệp"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "3ed1b692-8273-456a-a1f2-9d395b93ba97",
+          "draggableItemId": "5e4e3468-9e03-45cd-85b6-768ee71cfefc"
+        },
+        {
+          "targetItemId": "25183709-d918-4f16-8daa-2a9febdb7f4e",
+          "draggableItemId": "9e498763-0d4f-4881-9867-3dca198548b3"
+        },
+        {
+          "targetItemId": "23a54136-874b-4021-8899-1f028c9cfaab",
+          "draggableItemId": "fb411537-c1ee-4936-bf62-b5154b6b3905"
+        },
+        {
+          "targetItemId": "7e561f25-b5bb-40af-a1d4-1efdc0f181c4",
+          "draggableItemId": "b1a741e3-d637-4722-b9f7-f33f1f26cd16"
+        },
+        {
+          "targetItemId": "5771718c-ef01-4086-8af8-99e9031d409c",
+          "draggableItemId": "ffedc379-a221-46db-8c77-d4c3d57e19d5"
+        },
+        {
+          "targetItemId": "c17b72f4-6c6c-43bc-919b-bce486429d40",
+          "draggableItemId": "79e2f75f-553a-4607-9f33-2ffb970ff628"
+        }
+      ]
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai mỗi phát biểu sau:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "3d07158b-115e-4e5f-9ea2-99bd97bf841f",
+          "text": "Cộng tác kỹ thuật số giúp tiết kiệm chi phí đi lại\n"
+        },
+        {
+          "id": "5b114c69-03bb-4a61-b67f-72ecaa4041d9",
+          "text": "Cộng tác kỹ thuật số là cách tốt nhất để hình thành tình bạn thân thiết\n"
+        },
+        {
+          "id": "c2b20771-716e-404e-9da0-9fce29db114f",
+          "text": "Cộng tác kỹ thuật số giúp việc thu hút những người có chuyên môn về các chủ đề cụ thể trở nên dễ dàng hơn\n"
+        },
+        {
+          "id": "320edf18-a7bd-44da-9e34-86cc5caacd13",
+          "text": "Hợp tác kỹ thuật số kém linh hoạt hơn các cuộc họp trực tiếp\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Phát biểu nào nói về truyền thông đồng bộ và truyền thông không đồng bộ là đúng?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "5fb38387-0443-45b9-9c15-5bd0fdffe700",
+          "text": "Truyền thông đồng bộ là công nghệ cũ và không còn được sử dụng"
+        },
+        {
+          "id": "63697795-e3d5-415a-8868-9d05988afbf5",
+          "text": "Truyền thông không đồng bộ không sử dụng đồng bộ thời gian thực, chẳng hạn như email hoặc nhắn tin"
+        },
+        {
+          "id": "deaa208f-8a9c-41c0-8d5d-6bae2c14f4ef",
+          "text": "Không đồng bộ đắt hơn truyền thông đồng bộ"
+        },
+        {
+          "id": "444202c3-b088-4462-b5ff-a8127b2c1383",
+          "text": "Truyền thông không đồng bộ nhanh hơn đồng bộ"
+        },
+        {
+          "id": "2af1dadd-f85e-4a9c-902c-de2415770f26",
+          "text": "Truyền thông đồng bộ trong thời gian thực, chẳng hạn như một cuộc gọi điện thoại"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Truyền thông không đồng bộ không sử dụng đồng bộ thời gian thực, chẳng hạn như email hoặc nhắn tin",
+        "Truyền thông đồng bộ trong thời gian thực, chẳng hạn như một cuộc gọi điện thoại"
+      ]
+    },
+    {
+      "text": "Hệ điều hành Windows có thanh Taskbar xuất hiện theo mặc định ở cuối màn hình.\nMục đích của thanh Taskbar trong hệ điều hành Windows là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "56d02717-d5c7-47f5-83f0-155d0088ef88",
+          "text": "Cho phép bạn khởi chạy chương trình hoặc xem bất kỳ chương trình nào đang mở"
+        },
+        {
+          "id": "e73006a5-5b70-429d-974f-21aa951821ff",
+          "text": "Duyệt Internet"
+        },
+        {
+          "id": "f43fc391-9ce6-45eb-97c1-f3a835badc2d",
+          "text": "Duyệt các tập tin được lưu trữ trên máy tính của bạn"
+        },
+        {
+          "id": "237f11e8-b893-40a6-a452-02b902819675",
+          "text": "Cho phép bạn tìm kiếm nội dung trong 1 tập tin"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Cho phép bạn khởi chạy chương trình hoặc xem bất kỳ chương trình nào đang mở"
+    },
+    {
+      "text": " Ghép tên với các định nghĩa tương ứng.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "e25bc0ff-4554-4293-b923-b5f6806495fe",
+          "text": "Ransomware"
+        },
+        {
+          "id": "7acf5a1c-d810-4232-8e44-2663030d7d1d",
+          "text": "Trojan"
+        },
+        {
+          "id": "6929477c-1940-4514-a7ae-38edad558b00",
+          "text": "Malware"
+        },
+        {
+          "id": "baf7c302-f6e9-4ceb-8d0d-650bcd8af934",
+          "text": "Spyware"
+        },
+        {
+          "id": "56184c2f-e019-4cb2-9356-a5c52d2c1544",
+          "text": "Virus"
+        },
+        {
+          "id": "7c25ac83-cf79-4160-9403-c67984f94977",
+          "text": "Phishing"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "b0027aba-f169-4110-9541-338fcbd046c7",
+          "text": "Khóa máy tính của bạn cho đến khi thu được một khoản tiền thanh toán"
+        },
+        {
+          "id": "f7af6d62-ae3c-4e6c-9718-f8c5d15a779c",
+          "text": "Phần mềm độc hại tự mô tả sai để có vẻ hữu ích, quen thuộc hoặc thú vị nhằm thuyết phục nạn nhân cài đặt phần mềm đó"
+        },
+        {
+          "id": "6f30003a-22f5-4781-9340-cf0649e969bf",
+          "text": "Một thuật ngữ rộng dùng để chỉ nhiều loại chương trình độc hại, chẳng hạn như adware, bots, bugs, rootkits, spyware, Trojan horses, viruses, và worms."
+        },
+        {
+          "id": "ac7ea369-6ca1-4e98-92ba-16ade2183e60",
+          "text": "Được cài đặt trên máy tính mà chủ sở hữu không biết để thu thập thông tin cá nhân của chủ sở hữu"
+        },
+        {
+          "id": "1746b0ef-c89e-4dad-ab4c-6d5bea6993ae",
+          "text": "Một chương trình máy tính độc hại tự tái tạo bằng cách sao chép chính nó sang một chương trình khác"
+        },
+        {
+          "id": "12ca63d8-4ed8-4cf1-8b88-7a55a1a5ba54",
+          "text": "Cố gắng đánh lừa ai đó chia sẻ thông tin nhạy cảm như mật khẩu và số thẻ tín dụng"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "b0027aba-f169-4110-9541-338fcbd046c7",
+          "draggableItemId": "e25bc0ff-4554-4293-b923-b5f6806495fe"
+        },
+        {
+          "targetItemId": "f7af6d62-ae3c-4e6c-9718-f8c5d15a779c",
+          "draggableItemId": "7acf5a1c-d810-4232-8e44-2663030d7d1d"
+        },
+        {
+          "targetItemId": "6f30003a-22f5-4781-9340-cf0649e969bf",
+          "draggableItemId": "6929477c-1940-4514-a7ae-38edad558b00"
+        },
+        {
+          "targetItemId": "ac7ea369-6ca1-4e98-92ba-16ade2183e60",
+          "draggableItemId": "baf7c302-f6e9-4ceb-8d0d-650bcd8af934"
+        },
+        {
+          "targetItemId": "1746b0ef-c89e-4dad-ab4c-6d5bea6993ae",
+          "draggableItemId": "56184c2f-e019-4cb2-9356-a5c52d2c1544"
+        },
+        {
+          "targetItemId": "12ca63d8-4ed8-4cf1-8b88-7a55a1a5ba54",
+          "draggableItemId": "7c25ac83-cf79-4160-9403-c67984f94977"
+        }
+      ]
+    },
+    {
+      "text": "Bạn có một chiếc điện thoại thông minh. Bạn bè của bạn đã phát hiện ra một ứng dụng có thể hiển thị trên bản đồ nơi đặt điện thoại thông minh của bạn. Họ muốn bạn tải xuống cùng một ứng dụng để họ có thể biết vị trí của bạn mọi lúc.\n>>>   Ứng dụng có thể lập bản đồ vị trí điện thoại thông minh của bạn sử dụng công nghệ nào?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "050a79b8-2a2a-4601-9622-de35ed0bdf94",
+          "text": "Navigation Tracking"
+        },
+        {
+          "id": "6c8142d6-26bb-4712-9e78-7f8708ac3382",
+          "text": "Spyware"
+        },
+        {
+          "id": "dd1c0b5b-167a-4a44-8f1a-7f76c4118129",
+          "text": "Social media"
+        },
+        {
+          "id": "ca82c5c8-ce7e-4bf7-b138-2205f8c1e331",
+          "text": "Mapping"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Navigation Tracking"
+    },
+    {
+      "text": "Rủi ro sức khỏe về tinh thần lớn nhất ở trẻ em và thanh thiếu niên sử dụng công nghệ trực tuyến là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "0493b0ca-0493-42a9-8ded-ad781173bf62",
+          "text": "Chấn thương do nhắn tin khi đi bộ"
+        },
+        {
+          "id": "fd5814fe-1658-4cf0-9d81-a3b3d31b0294",
+          "text": "Nghiện chơi game"
+        },
+        {
+          "id": "bad216a4-21a0-4fc4-aec6-92f30b4056fd",
+          "text": "Bắt nạt trên mạng(Cyberbullying)"
+        },
+        {
+          "id": "ecb0960e-7efa-43ad-8fba-b6fee8fed606",
+          "text": "Mệt mỏi"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Bắt nạt trên mạng(Cyberbullying)"
+    },
+    {
+      "text": "Ghép nối các cổng với tên của nó\n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "0107e6ab-eb66-4972-ac7a-a96e406d877a",
+          "text": "Display Only"
+        },
+        {
+          "id": "27488692-60d2-447d-9de9-f3441e68f4e0",
+          "text": "Ethernet"
+        },
+        {
+          "id": "ac1d9a2a-3d9c-403d-be93-28fa719f77eb",
+          "text": "HDMI"
+        },
+        {
+          "id": "ea073218-8379-4eab-b5b9-d43abef20e05",
+          "text": "USB"
+        },
+        {
+          "id": "7339e906-9ef6-45ad-b901-5c4b850a1b95",
+          "text": "Audio Only"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "add12c2d-ee67-4130-90ee-09bec2015066",
+          "text": "A"
+        },
+        {
+          "id": "a9faab18-6e39-473c-be82-95d88e04b927",
+          "text": "B"
+        },
+        {
+          "id": "2a8113e9-a986-4859-a0fb-fc8994ea3c22",
+          "text": "C"
+        },
+        {
+          "id": "591d9336-32b7-4f80-b30a-389a34765605",
+          "text": "D"
+        },
+        {
+          "id": "10e6bac5-13e5-42a5-b822-3bace7d05c5d",
+          "text": "E"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "add12c2d-ee67-4130-90ee-09bec2015066",
+          "draggableItemId": "0107e6ab-eb66-4972-ac7a-a96e406d877a"
+        },
+        {
+          "targetItemId": "a9faab18-6e39-473c-be82-95d88e04b927",
+          "draggableItemId": "27488692-60d2-447d-9de9-f3441e68f4e0"
+        },
+        {
+          "targetItemId": "2a8113e9-a986-4859-a0fb-fc8994ea3c22",
+          "draggableItemId": "ac1d9a2a-3d9c-403d-be93-28fa719f77eb"
+        },
+        {
+          "targetItemId": "591d9336-32b7-4f80-b30a-389a34765605",
+          "draggableItemId": "ea073218-8379-4eab-b5b9-d43abef20e05"
+        },
+        {
+          "targetItemId": "10e6bac5-13e5-42a5-b822-3bace7d05c5d",
+          "draggableItemId": "7339e906-9ef6-45ad-b901-5c4b850a1b95"
+        }
+      ]
+    },
+    {
+      "text": "Ghép nối tên với các phát biểu tương ứng\n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "0c57c2d0-6ed1-4ca5-b5bc-da05836b07fb",
+          "text": "Subscribing"
+        },
+        {
+          "id": "60cef2ad-1d53-4cfb-93d4-9138a9ecdd5a",
+          "text": "Installing"
+        },
+        {
+          "id": "60288256-7627-4f20-acbc-b6b24904df6d",
+          "text": "Downloading"
+        },
+        {
+          "id": "a8ea4287-de54-4533-9c60-d3d11a83ebd2",
+          "text": "Uploading"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "a8dbde3e-8b7c-4d1a-9cb5-e950c06f337f",
+          "text": "Phần mềm được lưu trữ trên đám mây và được trả tiền hàng năm hoặc hàng tháng"
+        },
+        {
+          "id": "774ad8a0-58a3-42ba-a3f7-f3ed29f3a648",
+          "text": "Đưa các chương trình thực thi vào thiết bị máy tính của bạn"
+        },
+        {
+          "id": "17168415-f135-48a5-90c4-cc43c41e2f14",
+          "text": "Quá trình di chuyển một tập tin từ nguồn trực tuyến của nó sang thiết bị máy tính"
+        },
+        {
+          "id": "02c5e71e-3c8d-42db-a533-757e95558cf6",
+          "text": "Quá trình lấy một tập tin từ thiết bị máy tính của bạn và gửi tập tin đó đến một vị trí trực tuyến"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "a8dbde3e-8b7c-4d1a-9cb5-e950c06f337f",
+          "draggableItemId": "0c57c2d0-6ed1-4ca5-b5bc-da05836b07fb"
+        },
+        {
+          "targetItemId": "774ad8a0-58a3-42ba-a3f7-f3ed29f3a648",
+          "draggableItemId": "60cef2ad-1d53-4cfb-93d4-9138a9ecdd5a"
+        },
+        {
+          "targetItemId": "17168415-f135-48a5-90c4-cc43c41e2f14",
+          "draggableItemId": "60288256-7627-4f20-acbc-b6b24904df6d"
+        },
+        {
+          "targetItemId": "02c5e71e-3c8d-42db-a533-757e95558cf6",
+          "draggableItemId": "a8ea4287-de54-4533-9c60-d3d11a83ebd2"
+        }
+      ]
+    },
+    {
+      "text": "Một bài đăng trên Facebook đưa ra một số câu nói đang được rất nhiều người chia sẻ. Làm thế nào bạn có thể xác định liệu các câu nói đó là đúng?\n",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "d1d81cd6-75a5-4847-aeb8-038b0e9cdaf7",
+          "text": "Tìm kiếm thông tin trực tuyến và cố gắng tìm tài nguyên gốc của nó "
+        },
+        {
+          "id": "450310e9-2ef1-4aa2-98f5-3c42a72ea785",
+          "text": "Tất cả mọi thứ được đăng trên internet là sự thật  "
+        },
+        {
+          "id": "e02a5006-8244-409f-ad44-b57e534f5579",
+          "text": "Nếu tôi muốn tin thì thông tin đó phải là sự thật  "
+        },
+        {
+          "id": "3ecea0a7-06cd-4c64-abfb-c10b35ed0b24",
+          "text": "Nếu nhiều người đang chia sẻ và bình luận thì thông tin đó phải là sự thật"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Tìm kiếm thông tin trực tuyến và cố gắng tìm tài nguyên gốc của nó "
+    },
+    {
+      "text": "Xếp hạng các thiết bị máy tính  từ mạnh đến kém nhất\n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "41905b06-7094-49c7-9040-9bed3a88f810",
+          "text": "Desktop Computer"
+        },
+        {
+          "id": "c2d98528-2e2b-4412-a968-fb16a9b5184e",
+          "text": "Laptop"
+        },
+        {
+          "id": "068051f5-6ee3-48b9-a319-fc25ec404e8f",
+          "text": "Tablet"
+        },
+        {
+          "id": "defe90a3-835a-4d03-ae6a-e3363da656a5",
+          "text": "SmartPhone"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "6dd2dd91-3b6e-497a-add2-6f9b54350814",
+          "text": "1"
+        },
+        {
+          "id": "d302ded5-dc68-49e3-bc1f-e6294bda0b4a",
+          "text": "2"
+        },
+        {
+          "id": "83d23274-68a7-4b52-937d-f15d81f89093",
+          "text": "3"
+        },
+        {
+          "id": "3a17e47d-b399-43bb-ac0e-b9f8613c7510",
+          "text": "4"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "6dd2dd91-3b6e-497a-add2-6f9b54350814",
+          "draggableItemId": "41905b06-7094-49c7-9040-9bed3a88f810"
+        },
+        {
+          "targetItemId": "d302ded5-dc68-49e3-bc1f-e6294bda0b4a",
+          "draggableItemId": "c2d98528-2e2b-4412-a968-fb16a9b5184e"
+        },
+        {
+          "targetItemId": "83d23274-68a7-4b52-937d-f15d81f89093",
+          "draggableItemId": "068051f5-6ee3-48b9-a319-fc25ec404e8f"
+        },
+        {
+          "targetItemId": "3a17e47d-b399-43bb-ac0e-b9f8613c7510",
+          "draggableItemId": "defe90a3-835a-4d03-ae6a-e3363da656a5"
+        }
+      ]
+    },
+    {
+      "text": "Bạn có 1 máy tính để bàn và muốn tăng tốc độ của nó để có trải nghiệm chơi game tốt hơn. Bạn quyết định tăng thêm bộ nhớ. Đó là bộ nhớ nào (Chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "679fdcef-6587-4b72-8bdd-06382e5b8a8e",
+          "text": "RAM"
+        },
+        {
+          "id": "795177fc-4652-43f4-abd7-46853aeba83f",
+          "text": "Ổ cứng (Hard Drive)"
+        },
+        {
+          "id": "f58eaf52-789b-4004-a1c9-6d3bdcbbcd14",
+          "text": "Ổ đĩa Flash USB (USB Flash Drive)"
+        },
+        {
+          "id": "36a3d7cd-62c6-4202-88cc-1c7f221e9d7b",
+          "text": "Ổ cứng thể rắn (Solid State Drive)"
+        },
+        {
+          "id": "ec372152-ebd8-42d6-bdcd-845556a90a4e",
+          "text": "ROM"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "RAM",
+        "ROM"
+      ]
+    },
+    {
+      "text": "Ghép nối các khái niệm\n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "ded71d35-de0e-433a-a1cc-bde59f225f5c",
+          "text": "Network Adapter"
+        },
+        {
+          "id": "b9847253-573c-4a11-a4cf-5ce6a0acbf92",
+          "text": "Modem"
+        },
+        {
+          "id": "e2bdbea5-d46c-4ce9-8ee1-9f159d5089bc",
+          "text": "Ethernet"
+        },
+        {
+          "id": "4e4d40a1-a0ae-4406-9aac-53c81968ca42",
+          "text": "Router"
+        },
+        {
+          "id": "1986ccf8-a548-4eff-b566-58104c38de55",
+          "text": "(Digital Subscriber Line)DSL"
+        },
+        {
+          "id": "852f4e28-16bf-49aa-b82b-4755d95f2e06",
+          "text": "Cable Service"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "b2884f4a-f078-4801-8cb5-b582df56422a",
+          "text": "Bản mạch cho phép máy tính bàn kết nối mạng"
+        },
+        {
+          "id": "1dab936f-aa54-4d66-885c-cd369b149407",
+          "text": "Một thiết bị gửi và nhận thông tin giữa nhà của bạn và ISP thông qua đường dây điện thoại hoặc cáp quang, cáp đồng trục"
+        },
+        {
+          "id": "f44480f8-e05a-405a-911d-8df4fdad0dde",
+          "text": "Một công nghệ kết nối các máy tính với nhau trong mạng cục bộ"
+        },
+        {
+          "id": "8e892fa0-565c-4432-a0f9-94e3b620cbb9",
+          "text": "Kết nối nhiều mạng và chuyển tiếp các gói giữa chúng"
+        },
+        {
+          "id": "0e539a57-0de5-41bb-a1c9-8f8d553c81a6",
+          "text": "Một công nghệ mạng chạy trên dây điện thoại"
+        },
+        {
+          "id": "e1eedc41-8143-444f-92ff-1eeb299b2817",
+          "text": "Một công nghệ mạng chạy trên cáp đồng trục của TV"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "b2884f4a-f078-4801-8cb5-b582df56422a",
+          "draggableItemId": "ded71d35-de0e-433a-a1cc-bde59f225f5c"
+        },
+        {
+          "targetItemId": "1dab936f-aa54-4d66-885c-cd369b149407",
+          "draggableItemId": "b9847253-573c-4a11-a4cf-5ce6a0acbf92"
+        },
+        {
+          "targetItemId": "f44480f8-e05a-405a-911d-8df4fdad0dde",
+          "draggableItemId": "e2bdbea5-d46c-4ce9-8ee1-9f159d5089bc"
+        },
+        {
+          "targetItemId": "8e892fa0-565c-4432-a0f9-94e3b620cbb9",
+          "draggableItemId": "4e4d40a1-a0ae-4406-9aac-53c81968ca42"
+        },
+        {
+          "targetItemId": "0e539a57-0de5-41bb-a1c9-8f8d553c81a6",
+          "draggableItemId": "1986ccf8-a548-4eff-b566-58104c38de55"
+        },
+        {
+          "targetItemId": "e1eedc41-8143-444f-92ff-1eeb299b2817",
+          "draggableItemId": "852f4e28-16bf-49aa-b82b-4755d95f2e06"
+        }
+      ]
+    },
+    {
+      "text": "Bạn vừa mở một tài khoản facebook.  Một trong những người bạn của bạn tuyên bố rằng cô ấy đã bị đánh cắp danh tính của mình trên một trang mạng xã hội và không muốn điều đó xảy ra với mình.\nBạn nên thực hiện 3 biện pháp phòng ngừa nào để bảo vệ dữ liệu cá nhân của mình khi trực tuyến?\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "43711192-761d-44fc-b595-da3b3f13c7ec",
+          "text": "Đừng công khai năm sinh của bạn"
+        },
+        {
+          "id": "a177907e-b29a-4ade-8a0a-acfc9f100d62",
+          "text": "Không đăng bất kỳ ảnh nào của bạn"
+        },
+        {
+          "id": "efe7c634-f66e-476b-a509-1d59712a3b5c",
+          "text": "Sử dụng tên và vị trí giả"
+        },
+        {
+          "id": "07e01cd2-3f90-46f7-9079-757a07e44377",
+          "text": "Không đăng địa chỉ đường phố của bạn"
+        },
+        {
+          "id": "3a4c91cd-7227-4877-a56c-07f968054e0a",
+          "text": "Không bao giờ sử dụng thẻ tín dụng để thanh toán bất cứ thứ gì trực tuyến"
+        },
+        {
+          "id": "1677cdbb-639d-4229-a9c6-f2dfc24b6872",
+          "text": "Nếu trang web yêu cầu số điện thoại của bạn hãy đảm bảo rằng nó sẽ được giữ kín"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Đừng công khai năm sinh của bạn",
+        "Không đăng địa chỉ đường phố của bạn",
+        "Nếu trang web yêu cầu số điện thoại của bạn hãy đảm bảo rằng nó sẽ được giữ kín"
+      ]
+    },
+    {
+      "text": "Bạn muốn sử dụng điện thoại thông minh của mình để duyệt internet. Một điện thoại thông minh có thể kết nối internet bằng cách nào(Chọn 2)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "e2909252-dd4b-4592-afdc-69f9df89f01e",
+          "text": "Cloud"
+        },
+        {
+          "id": "e7c7887f-dc12-44e5-b7fd-f4a0ad5b1378",
+          "text": "Ứng dụng mobile"
+        },
+        {
+          "id": "118e8179-1c6e-476c-836b-d408ba5b5c39",
+          "text": "Gói dữ liệu từ nhà cung cấp dịch vụ di động"
+        },
+        {
+          "id": "cbd7b959-6734-4cd5-957a-04c737db376e",
+          "text": "Wifi"
+        },
+        {
+          "id": "b4fac819-c0c4-42a8-84ea-bfc540e151e7",
+          "text": "Ethernet"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Gói dữ liệu từ nhà cung cấp dịch vụ di động",
+        "Wifi"
+      ]
+    },
+    {
+      "text": "Giáo viên đã cảnh báo bạn về việc bảo vệ danh tính trực tuyến của bạn. Ba hoạt động nào giúp xác định danh tính kỹ thuật số của bạn?\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "bbf2cd79-a1a8-4fd6-aeb9-a359d36e2005",
+          "text": "Có nhiều tài khoản email"
+        },
+        {
+          "id": "ce2f4199-4df1-46eb-87b9-4b9a13377e21",
+          "text": "Chỉ đăng từ điện thoại không bao giờ đăng nhập từ máy tính"
+        },
+        {
+          "id": "643af222-4b21-49e3-a3e1-9961661b80e5",
+          "text": "Phương tiện được đăng bởi những người khác, mà bạn chia sẻ với bạn bè của mình"
+        },
+        {
+          "id": "7c8b2602-610a-4937-aecd-009ba770376d",
+          "text": "Nhận xét bạn đăng hoặc tweet"
+        },
+        {
+          "id": "c04b690b-14b9-4b0f-8751-388c2f43a62e",
+          "text": "Hồ sơ của bạn (Your profile)"
+        },
+        {
+          "id": "29c335d3-b3d2-4ea1-bb65-9b6eaef7925d",
+          "text": "Sử dụng twitter và Snapchat thay vì Facebook"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Phương tiện được đăng bởi những người khác, mà bạn chia sẻ với bạn bè của mình",
+        "Nhận xét bạn đăng hoặc tweet",
+        "Hồ sơ của bạn (Your profile)"
+      ]
+    },
+    {
+      "text": "Quan sát hình ảnh.\nChọn phát biểu Đúng hoặc Sai phù hợp với hình ảnh:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "c9a50277-0751-4b82-8a46-66c4f0de547f",
+          "text": "Hình ảnh A là một ổ đĩa thể rắn (SSD)\n"
+        },
+        {
+          "id": "17ba51a1-bb99-4291-acbb-765377845048",
+          "text": "Hình ảnh B là bộ nhớ\n"
+        },
+        {
+          "id": "db80fd1a-638d-4f3e-b0ad-c74c2e15b343",
+          "text": "Hình ảnh C là một Đơn vị xử lí trung tâm CPU\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Bạn vừa đăng ký tài khoản Google. Tài khoản của bạn sử dụng đăng nhập một lần SSO.\n Ba lợi ích của đăng nhập một lần.\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "b1618572-3c24-4456-8be5-8e6675220850",
+          "text": " Bạn có bảo mật mạnh mẽ hơn."
+        },
+        {
+          "id": "fd0e069c-b183-47f6-b611-030aa1e37f69",
+          "text": " Bạn chỉ cần nhớ một tập hợp các chi tiết đăng nhập."
+        },
+        {
+          "id": "b93b43de-0986-4742-bb5c-32c35013248b",
+          "text": " SSO thuộc sở hữu và điều hành của chính phủ"
+        },
+        {
+          "id": "d9bad425-dff3-4506-9f6d-b3ea6d445d68",
+          "text": " Sau khi đăng nhập, bạn có thể truy cập email bộ nhớ tài liệu, ứng dụng và các trang web khác của  mình với toàn quyền truy cập."
+        },
+        {
+          "id": "25928bc5-071e-4118-a7e7-93c86d14d864",
+          "text": " Thông tin xác thực được lưu trữ trên Amazon, Facebook, và Google"
+        },
+        {
+          "id": "67540863-81ab-451f-9e29-1f4a9d717d9d",
+          "text": " Bạn có thể đăng nhập mà không cần sử dụng mật khẩu"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        " Bạn có bảo mật mạnh mẽ hơn.",
+        " Bạn chỉ cần nhớ một tập hợp các chi tiết đăng nhập.",
+        " Sau khi đăng nhập, bạn có thể truy cập email bộ nhớ tài liệu, ứng dụng và các trang web khác của  mình với toàn quyền truy cập."
+      ]
+    },
+    {
+      "text": "Ghép từng khái niệm về ứng dụng phần mềm với định nghĩa của nó\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "f59eff0f-8ef7-42ce-8511-07fa26399fd8",
+          "text": "Application"
+        },
+        {
+          "id": "3841a466-bc22-4bd7-9597-c4efc9ec72b0",
+          "text": "App"
+        },
+        {
+          "id": "ace689f6-f821-4230-986b-9dd56f0d41b9",
+          "text": "Web-based Applications"
+        },
+        {
+          "id": "05e3ea9e-186a-4b77-ac4f-11233e23a7ac",
+          "text": "Desktop Application"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "31ce6203-779e-45a4-a876-1514d620b457",
+          "text": "Được thiết kế để thực hiện nhiều chức năng khác nhau"
+        },
+        {
+          "id": "94d90f03-007b-42a2-b488-3ae8aa7fddb0",
+          "text": "Được thiết kế cho một mục đích duy nhất"
+        },
+        {
+          "id": "2f432a09-3486-4704-9963-1bdfc74f0775",
+          "text": "Chạy từ đám mây"
+        },
+        {
+          "id": "7a1669a6-e6f9-4d4d-a41f-40a3587eabb3",
+          "text": "Phải được cài đặt lên máy tính trước khi nó có thể chạy"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "31ce6203-779e-45a4-a876-1514d620b457",
+          "draggableItemId": "f59eff0f-8ef7-42ce-8511-07fa26399fd8"
+        },
+        {
+          "targetItemId": "94d90f03-007b-42a2-b488-3ae8aa7fddb0",
+          "draggableItemId": "3841a466-bc22-4bd7-9597-c4efc9ec72b0"
+        },
+        {
+          "targetItemId": "2f432a09-3486-4704-9963-1bdfc74f0775",
+          "draggableItemId": "ace689f6-f821-4230-986b-9dd56f0d41b9"
+        },
+        {
+          "targetItemId": "7a1669a6-e6f9-4d4d-a41f-40a3587eabb3",
+          "draggableItemId": "05e3ea9e-186a-4b77-ac4f-11233e23a7ac"
+        }
+      ]
+    },
+    {
+      "text": "Phát biểu liên quan đến phần mềm mã nguồn mở và độc quyền. Chọn Đúng hoặc Sai:\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "7e29e055-bf6d-46f5-9033-02fe1ab2d086",
+          "text": "Mã nguồn mở đề cập đến mà nguồn có sẵn cho mọi người truy cập và sửa đổi\n"
+        },
+        {
+          "id": "2d8510b8-7110-4bde-975f-43d9eac776e8",
+          "text": "Phần mềm độc quyền đề cập đến phần mềm được sở hữu bởi một cá nhân hoặc công ty đã phát triển nó\n"
+        },
+        {
+          "id": "9ac05bf4-11e4-46dd-969b-8da8718bc636",
+          "text": "Phần mềm độc quyền thường miễn phí\n"
+        },
+        {
+          "id": "4de53795-43d0-4aeb-9a13-d918dac30e87",
+          "text": "Phần mềm nguồn mở thường được bán thương mại\n"
+        },
+        {
+          "id": "4b50e597-46a3-4f11-b67e-e2665eb8ba44",
+          "text": "Phần mềm độc quyền thường có hỗ trợ kỹ thuật\n"
+        },
+        {
+          "id": "320b8394-7931-4b27-a40e-ed4c39f65873",
+          "text": "Phần mềm nguồn mở thường không có hỗ trợ kỹ thuật hoặc chỉ được hỗ trợ bởi các diễn đàn cộng đồng\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn chụp rất nhiều ảnh và cần thêm dung lượng lưu trữ dữ liệu trên máy tính của mình.  Bạn chọn thiết bị lưu trữ nào ?(Chọn  3)\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "dab8f4ff-450e-45e7-b0cd-0903ba972d69",
+          "text": "Hard Disk Drive (HDD)"
+        },
+        {
+          "id": "5c5dffe0-2a74-47c2-a0d5-78b68d702194",
+          "text": "Flash ROM"
+        },
+        {
+          "id": "94f7143a-ee69-480f-89ff-785402cd305e",
+          "text": "ROM"
+        },
+        {
+          "id": "c5806e11-b998-4186-9498-aef19aabff35",
+          "text": "Solid State Drive (SSD)"
+        },
+        {
+          "id": "167830ee-8342-498a-b489-2fe534c3d238",
+          "text": "USB Flash Drive"
+        },
+        {
+          "id": "878649d6-7b90-4a20-8579-7d896065fd5d",
+          "text": "RAM"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Hard Disk Drive (HDD)",
+        "Solid State Drive (SSD)",
+        "USB Flash Drive"
+      ]
+    },
+    {
+      "text": "Đối với mỗi phát biểu liên quan đến hệ điều hành thiết bị di động, hãy chọn Đúng hoặc Sai:\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "787947bf-0215-4421-9176-9d978f4780c7",
+          "text": "Hệ điều hành cài trên khoảng 70% thiết bị di động trên thế giới là Android"
+        },
+        {
+          "id": "8e6692a0-dbec-432b-9e29-7db2af717633",
+          "text": "IOS có nhiều ứng dụng hơn cho Android"
+        },
+        {
+          "id": "8a1fbdd2-4f29-49c4-8052-7a34c8b6ebe1",
+          "text": "Ứng dụng dành cho IOS có xu hướng ít gặp vấn đề bảo mật hơn ứng dụng dành cho Android\n"
+        },
+        {
+          "id": "ce6293df-c1e9-4c04-b1dd-aa3ddc9bf84c",
+          "text": "Hệ điều hành IOS được cài trên thiết bị di động trên thế giới chiếm khoảng 30%"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Có ba Hệ điều hành máy tính để bàn chính: Windows, MacOS, và Linux. Các Hệ điều hành này có các chức năng chính gì ? (Chọn 3)\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "679a201f-25a5-4770-a454-e0a5b7ac5ab4",
+          "text": "Cung cấp giao diện người dùng"
+        },
+        {
+          "id": "d13e1fa0-4f2f-4186-a351-7fd9c7adaf11",
+          "text": "Cung cấp dịch vụ cho phần mềm ứng dụng"
+        },
+        {
+          "id": "604debd9-ae95-40ef-ba2a-4501f6992865",
+          "text": "Cung cấp bảo mật chống hack 100%"
+        },
+        {
+          "id": "fc07da1c-651a-43f2-88a1-50d1d5c447a9",
+          "text": "Cung cấp trò chơi điện tử"
+        },
+        {
+          "id": "170aa43f-beb3-43e7-87ff-c321dbaba109",
+          "text": "Quản lý các dịch vụ điện thoại và nhắn tin"
+        },
+        {
+          "id": "0d67fe05-b447-4b98-95bd-5780d094db43",
+          "text": "Quản lý tài nguyên, chẳng hạn như CPU, bộ nhớ, ỗ đĩa và thiết bị ngoại vi"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Cung cấp giao diện người dùng",
+        "Cung cấp dịch vụ cho phần mềm ứng dụng",
+        "Quản lý tài nguyên, chẳng hạn như CPU, bộ nhớ, ỗ đĩa và thiết bị ngoại vi"
+      ]
+    },
+    {
+      "text": "Khi trích dẫn thông tin được xuất bản trên web, bạn nên bao gồm một tuyên bố truy cập cho biết khi nào và ở đâu trên web mà bạn đã truy cập thông tin.\nBạn nên đưa ba mục nào trong tuyên bố truy cập trích dẫn của mình? (Chọn ba)\nChủ đề 19: Khi trích dẫn thông tin được xuất bản trên web, bạn nên bao gồm một tuyên bố truy cập cho biết khi nào và ở đâu trên web mà bạn đã truy cập thông tin.\nBạn nên đưa ba mục nào trong tuyên bố truy cập trích dẫn của mình? (Chọn ba)\n",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "8a587db3-d7b4-4c88-87b0-12f7191f2eb7",
+          "text": "Tên của trang web"
+        },
+        {
+          "id": "95c3c292-9516-4ab8-aac6-17431ec11ebf",
+          "text": "Tên tác giả hoặc tổ chức"
+        },
+        {
+          "id": "6faeb12a-d835-4240-91bf-04abc9f98e56",
+          "text": "Ngày trang được đăng"
+        },
+        {
+          "id": "6e1873e1-67ba-4dac-ad28-0557fe91f593",
+          "text": "Chủ đề bạn đang tìm kiếm"
+        },
+        {
+          "id": "0393ba18-2449-4227-894a-88aa52b59c28",
+          "text": "URL hoặc địa chỉ của trang web"
+        },
+        {
+          "id": "0031c0c9-b4e7-4512-b374-4f62d701aa56",
+          "text": "Ngày bạn truy cập trang web"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tên của trang web",
+        "Ngày bạn truy cập trang web",
+        "URL hoặc địa chỉ của trang web"
+      ]
+    },
+    {
+      "text": "Bạn vừa nhận được một điện thoại thông minh mới và muốn đảm bảo rằng mọi tập tin cá nhân sẽ không bị mất nếu điện thoại của bạn bị mất hoặc hỏng.Bạn quyết định bật tính năng tự động sao lưu bằng dịch vụ đám mây đi kèm với điện thoại của mình. Bạn nên thường xuyên sao lưu mục nào trên điện thoại thông minh của mình?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "0d727aa1-f6b7-4997-a219-6c35db56bc7d",
+          "text": "Hệ điều hành"
+        },
+        {
+          "id": "417d7f1b-a9a2-40b8-bd7d-590c74122f48",
+          "text": "Ứng dụng"
+        },
+        {
+          "id": "bb292603-c246-4a9a-9382-191ff385fc2e",
+          "text": "Thẻ SIM"
+        },
+        {
+          "id": "0be2ddc0-f27d-4086-a271-9a2cf6c77907",
+          "text": "Các tin nhắn"
+        },
+        {
+          "id": "1fe23b93-58c3-4ed5-a800-c3f0580d300c",
+          "text": "Hình ảnh"
+        },
+        {
+          "id": "bf093ccf-71a8-4bd7-8785-9455307c4de0",
+          "text": "Danh bạ liên hệ"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Các tin nhắn",
+        "Hình ảnh",
+        "Danh bạ liên hệ"
+      ]
+    },
+    {
+      "text": "Hai thông số nào thường dùng cài đặt khi in?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "37735c51-7bfe-486e-82b6-3ddcf9a35831",
+          "text": "In trong suốt"
+        },
+        {
+          "id": "30edccc0-e466-4cab-81f7-15a642f94f7c",
+          "text": "In hai dòng cùng một lúc"
+        },
+        {
+          "id": "569909ca-dc52-4415-8f6b-1f45bdeccb96",
+          "text": "Số trang trình chiếu Slide trên mỗi trang"
+        },
+        {
+          "id": "f41d4034-d8f1-459f-84f6-a3b20e82b436",
+          "text": "In bao nhiêu trang trên mỗi tờ"
+        },
+        {
+          "id": "f0516d72-cddd-4444-8363-460801f34df2",
+          "text": "In ba dòng cùng một lúc"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Số trang trình chiếu Slide trên mỗi trang",
+        "In bao nhiêu trang trên mỗi tờ"
+      ]
+    },
+    {
+      "text": "Lựa chọn nào là hai phương pháp in?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "abedd459-ac9b-497e-8a5c-4fdf531893d6",
+          "text": "In đến một tập tin PDF"
+        },
+        {
+          "id": "dae9bb13-3fbb-4d8d-81a5-12a4be9b2acc",
+          "text": "In từ web"
+        },
+        {
+          "id": "411b3452-ccd4-4ab1-9b08-6626f2d8d5ef",
+          "text": "In từ máy vẽ"
+        },
+        {
+          "id": "3a45c954-ef14-4e56-aaf1-5304950b3cdd",
+          "text": "In đến một DVD"
+        },
+        {
+          "id": "1111844f-cbaa-431a-9484-9c0695ed8741",
+          "text": "In đến một email"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "In đến một tập tin PDF",
+        "In từ web"
+      ]
+    },
+    {
+      "text": "Điều nào sau đây sẽ là đặc điểm của cơ sở hạ tầng mạng tốt nhất cho trường học?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "76b91df3-ad8d-436b-b887-34c9b0d629bf",
+          "text": "Chính sách sử dụng được chấp nhận (Acceptable Use Policy) là không bắt buộc"
+        },
+        {
+          "id": "a3d3ca67-bf3a-4602-9b62-7bcfad2c303e",
+          "text": "Hỗ trợ đăng nhập ẩn danh"
+        },
+        {
+          "id": "edf26e70-0411-4b26-8aa0-8c5b6edcc751",
+          "text": "Dễ dàng mở rộng mạng lưới khi số lượng học sinh tăng"
+        },
+        {
+          "id": "0285d60c-edbc-49d5-a991-4813174d5892",
+          "text": "Cho phép mọi người truy cập mạng từ mọi nơi"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Dễ dàng mở rộng mạng lưới khi số lượng học sinh tăng"
+    },
+    {
+      "text": "Bạn đang gặp rắc rối bởi rất nhiều phần mềm độc hại lây nhiễm vào máy tính của bạn. Sau khi làm sạch phần mềm độc hại khỏi máy tính, bạn muốn cải thiện quyền riêng tư kỹ thuật số và tăng cường bảo mật của mình. Điều nào sau đây sẽ bảo vệ quyền riêng tư kỹ thuật số của bạn và tăng cường bảo mật khi duyệt các trang web?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "92f3b19e-bb35-4e80-8cf5-0f21a6b1501f",
+          "text": "Tiện ích mở rộng trình duyệt chống theo dõi"
+        },
+        {
+          "id": "107e39a6-8b2d-44d0-a7c9-a32c347d87e5",
+          "text": "Xóa lịch sử trình duyệt của bạn"
+        },
+        {
+          "id": "5523933c-1b25-473d-a25e-70b0e317e8ed",
+          "text": "Một giấy phép Creative Commons"
+        },
+        {
+          "id": "67f1cc58-b269-42b3-aac0-7f343cb92b65",
+          "text": "Chuyển sang trình duyệt nguồn mở"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Tiện ích mở rộng trình duyệt chống theo dõi"
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai cho mỗi phát biểu sau:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "39d3ba6e-c736-4594-86ec-a41650ca05c2",
+          "text": "Facebook là trang web truyền thông xã hội phổ biến nhất để đăng và chia sẻ nội dung"
+        },
+        {
+          "id": "a86c912f-152b-4133-b883-0fdf9537ea1c",
+          "text": "Không có yêu cầu về độ tuổi tối thiểu để có tài khoản trên YouTube"
+        },
+        {
+          "id": "c18bb33c-85c9-4a6f-bcc9-2d177eadc453",
+          "text": "Instagram chỉ khả dụng cho người dùng IOS của Apple"
+        },
+        {
+          "id": "ea4467d6-d238-4f2f-bb62-205aaaff0c2f",
+          "text": "WeChat đã được mô tả là \"ứng dụng cho mọi thứ\" của Trung Quốc"
+        },
+        {
+          "id": "00e3fc04-3beb-4e45-ba8b-0b7a77dbd8e4",
+          "text": "Trong Snapchat, hình ảnh và tin nhắn chỉ khả dụng trong một thời gian ngắn trước khi không thể truy cập được\n\n"
+        },
+        {
+          "id": "faa1a20b-ada7-4081-8224-9a023da57fbf",
+          "text": "Bạn chỉ có thể chia sẻ trên Pinterest nếu bạn tải lên một hình ảnh.\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "false",
+        "true",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn vừa tạo một tài khoản mới trên một trang mạng xã hội. Bạn phải cân nhắc điều gì trước khi đăng và chia sẻ trên một trang mạng xã hội? (Chọn hai) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "0077331d-ab86-4269-8bd0-df81843835e5",
+          "text": "Yêu cầu về độ tuổi tối thiểu có thể khác nhau trên mỗi trang mạng xã hội"
+        },
+        {
+          "id": "e2f6435f-be16-4a09-9598-25d4fa0e4479",
+          "text": "Yêu cầu độ tuổi tối thiểu trên tất cả các trang mạng xã hội là 13 tuổi"
+        },
+        {
+          "id": "cb451da1-a9cd-4228-8a02-9a4a07aaeb52",
+          "text": "Mỗi trang mạng xã hội đều có những nguyên tắc riêng mà bạn phải tuân theo"
+        },
+        {
+          "id": "6905c4ad-4599-4ade-b21c-48b7a247bfd5",
+          "text": "Bạn có thể đăng và chia sẻ bất cứ thứ gì bạn muốn trên một trang mạng xã hội"
+        },
+        {
+          "id": "6b1a02b5-16a2-4ce5-9c25-135437078307",
+          "text": "Tất cả các trang mạng xã hội đều có các nguyên tắc giống nhau mà bạn phải tuân theo"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Yêu cầu về độ tuổi tối thiểu có thể khác nhau trên mỗi trang mạng xã hội",
+        "Mỗi trang mạng xã hội đều có những nguyên tắc riêng mà bạn phải tuân theo"
+      ]
+    },
+    {
+      "text": "Bạn có một chiếc điện thoại thông minh. Trong buổi học hôm nay, bạn đã học về các vấn đề bảo mật cá nhân liên quan đến tính năng theo dõi điều hướng. Hai hoạt động trực tuyến phổ biến nào cho biết khả năng bảo mật cá nhân của bạn bằng cách theo dõi điều hướng ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "682b2a7b-f107-4472-9498-b837ec793244",
+          "text": "Đăng lên Blog"
+        },
+        {
+          "id": "4d097156-7dc9-4b1b-b364-fa82b9d4c7d5",
+          "text": "Chơi trò chơi trực tuyến"
+        },
+        {
+          "id": "91299498-ef48-44a8-8c5c-f1158d67e179",
+          "text": "Tải lên ảnh nghỉ hè năm ngoái"
+        },
+        {
+          "id": "c4c65d6d-4d2b-486e-9391-258dd13d5465",
+          "text": "Đăng thông tin vị trí với một bức ảnh tự sướng vừa chụp"
+        },
+        {
+          "id": "03ff73ac-e9d0-49c6-b166-a0b6972bd715",
+          "text": "Check in vị trí thực của bạn trên các trang mạng xã hội"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Đăng thông tin vị trí với một bức ảnh tự sướng vừa chụp",
+        "Check in vị trí thực của bạn trên các trang mạng xã hội"
+      ]
+    },
+    {
+      "text": "Một trong những giáo viên của bạn nói rằng bạn nên thay đổi cài đặt trình duyệt của mình để sử dụng chế độ duyệt web ở chế độ riêng tư.\nLợi ích của duyệt web ở chế độ riêng tư là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "11c29239-16fc-466c-9c43-d98a819468e8",
+          "text": "Không thể nhìn thấy các gói tin được gửi nhận qua mạng trường học của bạn"
+        },
+        {
+          "id": "9dcf2ed0-5b5d-4e15-9b73-ed9a862cb9a8",
+          "text": "Tên của bạn được giữ kín"
+        },
+        {
+          "id": "4009b5a3-0b75-4283-9047-f2063a6e3233",
+          "text": "Không có lịch sử, cookie, mật khẩu hoặc tệp tạm thời nào được ghi lại trên máy tính"
+        },
+        {
+          "id": "76cb18bd-d1d9-4a49-bc8f-1c3638ecc71c",
+          "text": "Đăng nhập máy tính và mật khẩu của bạn bị vô hiệu hóa"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Không có lịch sử, cookie, mật khẩu hoặc tệp tạm thời nào được ghi lại trên máy tính"
+    },
+    {
+      "text": "Bạn nghi ngờ mật khẩu yêu thích của mình đã bị xâm phạm trên một trong các trang mạng xã hội của bạn. Bạn sử dụng cùng một mật khẩu trên nhiều trang web, bao gồm cả trang web ngân hàng của bạn, vì vậy bạn muốn đặt lại mật khẩu của mình.\nNhấp vào tính năng nào để đặt lại mật khẩu của mình?",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM1C33.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "464dcab6-0272-4401-b33f-51fd126dacd6",
+          "shape": "rect",
+          "coords": "0.8289,0.2274,0.1292,0.0470",
+          "label": "HELP"
+        },
+        {
+          "id": "213334ee-71b3-4c2b-b2c9-cb84ce7f590e",
+          "shape": "rect",
+          "coords": "0.7373,0.6267,0.0686,0.0183",
+          "label": "FORGOT PASSWORD"
+        },
+        {
+          "id": "ec7b48d0-cdde-4f40-b183-323a13261678",
+          "shape": "rect",
+          "coords": "0.7392,0.5958,0.0588,0.0209",
+          "label": "FORGOT USER ID"
+        },
+        {
+          "id": "c4ac8a33-07fe-478b-aa80-ff8dd5009a56",
+          "shape": "rect",
+          "coords": "0.7549,0.1450,0.0255,0.0236",
+          "label": "..."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "213334ee-71b3-4c2b-b2c9-cb84ce7f590e"
+    },
+    {
+      "text": "Quan sát hình ảnh.\nChọn phát biểu Đúng hoặc Sai trong phát biểu dưới đây:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "a2925486-16c4-42b1-8b5f-205ab5af1d23",
+          "text": "Hình ảnh A là một USB-C thường được sử dụng trên các thiết bị mới hơn\n\n"
+        },
+        {
+          "id": "d3c47b35-f4a1-45d2-b17d-a5f0f9121151",
+          "text": "Hình ảnh B là một micro USB thường được sử dụng trên điện thoại, tai nghe, thiết bị bluetooth và pin dự phòng\n\n"
+        },
+        {
+          "id": "dba9acd6-1b53-47cf-9b7c-f87ea0c36d23",
+          "text": "Hình ảnh C là một trình kết nối firewire được sử dụng với IPhone\n\n"
+        },
+        {
+          "id": "1b11ce3b-fde1-41ae-845d-5ea697ac602c",
+          "text": "Hình ảnh D là đầu nối lightning được sử dụng với các sản phẩm của Apple\n\n"
+        },
+        {
+          "id": "20e288cb-0d76-47f8-b0d6-f6fcfc4d8785",
+          "text": "Hình ảnh E là một USB-C thường được sử dụng trên các thiết bị mới hơn\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Tại sao bạn nên tránh đăng hình chế \"meme\" xúc phạm người khác lên",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "8992e0ad-4ff6-4648-8121-778a375a4ee2",
+          "text": "Nó vi phạm bản quyền"
+        },
+        {
+          "id": "a1f6d18b-6be3-475b-a624-f73eef0d1335",
+          "text": "Không phải ai cũng chia sẻ khiếu hài hước của bạn"
+        },
+        {
+          "id": "303e536d-8222-4d0e-b724-b727296bac89",
+          "text": "Các tác động tiêu cực vẫn tồn tại vĩnh viễn trên mạng"
+        },
+        {
+          "id": "d22bcad7-eb27-4fe1-a93b-1e7c95e5ad3c",
+          "text": "Nó chống lại Chính sách sử dụng được chấp nhận (Acceptable Use Policies) trên mạng xã hội"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Các tác động tiêu cực vẫn tồn tại vĩnh viễn trên mạng"
+    },
+    {
+      "text": "Bạn phải trích dẫn tài liệu tham khảo trong trường hợp nà.\nĐối với mỗi tình huống, hãy chọn Đúng nếu bạn phải thêm tham chiếu hoặc Sai nếu bạn không cần thêm",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "1779e3e8-0b96-4ce6-83eb-9724b7b7442c",
+          "text": " Bạn đang viết ý kiến của bạn\n "
+        },
+        {
+          "id": "1ddb4564-0d4c-4f5d-97f1-405ae91845c0",
+          "text": "Bạn sao chép một đoạn từ một trang web\n \n\n"
+        },
+        {
+          "id": "df91c4fa-6da6-487f-956b-112cf4842063",
+          "text": "Bạn mô tả một sự kiện hiện tại mà bạn đã xem trên   tin tức \n"
+        },
+        {
+          "id": "e54fdf3a-7f61-4025-b8ae-226b6a5d5dd5",
+          "text": " Bạn trích dẫn lời bài hát"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Điều nào sau đây được phép với Giấy phép CC-BY Creative Commons?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "7baebbe5-5a4f-4e16-9dd3-9c44893f6201",
+          "text": "Tham gia vào tác phẩm nghệ thuật của người khác như của chính bạn trong một cuộc thi nghệ thuật"
+        },
+        {
+          "id": "345dafb8-e361-48de-8372-3beb9aa9c01c",
+          "text": "Viết ý kiến của riêng bạn và gửi nó lên blog cộng đồng"
+        },
+        {
+          "id": "3cd575e9-21b6-473a-b2ae-b52840c9a660",
+          "text": "Hiển thị một bức ảnh trong một buổi thuyết trình trong lớp học mà không được phép của nhiếp ảnh gia"
+        },
+        {
+          "id": "1bd3a702-d7fd-4dab-a096-4395d114b163",
+          "text": "Phân phối bài hát của ai đó trực tuyến mà không cần ghi công"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Hiển thị một bức ảnh trong một buổi thuyết trình trong lớp học mà không được phép của nhiếp ảnh gia"
+    },
+    {
+      "text": "Phát biểu nào sau đây là một ví dụ về ngôn ngữ viết tắt và tiếng lóng “textspeak”?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "2e560e89-ddac-4525-ba44-604eb1b6de67",
+          "text": "R U coming 2 ?"
+        },
+        {
+          "id": "092d948a-c81e-4cb3-a6ec-2174f889757a",
+          "text": "Gửi một văn bản nhanh thay vì một email dài"
+        },
+        {
+          "id": "ea626073-6065-4460-a674-0c3cc7646638",
+          "text": "Gửi ảnh dưới dạng phản hồi cho tin nhắn văn bản"
+        },
+        {
+          "id": "7f5b548b-36b0-4472-a9b1-b8f9ed6985aa",
+          "text": "Nói vào điện thoại của bạn và cho phép nó chuyển lời nói của bạn thành văn bản"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "R U coming 2 ?"
+    },
+    {
+      "text": "Đại dịch tạm thời đóng cửa trường học của bạn, vì vậy các bài học của bạn được giảng dạy trực tuyến…..Bạn tham gia các buổi học từ thiết bị máy tính của bạn ở nhà. Bạn phải tuân thủ theo các tiêu chuẩn nghi thức kỹ thuật số thích hợp trong các lớp video này\nĐiều nào sau đây thể hiện nghi thức kỹ thuật số thích hợp, cho việc cộng tác bằng hình ảnh?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "1ef4423a-2f5d-4f30-aa71-a309e15570a6",
+          "text": "Không sử dụng tất cả các chữ cái viết hoa khi đến lượt bạn nói vì nó giống như la hét"
+        },
+        {
+          "id": "a007c926-e724-4049-8eab-f9e94a8b3190",
+          "text": "Khi đến lượt bạn phát biểu, hãy giới thiệu bản thân và nhìn vào hình  ảnh trên màn hình của người mà bạn đang nói chuyện"
+        },
+        {
+          "id": "e350c24b-b5c7-4183-9181-2ea626a8d209",
+          "text": "Không sử dụng textspeak"
+        },
+        {
+          "id": "53c3c4ae-aead-4e8f-a9cd-30a3e07760bd",
+          "text": "Hạn chế sử dụng biểu tượng cảm xúc"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Khi đến lượt bạn phát biểu, hãy giới thiệu bản thân và nhìn vào hình  ảnh trên màn hình của người mà bạn đang nói chuyện"
+    },
+    {
+      "text": "Khởi đầu một năm học mới. Bạn đã hướng dẫn tạo một mật khẩu mới để sử dụng với tài khoản của mình trên mạng của trường.\nNội dung nào sau đây nên được sử dụng trong mật khẩu mới của bạn?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "df529604-0c2f-41dc-8525-b13a0f90be74",
+          "text": "Tên của người bạn thân nhất hiện tại của bạn, để bạn sẽ không quên họ"
+        },
+        {
+          "id": "a74408be-5396-40c1-ba23-6d583fda8b37",
+          "text": "Linh vật (Mascot) của đội thể thao yêu thích của bạn để dễ nhớ"
+        },
+        {
+          "id": "c0be76c5-e46e-4583-8322-8d8d16472262",
+          "text": "Ngày sinh của bạn hoặc số an sinh xã hội để nhận dạng duy nhất bạn"
+        },
+        {
+          "id": "6b60a8f0-6866-44ee-84b1-2b6c5742514d",
+          "text": "Ít nhất 8 ký tự số, bao gồm ký hiệu, và một kết hợp của chữ hoa và chữ thường"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Ít nhất 8 ký tự số, bao gồm ký hiệu, và một kết hợp của chữ hoa và chữ thường"
+    },
+    {
+      "text": "Trường hợp nào sau đây là ví dụ về đe dọa trực tuyến?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "f8ad95da-f15e-4467-809a-fd7a2974b320",
+          "text": "Đăng các bài hát của nghệ sĩ yêu thích của bạn trực tuyến và tính phí bạn bè của bạn, để tải chúng xuống."
+        },
+        {
+          "id": "3aba2cc7-5ee9-408e-a081-d05f672abf24",
+          "text": "Viết một bài báo quan điểm về các yêu cầu không công bằng đối với hoạt động thử của đội cổ vũ và gửi lên trang web tin tức của trường bạn."
+        },
+        {
+          "id": "c05d1ce5-88a1-4dce-bfe8-4922bba8ed51",
+          "text": "Đánh cắp mật khẩu của ai đó và giả làm người đó khi đăng tweet hoặc đăng nội dung trực tuyến."
+        },
+        {
+          "id": "6f5beefe-e1f0-4ced-a299-de37d1f7a09c",
+          "text": "Giúp đỡ một người  bạn bằng cách đăng các bài báo đã nghiên cứu về bắt nạt lên blog của họ."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Đánh cắp mật khẩu của ai đó và giả làm người đó khi đăng tweet hoặc đăng nội dung trực tuyến."
+    },
+    {
+      "text": "Bạn đang tham gia vào một cuộc họp lớp ảo bằng công nghệ video. Trên video, bạn có thể nhìn thấy giáo viên và bạn học của mình và tất cả họ đều có thể nhìn thấy bạn. Những hành vi nào sau đây bạn nên cẩn thận khi tham gia vào cuộc họp này?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "5565bf3b-4baf-461f-960d-d8f48f87ba99",
+          "text": "Biểu cảm khuôn mặt và ngôn ngữ cơ thể"
+        },
+        {
+          "id": "4aeb3c7d-0a76-491b-9a68-d979250b84b3",
+          "text": "Mặc quần áo cổ vũ đội thể thao yêu thích của bạn"
+        },
+        {
+          "id": "bcec3076-1eb8-474f-94af-978e0322a82e",
+          "text": "Chính tả và chữ viết tay"
+        },
+        {
+          "id": "f8cc7e25-031c-4ead-b059-b2d8e4f8515c",
+          "text": "Mỉm cười quá nhiều"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Biểu cảm khuôn mặt và ngôn ngữ cơ thể"
+    },
+    {
+      "text": "Bạn đang chuẩn bị một bài thuyết trình cho một dự án lớp. Giáo viên của bạn yêu cầu bạn sử dụng nội dung Creative Commons (CC).\nChọn phát biểu đúng khi nói về Creative Commons (CC) là gì  (Chọn hai).?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "cb9d70be-14dc-4442-9829-56325666d12e",
+          "text": "Creative Commons (CC) là phần mềm độc quyền"
+        },
+        {
+          "id": "35db34ee-823c-4c4b-9db9-c52bb6d203b5",
+          "text": "Creative Commons (CC) là một trường nghệ thuật"
+        },
+        {
+          "id": "74fd0d65-b2d1-4877-9fe5-c672af829493",
+          "text": "Creative Commons (CC) là một tổ chức chia sẻ các tác phẩm sáng tạo"
+        },
+        {
+          "id": "35730f4c-cc3c-4b7f-ac50-a5cdfd85188e",
+          "text": "Giấy phép Creative Commons (CC) miễn phí cho công chúng"
+        },
+        {
+          "id": "02916d8e-65bc-4b72-9b35-3f7b75bffc74",
+          "text": "Creative Commons (CC) là một tổ chức dành để kiếm tiền từ các tác phẩm sáng tạo"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Creative Commons (CC) là một tổ chức chia sẻ các tác phẩm sáng tạo",
+        "Giấy phép Creative Commons (CC) miễn phí cho công chúng"
+      ]
+    },
+    {
+      "text": "Ghép nối thuật ngữ với định nghĩa của nó cho phù hợp?",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "63080bc7-6a4d-4e52-8cb7-96e3587e0921",
+          "text": "Breadcrumb"
+        },
+        {
+          "id": "8ac52520-7949-4866-a9ee-440a9482b698",
+          "text": "Domain Name service(DNS)"
+        },
+        {
+          "id": "5391cc04-e3f1-4ff9-9199-df8141a34dc2",
+          "text": "HyperText Markup Language (HTML)"
+        },
+        {
+          "id": "1848344d-3575-42e9-9f0c-b17702df652b",
+          "text": "Cookie"
+        },
+        {
+          "id": "890898c6-a14e-4a44-a69b-4eb74a6de888",
+          "text": "Internet Service Provider (ISP)"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "e0a52e5a-fcfc-4b44-8dec-fdbefcf67e3e",
+          "text": "Cho phép người dùng truy xuất lại các bước của họ trên một trang web"
+        },
+        {
+          "id": "6d6b834e-4558-47a9-99cf-8aded7c60be2",
+          "text": "Một thư mục phân cấp ánh xạ vị trí của các tài nguyên trên internet: "
+        },
+        {
+          "id": "a7d3e06d-9b37-4d95-b1d0-918e90e78b70",
+          "text": "Một ngôn ngữ đánh dấu được sử dụng để tạo các trang web"
+        },
+        {
+          "id": "cd83fc96-d20c-4d15-9444-381d6a5d345e",
+          "text": "Một tập tin văn bản theo dõi hoạt động của người dùng trên một trang web"
+        },
+        {
+          "id": "82613b22-b2bf-4a48-933d-88485169f41a",
+          "text": "Một công ty kết nối người dùng với internet"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "e0a52e5a-fcfc-4b44-8dec-fdbefcf67e3e",
+          "draggableItemId": "63080bc7-6a4d-4e52-8cb7-96e3587e0921"
+        },
+        {
+          "targetItemId": "6d6b834e-4558-47a9-99cf-8aded7c60be2",
+          "draggableItemId": "8ac52520-7949-4866-a9ee-440a9482b698"
+        },
+        {
+          "targetItemId": "a7d3e06d-9b37-4d95-b1d0-918e90e78b70",
+          "draggableItemId": "5391cc04-e3f1-4ff9-9199-df8141a34dc2"
+        },
+        {
+          "targetItemId": "cd83fc96-d20c-4d15-9444-381d6a5d345e",
+          "draggableItemId": "1848344d-3575-42e9-9f0c-b17702df652b"
+        },
+        {
+          "targetItemId": "82613b22-b2bf-4a48-933d-88485169f41a",
+          "draggableItemId": "890898c6-a14e-4a44-a69b-4eb74a6de888"
+        }
+      ]
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "f8133d4c-d2f5-4598-8e91-618527334e70",
+          "text": "Chuột là thiết bị nhập\n\n"
+        },
+        {
+          "id": "c63ae959-ff36-4e77-9ecf-e210c38d81db",
+          "text": "Màn hình là một thiết bị nhập\n"
+        },
+        {
+          "id": "e0580064-0b80-48f5-88e7-58b23781ee12",
+          "text": "Loa là một thiết bị nhập\n"
+        },
+        {
+          "id": "a106951f-9700-46b5-9fa7-9be4e604a7f7",
+          "text": "Loa là một thiết bị nhập\n\n"
+        },
+        {
+          "id": "09ec5f7d-0d2a-40e4-af92-61d4a7e3c655",
+          "text": "Micro là một thiết bị nhập\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn có tài khoản mạng xã hội trên Facebook, Instagram, Twitter và Snap-chat. Bạn cũng sử dụng internet để làm bài tập ở trường, duyệt thông tin và chơi trò chơi. Bạn quan tâm đến việc bảo vệ quyền riêng tư của mình. Bạn có thể thực hiện ba hành động nào để giúp duy trì quyền riêng tư và bảo mật kỹ thuật số (Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "50848520-3422-47d5-a869-88481ea21721",
+          "text": "Chỉ đăng từ điện thoại, không bao giờ đăng từ máy tính"
+        },
+        {
+          "id": "5bbc3920-e2f3-4459-9b03-00e54c625f87",
+          "text": "Sử dụng Twitter và Snapchat thay vì Facebook"
+        },
+        {
+          "id": "50f987e7-dfc1-4b8d-8ca3-670153351f24",
+          "text": "Thay đổi cài đặt quyền riêng tư trên các tài khoản mạng xã hội của bạn"
+        },
+        {
+          "id": "d541f6f5-dabe-4274-b8ce-58aa48c90ed6",
+          "text": "Có nhiều tài khoản email"
+        },
+        {
+          "id": "4f858c5d-33b5-409e-a484-fe23488fff7a",
+          "text": "Không lưu trữ dữ liệu cá nhân trên một dịch vụ trực tuyến dùng để chia sẻ"
+        },
+        {
+          "id": "e7752cae-f7c9-422a-af99-7cf814034931",
+          "text": "Sử dụng mật khẩu an toàn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Thay đổi cài đặt quyền riêng tư trên các tài khoản mạng xã hội của bạn",
+        "Không lưu trữ dữ liệu cá nhân trên một dịch vụ trực tuyến dùng để chia sẻ",
+        "Sử dụng mật khẩu an toàn"
+      ]
+    },
+    {
+      "text": "Tối qua, bạn đã đăng một số bức ảnh đáng xấu hổ của một người bạn lên internet. Sau khi suy nghĩ, bạn quyết định xoá các bức ảnh. Làm thế nào bạn có thể chắc chắn rằng các bức ảnh đã được xóa hoàn toàn khỏi internet?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "850923ae-ca4e-4671-8b99-73b670257499",
+          "text": "Bạn không thể. Các bản sao và đăng lại có thể giữ cho các bức ảnh lưu hành trực tuyến vô thời hạn"
+        },
+        {
+          "id": "1f116d1f-08c4-44ce-970a-2e28670e2224",
+          "text": "Bạn có thể chỉ cần xóa những bức ảnh bạn đã đăng"
+        },
+        {
+          "id": "e156ac87-fea9-430b-8dc6-ecae4b26c2de",
+          "text": "Bạn có thể liên hệ với cơ quan quản lý internet và họ sẽ xóa tất cả ảnh cho bạn"
+        },
+        {
+          "id": "3c193b3c-7a74-4c32-a7e0-45e843d50881",
+          "text": "Bạn có 24 giờ để xóa ảnh trước khi chúng hiển thị cho bất kỳ ai khác"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Bạn không thể. Các bản sao và đăng lại có thể giữ cho các bức ảnh lưu hành trực tuyến vô thời hạn"
+    },
+    {
+      "text": "Bạn đã tải xuống một số bài hát mình yêu thích và sử dụng chúng trong bài thuyết trình mà bạn đã gửi tới Hội chợ Khoa học toàn bang. Bài thuyết trình của bạn bị từ chối vì các bài hát bạn đã chọn đã vi phạm bản quyền.\nBa yếu tố nào được sử dụng để đánh giá quyền sử dụng hợp lý (Fair Use)\n(Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "a181ce62-5537-468a-af65-9ea4859a879e",
+          "text": "Ảnh hưởng của việc sử dụng của bạn đối với thị trường tiềm năng của tác phẩm được sao chép"
+        },
+        {
+          "id": "88509a75-9f70-4d22-a196-77dcce07cfce",
+          "text": "Lấy từ một trang web đăng ký"
+        },
+        {
+          "id": "252cffa6-90de-47a0-bbb6-94c03c4936b8",
+          "text": "Mục đích sử dụng của bạn"
+        },
+        {
+          "id": "d55ac6e2-72e8-4261-a8da-f6244c3d745d",
+          "text": "Được sao chép từ tác phẩm do một người bạn của bạn đã mua"
+        },
+        {
+          "id": "b2649096-d7e6-4353-a9b0-3c38b3cb2c50",
+          "text": "Lượng tác phẩm được sao chép"
+        },
+        {
+          "id": "f6737bc6-e3d2-4906-a896-449caca3aa1d",
+          "text": "Nếu nó được sử dụng bởi một giáo viên hoặc học sinh"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Ảnh hưởng của việc sử dụng của bạn đối với thị trường tiềm năng của tác phẩm được sao chép",
+        "Mục đích sử dụng của bạn",
+        "Lượng tác phẩm được sao chép"
+      ]
+    },
+    {
+      "text": "Bạn đã bị hack. Bạn được hướng dẫn để tạo 1 mật khẩu an toàn mới.\nMật khẩu nào sau đây là mật khẩu mạnh nhất?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "6584844a-e03e-43d0-9a64-47bd678b1b28",
+          "text": "1234ABCD"
+        },
+        {
+          "id": "95749ad7-c73f-4c9a-a9d1-8c895aee731a",
+          "text": "8675309"
+        },
+        {
+          "id": "776a3552-b381-48bb-b7a7-9505cb95fe9b",
+          "text": "pa$$w0rd"
+        },
+        {
+          "id": "d3002c6d-e562-40f6-948f-ae04e47ffae1",
+          "text": "Love-U"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "pa$$w0rd"
+    },
+    {
+      "text": "Lựa chọn nào sau đây thường được các trang web sử dụng để theo dõi thói quen duyệt web của khách truy cập?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "ac66418d-a833-4483-b3d3-3fc89ff59635",
+          "text": "Cookies"
+        },
+        {
+          "id": "0922695a-c9a2-4de5-b94b-f597caa0c61d",
+          "text": "Đánh dấu (Bookmarks)"
+        },
+        {
+          "id": "4ffdbfd3-ae53-48e9-ae31-231dd99d7f47",
+          "text": "Nhận dạng khuôn mặt"
+        },
+        {
+          "id": "eb25a5dc-3d2e-44a8-9067-28cfa5425365",
+          "text": "Đường hầm VPN"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Cookies"
+    },
+    {
+      "text": "Bạn đã tham gia một diễn đàn để thảo luận về một số trò chơi kỹ thuật số phổ biến. Trước khi bạn đăng bài trong diễn đàn, bạn phải tạo tên người dùng. Hai lý do thích hợp để sử dụng bí danh trực tuyến thay vì tên thật của bạn là gì (Chọn hai)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "e45ca3e3-5b9b-4e54-9e4b-e3c57cc51c06",
+          "text": "Bạn đang tải xuống phương tiện vi phạm bản quyền"
+        },
+        {
+          "id": "d42c4563-3c5b-4a57-a356-fe8679dac7f5",
+          "text": "Bạn có một tên thông thường và một bí danh có thể khiến bạn khác biệt với những người khác"
+        },
+        {
+          "id": "35a63772-cba0-4abd-8955-4433fb540a22",
+          "text": "Bạn muốn giả làm người khác"
+        },
+        {
+          "id": "4c8d4463-56dd-432a-8478-cd9236a2dc78",
+          "text": "Bạn muốn bình luận theo cách mà bạn thường không gặp trực tiếp"
+        },
+        {
+          "id": "ae6b055f-082a-44a1-a8a3-f452f060faf6",
+          "text": "Bạn đang cố gắng giữ riêng biệt danh tính cá nhân và danh tính doanh nghiệp"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Bạn có một tên thông thường và một bí danh có thể khiến bạn khác biệt với những người khác",
+        "Bạn đang cố gắng giữ riêng biệt danh tính cá nhân và danh tính doanh nghiệp"
+      ]
+    },
+    {
+      "text": "Bạn nhận thấy nhiều người viết bình luận tiêu cực trên một trang mạng xã hội. Bạn bị cám dỗ bởi những điều tương tự. Giá trị của việc không phản hồi đối với giao tiếp tiêu cực là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "67bef715-11e8-4dcb-b444-8d3018a0cd6e",
+          "text": "Giữ danh tính của bạn ẩn danh"
+        },
+        {
+          "id": "ce115183-ff3b-45d9-95e3-67ef08dcb080",
+          "text": "Tiết kiệm tiền"
+        },
+        {
+          "id": "2093954d-a350-41e9-beaa-78570da4a927",
+          "text": "Tránh xung đột hoặc làm tổn thương cảm xúc của ai đó"
+        },
+        {
+          "id": "3317dd35-b6cf-4495-9e3a-447a6b37afca",
+          "text": "Khiến bạn cảm thấy tồi tệ"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Tránh xung đột hoặc làm tổn thương cảm xúc của ai đó"
+    },
+    {
+      "text": "Bạn đã được chỉ định viết một bài báo nghiên cứu.Ba loại thông tin nào được yêu cầu để bạn hoàn thành nhiệm vụ này (Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "b4f57da2-5d6a-4edf-92df-043e0a19f134",
+          "text": "Xác định chủ đề hoặc mục tiêu"
+        },
+        {
+          "id": "7d5c1dda-f144-4c32-8316-4707def9e92c",
+          "text": "Có được một đối tác"
+        },
+        {
+          "id": "fe78ed79-4577-4689-9fd8-ccd76464a871",
+          "text": "Thiết lập một lịch trình"
+        },
+        {
+          "id": "836cba52-c132-4691-96d6-e92919666f98",
+          "text": "Xác định các nguồn lực sẵn có"
+        },
+        {
+          "id": "46b12850-2a5b-4623-9ac7-5ae3df0292c1",
+          "text": "Mở tài khoản mạng xã hội"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Xác định chủ đề hoặc mục tiêu",
+        "Thiết lập một lịch trình",
+        "Xác định các nguồn lực sẵn có"
+      ]
+    },
+    {
+      "text": "Ba bước nào sẽ giúp bạn phân biệt giữa kết quả tìm kiếm có liên quan và không liên quan đến một chủ đề cụ thể ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "b3da0b40-6435-4304-8052-eb42e0d1e38b",
+          "text": "Xác định các từ khóa trong kết quả dường như có liên quan đến chủ đề"
+        },
+        {
+          "id": "21b40654-8fae-4333-ab78-595ef6452585",
+          "text": "Nhờ một giáo viên giúp đỡ"
+        },
+        {
+          "id": "a2764c3c-8161-4d71-a11d-15e1ac06727d",
+          "text": "Không có gì trên Internet có liên quan, vì vậy bạn nên sử dụng các tài nguyên khác"
+        },
+        {
+          "id": "a9c9a9ca-9bf6-4909-ab3c-c561b582c7a2",
+          "text": "Mọi thứ luôn có liên quan, đọc tất cả"
+        },
+        {
+          "id": "88569955-3b96-4363-aa58-2a904d3f5725",
+          "text": "Xác định chủ đề chính và tìm kiếm nó"
+        },
+        {
+          "id": "77297ee6-f9b7-4b18-9556-2751daa76be2",
+          "text": "Xác định các kết quả không chứa các từ khóa liên quan đến chủ đề chính"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Xác định các từ khóa trong kết quả dường như có liên quan đến chủ đề",
+        "Xác định chủ đề chính và tìm kiếm nó",
+        "Xác định các kết quả không chứa các từ khóa liên quan đến chủ đề chính"
+      ]
+    },
+    {
+      "text": "Bạn đang thu thập thông tin từ các trang web trên internet. Giáo viên của bạn yêu cầu bạn cung cấp danh sách từng URL mà bạn truy cập. Nhấp vào tính năng trên trang web này đại diện cho URL?",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM2C19.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "e6160552-4b61-412f-a736-16ea04a14142",
+          "shape": "rect",
+          "coords": "0.1843,0.1639,0.5647,0.0288",
+          "label": "url"
+        },
+        {
+          "id": "2f6bc20a-7b32-45c4-9cce-69e1c8eb1b88",
+          "shape": "rect",
+          "coords": "0.7627,0.1691,0.0137,0.0183",
+          "label": "..."
+        },
+        {
+          "id": "16d4dccb-1f9a-4fc8-9dba-dfb91b6ffba3",
+          "shape": "rect",
+          "coords": "0.9784,0.1602,0.0216,0.0288",
+          "label": "---"
+        },
+        {
+          "id": "ffe991c7-8b1c-46f6-9a17-808566fb272c",
+          "shape": "rect",
+          "coords": "0.5686,0.2974,0.2627,0.0288",
+          "label": "search box"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "e6160552-4b61-412f-a736-16ea04a14142"
+    },
+    {
+      "text": "Miền công cộng bao gồm tất cả các tác phẩm sáng tạo mà không có quyền sở hữu trí tuệ độc quyền nào được áp dụng.\nBa cách nào để một tác phẩm sáng tạo có thể xuất hiện trong miền công cộng (Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "108537d7-6fb8-409c-a097-cd4d317c5f54",
+          "text": "Bản quyền đã không được nộp cho chính phủ"
+        },
+        {
+          "id": "994a0ba5-3e0e-40b5-8c47-44f4c5048979",
+          "text": "Quyền đã hết hạn"
+        },
+        {
+          "id": "b0bad044-de9e-41bc-beef-283ca6b49ed9",
+          "text": "Các quyền đã được từ bỏ một cách rõ ràng"
+        },
+        {
+          "id": "4a0f5f54-496d-458f-88c2-d78edbac3ce8",
+          "text": "Quyền không thể áp dụng"
+        },
+        {
+          "id": "85458fdd-427d-428b-af30-af327ca5524d",
+          "text": "Quyền không bao giờ bị từ chối"
+        },
+        {
+          "id": "ede31787-68ca-4451-85a3-8c4d2ce537cf",
+          "text": "Quyền không bao giờ được yêu cầu"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Quyền đã hết hạn",
+        "Các quyền đã được từ bỏ một cách rõ ràng",
+        "Quyền không thể áp dụng"
+      ]
+    },
+    {
+      "text": "Bạn đang tìm kiếm trên web để thu thập thông tin cho một bài thuyết trình. Bạn gặp khó khăn trong việc xác định xem các trang web có chứa thông tin chính xác hay không.\nChọn Đúng hoặc Sai ?",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "fbed42b5-4583-4232-b4a7-90d281df6249",
+          "text": "Trang web có ngữ pháp tiếng Anh kém và nêu một số tuyên bố không thực tế\n\n"
+        },
+        {
+          "id": "38ded092-209b-4ad2-b0f5-27da7d287ae0",
+          "text": "Trang web có tên miền .gov hoặc .edu\n\n"
+        },
+        {
+          "id": "324d7c0c-cb85-4de1-89c9-a561321da952",
+          "text": "Các tài liệu tham khảo trên trang web chuyển đến các trang web tương tự của các tài liệu tham khảo thay vì nguồn tin ban đầu\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Bạn đang viết một bài nghiên cứu và được hướng dẫn để bao gồm các ghi công và tham khảo. Điều nào là ghi công và tham khảo (Chọn hai)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "cf7d7a36-e282-44b5-ad92-c51ecce03fc0",
+          "text": "Ghi công là ghi nhận nguồn của bạn trong nội dung tác phẩm của bạn và liên kết các trích dẫn của bạn với một thư mục"
+        },
+        {
+          "id": "506ce237-583b-4852-82cd-403db88dad86",
+          "text": "Tham khảo là ghi công cho người tạo ra hình ảnh hoặc tài liệu khác"
+        },
+        {
+          "id": "f864ac7e-4da3-4065-bf12-020429f48f22",
+          "text": "Tham khảo là khi tác giả của một tác phẩm chỉ rõ cách họ muốn bạn ghi công cho tác phẩm của họ"
+        },
+        {
+          "id": "bf92e1ef-5196-448f-afae-a629812dabb1",
+          "text": "Ghi nhận tác giả là ghi công cho người tạo ra hình ảnh hoặc tài liệu khác"
+        },
+        {
+          "id": "8ce485d8-58cb-4664-ada2-2725bda9b74d",
+          "text": "Ghi nhận tác giả là mô tả loại hình ảnh được sử dụng"
+        },
+        {
+          "id": "1b7e04e3-275d-4d52-9439-a5ff5652b59a",
+          "text": "Tham khảo là ghi nhận nguồn trong nội dung tác phẩm của bạn và liên kết đến trích dẫn của bạn trong danh mục tác giả (Bibliography)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Ghi nhận tác giả là ghi công cho người tạo ra hình ảnh hoặc tài liệu khác",
+        "Tham khảo là ghi nhận nguồn trong nội dung tác phẩm của bạn và liên kết đến trích dẫn của bạn trong danh mục tác giả (Bibliography)"
+      ]
+    },
+    {
+      "text": "Hãy chọn Đúng( ) hoặc Sai( ) với mỗi phát biểu liên quan đến quy ước đặt tên ?",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "50037395-60cd-4691-8788-04915bb4e834",
+          "text": "Tên tập tin phải có khoảng cách giữa các từ khóa"
+        },
+        {
+          "id": "d7896d2c-48ff-426d-8656-d6d94c68e74a",
+          "text": "Không sử dụng ký tự đặc biệt\n"
+        },
+        {
+          "id": "272ec7b5-1760-4bf0-b993-4abf20074f60",
+          "text": "Nếu ngày được bao gồm, hãy sử dụng định dạng: YYYY-MM-DD"
+        },
+        {
+          "id": "6ec065b2-2574-45d3-b094-538e2a02d467",
+          "text": "Bạn không thể đánh số tập tin\n"
+        },
+        {
+          "id": "646a17b0-332a-4046-9dc9-1eeac8db993b",
+          "text": "Không viết hoa toàn bộ tên tập tin\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn đang viết một bài báo nghiên cứu và đã được hướng dẫn bao gồm các ghi nhận và tài liệu tham khảo. Mục đích của ghi nhận và tham chiếu là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "39de42fc-2396-4d45-a597-dd6a7dd82c94",
+          "text": "Mục đích là để mua tác phẩm từ các tác giả và người sáng tạo"
+        },
+        {
+          "id": "b7793993-b165-446c-b3df-07082f671f2a",
+          "text": "Nó giúp các tác giả và người sáng tạo duy trì bản quyền của họ"
+        },
+        {
+          "id": "f9de2226-3183-422e-b8d7-a38bea100cf0",
+          "text": "Tác giả người sáng tạo càng có nhiều ghi nhận và tham chiếu, họ càng nhẫn được nhiều tiền"
+        },
+        {
+          "id": "98f24edf-0b4e-45df-9f5a-f86f21775a28",
+          "text": "Mục đích là để công nhận các tác giả và người sáng tạo ra tác phẩm không bắt nguồn từ bạn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Mục đích là để công nhận các tác giả và người sáng tạo ra tác phẩm không bắt nguồn từ bạn"
+    },
+    {
+      "text": "Bài thuyết trình bạn đang tạo bắt buộc phải để hướng ngang. Mô tả nào dưới đây là đúng với hướng dọc, hướng ngang (chọn 2)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "207a76fb-b92d-4ee5-904a-185604f943cb",
+          "text": "Landscape là hướng ngang"
+        },
+        {
+          "id": "cedff065-b4e1-4dda-bf43-c7bde94ba30b",
+          "text": "Landscape là hướng dọc"
+        },
+        {
+          "id": "e79b2a64-9cd0-4a09-8aef-d0163f63c251",
+          "text": "Landscape là hướng chéo"
+        },
+        {
+          "id": "01bccd32-33b4-4f66-bee1-1cc115dd5806",
+          "text": "Portrait là đường chéo"
+        },
+        {
+          "id": "9f8bd4f2-a018-4c47-b7f8-4913861b6607",
+          "text": "Portrait là hướng dọc"
+        },
+        {
+          "id": "8e8f4c47-a890-4ece-93c8-16295ca30998",
+          "text": "Portrait là hướng ngang"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Landscape là hướng ngang",
+        "Portrait là hướng dọc"
+      ]
+    },
+    {
+      "text": "Một thuật ngữ khác để nói về việc in hai mặt là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "3fec2a72-e3d8-4b57-aaea-ac59f3e7ff58",
+          "text": "Duplex printing"
+        },
+        {
+          "id": "d5b05b3c-8acc-4c67-8f02-4a810cf23501",
+          "text": "Printing two lines at a time"
+        },
+        {
+          "id": "ada66017-9c59-47df-9c90-0e8ce91a5b15",
+          "text": "Simplex printing"
+        },
+        {
+          "id": "0508e850-ded7-4bd3-b539-ead9145be3a0",
+          "text": "Printing with a gutter for binding books"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Duplex printing"
+    },
+    {
+      "text": "Đối với mỗi tuyên bố liên quan đến chính sách sử dụng được chấp nhận (Acceptable Use Policies) để đăng mạng xã hội, hãy chọn Đúng nếu tuyên bố đó đúng và Sai nếu tuyên bố sai:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "c80f7581-06e0-473d-9a79-ad121a0b5d52",
+          "text": "Các chính sách sử dụng được chấp nhận (Acceptable Use Policies) trong trường học nói chung sẽ bao gồm các quy tắc về đe dọa trực tuyến\n"
+        },
+        {
+          "id": "4b831bcc-41ca-4b01-88ce-a7460997568b",
+          "text": "Chính sách sử dụng được chấp nhận (Acceptable Use Policies) là các quy tắc về những gì bạn có thể và không thể thực hiện trực tuyến bằng máy tính của trường học hoặc cơ quan\n"
+        },
+        {
+          "id": "f0fdb45a-63c4-4a04-939d-b502dcc4ea88",
+          "text": "Các chính sách sử dụng được chấp nhận (Acceptable Use Policies) cho các trường học và doanh nghiệp thường bao gồm các quy tắc về việc sử dụng các trang mạng xã hội\n"
+        },
+        {
+          "id": "d1ee2fa2-8eff-4ffe-a6ce-0bf7b4811e6b",
+          "text": "Vi phạm chính sách sử dụng được chấp nhận (Acceptable Use Policy) thường dẫn đến việc tài khoản của bạn bị xoá như một hình phạt"
+        },
+        {
+          "id": "585433ac-52f0-43a7-b1af-7dcf4aa9d962",
+          "text": "Chính sách sử dụng được chấp nhận (Acceptable Use Policy) dành cho người lớn giống với chính sách dành cho trẻ vị thành niên"
+        },
+        {
+          "id": "957558f2-5e37-4a6f-b1be-1d0360429a80",
+          "text": "Chính sách sử dụng được chấp nhận (Acceptable Use Policies) không thể hạn chế bạn đăng bất kỳ thứ gì bạn muốn vì bạn có quyền của sửa đổi một lần"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "true",
+        "true",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "text": "Hãy ghép từng tương tác kỹ thuật số với phát biểu tương ứng.\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "fd85d402-04c5-4461-8e40-c8c8ca849f18",
+          "text": "Live chat"
+        },
+        {
+          "id": "0f0b141f-5621-4d27-a59a-75246a3757cd",
+          "text": "Video conferencing"
+        },
+        {
+          "id": "a4d6f39e-1671-4dd7-8a41-9674a4a46dfa",
+          "text": "Text message"
+        },
+        {
+          "id": "49d20620-0d4a-40a1-97af-9172a6f598e6",
+          "text": "Email"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "32f4a14e-27d7-4339-8aca-e7f49731bb19",
+          "text": "Liên hệ với bộ phận hỗ trợ trực tuyến để được hỗ trợ"
+        },
+        {
+          "id": "d8c83d4c-6e16-46a2-aa43-957b0b2bfcf4",
+          "text": "Họp nhóm của các thành viên ở các địa điểm khác nhau"
+        },
+        {
+          "id": "35c2c150-d43c-43b9-af97-b1fac7cadeeb",
+          "text": " Thông báo cho bạn bè rằng bạn sẽ đến muộn vài phút"
+        },
+        {
+          "id": "0bbdfac0-26a8-4441-9bcf-58cc3e2dad53",
+          "text": "Cung cấp hướng dẫn từng bước cho đối tác về một dự án"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "32f4a14e-27d7-4339-8aca-e7f49731bb19",
+          "draggableItemId": "fd85d402-04c5-4461-8e40-c8c8ca849f18"
+        },
+        {
+          "targetItemId": "d8c83d4c-6e16-46a2-aa43-957b0b2bfcf4",
+          "draggableItemId": "0f0b141f-5621-4d27-a59a-75246a3757cd"
+        },
+        {
+          "targetItemId": "35c2c150-d43c-43b9-af97-b1fac7cadeeb",
+          "draggableItemId": "a4d6f39e-1671-4dd7-8a41-9674a4a46dfa"
+        },
+        {
+          "targetItemId": "0bbdfac0-26a8-4441-9bcf-58cc3e2dad53",
+          "draggableItemId": "49d20620-0d4a-40a1-97af-9172a6f598e6"
+        }
+      ]
+    },
+    {
+      "text": "Đối với mỗi phát biểu liên quan đến tương tác kỹ thuật số, hãy chọn Đúng hoặc Sai cho mỗi phát biểu sau:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "18b3a2a0-8447-42ad-9ad5-14945eb8b3ff",
+          "text": "Gửi email bằng tất cả các chữ cái viết hoa\n"
+        },
+        {
+          "id": "7ccfb0cb-8f1a-4629-966b-c0e5a9959804",
+          "text": "Quảng cáo thứ gì đó bạn bán trong một nhóm Facebook không liên quan\n"
+        },
+        {
+          "id": "0fd1ab64-40ef-4aea-9734-9ee3a64d0dec",
+          "text": "Sử dụng dấu câu và định dạng thích hợp\n"
+        },
+        {
+          "id": "f3f553e9-403d-40ec-babf-2ca26232c7ea",
+          "text": "Tôn trọng bằng cách diễn đạt các bài đăng và nhận xét theo cách không đối đầu\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn đã viết một blog về cuộc thi Hội chợ Khoa học gần đây. Bạn muốn đăng nó lên trang web trường bạn học. Phương pháp cộng tác hiệu quả nào bạn có thể sử dụng để nhận phản hồi về blog của mình trước khi đăng nó?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "11083829-9251-4bee-9bc0-d1ac344b56f9",
+          "text": "Peer review (Đánh giá ngang hàng)"
+        },
+        {
+          "id": "f536dae3-1f3e-45dc-b7b7-60ef4476342e",
+          "text": "Đăng nó và sau đó yêu cầu phản hồi"
+        },
+        {
+          "id": "ef0d35fc-161a-4a18-8edf-4e34cd736446",
+          "text": "Paid review (Đánh giá có trả tiền)"
+        },
+        {
+          "id": "a1e9e120-d617-4c53-83c7-b1f3a3bbe3a7",
+          "text": "Gửi cho ban tổ chức hội chợ khoa học"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Peer review (Đánh giá ngang hàng)"
+    },
+    {
+      "text": "Bạn đang viết một email để gửi các thành viên trong nhóm của bạn về 1 dự án của lớp. Câu nào dưới đây thể hiện nghi thức kỹ thuật số thích hợp?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "4b8d951a-e01d-480c-8f61-d05113eb1b7f",
+          "text": "Nè mọi người (Hey, everyone)! Vui lòng gửi ý tưởng của bạn bằng cách sử dụng \"Reply All\" để chúng ta có thể thảo luận. Cảm ơn!"
+        },
+        {
+          "id": "998defe0-4a21-442a-87ae-317c047be128",
+          "text": "Xin chào, các boneheads, tôi đoán việc này sẽ được thực hiện vào tuần tới vì vậy chúng ta nên khẩn trương hơn"
+        },
+        {
+          "id": "da0f98fb-fe49-4dd6-b2a8-fb428ec73fff",
+          "text": "u guys r so spcl 2 me. My new BFFs!"
+        },
+        {
+          "id": "5e96c3ca-a809-4f23-928c-db97ae530d0b",
+          "text": "HI, ĐÂY LÀ NHỮNG HƯỚNG DẪN TÔI NHẬN ĐƯỢC VỀ DỰ ÁN CỦA CHÚNG TÔI"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Nè mọi người (Hey, everyone)! Vui lòng gửi ý tưởng của bạn bằng cách sử dụng \"Reply All\" để chúng ta có thể thảo luận. Cảm ơn!"
+    },
+    {
+      "text": "Bạn đang thực hiện một dự án trên máy tính của mình và bạn có một số ứng dụng tài liệu đang mở. Bạn muốn đi khoảng 1 giờ để ăn trưa nhưng bạn không muốn đóng tài liệu và tắt máy tính của mình để công việc của bạn được đảm bảo an toàn khi vắng mặt.\nNhấp vào tính năng sẽ cho phép bạn khóa máy tính của mình trong trường hợp này\nGM2 - Chủ đề 35: Bạn đang thực hiện một dự án trên máy tính của mình và bạn có một số ứng dụng tài liệu đang mở. Bạn muốn đi khoảng 1 giờ để ăn trưa nhưng bạn không muốn đóng tài liệu và tắt máy tính của mình để công việc của bạn được đảm bảo an toàn khi vắng mặt.\nNhấp vào tính năng sẽ cho phép bạn khóa máy tính của mình trong trường hợp này\n",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV1GM2C35.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "ef947e4f-aa44-4d1c-9515-aa6c9bc30f39",
+          "shape": "rect",
+          "coords": "0.0020,0.5490,0.0264,0.0325",
+          "label": "1"
+        },
+        {
+          "id": "adfff1c7-04f2-4a45-96b9-e5b0636dcc2b",
+          "shape": "rect",
+          "coords": "0.0061,0.5966,0.0203,0.0271",
+          "label": "2"
+        },
+        {
+          "id": "4463fcb0-c9a5-4d34-b6e0-9b97c1efd2b8",
+          "shape": "rect",
+          "coords": "0.0041,0.6744,0.0223,0.0325",
+          "label": "settings"
+        },
+        {
+          "id": "7cb328e6-be5f-44c3-82a3-86a75e744ba0",
+          "shape": "rect",
+          "coords": "0.0041,0.7174,0.0223,0.0298",
+          "label": "power"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "ef947e4f-aa44-4d1c-9515-aa6c9bc30f39"
+    },
+    {
+      "text": "Làm thế nào để xóa các cài đặt trình duyệt trên máy tính của mình( ở hầu hết các trình duyệt): Bộ nhớ cache, cookie và history. Sắp xếp các bước theo đúng trình tự\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "a57b3d86-8afe-4db5-88e5-5f1fe29ac0ca",
+          "text": "Nhấp vào Menu 3 chấm góc trên bên phải của trình duyệt"
+        },
+        {
+          "id": "8bfb0016-8cbf-42bf-8ac3-e8591e717e5c",
+          "text": "Chọn Settings hay Options"
+        },
+        {
+          "id": "316421ae-e164-4240-9ec5-44ce02e18196",
+          "text": "Chọn Privacy and Security"
+        },
+        {
+          "id": "c78983fd-a435-4c0d-a990-ca97ebe73988",
+          "text": "Chọn Cài đặt nào của trình duyệt để xóa"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "47318ba8-42e2-4993-9f1c-485bdcfbf6f6",
+          "text": "1"
+        },
+        {
+          "id": "da90c5ed-3fc4-4858-8e6e-75a1a61e31ee",
+          "text": "2"
+        },
+        {
+          "id": "d3416c3b-fd43-4951-958e-d4e5bfc33194",
+          "text": "3"
+        },
+        {
+          "id": "32cc82a2-6560-43c9-80b0-0fcfca82403b",
+          "text": "4"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "47318ba8-42e2-4993-9f1c-485bdcfbf6f6",
+          "draggableItemId": "a57b3d86-8afe-4db5-88e5-5f1fe29ac0ca"
+        },
+        {
+          "targetItemId": "da90c5ed-3fc4-4858-8e6e-75a1a61e31ee",
+          "draggableItemId": "8bfb0016-8cbf-42bf-8ac3-e8591e717e5c"
+        },
+        {
+          "targetItemId": "d3416c3b-fd43-4951-958e-d4e5bfc33194",
+          "draggableItemId": "316421ae-e164-4240-9ec5-44ce02e18196"
+        },
+        {
+          "targetItemId": "32cc82a2-6560-43c9-80b0-0fcfca82403b",
+          "draggableItemId": "c78983fd-a435-4c0d-a990-ca97ebe73988"
+        }
+      ]
+    },
+    {
+      "text": "Bạn thích chơi trò chơi trên các thiết bị máy tính của mình. Đặc biệt thích chơi game và thường chơi vài giờ một ngày. Mối đe dọa sức khỏe thể chất nào có liên quan đến việc sử dụng máy tính và thiết bị máy tính trong thời gian dài?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "c02c730e-e61f-47d4-b300-22776a34e50b",
+          "text": "Các vấn đề về cơ bắp"
+        },
+        {
+          "id": "14a88863-e320-4acf-952a-6dab14cef4ff",
+          "text": "Các vấn đề về thị lực"
+        },
+        {
+          "id": "3fba8c0f-8232-4548-90d1-12c6beb2b4d1",
+          "text": "Các vấn đề về xã hội"
+        },
+        {
+          "id": "287d662a-8519-4e7d-b79a-4fa2e7010aa3",
+          "text": "Chơi game kiệt sức"
+        },
+        {
+          "id": "38836c46-7a8d-4e9c-b750-eb0256111471",
+          "text": "Bàn phím hư hỏng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Các vấn đề về cơ bắp",
+        "Các vấn đề về thị lực"
+      ]
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai cho mỗi phát biểu liên quan đến vấn đề an ninh kỹ thuật số:",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "4b1ce98f-d73a-4277-8830-70fc244a9ee4",
+          "text": "Cookie có thể hữu ích, như lưu trữ username hoặc sở thích của bạn cho 1 trang web cụ thể\n\n"
+        },
+        {
+          "id": "86401e43-e9be-4fc9-aa6f-dfc0cceb2ba1",
+          "text": "Lịch sử trình duyệt có thể được sử dụng để theo dõi mọi trang web bạn đã truy cập và khi bạn đã truy cập\n\n"
+        },
+        {
+          "id": "d8f3df38-a9cc-43ed-a1e0-15252b69d4bc",
+          "text": "Dấu trang cho phép bạn lưu 1 trang web để truy cập sau\n\n"
+        },
+        {
+          "id": "6ee5d73d-db35-476c-aa6b-6a9fdaa9d928",
+          "text": "Khi bạn đặt tùy chọn trên một trang web thông tin sẽ được lưu trữ trên trang web\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Các hệ điều hành phổ biến nhất được phát triển và tiếp thị bởi 1 số công ty nổi tiếng. Chọn Đúng hoặc Sai :",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "a1005831-d864-48ad-8c9f-00f012e628a1",
+          "text": "iOS được phát triển và tiếp thị bởi Android\n\n"
+        },
+        {
+          "id": "6df642cd-5690-4a6b-947e-a947887ce676",
+          "text": "Google không phát triển hệ điều hành\n"
+        },
+        {
+          "id": "b22e5387-f7ca-4447-b7ef-de7b8f15a921",
+          "text": "Apple là chủ sở hữu đã đăng ký của MacOS\n\n"
+        },
+        {
+          "id": "948640a7-2701-443b-92ee-198d29b3c961",
+          "text": "Hệ điều hành Windows là một sản phẩm của MicroSoft\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Chọn Đúng hoặc Sai cho các phát biểu sau :",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "ce51f44c-ff5f-4aae-8b00-bca4d0f81d01",
+          "text": "Một hệ thống quản lý cơ sở dữ liệu truy cập thông tin trên internet"
+        },
+        {
+          "id": "5bc8ff4d-cdbe-4179-87c5-4ef9214b3297",
+          "text": "Phần mềm trình chiếu hiển thị văn bản, hình ảnh và đa phương tiện dưới dạng trình chiếu\n\n"
+        },
+        {
+          "id": "8d31ec02-2d2a-4a0e-8331-2e06c85a4d4c",
+          "text": "Mục đích của trình duyệt web là lưu trữ, sắp xếp và thao tác các tập dữ liệu liên quan\n\n"
+        },
+        {
+          "id": "de60e68e-5926-4d38-aa7d-37a8199a4ed1",
+          "text": "Phần mềm bảng tính phân tích và thực hiện các phép tính, đồng thời hiển thị dữ liệu dưới dạng biểu đồ\n\n"
+        },
+        {
+          "id": "5c99cabc-476d-4fbc-a232-5e034479e298",
+          "text": "Một chương trình xử lý văn bản xuất ra văn bản ở định dạng tài liệu\n\n"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "false",
+        "true",
+        "true"
+      ]
+    }
+  ]
+}

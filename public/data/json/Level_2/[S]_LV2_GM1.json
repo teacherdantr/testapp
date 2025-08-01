@@ -1,0 +1,1649 @@
+{
+  "title": "[S] LV2 - GM1",
+  "description": "",
+  "password": "admin",
+  "questions": [
+    {
+      "text": "GM1 - Chủ đề 30: Trong Windows, làm cách nào để khôi phục phiên bản trước của tập tin?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "0762de33-5b40-4fd9-a108-35f7fa4cbf2d",
+          "text": "Trong Settings, chọn Update & Security và chọn Recovery"
+        },
+        {
+          "id": "e394174f-b5f2-4d2d-ba51-9600c23ccc0e",
+          "text": "Trong File Explorer, bấm chuột phải vào tập tin và Chọn Convert"
+        },
+        {
+          "id": "151cb5ac-2f4f-44e4-bc92-28d18e3f3fe0",
+          "text": "Trong File Explorer, bấm chuột phải vào tập tin và Chọn Restore Previous Versions"
+        },
+        {
+          "id": "acc882a7-6c31-485d-bcb5-497fe452cff5",
+          "text": "Bạn không thể khôi phục phiên bản trước của tập tin"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Trong File Explorer, bấm chuột phải vào tập tin và Chọn Restore Previous Versions"
+    },
+    {
+      "text": "GM1 - Chủ đề 31: Khớp từng loại sở hữu trí tuệ với mô tả vi phạm của nó. Để trả lời, hãy kéo từng loại sở hữu trí tuệ từ cột bên trái sang mô tả vi phạm ở bên phải. ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "68ede68f-1e49-49ce-94aa-e91bcb275c08",
+          "text": "Vi phạm bản quyền (Piracy) "
+        },
+        {
+          "id": "8d6a5341-9bc0-4d7a-973a-6c606cc23d03",
+          "text": "Vi phạm nhãn hiệu (Trademark Infringement)"
+        },
+        {
+          "id": "a77ba1d6-69f7-4abb-9469-d2df80278491",
+          "text": "Biển thủ (Misappropriation)"
+        },
+        {
+          "id": "fdf4e688-1bb7-4ff3-8d47-f91d00b14092",
+          "text": "Vi phạm Bằng sáng chế (Patent Infringement)"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "33e66b15-04cc-4b70-81fb-c644c400ac7e",
+          "text": "Sao chép, phân phối, trưng bày hoặc biểu diễn một tác phẩm hoặc tạo ra các tác phẩm phái sinh mà không được phép của chủ bản quyền "
+        },
+        {
+          "id": "95caeaa9-285e-490a-be50-dca5aa736f75",
+          "text": "Sử dụng biểu trưng hoặc tên tương tự với biểu trưng đã được một bên khác sử dụng "
+        },
+        {
+          "id": "84c0f4a7-d6aa-4a88-8a8a-f8db95a8049f",
+          "text": "Chia sẻ bí mật thương mại mà không có sự cho phép bằng văn bản "
+        },
+        {
+          "id": "8917d4c2-97c3-4480-b131-213e55281026",
+          "text": " Sử dụng hoặc bán một sáng chế mà không được phép của chủ sở hữu quyền sở hữu trí tuệ "
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "33e66b15-04cc-4b70-81fb-c644c400ac7e",
+          "draggableItemId": "68ede68f-1e49-49ce-94aa-e91bcb275c08"
+        },
+        {
+          "targetItemId": "95caeaa9-285e-490a-be50-dca5aa736f75",
+          "draggableItemId": "8d6a5341-9bc0-4d7a-973a-6c606cc23d03"
+        },
+        {
+          "targetItemId": "84c0f4a7-d6aa-4a88-8a8a-f8db95a8049f",
+          "draggableItemId": "a77ba1d6-69f7-4abb-9469-d2df80278491"
+        },
+        {
+          "targetItemId": "8917d4c2-97c3-4480-b131-213e55281026",
+          "draggableItemId": "fdf4e688-1bb7-4ff3-8d47-f91d00b14092"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 32: Trong chỉnh sửa video, thuật ngữ để loại bỏ phần đầu hoặc phần cuối của video là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "676d0299-d1cf-4847-b73d-34ffe9d2aeee",
+          "text": "Cut"
+        },
+        {
+          "id": "62c9dc17-24ba-41f3-aba9-31d9cf311ee5",
+          "text": "Crop"
+        },
+        {
+          "id": "3d97a5d2-aa49-4824-b8e8-0f8379aee56b",
+          "text": "Clip"
+        },
+        {
+          "id": "0076a047-6247-405f-a85a-30c91221bf82",
+          "text": "Trim"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Trim"
+    },
+    {
+      "text": "GM1 - Chủ đề 33: Đưa ra một tình huống, hãy Chọn phương pháp giao tiếp thích hợp để sử dụng. Để trả lời, hãy chuyển từng tình huống ở bên phải sang hình thức giao tiếp phù hợp nhất ở bên trái. \n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "d8909245-1e6b-477c-b8f1-4627a08e80c0",
+          "text": "Blog post "
+        },
+        {
+          "id": "db75ffcc-211d-45a5-bcc1-abe6859cb56e",
+          "text": "Text message "
+        },
+        {
+          "id": "8ddb6c64-682e-40c9-844c-3dfe74ee8de9",
+          "text": "Email message "
+        },
+        {
+          "id": "f80fc878-e35b-4a12-8e21-6628b3c15858",
+          "text": "Forum Post "
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "92557d8a-7a07-478f-89a6-436496d0023f",
+          "text": "Chia sẻ suy nghĩ hàng ngày của bạn về các sự kiện hiện tại trong nhật ký trực tuyến"
+        },
+        {
+          "id": "d96f1c55-25c5-41d6-ae88-5708a7210942",
+          "text": "Hãy nhanh chóng báo cho anh trai của bạn biết nơi để đón bạn"
+        },
+        {
+          "id": "0893c4a6-b282-470c-b3a4-dae15305de0c",
+          "text": "Yêu cầu hoàn lại tiền từ một công ty"
+        },
+        {
+          "id": "8164fbeb-9a22-42c7-8e9a-1278879e32b5",
+          "text": "Đặt câu hỏi cho một nhóm thảo luận trò chơi"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "92557d8a-7a07-478f-89a6-436496d0023f",
+          "draggableItemId": "d8909245-1e6b-477c-b8f1-4627a08e80c0"
+        },
+        {
+          "targetItemId": "d96f1c55-25c5-41d6-ae88-5708a7210942",
+          "draggableItemId": "db75ffcc-211d-45a5-bcc1-abe6859cb56e"
+        },
+        {
+          "targetItemId": "0893c4a6-b282-470c-b3a4-dae15305de0c",
+          "draggableItemId": "8ddb6c64-682e-40c9-844c-3dfe74ee8de9"
+        },
+        {
+          "targetItemId": "8164fbeb-9a22-42c7-8e9a-1278879e32b5",
+          "draggableItemId": "f80fc878-e35b-4a12-8e21-6628b3c15858"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 3: Trong Công nghệ thông tin, thuật ngữ chính xác cho việc sử dụng phần mềm để tạo ra các hướng dẫn và quy trình lặp lại để thay thế sự tương tác của con người là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "b4e78fc1-ce4b-4305-8695-1114ea3613e7",
+          "text": "Tự động hóa (Automation)"
+        },
+        {
+          "id": "583233e0-1813-4a4e-951a-8f21d0d0c732",
+          "text": "Bảo mật (Security)"
+        },
+        {
+          "id": "89f27fe3-7a06-4f1d-bfa6-77d802284fc2",
+          "text": "Không đồng bộ (Asynchronous)"
+        },
+        {
+          "id": "ed29044f-7a59-41ef-a146-7fa86f2fdb7a",
+          "text": "Người máy học (Robotics)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Tự động hóa (Automation)"
+    },
+    {
+      "text": "GM1 - Chủ đề 4: Khi mô tả Điện toán đám mây, điều nào sau đây sẽ được coi là ưu điểm ? Chọn 3",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "58c58d79-7aea-43d3-b8d1-ba68ced3f41e",
+          "text": "Tiết kiệm chi phí (Cost Saving)"
+        },
+        {
+          "id": "ea4ef670-e8a1-4ae3-acae-fe626022dc65",
+          "text": "Tính di động (Mobility)"
+        },
+        {
+          "id": "8eff37c0-8de4-4df6-aa8f-05439dd61a48",
+          "text": "Sao lưu và Khôi phục  (Backup and Restore)"
+        },
+        {
+          "id": "2a4a46f3-39c9-43cf-adf1-d00c70264159",
+          "text": "Băng thông cao hơn (Higher Bandwidth)"
+        },
+        {
+          "id": "29149373-7215-4bc1-a353-e7553d88dd72",
+          "text": "Bảo mật (Security)"
+        },
+        {
+          "id": "a2b18ec0-f0c5-494e-82d6-e5f2a70f5a6c",
+          "text": "Hỗ trợ tốt hơn (Better Support)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tiết kiệm chi phí (Cost Saving)",
+        "Tính di động (Mobility)",
+        "Sao lưu và Khôi phục  (Backup and Restore)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 1: Mẹ của bạn thị lực kém. Mỗi khi nhận được điện thoại hoặc thiết bị máy tính mới, cô ấy sẽ yêu cầu bạn định cấu hình cài đặt để giúp cô ấy xem dễ dàng hơn. Bạn nên thay đổi cài đặt nào để giúp thiết bị của mẹ xem dễ dàng hơn ? Chọn 2",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "883b6af5-77c1-4a31-8b5a-ec75f94561f6",
+          "text": "Cỡ chữ (Font size)"
+        },
+        {
+          "id": "764e4cc3-9601-451b-8f31-b41950d5b7c5",
+          "text": "Âm lượng (Volume)"
+        },
+        {
+          "id": "16419694-3f43-49a3-a455-38c5b20e9914",
+          "text": "Màu sắc (Colors)"
+        },
+        {
+          "id": "39c5bffd-17f2-4848-baef-8b2b6b636760",
+          "text": "Nhạc chuông (Ringtones)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Cỡ chữ (Font size)",
+        "Màu sắc (Colors)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 2: Hai tính năng gì cho phép bạn kiểm soát việc hiển thị thông tin cụ thể trên lịch cá nhân của mình ? Chọn 2",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "563f410a-f231-4dde-b1d1-648f3b6357fb",
+          "text": "Giữ riêng tư (Keep private)"
+        },
+        {
+          "id": "65a37b01-eb05-40de-baff-595cababc05e",
+          "text": "Lọc theo danh mục sự kiện (Filter by event category)"
+        },
+        {
+          "id": "5aea06e1-5975-4eb3-afd3-c49011d3154a",
+          "text": "Tắt lịch (Disable calendar)"
+        },
+        {
+          "id": "86e505d1-2d3f-4153-b648-2340e87ff1d7",
+          "text": "Chia sẻ (Share)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Giữ riêng tư (Keep private)",
+        "Lọc theo danh mục sự kiện (Filter by event category)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 5: Khi mô tả điện toán đám mây, tùy chọn nào sau đây sẽ được coi là nhược điểm (Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "fc91e430-bce4-4511-a655-be2f9766c029",
+          "text": "Bảo mật (Security)"
+        },
+        {
+          "id": "587e176b-74c0-4c21-aa88-f6aca6a97da0",
+          "text": "Kết nối (Connectivity)"
+        },
+        {
+          "id": "25aabdf1-0411-48ae-b918-064b17ee92d1",
+          "text": "Dung lượng lưu trữ(Storage Capacity)"
+        },
+        {
+          "id": "73e66893-059e-484e-9fdc-62d590679032",
+          "text": "Độ tin cậy (Reliability)"
+        },
+        {
+          "id": "f7d1ff2f-fa5e-4933-8686-4a6df24772cb",
+          "text": "Hỗ trợ máy tính để bàn  (Desktop Support)"
+        },
+        {
+          "id": "89649e57-3565-490e-9b0a-7ab58c004a93",
+          "text": "Tính di động (Mobility)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Kết nối (Connectivity)",
+        "Bảo mật (Security)",
+        "Hỗ trợ máy tính để bàn  (Desktop Support)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 6: Hai điểm khác biệt nào phân biệt giữa máy in laser và máy in phun (chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "ccc7fde2-d809-4c36-92c2-edbd23a2741a",
+          "text": "Máy in laser sử dụng mực in (Ink), và máy in phun sử dụng Toner"
+        },
+        {
+          "id": "0e34e810-f6d5-4e84-9043-b27240e43ae0",
+          "text": "Máy in phun phù hợp hơn để in số lượng lớn, và máy in laser thích hợp để in số lượng ít"
+        },
+        {
+          "id": "1f4564ae-0374-48fd-86e5-1f43c4ae50bb",
+          "text": "Máy in phun phù hợp hơn để in số lượng ít, và máy in laser phù hợp hơn để in số lượng nhiều"
+        },
+        {
+          "id": "9e8a1ecc-2436-44be-a48f-791627845bc3",
+          "text": "Máy in laser sử dụng toner, và máy in phun sử dụng mực in (Ink)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Máy in laser sử dụng toner, và máy in phun sử dụng mực in (Ink)",
+        "Máy in phun phù hợp hơn để in số lượng ít, và máy in laser phù hợp hơn để in số lượng nhiều"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 7: Làm cách nào bạn có thể xác nhận rằng bạn đã kết nối thành công với thiết bị in (Chọn hai) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "1347e144-2244-4133-b4fb-a3db33da98bf",
+          "text": "Đối với máy in mạng, hãy ping thiết bị in"
+        },
+        {
+          "id": "ebf2da38-b1d3-41eb-a584-2ee53811b1fc",
+          "text": "Đối với máy in mạng, hãy kết nối lại cáp ethernet"
+        },
+        {
+          "id": "246d7dea-8bef-445f-be24-7e57548011c8",
+          "text": "Đối với máy in cục bộ, hãy đảm bảo rằng cáp máy in đã được cắm vào máy tính của bạn"
+        },
+        {
+          "id": "1156cc42-2d46-48ed-9141-6e4cc1a4354d",
+          "text": "Đối với máy in cục bộ, hãy xác nhận trạng thái sẵn sàng trong hàng đợi in của hệ điều hành"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Đối với máy in mạng, hãy ping thiết bị in",
+        "Đối với máy in cục bộ, hãy xác nhận trạng thái sẵn sàng trong hàng đợi in của hệ điều hành"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 8: Khớp từng cáp với thiết bị mà nó thường kết nối. Để trả lời, hãy kéo từng loại cáp từ cột bên trái sang thiết bị kết nối ở bên phải. \t\n\n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "5cc009a9-c751-4091-baaf-26c7de6429e4",
+          "text": " Audio"
+        },
+        {
+          "id": "7ba3334f-f7c0-4001-b08b-79c63421e189",
+          "text": "HDMI"
+        },
+        {
+          "id": "e9a6321c-d8c2-4408-b061-41de5d444b47",
+          "text": "USB"
+        },
+        {
+          "id": "aa306cfa-2d5c-45dd-b59c-b5635ca31c73",
+          "text": "CAT6"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "93dc7107-9db2-43a9-a4eb-a52265e2b21f",
+          "text": "Loa (Speakers)"
+        },
+        {
+          "id": "18513002-ca34-4447-a951-bf6ab35e5336",
+          "text": "Máy truyền hình (Television)"
+        },
+        {
+          "id": "911902cd-4d07-49c3-b882-bec9bf40553a",
+          "text": "Bàn phím (Keyboard)"
+        },
+        {
+          "id": "9f855daa-d89a-4d09-bed2-964b8954fc0f",
+          "text": "Thiết bị chuyển mạch (Switch)"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "93dc7107-9db2-43a9-a4eb-a52265e2b21f",
+          "draggableItemId": "5cc009a9-c751-4091-baaf-26c7de6429e4"
+        },
+        {
+          "targetItemId": "18513002-ca34-4447-a951-bf6ab35e5336",
+          "draggableItemId": "7ba3334f-f7c0-4001-b08b-79c63421e189"
+        },
+        {
+          "targetItemId": "911902cd-4d07-49c3-b882-bec9bf40553a",
+          "draggableItemId": "e9a6321c-d8c2-4408-b061-41de5d444b47"
+        },
+        {
+          "targetItemId": "9f855daa-d89a-4d09-bed2-964b8954fc0f",
+          "draggableItemId": "aa306cfa-2d5c-45dd-b59c-b5635ca31c73"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 9: Hai cách để phân biệt danh tính kỹ thuật số cá nhân và chuyên nghiệp của bạn (Chọn 2)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "33461be5-e3c3-4079-8127-6e74f1529cdf",
+          "text": "Tạo biệt hiệu hoặc bí danh cho các bài đăng trên các diễn đàn và blog giải trí, nhưng sử dụng tên thật của bạn cho các bài đăng trong các diễn đàn"
+        },
+        {
+          "id": "29af232c-f740-4482-8a3c-83ef180066ad",
+          "text": "Không bao giờ đăng ảnh"
+        },
+        {
+          "id": "e5f314c3-ce5f-43ff-aa21-c50faf88ee64",
+          "text": "Chỉ theo dõi các chính trị gia, vận động viên chuyên nghiệp và người nổi tiếng trên Twitter"
+        },
+        {
+          "id": "0d5bc351-ae03-4c09-86e6-ecf3a04695aa",
+          "text": "Sử dụng LinkedIn cho các mục đích chuyên nghiệp và Facebook cho các bài đăng cá nhân"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tạo biệt hiệu hoặc bí danh cho các bài đăng trên các diễn đàn và blog giải trí, nhưng sử dụng tên thật của bạn cho các bài đăng trong các diễn đàn",
+        "Sử dụng LinkedIn cho các mục đích chuyên nghiệp và Facebook cho các bài đăng cá nhân"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 10: Bạn muốn chia sẻ video với các bạn cùng lớp của mình theo cách thể hiện phép xã giao kỹ thuật số tốt. Những gì bạn nên làm?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "50197d4e-892c-4544-bf99-67e258267713",
+          "text": "Cho giáo viên khoa học xem video và yêu cầu họ chia sẻ video đó với lớp của bạn."
+        },
+        {
+          "id": "0bdb459f-21d5-41bc-b0f8-1c18bae74701",
+          "text": "Gửi video cho nhóm bạn bè của bạn và hướng dẫn họ không chia sẻ video đó với bất kỳ ai khác."
+        },
+        {
+          "id": "c65b1444-5094-43df-86e2-7f684252781d",
+          "text": "Tải video lên mạng xã hội và Chọn cài đặt bảo mật chỉ cho phép bạn bè của bạn xem video đó."
+        },
+        {
+          "id": "183a8e89-83b0-469d-a099-f28ef616955d",
+          "text": "Tải video lên mạng xã hội với quyền xem công khai."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Cho giáo viên khoa học xem video và yêu cầu họ chia sẻ video đó với lớp của bạn."
+    },
+    {
+      "text": "GM1 - Chủ đề 11: Đối với mỗi tuyên bố về hành vi, hãy Chọn Đúng nếu nó hiển thị mức độ nhạy cảm với sự đa dạng văn hóa hoặc Sai nếu không. \n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "3572b66d-2d62-4665-8c9c-bfc0572fd4e8",
+          "text": "Chú ý đến những định kiến và thành kiến của chính bạn. "
+        },
+        {
+          "id": "34586b72-73da-4c04-aa38-eacb7cf5f696",
+          "text": "Đặt câu hỏi thay vì đưa ra giả định."
+        },
+        {
+          "id": "af45c05d-438f-4642-8bf1-4c913b8fb13b",
+          "text": "Mua một bộ quần áo thiêng liêng được mặc bởi một nền văn hóa khác và mặc nó để thể hiện rằng bạn muốn trở thành bạn của nhau. "
+        },
+        {
+          "id": "a0814aac-58c4-4738-ae85-78ff3283abeb",
+          "text": "Đăng nhiều câu chuyện về một nền văn hóa khác trên các trang mạng xã hội của bạn. "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 12: Bạn muốn cập nhật những tiến bộ công nghệ. Hai hành động nào có nhiều khả năng khiến bạn biết đến những tiến bộ công nghệ? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "27532763-0ada-4913-bfa8-11e0a0c0bd64",
+          "text": "Sử dụng thiết bị máy tính hàng ngày"
+        },
+        {
+          "id": "679a060f-bee2-428b-bfe2-281464119dcb",
+          "text": "Xem phim được sản xuất bằng công nghệ"
+        },
+        {
+          "id": "f5be0006-b325-47ef-974d-08991cad9604",
+          "text": "Đăng ký một nguồn cấp tin tức công nghệ"
+        },
+        {
+          "id": "86f6db0a-6e0f-464b-9c18-4876e569a447",
+          "text": "Tham gia một số nhóm công nghệ trên mạng xã hội và đọc các bài đăng của họ"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Đăng ký một nguồn cấp tin tức công nghệ",
+        "Tham gia một số nhóm công nghệ trên mạng xã hội và đọc các bài đăng của họ"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 13: Hai tài nguyên nào có thể dạy bạn cách sử dụng một tính năng trong chương trình phần mềm? (Chọn hai) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "29856e23-142b-46ae-b062-b8fbee0f26f4",
+          "text": "Diễn đàn trực tuyến dành riêng để thảo luận về chương trình"
+        },
+        {
+          "id": "dcde08d9-5ea0-4dc7-a562-19b72dc9b8b8",
+          "text": "Hướng dẫn cài đặt kèm theo phần mềm"
+        },
+        {
+          "id": "3a437f65-01e0-41b2-bf82-04dad6c1f275",
+          "text": "Lệnh Help có trong chương trình"
+        },
+        {
+          "id": "bdfae669-cab6-4105-8a70-8438aa0c9aa8",
+          "text": "Đường dây điện thoại Hỗ trợ Kỹ thuật do nhà xuất bản phần mềm cung cấp"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Diễn đàn trực tuyến dành riêng để thảo luận về chương trình",
+        "Lệnh Help có trong chương trình"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 14: Hai tài nguyên nào là tài nguyên cộng đồng có thể dạy bạn sử dụng một tính năng trong chương trình phần mềm? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "e5c13fbd-9359-4ba4-9c1d-a87f7a49beeb",
+          "text": "Blogs."
+        },
+        {
+          "id": "4b877ca3-0f9f-4e9d-affa-c76b5d0585c3",
+          "text": "Wikipedia"
+        },
+        {
+          "id": "d4a31941-8193-431a-afa9-4a1b0a7d8c62",
+          "text": "Diễn đàn (Forums)."
+        },
+        {
+          "id": "8b9048f5-8352-40f5-96e8-a7f5adc2869c",
+          "text": "Hướng dẫn cài đặt (Installation instructions)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Blogs.",
+        "Diễn đàn (Forums)."
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 15: Bạn đang tìm kiếm hình ảnh trên Google. Cụ thể, bạn đang tìm kiếm clip art về một con thỏ mà bạn có thể sử dụng trên một trang web mà không cần liên hệ với họa sĩ để xin phép. Hai bộ lọc nào sẽ thu hẹp kết quả tìm kiếm của bạn để chỉ hiển thị clip art có sẵn để sử dụng mà không có sự cho phép của họa sĩ? (chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "1edb9ec8-b95f-48c7-9b50-793355f3a897",
+          "text": "Thời gian (Time)"
+        },
+        {
+          "id": "fb045d5f-c1ff-4dcb-8f1d-d703e4b64776",
+          "text": "Quyền sử dụng (Usage Rights)"
+        },
+        {
+          "id": "39b4698e-f864-4b35-b2fe-5eb1a5d52ae1",
+          "text": "Màu sắc (Color)"
+        },
+        {
+          "id": "70d3f728-5045-421a-a227-0d2bc7ad3cce",
+          "text": "Thể loại (Type)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Thể loại (Type)",
+        "Quyền sử dụng (Usage Rights)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 16: Bạn muốn giảm độ sáng của màn hình trên máy tính. Nhấp vào tính năng cho phép bạn điều chỉnh cài đặt độ sáng trên máy tính Windows này. \nGM1 - Chủ đề 16: Bạn muốn giảm độ sáng của màn hình trên máy tính. Nhấp vào tính năng cho phép bạn điều chỉnh cài đặt độ sáng trên máy tính Windows này. \n",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM1C16.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "95ef9e96-7b15-4f64-b22c-33c17d718017",
+          "shape": "rect",
+          "coords": "0.0013,0.3064,0.3523,0.0548",
+          "label": "Display"
+        },
+        {
+          "id": "ca6192bf-620c-4279-b4eb-625a69d9d216",
+          "shape": "rect",
+          "coords": "0.0033,0.5170,0.3464,0.0522",
+          "label": "FA"
+        },
+        {
+          "id": "27d3ebfc-e712-4d47-bb31-1f5e70c89891",
+          "shape": "rect",
+          "coords": "0.0111,0.5936,0.3386,0.0548",
+          "label": "PS"
+        },
+        {
+          "id": "521972e7-eb01-48c1-8418-d51e8eb02711",
+          "shape": "rect",
+          "coords": "0.0013,0.8695,0.3523,0.0548",
+          "label": "Pc"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "95ef9e96-7b15-4f64-b22c-33c17d718017"
+    },
+    {
+      "text": "GM1 - Chủ đề 17: Bạn muốn thay đổi độ tương phản của màn hình trên máy tính. Nhấp vào tính năng sẽ cho phép bạn điều chỉnh cài đặt độ tương phản trên máy tính Windows này.",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM1C17.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "320b492f-41f3-491c-a39e-80ad2ad30a8d",
+          "shape": "rect",
+          "coords": "0.0659,0.2245,0.2485,0.1279",
+          "label": "System"
+        },
+        {
+          "id": "d1739b73-a29b-4fcd-b4b6-64756dd6b25e",
+          "shape": "rect",
+          "coords": "0.3594,0.3725,0.2818,0.1227",
+          "label": "Pers"
+        },
+        {
+          "id": "4f257a35-244b-490f-be31-46adbe9752bc",
+          "shape": "rect",
+          "coords": "0.0483,0.5292,0.2622,0.1253",
+          "label": "Acc"
+        },
+        {
+          "id": "ca399d43-f53c-46ed-93b1-32a6cff4f769",
+          "shape": "rect",
+          "coords": "0.0581,0.6867,0.2622,0.1305",
+          "label": "Ease of Access"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "ca399d43-f53c-46ed-93b1-32a6cff4f769"
+    },
+    {
+      "text": "GM1 - Chủ đề 18: Bạn đang sử dụng điện thoại Android và muốn thay đổi độ tương phản. Nhấp vào tính năng sẽ cho phép bạn điều chỉnh độ tương phản trên điện thoại này:",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM1C18.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "e400ca27-8d85-4fea-ae74-bc1f2f132b75",
+          "shape": "rect",
+          "coords": "0.3203,0.1236,0.3581,0.0914",
+          "label": "Google"
+        },
+        {
+          "id": "41672c56-0db9-4180-abfc-edfcd3ba215b",
+          "shape": "rect",
+          "coords": "0.3255,0.5484,0.3510,0.0890",
+          "label": "Apps"
+        },
+        {
+          "id": "7895ff43-8983-49c2-99fd-938884f80ce8",
+          "shape": "rect",
+          "coords": "0.3275,0.6505,0.3490,0.0864",
+          "label": "General"
+        },
+        {
+          "id": "76a60f47-fbc1-4941-9132-a645f43fbb95",
+          "shape": "rect",
+          "coords": "0.3275,0.7500,0.3451,0.0785",
+          "label": "Accessibility"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "76a60f47-fbc1-4941-9132-a645f43fbb95"
+    },
+    {
+      "text": "GM1 - Chủ đề 19: Giáo viên của bạn đã giao cho bạn một nhiệm vụ để xác nhận quan điểm của kết quả tìm kiếm và tạo tác kỹ thuật số. Đối với mỗi tuyên bố về quan điểm xác thực, hãy Chọn Đúng nếu tuyên bố đúng hoặc Sai nếu tuyên bố sai. \n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "a9f0e471-9220-4cb7-8071-0f697af8a44f",
+          "text": "Những câu chuyện được đăng tải bởi một mạng lưới truyền thông lớn luôn thể hiện cả hai mặt và một góc nhìn bình đẳng "
+        },
+        {
+          "id": "21bc7522-68ec-487c-8e14-af8df7a202da",
+          "text": "Một khuynh hướng cánh tả ủng hộ bình đẳng xã hội, chủ nghĩa tự do và các ý tưởng cách mạng  "
+        },
+        {
+          "id": "4e24c561-488f-47d7-9229-b0629b81e481",
+          "text": "Thành kiến của cánh hữu ủng hộ các doanh nghiệp tự do, quyền sở hữu tư nhân và các ý tưởng bảo thủ về mặt xã hội  "
+        },
+        {
+          "id": "3c88a7ba-14bf-4ae6-942d-45f8f6b4093e",
+          "text": "Tất cả các câu chuyện đăng trên internet đều có quan điểm trung lập"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 40: Có rất nhiều lợi ích khi cộng tác nhóm. Đối với mỗi tuyên bố về sự cộng tác, hãy chọn Đúng nếu đó là một lợi ích hoặc Không nếu không phải. ?GM1 - Chủ đề 40: Có rất nhiều lợi ích khi cộng tác nhóm. Đối với mỗi tuyên bố về sự cộng tác, hãy chọn Đúng nếu đó là một lợi ích hoặc Không nếu không phải. ",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "43102df2-8071-4da9-aa4b-86eb3436f397",
+          "text": "Tăng khả năng sáng tạo và tư duy vượt trội "
+        },
+        {
+          "id": "8fa8b447-9831-4cd8-bf35-9ccd7bb647ab",
+          "text": "Làm giảm năng suất của nhân viên"
+        },
+        {
+          "id": "6929db7c-6676-4d3a-be10-c7c47bba16d1",
+          "text": "Tăng khả năng học tập"
+        },
+        {
+          "id": "7e09b1e2-da0e-403c-a7cc-8da9509a8d1d",
+          "text": "Phạm vi địa lý lớn hơn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 20: Trong khi nghiên cứu một chủ đề bạn không biết gì, kết quả tìm kiếm của bạn mang lại một số bài báo thuyết phục. Làm thế nào để bạn biết liệu bất kỳ bài báo nào trong số này là thiên vị? Đối với mỗi phát biểu về việc đánh giá sự thiên vị của kết quả tìm kiếm, Chọn Đúng nếu nó là không thiên vị hoặc Sai nếu nó thiên vị",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "acba15b7-79e4-4dff-8f96-c58e28ec746a",
+          "text": "Tác giả của bài báo đưa ra những lập luận ngang nhau của cả hai quan điểm "
+        },
+        {
+          "id": "0ff2916a-8997-4b4e-a401-4d3a39649a74",
+          "text": "Bài báo đã được đăng trên một tạp chí uy tín, được đánh giá chuyên nghiệp"
+        },
+        {
+          "id": "84658c5a-eb97-41d0-93c1-93ed5da878b3",
+          "text": "Kiểm tra các bài viết trên mediabiasfactcheck.com hoặc newsfactsnetwork.com"
+        },
+        {
+          "id": "dc196ea3-5638-4c27-aa34-988f69d2b42a",
+          "text": "Kiểm tra tốc độ thịnh hành của bài viết và số lượt thích trên mạng xã hội"
+        },
+        {
+          "id": "e5ef6ad2-45f5-4a9d-98cd-a8abebe8ead8",
+          "text": "Bài báo đã được xuất bản bởi một trong những nguồn truyền thông được liệt kê trên biểu đồ thiên vị truyền thông (Media Bias Chart) "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 21: Bạn đang tìm kiếm các dữ kiện để hỗ trợ một bài thuyết trình mà bạn đang xây dựng cho lớp khoa học của mình. Bạn tìm thấy một nghiên cứu khoa học liên quan đến chủ đề của bạn. Làm thế nào để bạn biết liệu nghiên cứu có đáng tin cậy hay không? Đối với mỗi tuyên bố, hãy Chọn Đúng nếu bạn nên cân nhắc khi xác định độ tin cậy của nghiên cứu hoặc Sai nếu không.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "57a99a20-304b-4964-a824-045c618d3419",
+          "text": "Chuyên môn và uy tín của nhà báo"
+        },
+        {
+          "id": "ad39a79d-2386-4cb2-9afa-e7668afdc217",
+          "text": "Có bao nhiêu người đã chia sẻ nghiên cứu trên mạng xã hội "
+        },
+        {
+          "id": "3a04d078-86cc-46a6-a5c6-1548ed9ac60a",
+          "text": "Bạn có thể tìm và truy cập các nguồn"
+        },
+        {
+          "id": "4bd12fab-0b88-464b-820e-f209958c978c",
+          "text": "Nhà báo sử dụng kiến thức địa phương "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 22: Khi điền vào biểu mẫu, điều nào sau đây là đúng? Đối với mỗi tuyên bố về việc điền vào biểu mẫu, hãy Chọn Đúng nếu tuyên bố là đúng hoặc Sai nếu sai. ",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "c5a1e772-84fe-490b-9bb1-45da32a4b890",
+          "text": "Khi được Chọn trong nhiều hộp kiểm, bạn chỉ có thể Chọn một"
+        },
+        {
+          "id": "1038574b-80f9-40a0-904a-bf0acfffe384",
+          "text": "Nếu bạn giữ phím Ctrl, bạn có thể Chọn nhiều mục từ danh sách thả xuống"
+        },
+        {
+          "id": "c4679a4b-8fc1-4dbb-98cf-fcedb81b4f21",
+          "text": "Sau khi điền vào biểu mẫu, câu trả lời của bạn sẽ không được ghi lại cho đến khi bạn nhấp vào nút gửi"
+        },
+        {
+          "id": "69788425-dd4a-48f1-906f-0c0ca5ad592b",
+          "text": "Khi được Chọn nhiều radio trong bộ Chọn, nếu bạn giữ phím Ctrl, bạn có thể Chọn nhiều hơn một"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 23: Một dự án khoa học cấp lớp yêu cầu bạn và một đối tác tạo một báo cáo về Hệ mặt trời của chúng ta. Bạn và đối tác của bạn đã thu thập thông tin và sắp xếp nó theo hành tinh, nhưng nội dung chưa được định dạng. Tài liệu bây giờ cần được cấu trúc.\nBạn phải sử dụng hai tính năng nào trong Microsoft Word để cấu trúc tài liệu? (chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "20f84c4d-2b84-405f-b2d0-646b66c2a47c",
+          "text": "References Tab"
+        },
+        {
+          "id": "4e145b98-ee74-4bc4-ab07-7265a984ecc9",
+          "text": "Styles Gallery"
+        },
+        {
+          "id": "3852f46b-f455-45a9-8420-47db6cae73bd",
+          "text": "Navigation Pane"
+        },
+        {
+          "id": "f666f0b1-c7e3-43eb-a913-9f8e4ba60d0c",
+          "text": "Page Setup"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Styles Gallery",
+        "Navigation Pane"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 24: Bạn đang chuẩn bị một bản trình bày slide cho lớp Lịch sử Hoa Kỳ của mình. Bạn đã được chỉ định một nhân vật lịch sử để báo cáo về các bạn cùng lớp của mình. Thứ tự các bước được khuyến nghị bạn nên thực hiện để tạo bản trình bày slide là gì?\nĐể trả lời, hãy kéo từng hành động từ cột bên trái sang thứ tự bước chính xác ở bên phải.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "f3146b08-2a7b-428d-8201-d688eb9fd429",
+          "text": "Tạo một dàn ý có cấu trúc "
+        },
+        {
+          "id": "c8c82e55-e939-4c07-b896-70bb51c38181",
+          "text": "Nhập một dàn ý vào bản trình bày "
+        },
+        {
+          "id": "6a10da9c-38f2-4eda-b46b-ea2044ce7349",
+          "text": "Chọn một thiết kế"
+        },
+        {
+          "id": "257a009d-cda6-43e0-be4c-d53e603cc65b",
+          "text": "Tạo trang tiêu đề "
+        },
+        {
+          "id": "13f152b7-0d2b-4578-9493-062f9fa127a2",
+          "text": "Áp dụng bố cục trang chiếu (Slide layouts) cho nội dung "
+        },
+        {
+          "id": "0960bd73-4219-4d09-8d4d-9b747b0e094e",
+          "text": "Thêm đồ họa, biểu đồ và hoạt ảnh (Animations) "
+        },
+        {
+          "id": "7ee87ce6-d632-4c14-858a-012fa07b1806",
+          "text": "Áp dụng quá trình chuyển đổi (Transitions)"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "f1938388-8635-47ad-a4b1-90d2e952df39",
+          "text": "Bước 1"
+        },
+        {
+          "id": "6899743b-d3e8-4968-9968-eb3ce47d5b97",
+          "text": "Bước 2"
+        },
+        {
+          "id": "763cf6da-37d5-45ac-8e04-26353c701e42",
+          "text": "Bước 3"
+        },
+        {
+          "id": "e6677a2e-eb4a-4d95-9d86-0ee18bef3702",
+          "text": "Bước 4"
+        },
+        {
+          "id": "8462b66e-1316-4c61-9d02-58d1a76dfbfa",
+          "text": "Bước 5"
+        },
+        {
+          "id": "29024dda-6782-4db5-bf92-0ad69bb600ce",
+          "text": "Bước 6"
+        },
+        {
+          "id": "a29b95a0-2dd0-4997-8532-d3a274997ea0",
+          "text": "Bước 7"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "f1938388-8635-47ad-a4b1-90d2e952df39",
+          "draggableItemId": "f3146b08-2a7b-428d-8201-d688eb9fd429"
+        },
+        {
+          "targetItemId": "6899743b-d3e8-4968-9968-eb3ce47d5b97",
+          "draggableItemId": "c8c82e55-e939-4c07-b896-70bb51c38181"
+        },
+        {
+          "targetItemId": "763cf6da-37d5-45ac-8e04-26353c701e42",
+          "draggableItemId": "6a10da9c-38f2-4eda-b46b-ea2044ce7349"
+        },
+        {
+          "targetItemId": "e6677a2e-eb4a-4d95-9d86-0ee18bef3702",
+          "draggableItemId": "257a009d-cda6-43e0-be4c-d53e603cc65b"
+        },
+        {
+          "targetItemId": "8462b66e-1316-4c61-9d02-58d1a76dfbfa",
+          "draggableItemId": "13f152b7-0d2b-4578-9493-062f9fa127a2"
+        },
+        {
+          "targetItemId": "29024dda-6782-4db5-bf92-0ad69bb600ce",
+          "draggableItemId": "0960bd73-4219-4d09-8d4d-9b747b0e094e"
+        },
+        {
+          "targetItemId": "a29b95a0-2dd0-4997-8532-d3a274997ea0",
+          "draggableItemId": "7ee87ce6-d632-4c14-858a-012fa07b1806"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 25: Bạn đang chuẩn bị một sổ làm việc bảng tính để giữ số liệu thống kê về người chơi cho đội bóng mềm của mình. Đối với mỗi trò chơi, bạn muốn ghi lại số lượt truy cập, số lượt chạy, và các lỗi cho mỗi người chơi. Thứ tự các bước được khuyến nghị mà bạn nên thực hiện để chuẩn bị sổ tính này là gì?\nĐể trả lời, hãy kéo từng hành động từ cột bên trái sang thứ tự bước chính xác ở bên phải. ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "60cdcb5b-73cb-46ae-aa01-bde74b101adf",
+          "text": "Tạo một trang tính"
+        },
+        {
+          "id": "25fbba82-a553-4477-a9d1-2726b1e8829a",
+          "text": "Tạo tiêu đề cột cho Người chơi, Lượt truy cập, Lượt chạy và Lỗi "
+        },
+        {
+          "id": "5fb4a893-cf12-4f8c-907e-3fccea35ffdc",
+          "text": "Điền tên vào cột Người chơi"
+        },
+        {
+          "id": "fbfd74a1-d02f-48a8-9025-b72bfa461ef2",
+          "text": "Sao chép trang tính cho mỗi trò chơi "
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "9c7bc853-0ee5-48e3-a346-4dcae95a9ada",
+          "text": "Bước 1"
+        },
+        {
+          "id": "c7b52546-15b1-4c25-a2b2-a33d6e0db299",
+          "text": "Bước 2"
+        },
+        {
+          "id": "7fe56be0-ef1c-4d08-a6a0-899ed3f14538",
+          "text": "Bước 3"
+        },
+        {
+          "id": "47fcd1fa-0176-42ba-8f12-7558332c4737",
+          "text": "Bước 4"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "9c7bc853-0ee5-48e3-a346-4dcae95a9ada",
+          "draggableItemId": "60cdcb5b-73cb-46ae-aa01-bde74b101adf"
+        },
+        {
+          "targetItemId": "c7b52546-15b1-4c25-a2b2-a33d6e0db299",
+          "draggableItemId": "25fbba82-a553-4477-a9d1-2726b1e8829a"
+        },
+        {
+          "targetItemId": "7fe56be0-ef1c-4d08-a6a0-899ed3f14538",
+          "draggableItemId": "5fb4a893-cf12-4f8c-907e-3fccea35ffdc"
+        },
+        {
+          "targetItemId": "47fcd1fa-0176-42ba-8f12-7558332c4737",
+          "draggableItemId": "fbfd74a1-d02f-48a8-9025-b72bfa461ef2"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 26: Tính năng nào trong chỉnh sửa ảnh sẽ cắt bỏ những phần không mong muốn của hình ảnh?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "a4d474a2-08bb-4552-99aa-64fa7f722d9b",
+          "text": "Cut"
+        },
+        {
+          "id": "49e0c6ce-9ff2-4f2c-9a02-12d04c9b44fa",
+          "text": "Erase"
+        },
+        {
+          "id": "0e45b787-c768-4c2f-8eab-e2c5f47fb3b3",
+          "text": "Crop"
+        },
+        {
+          "id": "b0e10f71-1dd6-4cfd-bade-89620822bee0",
+          "text": "Trim"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Crop"
+    },
+    {
+      "text": "GM1 - Chủ đề 27: Kết hợp từng kỹ năng bàn phím với kết quả của nó.\nĐể trả lời, hãy kéo từng kỹ năng gõ phím từ cột bên phải sang kết quả của nó ở bên trái. ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "5e90dfee-7bce-4d94-a531-ab0bc5a52733",
+          "text": "PrtScn"
+        },
+        {
+          "id": "537ed8cd-f835-48eb-b8b0-ea9e39179299",
+          "text": "Shift +2 "
+        },
+        {
+          "id": "17a22d96-2101-4eaf-92ff-1096a098e7e8",
+          "text": "Tab"
+        },
+        {
+          "id": "f6d8a98e-2bb4-4f25-bdf4-3f9c7043cae2",
+          "text": "Caps Lock "
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "9dc440bd-bce0-4dc0-b7d5-42cbfb159a7d",
+          "text": "Chụp ảnh màn hình "
+        },
+        {
+          "id": "cd5081fd-733d-4973-8c58-bc6fab50ed12",
+          "text": "Chèn ký hiệu @"
+        },
+        {
+          "id": "c27a3649-8963-40c5-9bdb-e87360aecb51",
+          "text": "Tạo thụt lề"
+        },
+        {
+          "id": "7a0d8c25-1f10-45c6-9018-dfca7536172a",
+          "text": "Làm cho mỗi chữ cái viết hoa"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "9dc440bd-bce0-4dc0-b7d5-42cbfb159a7d",
+          "draggableItemId": "5e90dfee-7bce-4d94-a531-ab0bc5a52733"
+        },
+        {
+          "targetItemId": "cd5081fd-733d-4973-8c58-bc6fab50ed12",
+          "draggableItemId": "537ed8cd-f835-48eb-b8b0-ea9e39179299"
+        },
+        {
+          "targetItemId": "c27a3649-8963-40c5-9bdb-e87360aecb51",
+          "draggableItemId": "17a22d96-2101-4eaf-92ff-1096a098e7e8"
+        },
+        {
+          "targetItemId": "7a0d8c25-1f10-45c6-9018-dfca7536172a",
+          "draggableItemId": "f6d8a98e-2bb4-4f25-bdf4-3f9c7043cae2"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 28: Hai câu lệnh nào phân biệt giữa tập tin chỉ đọc (Read-only) và đọc-ghi (Read- Write)? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "9a34da02-3b81-4752-9239-84a56abd03a8",
+          "text": "Các tập tin được đặt thành chỉ đọc (Read only) theo mặc định"
+        },
+        {
+          "id": "0075114d-fb49-4ef3-945b-ae6dd97972a7",
+          "text": "Một tập tin được đặt thành chỉ đọc (Read only) có thể được xem nhưng không được sửa đổi"
+        },
+        {
+          "id": "01564e4c-e7b2-4cde-92f8-caf8c060668b",
+          "text": "Tập tin được đặt thành chỉ đọc (Read only) được bảo vệ khỏi bị sao chép"
+        },
+        {
+          "id": "a0c05380-1725-4a7e-bce3-0a5a8a67c33b",
+          "text": "Người dùng khác (Other) có thể thay đổi tập tin thành Đọc-Ghi (Read-Write)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Một tập tin được đặt thành chỉ đọc (Read only) có thể được xem nhưng không được sửa đổi",
+        "Người dùng khác (Other) có thể thay đổi tập tin thành Đọc-Ghi (Read-Write)"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 29: Bạn muốn triển khai bảo vệ bằng mật khẩu trên tập tin Microsoft Office của mình. Thứ tự các bước bạn nên thực hiện để bảo vệ bằng mật khẩu tập tin Word, Excel hoặc PowerPoint là gì? Để trả lời, hãy kéo từng hành động từ cột bên trái sang thứ tự bước chính xác ở bên phải. ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "e10b3fde-76a6-4d7a-89a5-d55874be9481",
+          "text": "Chọn tab File"
+        },
+        {
+          "id": "59c3659a-0260-4a2a-a8ea-d20ac1e74969",
+          "text": "Mở bảng Info"
+        },
+        {
+          "id": "d6aae2b7-f695-4a85-b17e-77ffc926c370",
+          "text": "Bấm nút Protect"
+        },
+        {
+          "id": "1c4f2c70-9c19-461d-9155-a7502f20465c",
+          "text": "Chọn Encrypt with Password "
+        },
+        {
+          "id": "f819a78c-73c9-42a1-8377-e008f17179a1",
+          "text": "Nhập mật khẩu hai lần"
+        },
+        {
+          "id": "b1f19bca-c551-4469-b5df-1273e12ebb8f",
+          "text": "Bấm OK"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "720c3617-374c-4d20-912c-5834df437d76",
+          "text": "Bước 1"
+        },
+        {
+          "id": "6dd9a504-748a-4848-87d3-07d23e999c2f",
+          "text": "Bước 2"
+        },
+        {
+          "id": "79bfeeca-0572-4c6f-af6d-aa095bef3ded",
+          "text": "Bước 3"
+        },
+        {
+          "id": "1695677e-31fe-4e6a-8bed-6d988cf46574",
+          "text": "Bước 4"
+        },
+        {
+          "id": "b363596f-d506-43af-a7be-f30f90c38195",
+          "text": "Bước 5"
+        },
+        {
+          "id": "3188457a-c0ad-4790-a259-1bbeb9a81490",
+          "text": "Bước 6"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "720c3617-374c-4d20-912c-5834df437d76",
+          "draggableItemId": "e10b3fde-76a6-4d7a-89a5-d55874be9481"
+        },
+        {
+          "targetItemId": "6dd9a504-748a-4848-87d3-07d23e999c2f",
+          "draggableItemId": "59c3659a-0260-4a2a-a8ea-d20ac1e74969"
+        },
+        {
+          "targetItemId": "79bfeeca-0572-4c6f-af6d-aa095bef3ded",
+          "draggableItemId": "d6aae2b7-f695-4a85-b17e-77ffc926c370"
+        },
+        {
+          "targetItemId": "1695677e-31fe-4e6a-8bed-6d988cf46574",
+          "draggableItemId": "1c4f2c70-9c19-461d-9155-a7502f20465c"
+        },
+        {
+          "targetItemId": "b363596f-d506-43af-a7be-f30f90c38195",
+          "draggableItemId": "f819a78c-73c9-42a1-8377-e008f17179a1"
+        },
+        {
+          "targetItemId": "3188457a-c0ad-4790-a259-1bbeb9a81490",
+          "draggableItemId": "b1f19bca-c551-4469-b5df-1273e12ebb8f"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 34: Xác định các trường của một email. Để trả lời, hãy chuyển từng trường bên trái sang chức năng của nó ở bên phải. \n",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "962c8d0c-346c-4b5b-a83d-e79863a9808f",
+          "text": "CC"
+        },
+        {
+          "id": "e02f9678-bac3-4112-af85-cc55f0510d1f",
+          "text": "Body"
+        },
+        {
+          "id": "225bc3da-31bd-4c19-87ae-52509f52b794",
+          "text": "Low - Normal - High "
+        },
+        {
+          "id": "6f46f0e8-d87a-4723-ba1e-5a9f7c1faf8e",
+          "text": "Bcc"
+        },
+        {
+          "id": "5171bd73-143f-42e8-82ca-b03bd2535228",
+          "text": "Subject"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "14a0a5bf-5673-48df-8704-8cb782b16ace",
+          "text": "Danh sách những người nhận đã biết khác"
+        },
+        {
+          "id": "42d409b8-d3c8-456f-9ea4-7c23c0bf1603",
+          "text": "Thông điệp của email"
+        },
+        {
+          "id": "60557849-afe7-4c5e-9510-be30845db18d",
+          "text": "Đánh dấu mức độ quan trọng"
+        },
+        {
+          "id": "f8a317a2-5172-4aa9-969f-57cb785377d3",
+          "text": "Gửi một bản sao đến người nhận ẩn"
+        },
+        {
+          "id": "ffbbe00b-1fe1-4823-9106-c97fbad0213a",
+          "text": "Chủ đề của email"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "14a0a5bf-5673-48df-8704-8cb782b16ace",
+          "draggableItemId": "962c8d0c-346c-4b5b-a83d-e79863a9808f"
+        },
+        {
+          "targetItemId": "42d409b8-d3c8-456f-9ea4-7c23c0bf1603",
+          "draggableItemId": "e02f9678-bac3-4112-af85-cc55f0510d1f"
+        },
+        {
+          "targetItemId": "60557849-afe7-4c5e-9510-be30845db18d",
+          "draggableItemId": "225bc3da-31bd-4c19-87ae-52509f52b794"
+        },
+        {
+          "targetItemId": "f8a317a2-5172-4aa9-969f-57cb785377d3",
+          "draggableItemId": "6f46f0e8-d87a-4723-ba1e-5a9f7c1faf8e"
+        },
+        {
+          "targetItemId": "ffbbe00b-1fe1-4823-9106-c97fbad0213a",
+          "draggableItemId": "5171bd73-143f-42e8-82ca-b03bd2535228"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 35: Thanh toán kỹ thuật số hoạt động như thế nào?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "02a26b5c-1c19-42f7-8418-5e7f052e33c7",
+          "text": "Thanh toán kỹ thuật số yêu cầu liên kết với tài khoản ngân hàng hoặc thẻ tín dụng"
+        },
+        {
+          "id": "42d687f2-2eb2-42e1-95db-e92acddcd2f5",
+          "text": "Thanh toán kỹ thuật số yêu cầu người đồng ký"
+        },
+        {
+          "id": "b21b4b86-606f-41fd-8869-af12e6246bad",
+          "text": "Thanh toán kỹ thuật số tương tự như séc điện tử"
+        },
+        {
+          "id": "6d22a998-7d10-471c-94be-ed1d1316969a",
+          "text": "Thanh toán kỹ thuật số giống như một I.O.U"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Thanh toán kỹ thuật số yêu cầu liên kết với tài khoản ngân hàng hoặc thẻ tín dụng"
+    },
+    {
+      "text": "GM1 - Chủ đề 36: Mối quan tâm bảo mật chính của mua hàng trong ứng dụng là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "71e150c5-c6d0-4add-9e5c-925e534bf985",
+          "text": "Hàng hóa sẽ không được vận chuyển đến đúng địa chỉ"
+        },
+        {
+          "id": "79cb80c7-ad70-4b47-a35a-2fcddbd5dbd1",
+          "text": "Các nhà phát triển ứng dụng ăn cắp thông tin thẻ tín dụng"
+        },
+        {
+          "id": "7f84ead5-dcc9-48a1-a349-b6fb14a76b2f",
+          "text": "Không có lo ngại về bảo mật"
+        },
+        {
+          "id": "02f540b9-0352-4b9c-bc80-2f360b9c6172",
+          "text": "Trẻ em có quyền sử dụng điện thoại thông minh"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Trẻ em có quyền sử dụng điện thoại thông minh"
+    },
+    {
+      "text": "GM1 - Chủ đề 37: Đối sánh dịch vụ truyền thông trực tuyến với ví dụ của nó. Để trả lời, hãy chuyển từng dịch vụ từ danh sách ở bên trái sang ví dụ tương ứng ở bên phải. ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "0892495a-8fc6-40c5-97dd-a5042f7c8353",
+          "text": "Truyền trực tuyến phim (Streaming Movies) "
+        },
+        {
+          "id": "d3ebde11-d5b6-4d01-929e-68e7ce48e0f8",
+          "text": "Trình phát đa phương tiện (Media Players) "
+        },
+        {
+          "id": "5e0a4c68-0572-4ffd-873e-59c7824f0838",
+          "text": "Thiết bị phát trực tuyến (Streaming Devices) "
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "9ddf1e44-e5a8-46d2-b346-24b6551e3613",
+          "text": "Netflix, Disney+, Hulu, Amazon Prime "
+        },
+        {
+          "id": "144a94df-7062-4a26-a438-9ec555c5068b",
+          "text": "Spotify, Kodi, Web Browsers"
+        },
+        {
+          "id": "27debff2-9331-4da6-9362-8cfad834bf88",
+          "text": "Roku, Amazon Firestick, Apple TV, Chromecast "
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "9ddf1e44-e5a8-46d2-b346-24b6551e3613",
+          "draggableItemId": "0892495a-8fc6-40c5-97dd-a5042f7c8353"
+        },
+        {
+          "targetItemId": "144a94df-7062-4a26-a438-9ec555c5068b",
+          "draggableItemId": "d3ebde11-d5b6-4d01-929e-68e7ce48e0f8"
+        },
+        {
+          "targetItemId": "27debff2-9331-4da6-9362-8cfad834bf88",
+          "draggableItemId": "5e0a4c68-0572-4ffd-873e-59c7824f0838"
+        }
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 38: Bạn đang cộng tác với sáu người khác trong một dự án. Mỗi người đều làm việc tại một văn phòng đặt tại một quốc gia khác nhau. Hai ở châu Á, một ở châu Phi, hai ở Mỹ Latinh và một ở bờ biển phía đông Hoa Kỳ.\nHai công cụ cộng tác nào sẽ hiệu quả nhất để gửi thông tin qua lại cho những đồng nghiệp này? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "19b00445-308f-478d-990f-8b4159575af4",
+          "text": "Email"
+        },
+        {
+          "id": "57da4e8c-bce1-4c44-83e0-8d8d17d5a80f",
+          "text": "Text Messaging"
+        },
+        {
+          "id": "5337b2ee-af57-4d69-a616-ae44b0d67b00",
+          "text": "VideoConference"
+        },
+        {
+          "id": "f5a66273-adcd-4b9e-892f-ba9c6a85905e",
+          "text": "Phone Call"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Email",
+        "Text Messaging"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 39: Một hội đồng phỏng vấn cần sàng lọc những người lọt vào vòng chung kết cho một vị trí cấp giám đốc trong công ty của họ. Các thành viên của ủy ban nằm trong cùng một văn phòng. Các ứng cử viên cho vị trí này nằm ở các bang khác nhau.\nHai công cụ hợp tác nào sẽ hiệu quả nhất để thực hiện các cuộc phỏng vấn này? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "9ebbbc32-46eb-4ebe-8ff1-7e67f5daac74",
+          "text": "Text Message"
+        },
+        {
+          "id": "19eecc01-a402-4605-9eb5-6b938e6efbb9",
+          "text": "Phone Call"
+        },
+        {
+          "id": "7c2c0889-8cf6-414f-a42f-a36398897e98",
+          "text": "Video Conference"
+        },
+        {
+          "id": "b28d70e2-729e-408a-b54a-093e24d2a21f",
+          "text": "Email"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Phone Call",
+        "Video Conference"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 41: Giữa công việc ở trường, chơi game và mạng xã hội, bạn dành 4-6 giờ mỗi ngày để sử dụng máy tính xách tay và đăng bài trên mạng xã hội từ điện thoại của mình. Bạn lo ngại về nguy cơ sức khỏe.\nĐối với mỗi tuyên bố về rủi ro sức khỏe khi sử dụng công nghệ kỹ thuật số, hãy Chọn Đúng nếu đó là tuyên bố đúng hoặc Sai nếu sai. ?",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "a5f21cd5-f920-47ee-9d9c-a5d123285f4d",
+          "text": "Để tránh mỏi mắt, bạn nên chớp mắt thường xuyên và nghỉ \"20-20-20\" "
+        },
+        {
+          "id": "0c2ad9dc-80b5-4340-b20c-a4a2f5f8b0de",
+          "text": "Để giúp tránh rối loạn giấc ngủ, trước khi đi ngủ, hãy sạc điện thoại ở nơi bạn không thể tiếp cận nhưng vẫn có thể nghe thấy "
+        },
+        {
+          "id": "02604d38-2ed5-4354-8503-dc353cc453df",
+          "text": "Để tránh nghiện mạng xã hội, bạn nên dành thời gian của mình giữa ít nhất 3-5 trang mạng xã hội"
+        },
+        {
+          "id": "cb3df551-3e07-41e6-8655-744ca6c0671f",
+          "text": "Để chống lại tình trạng lười vận động, hãy mua một chiếc đồng hồ thể dục để đeo đến trường "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false",
+        "false"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 42: Hai ví dụ nào về việc catfishing? (chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "464ee055-d8fe-43a3-aa07-35f38800d4c8",
+          "text": "Lưu hành truyện cười và meme hài hước trực tuyến"
+        },
+        {
+          "id": "d64aa855-4148-49c1-8536-c7aa0072be35",
+          "text": "Tạo một hồ sơ hư cấu trên một trang web hẹn hò"
+        },
+        {
+          "id": "f842ad53-a451-40bc-bf5c-d1d2dd32c910",
+          "text": "Đưa người dùng vào một cuộc tranh cãi trên các trang web truyền thông xã hội"
+        },
+        {
+          "id": "91082235-9239-404d-8136-6c01c3170dcc",
+          "text": "Giả làm người khác trên mạng xã hội"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tạo một hồ sơ hư cấu trên một trang web hẹn hò",
+        "Giả làm người khác trên mạng xã hội"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 43: Bạn bè của bạn đang trêu chọc bạn. Họ nói rằng bạn có tất cả các triệu chứng của FOMO. Đối với mỗi tuyên bố về FOMO, hãy Chọn Đúng nếu tuyên bố là đúng hoặc Sai nếu tuyên bố sai. ",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "8079a30e-838c-4c38-b70f-933621e3c6a8",
+          "text": "FOMO là một chứng rối loạn do đeo khẩu trang trong khi sử dụng mạng xã hội"
+        },
+        {
+          "id": "e4d0392d-1da2-4f07-abaa-8726fa6a2ebf",
+          "text": "FOMO là \"cảm giác bỏ lỡ\""
+        },
+        {
+          "id": "f9fc976b-dbf2-44bf-b7e8-8b81f1e6c446",
+          "text": "Mặc dù FOMO không được coi là một rối loạn sức khỏe tâm thần, nó được gây ra bởi một nhóm cảm xúc rất thực và mang lại những tác động thực sự "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 44: Giải thích khi nào thì việc chặn truy cập camera là thích hợp và cần thiết. Đối với mỗi câu lệnh, hãy Chọn Đúng nếu phù hợp hoặc Sai nếu không phù hợp. \n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "01b3c106-6e43-498d-8c15-1f6231e34f6a",
+          "text": "Bạn là người tích cực tham gia một khóa học trực tuyến "
+        },
+        {
+          "id": "57bdcddc-d8a1-4d95-bc49-85b651adc812",
+          "text": "Bạn đang xem một cách thụ động một bài giảng trực tuyến với hàng trăm người xem khác"
+        },
+        {
+          "id": "26c2dec4-73d2-4f91-bf89-88bae7f8a544",
+          "text": "Bất cứ lúc nào một ứng dụng yêu cầu quyền truy cập vào máy ảnh của bạn và không có lý do gì để cần nó "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "GM1 - Chủ đề 45: Xác định các tùy chọn tập tin bảo vệ bằng mật khẩu. Đối với mỗi câu lệnh, hãy chọn Đúng nếu nó là một tùy chọn hoặc Sai nếu nó không phải là một tùy chọn.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "48cc32df-f0ca-48d1-999c-f16bab45dce4",
+          "text": "Trong Microsoft Excel, bạn có các lựa chọn để bảo vệ bằng mật khẩu chỉ các phần của sổ làm việc hoặc toàn bộ sổ làm việc"
+        },
+        {
+          "id": "0139a173-89ea-4c3e-bd01-ddf1055e8ad4",
+          "text": "Trong Adobe, bạn có thể bảo vệ bằng mật khẩu khi mở tài liệu .pdf "
+        },
+        {
+          "id": "6fb5ca78-3fab-4a02-b8f7-0b46e539fd7a",
+          "text": "Trong Windows 10 và các phiên bản mới hơn, bạn có thể bảo vệ các tập tin và thư mục riêng lẻ bằng mật khẩu "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1449 @@
+{
+  "title": "Level 2 - Gmetrix Test 2",
+  "description": "Level 2 - Gmetrix Test 2",
+  "password": "GMGMGM",
+  "questions": [
+    {
+      "text": "Hai cài đặt trình duyệt nào có thể được thay đổi để đáp ứng nhu cầu và sở thích cá nhân? (Chọn 2) ",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "755a6e13-4d65-4bf2-95ce-fab65a994561",
+          "text": "Tắt cookie (Disabling cookies)."
+        },
+        {
+          "id": "84c0596b-e6eb-41a3-aa83-adfbc766e938",
+          "text": "Đặt tên URL (Naming URLs)."
+        },
+        {
+          "id": "050be7ae-4dd9-4dfe-88bf-8c3dda5b5e3a",
+          "text": "Thêm tiện ích mở rộng trình duyệt (Adding browser extensions)."
+        },
+        {
+          "id": "a6415e63-1f82-433f-82db-af04e31ac470",
+          "text": "Thêm nội dung vào trợ giúp"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tắt cookie (Disabling cookies).",
+        "Thêm tiện ích mở rộng trình duyệt (Adding browser extensions)."
+      ]
+    },
+    {
+      "text": "Khi tạo cuộc hẹn hoặc nhiệm vụ trên lịch kỹ thuật số cá nhân, bạn thường có thể tùy chỉnh hai cài đặt nào? (chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "1d4a346b-19d7-4594-a550-ba56cf311fea",
+          "text": "Người tổ chức sự kiện (Event host)."
+        },
+        {
+          "id": "94f91044-0ef7-4228-961d-a4d1f07e5d25",
+          "text": "Chi phí của sự kiện (Cost of the event)."
+        },
+        {
+          "id": "58b0f62c-e5bc-4678-87cd-8701dd6855d9",
+          "text": "Tần suất lặp lại sự kiện (How often to repeat the event)."
+        },
+        {
+          "id": "e2f4d83a-e83c-4b9f-bd6d-6eb483c8393b",
+          "text": "Lời nhắc (Reminders)."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tần suất lặp lại sự kiện (How often to repeat the event).",
+        "Lời nhắc (Reminders)."
+      ]
+    },
+    {
+      "text": "Cha mẹ bạn đã yêu cầu bạn tạo lịch gia đình kỹ thuật số để mọi thành viên trong gia đình có thể lên lịch cho các sự kiện thể thao, hoạt động ở trường và các diễn biến xã hội khác của họ cho tất cả các thành viên trong gia đình xem. Bạn đã tạo lịch.Bạn phải hoàn thành hai bước nào để cung cấp lịch cho tất cả các thành viên trong gia đình bạn? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "75ec090a-528b-431b-bc39-6e2a22e49c3a",
+          "text": "Mời các thành viên"
+        },
+        {
+          "id": "2e99c526-d046-4f44-854e-7894d4047a2c",
+          "text": "In bản sao lịch cho từng thành viên trong gia đình"
+        },
+        {
+          "id": "19eca44d-eb61-46d9-954e-4e2430718faf",
+          "text": "Sao chép lịch vào thiết bị máy tính của từng thành viên trong gia đình"
+        },
+        {
+          "id": "9b78870f-b0fa-4659-be47-ae5affd0c994",
+          "text": "Chia sẻ lịch"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Mời các thành viên",
+        "Chia sẻ lịch"
+      ]
+    },
+    {
+      "text": "Tính năng nào trong số các chức năng trên sẽ sửa lỗi chính tả khi bạn nhập và có thể đoán chữ cái bạn định nhập, dựa trên các phím gần đó trên bàn phím?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "967b8dd5-5ccc-4291-a6a8-45d39375324f",
+          "text": "A. Tự động hoàn thành (Autocomplete)"
+        },
+        {
+          "id": "71bc7372-7ca2-4087-ac1b-d928a037835c",
+          "text": "B. Tự động sửa lỗi (Autocorrect)"
+        },
+        {
+          "id": "d0e92551-d3fa-4b74-9b6e-9037aa169613",
+          "text": "C. Trình kiểm tra ngữ pháp (Grammar Checker)"
+        },
+        {
+          "id": "84c44ca7-3f57-4b8f-8ece-1713a457a966",
+          "text": "D. Tự động hóa (Automation)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "B. Tự động sửa lỗi (Autocorrect)"
+    },
+    {
+      "text": "Tính năng phần mềm nào sử dụng một vài ký tự đầu tiên mà người dùng nhập để dự Đoán phần còn lại của từ và sau đó tự động hoàn thành từ đó?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "eb44c1c4-b8ad-4895-abb8-3c2e008689bc",
+          "text": "A. Autocomplete"
+        },
+        {
+          "id": "bd385a3e-5108-497f-8c57-d56cb98f2b49",
+          "text": "B. Trình kiểm tra ngữ pháp (Grammar Checker)"
+        },
+        {
+          "id": "85317dc8-e1cc-41aa-ba56-a2ee7e98c4e3",
+          "text": "C. Tự động hóa(Automation)"
+        },
+        {
+          "id": "5775921f-25cf-4fd3-99be-7a34a894b664",
+          "text": "D. Autocorrect"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "A. Autocomplete"
+    },
+    {
+      "text": " Đối với mỗi tuyên bố về Bảy nguyên tắc của thiết kế phần cứng phổ quát, hãy Chọn Đúng nếu đó là một nguyên tắc hoặc Sai nếu không phải. ",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "304e30e5-402e-4653-9553-fee6cff44ef9",
+          "text": "Tính linh hoạt khi sử dụng (Flexibility in Use): Thiết kế phù hợp với nhiều sở thích và khả năng của từng cá nhân"
+        },
+        {
+          "id": "226cddad-1833-4b24-8467-a0d25d516c82",
+          "text": "Dễ dàng thay thế (Easy to replace): Thiết kế cho phép thay thế dễ dàng"
+        },
+        {
+          "id": "a6636623-e1a1-4cb8-bc0e-e578b4c88f0b",
+          "text": "Nỗ lực thể chất thấp (Low Physical Effort): Thiết kế có thể được sử dụng hiệu quả, thoải mái và ít mệt mỏi "
+        },
+        {
+          "id": "42be4d4e-072f-4087-a241-88f63fc99f99",
+          "text": "Khả năng mở rộng (Scalable): Thiết kế dễ dàng nâng cấp và mở rộng"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Có một số lựa Chọn về thiết bị in gần bàn làm việc của bạn. Bạn thích một máy in và bạn muốn sử dụng. Bạn có thể làm gì để các lệnh in của bạn luôn được chuyển đến cùng một máy in?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "e4ffec52-b1d0-495a-94fb-2a19d95c3352",
+          "text": "Ngắt kết nối cáp với tất cả các máy in khác"
+        },
+        {
+          "id": "6f1b96f1-1201-44cc-8c7c-a63fa02485f7",
+          "text": "Xóa các máy in khác khỏi hàng đợi in của hệ điều hành của bạn"
+        },
+        {
+          "id": "5180f42e-228c-4cbe-a7b6-61f67b387acd",
+          "text": "Di chuyển cáp kết nối máy in trực tiếp với máy tính của bạn"
+        },
+        {
+          "id": "42329845-e2fd-48f4-8789-d8be395cc01b",
+          "text": "Đặt máy in yêu thích làm mặc định"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Đặt máy in yêu thích làm mặc định"
+    },
+    {
+      "text": "CPU, card đồ họa và card mạng là loại thiết bị nào?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "4dc4674d-44c8-4c0c-8de6-4e5c41ffe0b9",
+          "text": "Thiết bị xử lý (Processing device)"
+        },
+        {
+          "id": "42ddca02-6668-4557-b976-40c4714fa5f4",
+          "text": "Thiết bị lưu trữ (Storage device)"
+        },
+        {
+          "id": "98586e11-123c-4799-83a4-193541fdcdaf",
+          "text": "Thiết bị xuất (Output device)"
+        },
+        {
+          "id": "8da71661-265a-4177-8a60-c8e44dfe9b1b",
+          "text": "Thiết bị nhập (Input device)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Thiết bị xử lý (Processing device)"
+    },
+    {
+      "text": "Bạn có nhiều tài khoản Microsoft. Một cái dành cho trường học, một cái dùng cho gia đình và một cái dùng cho các hoạt động chơi game của bạn. Bạn có các tệp tin được lưu trữ trên OneDrive được liên kết với từng loại tài khoản.\nBạn đã đăng nhập vào tài khoản gia đình của mình, nhưng bạn cần truy cập một tệp tin được chia sẻ với bạn thông qua OneDrive trên tài khoản chơi game của bạn. Những gì bạn nên làm?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "0c66e2be-df2f-41b5-8f15-646805be04dd",
+          "text": "Định cấu hình lại cả hai tài khoản Microsoft để sử dụng cùng một ID và mật khẩu đăng nhập"
+        },
+        {
+          "id": "b06e5248-d465-4e8e-957a-4b344c310da5",
+          "text": "Thiết lập tài khoản Google được chia sẻ cho cả hai tài khoản Microsoft"
+        },
+        {
+          "id": "e873f4f6-ea75-4642-b5f8-6830b0710888",
+          "text": "Chuyển từ tài khoản Microsoft gia đình của bạn sang tài khoản Microsoft chơi game của bạn"
+        },
+        {
+          "id": "ad02aad7-62a9-4d5f-af8a-d01b32613905",
+          "text": "Liên kết tài khoản trò chơi của bạn với tài khoản gia đình của bạn."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Chuyển từ tài khoản Microsoft gia đình của bạn sang tài khoản Microsoft chơi game của bạn"
+    },
+    {
+      "text": "Đối với mỗi câu trả lời, hãy Chọn Đúng nếu nó tuân thủ các nghi thức kỹ thuật số thích hợp hoặc Sai nếu không tuân thủ. \n\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "09731eba-f492-40d9-8441-2929f677e2e6",
+          "text": "Bật webcam của bạn và tập trung vào màn hình của bạn để người nói, bạn cùng lớp và giáo viên của bạn có thể thấy rằng bạn đang chú ý"
+        },
+        {
+          "id": "d3897f74-bbf1-49d8-9b26-7b0407d1d2de",
+          "text": "Sử dụng biểu tượng \"Giơ tay\" (\"Raise Hand\") khi thích hợp để đặt câu hỏi "
+        },
+        {
+          "id": "3bbf63be-5531-4390-88ee-017796a41d47",
+          "text": "Tắt tiếng micrô (Mute) của bạn và chỉ bật tiếng khi bạn được gọi để thảo luận"
+        },
+        {
+          "id": "dcc66696-7fa4-47eb-aca5-fb36e1e793c3",
+          "text": "Luôn bật tiếng micrô của bạn để hướng dẫn viên có thể nghe thấy phản ứng của bạn với những gì họ đang nói "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Ai đó trên trang mạng xã hội yêu thích của bạn vừa đăng thông tin không chính xác về một sự kiện lịch sử của Mỹ. Bạn quyết định trả lời bài viết. Hai câu trả lời nào tuân theo nghi thức kỹ thuật số thích hợp?(Chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "93beee73-2bde-49e7-a9a6-1d0d25b82c18",
+          "text": "\"Bạn đã đọc nghiên cứu về sự kiện này do Hiệp hội Lịch sử Hoa Kỳ xuất bản chưa? Góc nhìn của họ thật thú vị.“"
+        },
+        {
+          "id": "100f7223-bf21-4af2-89a3-97e185ced182",
+          "text": "\"THÔNG TIN SAI LẦM! HÃY NHẬN THẤY SỰ THẬT CỦA BẠN TRƯỚC KHI ĐĂNG!“"
+        },
+        {
+          "id": "04a274a3-b8fe-4298-9f86-4372f66b084e",
+          "text": "\"Chỉ có những kẻ khờ mới tin vào quan điểm này. Rõ ràng là bạn đã không thực hiện bất kỳ nghiên cứu nào trước khi đảng!“"
+        },
+        {
+          "id": "a4c71d95-ce17-4f9c-8cd5-cdd9c670efd3",
+          "text": "\"Nhiều học giả không đồng ý. Đây là một liên kết với một số sự kiện đối lập về cùng một sự kiện lịch sử này.\""
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "\"Bạn đã đọc nghiên cứu về sự kiện này do Hiệp hội Lịch sử Hoa Kỳ xuất bản chưa? Góc nhìn của họ thật thú vị.“",
+        "\"Nhiều học giả không đồng ý. Đây là một liên kết với một số sự kiện đối lập về cùng một sự kiện lịch sử này.\""
+      ]
+    },
+    {
+      "text": "Bạn đang tạo một cuộc khảo sát để thu thập phản hồi từ bạn bè về một blog mới mà bạn muốn xuất bản về trượt ván. Ba câu hỏi nào là thích hợp để hỏi trong một cuộc khảo sát để giúp bạn tạo một blog mới? (chọn 3) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "0fc2deeb-c21d-4c5f-9c0b-72f262e56866",
+          "text": "Họ sẽ trả bao nhiêu cho một ván trượt"
+        },
+        {
+          "id": "369538df-3447-461d-99ee-6b73f449bbed",
+          "text": "Thủ thuật họ muốn học"
+        },
+        {
+          "id": "8bef6ec5-08f0-47f4-a6aa-b04ea03a11c8",
+          "text": "Thương hiệu yêu thích của ván trượt"
+        },
+        {
+          "id": "78a63ca3-884f-460c-9b7c-f9ae6e4dc868",
+          "text": "Đề xuất tiêu đề"
+        },
+        {
+          "id": "5b2e92b6-95db-4fbe-b882-e0c9a8e6af12",
+          "text": "Công viên trượt tuyết yêu thích"
+        },
+        {
+          "id": "71b7f467-fd10-492e-86e7-b03492c16027",
+          "text": "Phim lướt sóng hay nhất"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Thủ thuật họ muốn học",
+        "Thương hiệu yêu thích của ván trượt",
+        "Đề xuất tiêu đề"
+      ]
+    },
+    {
+      "text": "Một người dùng đã xây dựng trang web đầu tiên của cô ấy. Cô ấy đã vật lộn với thiết kế và chức năng, vì vậy cô ấy đang tìm kiếm phản hồi để cung cấp thông tin và cải thiện việc học của mình.\nHai ví dụ nào về cách người dùng có thể tìm kiếm phản hồi hiệu quả để cung cấp thông tin và cải thiện việc học của họ? (chọn 2) ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "22099eae-f635-4786-b66a-5a77d64cba9b",
+          "text": "Đọc một cuốn sách hay về thiết kế trang web"
+        },
+        {
+          "id": "c3b1371d-c8f8-4045-83c4-0175298c12cf",
+          "text": "Chạy quảng cáo trên trang web và theo dõi số lượng nhấp chuột được thu thập"
+        },
+        {
+          "id": "3424aa8a-f966-45c3-a252-9080ad09a8d3",
+          "text": "Gửi một cuộc khảo sát mời người dùng đưa ra phản hồi về trang web"
+        },
+        {
+          "id": "e4248782-eed0-4a20-93a8-3761b1d4e5da",
+          "text": "Nhờ người có chuyên môn xem xét trang web và đưa ra phản hồi"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Gửi một cuộc khảo sát mời người dùng đưa ra phản hồi về trang web",
+        "Nhờ người có chuyên môn xem xét trang web và đưa ra phản hồi"
+      ]
+    },
+    {
+      "text": "\nBạn đang tiến hành nghiên cứu bằng cách sử dụng công cụ tìm kiếm. Đối với mỗi tuyên bố về việc sử dụng các cụm từ tìm kiếm chính, hãy Chọn Đúng nếu nó hiển thị kết quả được mô tả hoặc Sai nếu nó không hiển thị. \n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "0e2ee048-2cba-4ee6-a1e2-3e58e358806c",
+          "text": "mustang, camaro, -convertible: Các cụm từ tìm kiếm chính này sẽ trả về tất cả mustang và camero không phải là loại mui trần (convertible) "
+        },
+        {
+          "id": "c45d0a95-b3ab-4ac3-8912-ad7281b85e8e",
+          "text": "Ngựa OR bò OR lợn OR cừu: Các cụm từ tìm kiếm chính này sẽ trả về kết quả có chứa ngựa, bò, lợn hoặc cừu "
+        },
+        {
+          "id": "1fdefebf-f8d5-4246-8863-1ba5f90c3629",
+          "text": "\"richest people in America\": Các cụm từ tìm kiếm quan trọng này sẽ chỉ trả về kết quả có chứa cụm từ chính xác đó"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Để thu hẹp kết quả trong tìm kiếm của Google, bạn quyết định sử dụng các cụm từ và ký hiệu tìm kiếm chính. Khớp từng cụm từ hoặc ký hiệu tìm kiếm quan trọng với kết quả của nó. Để trả lời, hãy kéo từng cụm từ hoặc ký hiệu tìm kiếm quan trọng từ cột bên trái sang kết quả của nó ở bên phải ",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "e4755b3a-8c6c-4279-b0ab-761d9741d8b9",
+          "text": "Range or Double Dots (..) "
+        },
+        {
+          "id": "d5ad086e-8b70-4d90-864c-dab045bde8ae",
+          "text": " Double Quotes (\"\") "
+        },
+        {
+          "id": "533b4138-29ac-40a1-ba1c-4ad77c114da8",
+          "text": "OR as a Boolean value "
+        },
+        {
+          "id": "6ba3bd33-3684-4f3f-8eb2-550465337eab",
+          "text": " Tilde Symbol ( ~) "
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "5ff90d6d-1885-44af-9c9e-3eb9781777c2",
+          "text": "Đại diện cho toán tử phạm vi để tìm tất cả các kết quả có liên quan trong phạm vi được chỉ định "
+        },
+        {
+          "id": "7113dc3e-6cae-4454-92ab-166584b6b02d",
+          "text": "Buộc Google tìm kiếm các từ hoặc cụm từ chính xác được đề cập trong dấu ngoặc kép"
+        },
+        {
+          "id": "cd1cabe3-4083-4eb8-a0f0-f26770701d16",
+          "text": "Sử dụng toán tử này trong tìm kiếm trên Google giữa hai từ khóa sẽ trả về một hoặc cả hai từ khóa trong kết quả"
+        },
+        {
+          "id": "732c81b4-e1ac-4800-af81-97ebafa0787b",
+          "text": "Tìm kiếm từ đồng nghĩa"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "5ff90d6d-1885-44af-9c9e-3eb9781777c2",
+          "draggableItemId": "e4755b3a-8c6c-4279-b0ab-761d9741d8b9"
+        },
+        {
+          "targetItemId": "7113dc3e-6cae-4454-92ab-166584b6b02d",
+          "draggableItemId": "d5ad086e-8b70-4d90-864c-dab045bde8ae"
+        },
+        {
+          "targetItemId": "cd1cabe3-4083-4eb8-a0f0-f26770701d16",
+          "draggableItemId": "533b4138-29ac-40a1-ba1c-4ad77c114da8"
+        },
+        {
+          "targetItemId": "732c81b4-e1ac-4800-af81-97ebafa0787b",
+          "draggableItemId": "6ba3bd33-3684-4f3f-8eb2-550465337eab"
+        }
+      ]
+    },
+    {
+      "text": "Bạn đang phát nhạc qua loa máy tính xách tay của mình trong khi làm việc trên bảng tính. Bạn muốn tăng âm lượng. Nhấp vào tính năng cho phép bạn điều chỉnh cài đặt âm lượng trên máy tính Windows này. \n",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM2C16.png",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "9cb1bde6-1167-4774-ab7e-8019bd9ec8ae",
+          "shape": "rect",
+          "coords": "0.0007,0.1562,0.0392,0.0209",
+          "label": "File"
+        },
+        {
+          "id": "40f61372-00bc-4dd4-a359-d15de1094d09",
+          "shape": "rect",
+          "coords": "0.3948,0.1597,0.0157,0.0183",
+          "label": "Ideas"
+        },
+        {
+          "id": "c96884fb-b716-4ff9-b1dd-c15246db7955",
+          "shape": "rect",
+          "coords": "0.8536,0.8255,0.0176,0.0471",
+          "label": "Battery"
+        },
+        {
+          "id": "7dffa006-4f39-404b-9282-64cda8342997",
+          "shape": "rect",
+          "coords": "0.8869,0.8255,0.0157,0.0445",
+          "label": "Volume"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "7dffa006-4f39-404b-9282-64cda8342997"
+    },
+    {
+      "text": "Bạn đang sử dụng điện thoại Android và muốn tắt âm lượng.\nNhấp vào tính năng cho phép bạn tắt âm lượng trên điện thoại này.\n\n",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM2C17.jpg",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "00ea03d1-129f-4efc-b96d-e6b765eb4ce2",
+          "shape": "rect",
+          "coords": "0.5075,0.3036,0.0647,0.1021",
+          "label": "Sound"
+        },
+        {
+          "id": "a2c4dec2-724a-4dda-83bb-d97301fd5cd7",
+          "shape": "rect",
+          "coords": "0.5918,0.3076,0.0647,0.0969",
+          "label": "Bluetooth"
+        },
+        {
+          "id": "40ff8250-b47f-445f-92b2-efb137daea31",
+          "shape": "rect",
+          "coords": "0.4938,0.8800,0.0725,0.0393",
+          "label": "Media"
+        },
+        {
+          "id": "69a6788d-ebb6-4a8b-a90e-940ad4dac65c",
+          "shape": "rect",
+          "coords": "0.5879,0.8740,0.0725,0.0445",
+          "label": "Devices"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "00ea03d1-129f-4efc-b96d-e6b765eb4ce2"
+    },
+    {
+      "text": "Bạn đang sử dụng điện thoại Android và muốn giảm độ sáng để tiết kiệm pin.\nNhấp vào tính năng sẽ cho phép bạn điều chỉnh độ sáng trên điện thoại này.",
+      "type": "Hotspot",
+      "imageUrl": "/images/LV2GM2C18.jpg",
+      "points": 10,
+      "hotspots": [
+        {
+          "id": "cc30d9d7-7210-4e84-b550-0e0c5c7e4152",
+          "shape": "rect",
+          "coords": "0.6000,0.2492,0.0314,0.0366",
+          "label": "Settings"
+        },
+        {
+          "id": "061a9a29-3ff1-416d-9ea9-f7a000114706",
+          "shape": "rect",
+          "coords": "0.4275,0.5586,0.0588,0.1099",
+          "label": "Blue light filter"
+        },
+        {
+          "id": "afcc1222-8f53-4a01-a619-edc0583b97d5",
+          "shape": "rect",
+          "coords": "0.3255,0.8183,0.3353,0.0602",
+          "label": " Brightness Control Bar"
+        },
+        {
+          "id": "21f37522-6fd1-42d8-930b-d6e2d73d2e07",
+          "shape": "rect",
+          "coords": "0.4980,0.8838,0.0647,0.0288",
+          "label": "Media"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "afcc1222-8f53-4a01-a619-edc0583b97d5"
+    },
+    {
+      "text": "Làm thế nào bạn có thể đánh giá mức độ liên quan của một kết quả tìm kiếm hoặc tạo tác kỹ thuật số?\nĐối với mỗi tuyên bố về đánh giá mức độ liên quan, hãy chọn Đúng nếu nó xác nhận mức độ liên quan hoặc Sai nếu nó không xác nhận mức độ liên quan.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "89b74e3e-f51f-4576-9d95-65cfec0a75e2",
+          "text": "Sử dụng các tùy Chọn nâng cao khi tìm kiếm "
+        },
+        {
+          "id": "f86d8bc8-431e-4e80-a1bc-da28609c4ac1",
+          "text": "Nó không khớp với thông tin bạn cần, nhưng nó có một tiêu đề thực sự thú vị "
+        },
+        {
+          "id": "8cdc9cfa-cf89-48b2-b547-e234ab210fe7",
+          "text": "Tất cả các kết quả trả về từ một công cụ tìm kiếm đều có liên quan "
+        },
+        {
+          "id": "56c527e9-4bb0-4304-8d36-8d4ddf8103b2",
+          "text": "Các tiêu đề, tóm tắt và năm xuất bản phù hợp với nhu cầu thông tin của bạn "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Người sử dụng lao động đã giao bạn phụ trách viết bản tin hàng tháng cho công ty của bạn. Cô ấy yêu cầu bạn mời tất cả nhân viên đóng góp ý kiến về những gì họ muốn đưa vào bản tin mỗi tháng. Công ty của bạn có hơn 200 nhân viên ở bốn vị trí địa lý. Các phương pháp khác nhau mà bạn có thể sử dụng để thu thập phản hồi từ các nhân viên khác là gì?\nĐối với mỗi tuyên bố về việc thu thập câu trả lời, hãy chọn Đúng nếu phù hợp hoặc Sai nếu không phù hợp.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "736301c9-a91a-4e9f-92ca-dd812fe14197",
+          "text": "Viết blog về công việc mà người sử dụng lao động đã giao cho bạn."
+        },
+        {
+          "id": "37c9ce92-a58f-42cf-8775-859d7e7815ae",
+          "text": "Yêu cầu công chúng trên mạng xã hội đăng ý tưởng của họ."
+        },
+        {
+          "id": "33430256-cd7d-411d-86ea-93f307a89718",
+          "text": "Gửi một cuộc khảo sát qua email cho tất cả nhân viên của công ty. "
+        },
+        {
+          "id": "531b41a9-c294-459f-a053-18f9fa17a476",
+          "text": "Đăng biểu mẫu trên trang web của công ty và mời tất cả nhân viên hoàn thành biểu mẫu."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Hai tùy Chọn nào sau đây giải thích hệ thống lưu trữ dữ liệu trung tâm? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "cdd47752-eec3-4db7-8c5e-b609c9c5c504",
+          "text": "Chia sẻ ổ cứng trên máy tính của bạn với các nhân viên khác"
+        },
+        {
+          "id": "ce2bed1e-3cce-422b-a195-53d31b114f20",
+          "text": "Cơ sở dữ liệu theo dõi hàng tồn kho, đơn đặt hàng của khách hàng và giao hàng"
+        },
+        {
+          "id": "655e2123-5fc7-4797-976c-fb1ed8751b3d",
+          "text": "Hệ thống quản lý tài liệu và thư viện, chẳng hạn như SharePoint"
+        },
+        {
+          "id": "543139a6-b783-4407-a4b1-d051d56eda94",
+          "text": "Thiết bị lưu trữ được đặt bên trong máy tính"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Cơ sở dữ liệu theo dõi hàng tồn kho, đơn đặt hàng của khách hàng và giao hàng",
+        "Hệ thống quản lý tài liệu và thư viện, chẳng hạn như SharePoint"
+      ]
+    },
+    {
+      "text": "Kết hợp từng kỹ năng bàn phím với kết quả của nó. \nĐể trả lời, hãy kéo từng kỹ năng gõ phím từ cột bên trái sang kết quả của nó ở bên phải",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "4d94d9a1-3b15-4a5a-96dc-a5ab2060484b",
+          "text": "Delete"
+        },
+        {
+          "id": "6c53d198-7815-4c6c-bea3-c518a4bc9de6",
+          "text": "Shift"
+        },
+        {
+          "id": "c5a19689-fec1-450c-8c85-8c80c5eb5350",
+          "text": "Fn + F1"
+        },
+        {
+          "id": "176fb4e6-a925-4a1f-9ebc-540cdc6b3d95",
+          "text": "BackSpace"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "c1b26d23-bc97-488c-b9ec-8bbc1cb7911d",
+          "text": "Xóa ký tự ở bên phải"
+        },
+        {
+          "id": "5100f2bd-872a-4a32-8fa3-b38cba466458",
+          "text": "Chuyển đổi một phím sang ký tự phía trên "
+        },
+        {
+          "id": "331ece88-6903-4c60-92e9-1ef2ac17d191",
+          "text": "Khởi chạy trợ giúp (Help)"
+        },
+        {
+          "id": "8508aaa8-d591-4f52-b290-495398bb6897",
+          "text": "Xóa ký tự bên trái"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "c1b26d23-bc97-488c-b9ec-8bbc1cb7911d",
+          "draggableItemId": "4d94d9a1-3b15-4a5a-96dc-a5ab2060484b"
+        },
+        {
+          "targetItemId": "5100f2bd-872a-4a32-8fa3-b38cba466458",
+          "draggableItemId": "6c53d198-7815-4c6c-bea3-c518a4bc9de6"
+        },
+        {
+          "targetItemId": "331ece88-6903-4c60-92e9-1ef2ac17d191",
+          "draggableItemId": "c5a19689-fec1-450c-8c85-8c80c5eb5350"
+        },
+        {
+          "targetItemId": "8508aaa8-d591-4f52-b290-495398bb6897",
+          "draggableItemId": "176fb4e6-a925-4a1f-9ebc-540cdc6b3d95"
+        }
+      ]
+    },
+    {
+      "text": "Bạn đã tạo một tài liệu trong Microsoft Word và đã quyết định chia sẻ nó với nhóm của bạn để họ có thế chỉnh sửa nó. Bạn muốn theo dõi bất kỳ thay đổi nào họ thực hiện đối với tài liệu.\nThứ tự các bước được khuyến nghị mà bạn nên thực hiện để theo dõi các thay đổi trong tài liệu là gì?\nĐể trả lời, hãy kéo từng hành động từ cột bên trái sang thứ tự bước chính xác ở bên phải.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "05340b0b-a356-49c8-8759-faaffecd09f5",
+          "text": "Từ thẻ Review, hãy bật Track Changes."
+        },
+        {
+          "id": "369cf71c-af97-495f-8dfc-2f9303bbfb0f",
+          "text": "Lưu tài liệu và chia sẻ nó với nhóm của bạn."
+        },
+        {
+          "id": "2f19eb12-bb5b-4e5f-b431-42e97590b2a6",
+          "text": "Chọn cách bạn muốn Đánh dấu (Markup) được hiển thị."
+        },
+        {
+          "id": "c2990c44-a1bf-4d94-8878-b07cce4a41d4",
+          "text": "Chọn Accept (đồng ý) hay Reject (không đồng ý) với các thay đổi."
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "397a3a03-c89b-4ef3-bab5-7ea929faf8f8",
+          "text": "Bước 1"
+        },
+        {
+          "id": "38e30187-cc4e-4bdc-b3bd-2366dd498209",
+          "text": "Bước 2"
+        },
+        {
+          "id": "e77ac349-a95e-4f9b-88a0-f616490b5e1b",
+          "text": "Bước 3"
+        },
+        {
+          "id": "8ce9cfd1-097c-4147-b753-aa891fb5876b",
+          "text": "Bước 4"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "397a3a03-c89b-4ef3-bab5-7ea929faf8f8",
+          "draggableItemId": "05340b0b-a356-49c8-8759-faaffecd09f5"
+        },
+        {
+          "targetItemId": "38e30187-cc4e-4bdc-b3bd-2366dd498209",
+          "draggableItemId": "369cf71c-af97-495f-8dfc-2f9303bbfb0f"
+        },
+        {
+          "targetItemId": "e77ac349-a95e-4f9b-88a0-f616490b5e1b",
+          "draggableItemId": "2f19eb12-bb5b-4e5f-b431-42e97590b2a6"
+        },
+        {
+          "targetItemId": "8ce9cfd1-097c-4147-b753-aa891fb5876b",
+          "draggableItemId": "c2990c44-a1bf-4d94-8878-b07cce4a41d4"
+        }
+      ]
+    },
+    {
+      "text": " Khớp từng phím tắt với chức năng của nó.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "bae17ddf-0519-44ad-896d-5d047a38b51b",
+          "text": "Copy"
+        },
+        {
+          "id": "f14d901a-5040-4925-be4f-c6d0cda5fdf8",
+          "text": "Select All Text"
+        },
+        {
+          "id": "8200a12c-e8dc-4d9d-b38b-0f2a9724122c",
+          "text": "Cut"
+        },
+        {
+          "id": "4c648d31-8fe1-4e65-9bdb-d39dc499139a",
+          "text": "Paste"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "84ff76ec-dc84-45bc-90e0-2c8cb440ad67",
+          "text": "Windows Ctrl+C hay MacOS Cmd+C "
+        },
+        {
+          "id": "e77cef40-632c-4be8-a89b-eeda5cd8cea0",
+          "text": "Windows Ctrl+A hay MacOS Cmd+A"
+        },
+        {
+          "id": "6922a0c3-7c8e-48b7-a068-d181c821516c",
+          "text": "Windows Ctrl+X hay MacOS Cmd+X"
+        },
+        {
+          "id": "04681e17-0e77-4176-954a-4727dc9f53c4",
+          "text": "Windows Ctrl+V hay MacOS Cmd+V"
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "84ff76ec-dc84-45bc-90e0-2c8cb440ad67",
+          "draggableItemId": "bae17ddf-0519-44ad-896d-5d047a38b51b"
+        },
+        {
+          "targetItemId": "e77cef40-632c-4be8-a89b-eeda5cd8cea0",
+          "draggableItemId": "f14d901a-5040-4925-be4f-c6d0cda5fdf8"
+        },
+        {
+          "targetItemId": "6922a0c3-7c8e-48b7-a068-d181c821516c",
+          "draggableItemId": "8200a12c-e8dc-4d9d-b38b-0f2a9724122c"
+        },
+        {
+          "targetItemId": "04681e17-0e77-4176-954a-4727dc9f53c4",
+          "draggableItemId": "4c648d31-8fe1-4e65-9bdb-d39dc499139a"
+        }
+      ]
+    },
+    {
+      "text": "Đối với mỗi tuyên bố về phím tắt, hãy chọn Đúng nếu nó đứng như đã nêu hoặc Sai nếu không đúng.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "40d7f99d-e8a0-45a2-b84e-887d6599085f",
+          "text": "Windows Ctrl+P hay MacOS Cmd+P = Paste  "
+        },
+        {
+          "id": "565a750a-6857-4dde-b396-cbf3dc088da4",
+          "text": "Windows Ctrl+X hay MacOS Cmd+X = Cut"
+        },
+        {
+          "id": "5b501c3a-9ac2-41d9-b565-44008e37e77d",
+          "text": "Windows Ctrl+A hay MacOS Cmd+A = Select All Text "
+        },
+        {
+          "id": "ce1f22ae-1b20-4e58-9133-cf8e7c0fa3d8",
+          "text": "Windows Ctrl+E hay MacOS Cmd+E = End of Document"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Tùy Chọn nào sau đây thể hiện quy ước đặt tên tập tin tốt?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "cd6d38f2-f5d9-483a-9f8c-926b12189e11",
+          "text": "A. elk_original.docx\telk_mod.docx\t   elk_changed.docx"
+        },
+        {
+          "id": "eb34942e-4878-4c33-a35c-cb2dfd17725f",
+          "text": "B. elk.docx\t\telk copy.docx\t   elk draft.docx"
+        },
+        {
+          "id": "677dcb86-afc1-43a8-8c98-b423ba8ea6c2",
+          "text": "C. elk_draft1.docx\telk_draft2.docx\t   elk_FINAL.docx"
+        },
+        {
+          "id": "2436b37d-6e16-44a2-931f-54bed85c21e4",
+          "text": "D. myelk.docx\tnewelk.docx\t   elk.docx"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "C. elk_draft1.docx\telk_draft2.docx\t   elk_FINAL.docx"
+    },
+    {
+      "text": "Đối với mỗi câu lệnh về việc nén tệp, hãy chọn Đúng nếu đó là câu lệnh đúng và chọn Sai nếu không phải là câu lệnh đúng.\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "7ef9906f-af46-4790-84da-ff2fd2fefc55",
+          "text": "Nhiều tập tin có thể được đóng gói bằng một tiện ích tạo một tập tin nén duy nhất có đuôi tập tin .zip hoặc .rar "
+        },
+        {
+          "id": "58065e30-9fe0-472c-b1bd-7155151bb9e6",
+          "text": "Tập tin nén chiếm nhiều dung lượng lưu trữ hơn tập tin gốc "
+        },
+        {
+          "id": "5c9d961a-8893-4bcd-8d20-d832798babcd",
+          "text": "Một tập tin nén thường có kích thước nhỏ hơn tập tin gốc "
+        },
+        {
+          "id": "7dcf5667-99af-4e49-a55f-ba53c8b5d9b5",
+          "text": "Chỉ có thể nén các tập tin hình ảnh"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Bạn sở hữu dữ liệu của mình trên hai vị trí lưu trữ nào? (chọn 2)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "ca486665-2382-42af-a4d5-cfcefe59e9ac",
+          "text": "Thẻ SD trong điện thoại của bạn"
+        },
+        {
+          "id": "bf701320-8484-4cc6-bd17-9a9ef760744c",
+          "text": "Bài đăng của bạn trên mạng xã hội"
+        },
+        {
+          "id": "54a472bf-8d68-4747-9030-254b3e821dea",
+          "text": "Máy tính bạn dùng chung trong phòng thí nghiệm của trường"
+        },
+        {
+          "id": "6f03233b-477e-417f-ace3-6cbe1786cac8",
+          "text": "Tài khoản Google Drive, Microsoft OneDrive hoặc Apple iCloud của bạn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Thẻ SD trong điện thoại của bạn",
+        "Tài khoản Google Drive, Microsoft OneDrive hoặc Apple iCloud của bạn"
+      ]
+    },
+    {
+      "text": "Các tranh chấp về Bản quyền sử dụng hợp lý (Fair Use Copyright) được giải quyết bằng cách xem xét bốn yếu tố về tác phẩm đã bị sao chép bất hợp pháp.\nBốn yếu tố nào mà một Thẩm phán sẽ sử dụng để xác định xem Sử dụng hợp lý có bị vi phạm hay không?\nĐối với mỗi câu lệnh, hãy chọn Đúng nếu nó là một nhân tố hoặc Sai nếu nó không phải là một nhân tố.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "39352bc9-7717-41cb-922d-c1f4c7013023",
+          "text": "Sao chép một tác phẩm chỉ để thưởng thức cá nhân."
+        },
+        {
+          "id": "2b4d4c0a-50f7-43a4-a593-3e091b7fa35d",
+          "text": "Mục đích và đặc điểm sử dụng của bạn."
+        },
+        {
+          "id": "bc129591-186d-4859-ac3a-2a642225fbf1",
+          "text": "Loại tác phẩm đã được sao chép."
+        },
+        {
+          "id": "db28ecf7-154c-49a4-8fe9-c8b90293d40c",
+          "text": "Số lượng và tính chất của phần được lấy"
+        },
+        {
+          "id": "016d448f-00ac-4d02-8064-e825e7cebfee",
+          "text": "Cho dù bản sao được sử dụng trong lớp học hay bởi học sinh hay giáo viên. "
+        },
+        {
+          "id": "d5adfa37-c13c-4b62-a941-5709d57720bc",
+          "text": "Ảnh hưởng của việc sử dụng sao chép đối với thị trường tiềm năng của tác phẩm gốc. "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "true",
+        "true",
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Bạn nên tuân theo hai nguyên tắc thống nhất về mặt trực quan nào để tạo cho bản trình bày của mình một cái nhìn chuyên nghiệp? (Chọn hai)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "7b416c84-b183-40d4-933c-fb46db069bee",
+          "text": "Sử dụng một phông chữ và màu sắc khác nhau ở mỗi bên."
+        },
+        {
+          "id": "efef48fb-6f23-4ed1-8a79-5b48b2e6d6e5",
+          "text": "Áp dụng cùng một bố cục trên mọi trang chiếu."
+        },
+        {
+          "id": "c4a1b995-2f66-41ce-96d8-c7f6305655e9",
+          "text": "Nhất quán trên tất cả các yếu tố trình bày, chẳng hạn như phông chữ và màu sắc."
+        },
+        {
+          "id": "2e255d23-5c15-442d-9d82-718a8d2af46b",
+          "text": "Tuân theo các nguyên tắc thiết kế về sự liên kết và lặp lại"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Nhất quán trên tất cả các yếu tố trình bày, chẳng hạn như phông chữ và màu sắc.",
+        "Tuân theo các nguyên tắc thiết kế về sự liên kết và lặp lại"
+      ]
+    },
+    {
+      "text": " Bước đầu tiên để tùy chỉnh thông tin cho một đối tượng nhất định là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "87695d57-ef22-48d5-9824-1eb0de1c4344",
+          "text": " Xác định đối tượng mục tiêu của bạn."
+        },
+        {
+          "id": "48b06d6f-785f-4c40-8491-9ef3a46b6767",
+          "text": "Thiết lập mục tiêu giao tiếp"
+        },
+        {
+          "id": "f8f77ab0-155c-4630-a1e5-54f8cb263a04",
+          "text": "Cá nhân hóa tin nhắn của bạn."
+        },
+        {
+          "id": "faf7cb5c-1530-42e1-aa47-2a28198f8418",
+          "text": "Chuẩn bị phần mở đầu và phần kết luận."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": " Xác định đối tượng mục tiêu của bạn."
+    },
+    {
+      "text": "Bạn đang học cách xác định phần mở rộng tập tin thích hợp cho từng loại tập tin cụ thể.\nĐối với mỗi tuyên bố về phần mở rộng tập tin, hãy chọn Đúng nếu đúng hoặc Sai nếu sai.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "300d2f50-a2c8-4d7f-8e74-d6db38c5009b",
+          "text": "Các tập tin .txt vẫn giữ nguyên định dạng khi được sao chép."
+        },
+        {
+          "id": "a9a9c9c5-d3c4-4a25-8afb-5552e1e277cf",
+          "text": "Hình ảnh động có phần mở rộng tập tin .jpg."
+        },
+        {
+          "id": "ac4103ed-eabd-45c9-b012-b63ac3d99148",
+          "text": "Các tập tin có phần mở rộng .pdf trông giống hệt như tập tin gốc nhưng không thể chỉnh sửa được."
+        },
+        {
+          "id": "447c13ff-6394-4336-9740-c8295d7cddbc",
+          "text": "Phần mở rộng tập tin thích hợp cho biểu trưng có nền trong suốt sẽ là .png."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "false",
+        "false",
+        "true",
+        "true"
+      ]
+    },
+    {
+      "text": "Khi tương tác với các thành viên của cộng đồng kỹ thuật số, điều quan trọng nhất bạn cần nhớ là gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "e096ce07-2069-4232-abfa-4ad809bd368d",
+          "text": "Tránh đăng hình ảnh"
+        },
+        {
+          "id": "8a62c144-0190-4895-9157-2619254f58a4",
+          "text": "Không sử dụng biểu tượng cảm xúc"
+        },
+        {
+          "id": "103f3818-f8d3-4c55-b4c8-c26f4a2c739e",
+          "text": "Đối xử lịch sự với người khác như cách bạn muốn được đối xử"
+        },
+        {
+          "id": "f6568068-2e69-4fe2-bef4-ff9671fc6562",
+          "text": "Sử dụng tên đầy đủ của bạn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Đối xử lịch sự với người khác như cách bạn muốn được đối xử"
+    },
+    {
+      "text": "Bạn cần tìm người chải lông cho chú chó của mình.Tài nguyên trực tuyến nào sẽ là lựa chọn tốt nhất để giúp bạn tìm một dịch vụ cộng đồng, chẳng hạn như người cắt tỉa lông cho chó?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "1e7fdae4-cada-4e37-bfb6-fd35f9ba51bf",
+          "text": "Facebook"
+        },
+        {
+          "id": "e9c23b16-0730-4310-a396-3c7f2301d1a2",
+          "text": "Twitter"
+        },
+        {
+          "id": "162f761e-a487-4be3-b8e0-94fe9d4e73bb",
+          "text": "Instagram"
+        },
+        {
+          "id": "dd38a505-54e6-4b85-964d-7ade707c556f",
+          "text": "Google"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Google"
+    },
+    {
+      "text": "Nhiều hàng hóa và dịch vụ được bản trực tuyến.\nBa điều nào là dịch vụ? (Chọn ba)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "c87f41c2-b2cd-4358-85df-0a659e6e51b5",
+          "text": "Balo (Backpack)"
+        },
+        {
+          "id": "dc79d48f-8bb5-4fd5-90b3-b33fd647361b",
+          "text": "Tai nghe Bose (Bose earbuds)"
+        },
+        {
+          "id": "7f9a67c5-3c7e-4727-9d52-76ecd35c9c41",
+          "text": "Điện thoại samsung galaxy (Samsung Galaxy phone)"
+        },
+        {
+          "id": "f0a2bbd9-637f-4aba-a01c-7ae87ece2c35",
+          "text": "Hỗ trợ máy tính để bàn từ xa (Remote desktop support)"
+        },
+        {
+          "id": "1060fd2a-0a27-4053-aa26-a47c112fb711",
+          "text": "Lưu trữ đám mây (Cloud storage)"
+        },
+        {
+          "id": "9f6aa7ce-061a-4ce9-8420-d11245ba7c7b",
+          "text": "Ứng dụng trực tuyến (Online applications)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Hỗ trợ máy tính để bàn từ xa (Remote desktop support)",
+        "Lưu trữ đám mây (Cloud storage)",
+        "Ứng dụng trực tuyến (Online applications)"
+      ]
+    },
+    {
+      "text": "Các nhà cung cấp có thể bán sản phẩm hàng hóa và cung cấp các dịch vụ trực tuyến.\nChọn 2 đáp án được coi là dịch vụ?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "dcd477a1-bd26-47d9-8416-01ef9feaceec",
+          "text": "Apple iPad"
+        },
+        {
+          "id": "beb274a8-cac6-4d7e-a4d1-9d7a97583000",
+          "text": "Microsoft Office 365"
+        },
+        {
+          "id": "aca324da-e646-4fe7-8ba2-4c7e5364c649",
+          "text": "Hỗ trợ iPhone (iPhone Support)"
+        },
+        {
+          "id": "89899abc-23f3-459d-911b-64562495d6fd",
+          "text": "Tai nghe Samsung (Samsung earbuds)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Microsoft Office 365",
+        "Hỗ trợ iPhone (iPhone Support)"
+      ]
+    },
+    {
+      "text": "So sánh chỉnh sửa đồng bộ với chỉnh sửa không đồng bộ bằng cách trả lời các câu lệnh sau.\nĐối với mỗi câu lệnh về chỉnh sửa đồng bộ và không đồng bộ, hãy chọn Đúng nếu đó là một câu lệnh đúng hoặc Sai nếu không phải là câu lệnh đúng.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "3818c749-f843-43d2-ae5a-44c9b59ee06a",
+          "text": "Chỉnh sửa đồng bộ xảy ra khi những người tham gia làm việc cùng nhau tại cùng một thời điểm, trong thời gian thực. "
+        },
+        {
+          "id": "3b066e35-7caa-4e8a-b117-350b003f64d6",
+          "text": "Chỉnh sửa đồng bộ tốt hơn chỉnh sửa không đồng bộ. "
+        },
+        {
+          "id": "9ab36fc6-814f-46f6-9741-5ec84a0b254c",
+          "text": "Chỉnh sửa không đồng bộ xảy ra khi những người tham gia cộng tác vào những thời điểm khác nhau."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Hai mục nào là cần thiết để đồng tác giả một tài liệu? (Chọn hai)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "f60260bf-e5be-4b03-b08f-aa71b97b2971",
+          "text": "Phần mềm của bên thứ ba"
+        },
+        {
+          "id": "24261341-f102-4853-b925-4da5b2ce46f8",
+          "text": "Giấy phép đồng tác giả"
+        },
+        {
+          "id": "953c210d-2c43-47c5-bbc3-3e4cc1eae174",
+          "text": "Tài liệu thân thiện cho công tác"
+        },
+        {
+          "id": "b3e98bcc-96b9-477c-a756-c376ad588c0e",
+          "text": "Khu vực lưu trữ dùng chung"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Tài liệu thân thiện cho công tác",
+        "Khu vực lưu trữ dùng chung"
+      ]
+    },
+    {
+      "text": "Hai phương pháp nào được sử dụng để xem xét và cung cấp phản hồi cho đồng nghiệp? (Chọn hai)?",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "a19a5725-489e-43e6-99e6-ec603651df82",
+          "text": "Chú thích (Footnotes)"
+        },
+        {
+          "id": "91a48c05-f510-4d20-9ccd-ac2e120f6b70",
+          "text": "Theo dõi thay đổi (Track Changes)"
+        },
+        {
+          "id": "6e09b9de-9c2e-4d3e-a659-fb76821e7859",
+          "text": "Bình luận (Comments)"
+        },
+        {
+          "id": "35168163-962a-4975-a556-d99940147f88",
+          "text": "Trích dẫn (Citations)"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Theo dõi thay đổi (Track Changes)",
+        "Bình luận (Comments)"
+      ]
+    },
+    {
+      "text": "Bạn đang công tác trực tuyến với các bạn cùng lớp để phê bình các bài thuyết trình PowerPoint của nhau về một chủ đề.\nĐiều nào sau đây thể hiện phép xã giao kỹ thuật số tốt?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "a84e0c53-355b-4e6b-b8ba-dbe4ea567fa3",
+          "text": "Cung cấp nhận xét về mọi trang trình bày"
+        },
+        {
+          "id": "82ecbd78-4e10-4e3f-b356-3601e5c49fca",
+          "text": "Đề nghị tác giả thay đổi màu sắc cho mục yêu thích của bạn"
+        },
+        {
+          "id": "f3779f6d-8396-434f-9aa9-fef04b09c843",
+          "text": "Sửa lỗi bằng lời giải thích và giọng điệu tích cực"
+        },
+        {
+          "id": "7c7ae0e2-e58b-47f5-8bba-49aeef801dd4",
+          "text": "Giễu cợt học sinh về lỗi"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Sửa lỗi bằng lời giải thích và giọng điệu tích cực"
+    },
+    {
+      "text": "Giải thích những nguy cơ tiềm ẩn và hậu quả của các bài đăng trên phương tiện truyền thông tiêu cực (Negative Media Posts). Đối với mỗi tuyên bố về các bài đăng tiêu cực trên mạng xã hội, hãy Chọn Đúng nếu đó là mối nguy hiểm hoặc hậu quả hoặc Sai nếu không.",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "b9938e34-6e01-4e2d-899f-cc7ca30612e3",
+          "text": "Đọc các bài đăng tiêu cực trên mạng xã hội có thể gây ra trầm cảm và lòng tự trọng thấp."
+        },
+        {
+          "id": "3000ba86-159a-41ed-9035-ae5d081a7aa7",
+          "text": "Hướng các bài đăng tiêu cực đến một cá nhân có thể bị coi là đe dọa trực tuyến."
+        },
+        {
+          "id": "8c37c6f1-31d4-4382-acc5-5f632b8d8185",
+          "text": "Nếu bạn thực hiện quá nhiều bài đăng trên phương tiện truyền thông tiêu cực, nhà cung cấp dịch vụ điện thoại sẽ đóng tài khoản của bạn. "
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "true",
+        "false"
+      ]
+    },
+    {
+      "text": "Bạn đã được một công ty phát triển trò chơi máy tính thuê để kiểm tra phần mềm trò chơi tại cơ sở của họ. Công ty có chính sách chống lại việc sử dụng các thiết bị truyền thông không đáng tin cậy.\nĐối với mỗi tuyên bố, hãy chọn Đúng nếu đó là thiết bị truyền thông không đáng tin cậy hoặc Sai nếu không phải.\n",
+      "type": "MultipleTrueFalse",
+      "points": 10,
+      "statements": [
+        {
+          "id": "28bdc7ca-4508-4396-8a42-f6810d66fef5",
+          "text": "Một ổ USB nhỏ bạn mang theo từ nhà"
+        },
+        {
+          "id": "d70aef64-b406-4eb8-9829-c9bbd44ca1f0",
+          "text": "Một ổ USB được công ty cung cấp cho bạn để không bao giờ rời khỏi cơ sở "
+        },
+        {
+          "id": "8e0a6a13-237c-4230-bfe1-84cdcde03461",
+          "text": "Máy tính bảng cá nhân của bạn"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "true",
+        "false",
+        "true"
+      ]
+    },
+    {
+      "text": "Hai câu lệnh nào xác định mã hóa? (Chọn hai)",
+      "type": "MultipleChoiceMultipleAnswer",
+      "points": 10,
+      "options": [
+        {
+          "id": "715a8378-7bf4-4d65-9b57-359b7ddf5122",
+          "text": "Nội dung của một tập tin được mã hóa chỉ có thế được đọc bởi người có khóa mã hóa."
+        },
+        {
+          "id": "ff8f9222-38e4-461f-8cc8-ab0b7b588d85",
+          "text": "Tập tin được mã hóa là tập tin không thể truyền qua Internet."
+        },
+        {
+          "id": "8c9092b2-7666-4d47-a6c6-b1779477ca0b",
+          "text": "Tài liệu được mã hóa yêu cầu mật khẩu hoặc khóa kỹ thuật số trước khi có thể mở được."
+        },
+        {
+          "id": "08709725-48fb-41cc-a2a9-075aed877e8a",
+          "text": "Tài liệu được mã hóa là các tập tin được đính kèm với chứng chỉ kỹ thuật số."
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": [
+        "Nội dung của một tập tin được mã hóa chỉ có thế được đọc bởi người có khóa mã hóa.",
+        "Tài liệu được mã hóa yêu cầu mật khẩu hoặc khóa kỹ thuật số trước khi có thể mở được."
+      ]
+    },
+    {
+      "text": "Các hạn chế chỉnh sửa để làm gì?",
+      "type": "MCQ",
+      "points": 10,
+      "options": [
+        {
+          "id": "b07c74b8-0914-420f-b3da-ef8a1e725aa8",
+          "text": "Khóa việc sử dụng các phím cụ thể trên bàn phím của bạn."
+        },
+        {
+          "id": "97db3d0e-fd96-4793-9c33-d3ec75345ea4",
+          "text": "Bảo vệ tài liệu khỏi bị mở mà không có mật khẩu"
+        },
+        {
+          "id": "9381dacd-142a-43a9-be69-1780f6e58553",
+          "text": "Hạn chế các tính năng đang hoạt động trong một ứng dụng thông qua cấp phép."
+        },
+        {
+          "id": "f7e69583-b45f-49c1-adb6-a8fd4487d522",
+          "text": "Giới hạn các thay đổi đối với một phần cụ thể của tài liệu"
+        }
+      ],
+      "multipleSelection": false,
+      "correctAnswer": "Giới hạn các thay đổi đối với một phần cụ thể của tài liệu"
+    },
+    {
+      "text": " Mỗi học sinh trong lớp của bạn đang trình bày nghiên cứu về một chủ đề gây tranh cãi. Sau nhiều bài thuyết trình, bạn rời khỏi lớp với sự bối rối, không biết nên tin điều gì và không nên tin điều gì.\nLàm cách nào bạn có thể đánh giá độ chính xác của kết quả tìm kiếm hoặc hiện vật kỹ thuật số?\nKhớp từng công cụ xác minh tính xác thực với chức năng của nó. Để trả lời, hãy kéo từng công cụ từ cột bên trái sang chức năng của nó ở bên phải.",
+      "type": "MatchingDragAndDrop",
+      "points": 10,
+      "multipleSelection": false,
+      "draggableItems": [
+        {
+          "id": "a0f32b47-7fb0-4820-8f20-e67be9e8e00f",
+          "text": "Tineye.com"
+        },
+        {
+          "id": "809508fc-83cb-4b42-a223-a59e8a3032e5",
+          "text": "ClimateFeedback.org"
+        },
+        {
+          "id": "c4f1bf31-87d6-4804-8d63-6adc6db4d0d5",
+          "text": "Leadstories.com"
+        },
+        {
+          "id": "dcf0380b-df45-421e-9add-3151f6111463",
+          "text": "Our.news"
+        }
+      ],
+      "targetItems": [
+        {
+          "id": "943bcfff-1d77-4940-92b5-a8b2e1dffaee",
+          "text": "Thao tác này tìm kiếm hình ảnh đã tải lên và cung cấp kết quả hiển thị các bài báo và ngày tháng mà hình ảnh xuất hiện"
+        },
+        {
+          "id": "0e4b8695-471d-4577-8a79-cbd0578cb1e6",
+          "text": "Đây là một mạng lưới các nhà khoa học trên toàn thế giới phân loại thực tế từ hư cấu trong các phương tiện truyền thông về biến đổi khí hậu. Mục đích là giúp người đọc biết nên tin tưởng vào tin tức nào."
+        },
+        {
+          "id": "cc1b9007-b1b6-4548-949b-a8e8f6bd05c5",
+          "text": "Tính năng này tìm kiếm các câu chuyện thịnh hành, hình ảnh, video và bài đăng có chứa thông tin sai lệch để xác minh thực tế chúng nhanh nhất có thế. Câu thần chú của họ là \"Chỉ vì xu hướng không có nghĩa là đúng.\""
+        },
+        {
+          "id": "2238a909-4695-4217-816b-f722c242f41d",
+          "text": "Ứng dụng này có sẵn dưới dạng ứng dụng dành cho thiết bị di động có tên là Newstrition ®, nó cung cấp một nhân dinh dưỡng tương tác được đính kèm với tất cả các tin bài trực tuyến. Cũng có sẵn dưới dạng một trang web và như một tiện ích mở rộng trình duyệt cho Chrome và Firefox."
+        }
+      ],
+      "allowShuffle": true,
+      "correctAnswer": [
+        {
+          "targetItemId": "943bcfff-1d77-4940-92b5-a8b2e1dffaee",
+          "draggableItemId": "a0f32b47-7fb0-4820-8f20-e67be9e8e00f"
+        },
+        {
+          "targetItemId": "0e4b8695-471d-4577-8a79-cbd0578cb1e6",
+          "draggableItemId": "809508fc-83cb-4b42-a223-a59e8a3032e5"
+        },
+        {
+          "targetItemId": "cc1b9007-b1b6-4548-949b-a8e8f6bd05c5",
+          "draggableItemId": "c4f1bf31-87d6-4804-8d63-6adc6db4d0d5"
+        },
+        {
+          "targetItemId": "2238a909-4695-4217-816b-f722c242f41d",
+          "draggableItemId": "dcf0380b-df45-421e-9add-3151f6111463"
+        }
+      ]
+    }
+  ]
+}
