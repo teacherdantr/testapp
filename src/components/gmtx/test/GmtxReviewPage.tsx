@@ -3,10 +3,19 @@
 
 import type { Test } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Check, Square, Send, ExternalLink, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface GmtxReviewPageProps {
   test: Test;
@@ -31,19 +40,35 @@ export function GmtxReviewPage({
             <h1 className="text-xl font-bold">Review Page</h1>
             <p className="text-sm text-gray-300">{test.title}</p>
           </div>
-           <Button size="lg" onClick={onSubmitTest} disabled={isSubmitting}>
-                {isSubmitting ? (
-                    <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Submitting...
-                    </>
-                ) : (
-                    <>
-                        <Send className="mr-2 h-4 w-4" />
-                        Submit Final Answers
-                    </>
-                )}
-            </Button>
+            <AlertDialog>
+               <AlertDialogTrigger asChild>
+                    <Button size="lg" disabled={isSubmitting}>
+                         {isSubmitting ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Submitting...
+                            </>
+                        ) : (
+                            <>
+                                <Send className="mr-2 h-4 w-4" />
+                                Submit Final Answers
+                            </>
+                        )}
+                    </Button>
+               </AlertDialogTrigger>
+               <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Finish Test</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to Finish and submit test for grading?
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Đóng</AlertDialogCancel>
+                        <AlertDialogAction onClick={onSubmitTest}>Tiếp</AlertDialogAction>
+                    </AlertDialogFooter>
+               </AlertDialogContent>
+            </AlertDialog>
         </header>
         <main className="bg-white shadow-md rounded-b-lg">
           <Table>
