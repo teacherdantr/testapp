@@ -18,7 +18,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { GmtxMcmaDisplay } from '@/components/gmtx/test/question-types/GmtxMcmaDisplay';
 import { GmtxMtfDisplay } from '@/components/gmtx/test/question-types/GmtxMtfDisplay';
 import { GmtxDragDropDisplay } from '@/components/gmtx/test/question-types/GmtxDragDropDisplay';
+import { GmtxHotspotDisplay } from '@/components/gmtx/test/question-types/GmtxHotspotDisplay';
 import { QuestionType } from '@/lib/types';
+import Image from 'next/image';
 
 interface GmtxTestInterfaceProps {
   test: Test;
@@ -96,6 +98,14 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
                     onAnswerChange={(matches) => handleSelectAnswer(question.id, matches)}
                 />
             );
+        case QuestionType.Hotspot:
+            return (
+                <GmtxHotspotDisplay
+                    question={question}
+                    currentAnswer={selectedAnswers[question.id] || []}
+                    onAnswerChange={(answer) => handleSelectAnswer(question.id, answer)}
+                />
+            );
         default:
             return (
               <Card className="bg-muted p-4">
@@ -162,6 +172,17 @@ export function GmtxTestInterface({ test }: GmtxTestInterfaceProps) {
         <Card className="rounded-t-none shadow-sm">
           <CardContent className="p-6 space-y-6">
             <p className="text-lg font-medium">{currentQuestion.text}</p>
+            {currentQuestion.imageUrl && (
+              <div className="relative w-full max-w-lg mx-auto aspect-video border rounded-md overflow-hidden">
+                <Image
+                  src={currentQuestion.imageUrl}
+                  alt={`Illustration for question`}
+                  fill
+                  className="object-contain"
+                  data-ai-hint="question image"
+                />
+              </div>
+            )}
              {renderQuestionContent(currentQuestion)}
           </CardContent>
         </Card>
