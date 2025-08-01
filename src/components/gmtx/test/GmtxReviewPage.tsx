@@ -31,10 +31,19 @@ export function GmtxReviewPage({
             <h1 className="text-xl font-bold">Review Page</h1>
             <p className="text-sm text-gray-300">{test.title}</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center gap-1 text-xs"><Square className="h-3 w-3 fill-gray-400 stroke-gray-500" /> Not Answered</div>
-            <div className="flex items-center gap-1 text-xs"><Check className="h-3 w-3 text-green-400" /> Answered</div>
-          </div>
+           <Button size="lg" onClick={onSubmitTest} disabled={isSubmitting}>
+                {isSubmitting ? (
+                    <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Submitting...
+                    </>
+                ) : (
+                    <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Submit Final Answers
+                    </>
+                )}
+            </Button>
         </header>
         <main className="bg-white shadow-md rounded-b-lg">
           <Table>
@@ -71,21 +80,6 @@ export function GmtxReviewPage({
             </TableBody>
           </Table>
         </main>
-        <footer className="mt-6 flex justify-end">
-            <Button size="lg" onClick={onSubmitTest} disabled={isSubmitting}>
-                {isSubmitting ? (
-                    <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Submitting...
-                    </>
-                ) : (
-                    <>
-                        <Send className="mr-2 h-4 w-4" />
-                        Submit Final Answers
-                    </>
-                )}
-            </Button>
-        </footer>
       </div>
     </div>
   );
